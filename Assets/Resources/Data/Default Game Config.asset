@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8cedfadf944ff5b49285781ab3d63d, type: 3}
+  m_Name: Default Game Config
+  m_EditorClassIdentifier: 
+  MainMenuScenes:
+  - {fileID: 11400000, guid: 6cb5705ba1a0c7e45b73608204506d87, type: 2}
+  CafePhaseScenes:
+  - {fileID: 11400000, guid: c1d13ded320917f4b8ef3c5fa82663e7, type: 2}
+  - {fileID: 11400000, guid: 587585437e73f6d4c92426727898c7a3, type: 2}
+  DungeonPhaseScenes:
+  - {fileID: 11400000, guid: c1d13ded320917f4b8ef3c5fa82663e7, type: 2}
+  - {fileID: 11400000, guid: 65e3d0fd96c7d4b499656cb6e03c045b, type: 2}
+  _skipTutorial: 0
+  _infiniteResource: 0
