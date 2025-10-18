@@ -32,7 +32,8 @@ namespace TDB.GameManagers
         [SerializeField, InlineProperty, HideLabel] public FinalRecipeData TestFinalRecipe;
 
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
-        [TitleGroup("Added Ingredient Animation")]
+        // [TitleGroup("_DefaultTabGroup/CraftSystem/SubTabGroup/Test", "Added Ingredient Animation")]
+        [Header("Added Ingredient Animation")]
         [SerializeField, InlineProperty, HideLabel]
         public AddedIngredientAnimParam AddedIngredientAnimParam; 
         

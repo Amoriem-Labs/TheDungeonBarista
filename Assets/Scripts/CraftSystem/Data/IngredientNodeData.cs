@@ -37,5 +37,14 @@ namespace TDB.CraftSystem.Data
         {
             AddedIngredient.Remove(ingredient);
         }
+
+        public bool TryAddIngredient(IngredientDefinition ingredient)
+        {
+            if (!IsNodeAvailable) return false;
+            if (ingredient.Type != _requiredType) return false;
+            
+            AddIngredient(ingredient);
+            return true;
+        }
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 68279085251692702}
   - component: {fileID: 3357554089588323624}
   - component: {fileID: 6660593460968525213}
+  - component: {fileID: 364762247001594934}
   m_Layer: 0
   m_Name: AddedIngredientIcon
   m_TagString: Untagged
@@ -110,3 +111,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ingredientIcon: {fileID: 68279085251692702}
+--- !u!114 &364762247001594934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053428820516168861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0398795dfdb49d38c52d4e7828f3b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

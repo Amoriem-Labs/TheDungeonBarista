@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
+using TDB.CraftSystem.UI.RecipeGraph;
 using TDB.Utils.UI.Tooltip;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,6 +19,8 @@ namespace TDB.Utils.EventChannels
         [OnValueChanged("ClearEventCallback")]
         [SerializeField]
         private string _paramType;
+
+        [SerializeField, TextArea(10, 100), PropertyOrder(Single.MaxValue)] private string _comment;
 
         private bool CanEdit => !Application.isPlaying;
     
@@ -53,7 +56,12 @@ namespace TDB.Utils.EventChannels
             
                 // custom data types
                 typeof(TooltipData),
-                typeof(FinalRecipeData)
+
+                #region CraftSystemTypes
+                typeof(FinalRecipeData),
+                typeof(ReturnIngredientInfo),
+                typeof(IngredientNodeUI),
+                #endregion
             };
 
             return types.Select(t =>

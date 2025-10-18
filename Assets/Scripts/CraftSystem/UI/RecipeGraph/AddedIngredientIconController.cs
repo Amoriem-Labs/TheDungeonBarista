@@ -1,16 +1,23 @@
 ﻿using System;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.GameManagers;
+using TDB.Utils.EventChannels;
 using TDB.Utils.ObjectPools;
+using TDB.Utils.UI.UIHover;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace TDB.CraftSystem.UI.RecipeGraph
 {
-    public class AddedIngredientIconController : MonoBehaviour, IPooledObject<AddedIngredientIconController>
+    public class AddedIngredientIconController : MonoBehaviour, IPooledObject<AddedIngredientIconController>,
+        IPointerClickHandler, IUIHoverHandler
     {
+        private const float CanRemoveTime = .5f;
+            
         [SerializeField] private Image _ingredientIcon;
         
         private IngredientNodeUI _nodeUI;
@@ -23,6 +30,11 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         private float _angularSpeed;
         private float _hoverRadius;
         private MonoObjectPool<AddedIngredientIconController> _pool;
+        private bool _hovered;
+        private float _canRemoveTimer;
+
+        public IngredientDefinition Ingredient => _ingredient;
+        public bool CanRemove => _canRemoveTimer > CanRemoveTime;
 
         private void Awake()
         {
@@ -34,15 +46,24 @@ namespace TDB.CraftSystem.UI.RecipeGraph
             _nodeUI = nodeUI;
             _ingredient = ingredient;
 
-            _ingredientIcon.sprite = _ingredient.IngredientSprite;
+            _ingredientIcon.sprite = Ingredient.IngredientSprite;
             
             _angularSpeed = Random.Range(_animParam.AngularSpeedRange.x, _animParam.AngularSpeedRange.y);
             _hoverRadius = Random.Range(_animParam.HoverRadiusRange.x, _animParam.HoverRadiusRange.y);
             _animTime = Random.Range(0, 360 / _angularSpeed);
         }
 
+        private void OnEnable()
+        {
+            _canRemoveTimer = 0;
+            _hovered = false;
+        }
+
         private void Update()
         {
+            // need a timer to prevent remove immediately
+            if (!CanRemove) _canRemoveTimer += Time.unscaledDeltaTime;
+            
             UpdateIconFloating();
         }
 
@@ -50,11 +71,14 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         {
             if (!_nodeUI) return;
 
-            _animTime += Time.deltaTime;
-            
-            var angle = _angularSpeed * _animTime * Mathf.Deg2Rad;
-            var dir = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
-            _targetPosition = _nodeUI.transform.position + dir * _hoverRadius;
+            // stop moving when hovered
+            if (!_hovered)
+            {
+                _animTime += Time.deltaTime;
+                var angle = _angularSpeed * _animTime * Mathf.Deg2Rad;
+                var dir = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
+                _targetPosition = _nodeUI.transform.position + dir * _hoverRadius;
+            }
             
             transform.position = Vector3.SmoothDamp(transform.position, _targetPosition, ref _velocity, _animParam.SmoothTime);
         }
@@ -75,6 +99,21 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         {
             _pool = pool;
         }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (!CanRemove) return;
+            _nodeUI.RemoveIngredient(this);
+        }
+
+        public void OnUIHoverEnter()
+        {
+            _hovered = true;
+            // move to top so it is not blocked by other ingredients
+            transform.SetAsLastSibling();
+        }
+
+        public void OnUIHoverExit() => _hovered = false;
     }
 
     [System.Serializable]

@@ -10,15 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb30d688db844967be8b86f4848e5c4a, type: 3}
-  m_Name: OnRecipeSelected
+  m_Name: OnRecipeUpdated
   m_EditorClassIdentifier: 
-  _paramType: TDB.CraftSystem.Data.FinalRecipeData, Assembly-CSharp, Version=0.0.0.0,
-    Culture=neutral, PublicKeyToken=null
+  _paramType: Null
   _comment: 'Update Header
 
-    Update Recipe Graph
-
-    Update Inventory Number
-    & Filter & Sorting
-
-    Update Recipe Effects (TODO)'
+    Update Recipe Effect (TODO)'

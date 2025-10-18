@@ -20,6 +20,7 @@ namespace TDB.CraftSystem.UI
 
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
+        [SerializeField] private EventChannel _onRecipeUpdatedEvent;
 
         private FinalRecipeData _recipe;
         private IngredientStorageData _ingredientStorage;
@@ -35,11 +36,18 @@ namespace TDB.CraftSystem.UI
         private void OnEnable()
         {
             _onRecipeSelectedEvent.AddListener<FinalRecipeData>(HandleRecipeSelected);
+            _onRecipeUpdatedEvent.AddListener(HandleRecipeUpdated);
         }
 
         private void OnDisable()
         {
             _onRecipeSelectedEvent.RemoveListener<FinalRecipeData>(HandleRecipeSelected);
+            _onRecipeUpdatedEvent.RemoveListener(HandleRecipeUpdated);
+        }
+
+        private void HandleRecipeUpdated()
+        {
+            UpdateServingCount();
         }
 
         private void HandleRecipeSelected(FinalRecipeData recipe)
@@ -58,15 +66,23 @@ namespace TDB.CraftSystem.UI
                 _titleText.text = _recipe.RecipeName;
                 _titleEditButton.interactable = true;
 
-                var recipeReady = _recipe.IsRecipeReady;
-                _displayWhenReady.ForEach(g => g.SetActive(recipeReady));
-                _displayWhenNotReady.ForEach(g => g.SetActive(!recipeReady));
-
-                _servingCountNumber.text = string.Format(_servingCountNumberTemplate,
-                    _recipe.GetServingsAvailable(_ingredientStorage));
+                UpdateServingCount();
             }
         }
-        
+
+        private void UpdateServingCount()
+        {
+            var recipeReady = _recipe.IsRecipeReady;
+            _displayWhenReady.ForEach(g => g.SetActive(recipeReady));
+            _displayWhenNotReady.ForEach(g => g.SetActive(!recipeReady));
+
+            if (recipeReady)
+            {
+                _servingCountNumber.text = string.Format(_servingCountNumberTemplate,
+                _recipe.GetServingsAvailable(_ingredientStorage));
+            }
+        }
+
         public void ReceiveIngredientStorage(IngredientStorageData ingredientStorage)
         {
             _ingredientStorage = ingredientStorage;
