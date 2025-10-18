@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff8fdf8e97740d48fb9eb7484999e03, type: 3}
+  m_Name: SampleRawRecipe-01
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _resourcesPath: Data/CraftSystem/RawRecipes/SampleRawRecipe-01
+  _recipeName: SampleRawRecipe-01
+  _emptyGraphPrefab: {fileID: 217548063783620384, guid: f7be65291f869124e8ecb6dac670ef46, type: 3}
+  _initialNodeData:
+  - _addedIngredient: []
+    _requiredAmount: 2
+    _requiredType: {fileID: 11400000, guid: 40b2f77d372bda249be0ec6403108f2f, type: 2}
+  - _addedIngredient: []
+    _requiredAmount: 2
+    _requiredType: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}

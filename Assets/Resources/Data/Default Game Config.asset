@@ -22,3 +22,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 65e3d0fd96c7d4b499656cb6e03c045b, type: 2}
   _skipTutorial: 0
   _infiniteResource: 0
+  TestIngredientStorage:
+    <Ingredients>k__BackingField:
+    - <Definition>k__BackingField: {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+      <Amount>k__BackingField: 6
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 881d35119d416744c9aee1b5d037880a, type: 2}
+      <Amount>k__BackingField: 4
+    - <Definition>k__BackingField: {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+      <Amount>k__BackingField: 2
+  TestFinalRecipe:
+    <RawRecipe>k__BackingField: {fileID: 11400000, guid: 460b6cd448982f449831f402cce3443a, type: 2}
+    <NodeData>k__BackingField:
+    - _addedIngredient:
+      - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+      - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+      _requiredAmount: 2
+      _requiredType: {fileID: 11400000, guid: 40b2f77d372bda249be0ec6403108f2f, type: 2}
+    - _addedIngredient:
+      - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+      _requiredAmount: 2
+      _requiredType: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
+    <RecipeName>k__BackingField: FinalRecipe-01
+  AddedIngredientAnimParam:
+    AngularSpeedRange: {x: 50, y: 80}
+    HoverRadiusRange: {x: 8, y: 12}
+    SmoothTime: 0.1

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CraftSystem.Data;
+using TDB.CraftSystem.UI;
 using TDB.Utils.UI.Tooltip;
 using UnityEngine;
 using UnityEngine.Events;
@@ -51,6 +53,7 @@ namespace TDB.Utils.EventChannels
             
                 // custom data types
                 typeof(TooltipData),
+                typeof(FinalRecipeData)
             };
 
             return types.Select(t =>
