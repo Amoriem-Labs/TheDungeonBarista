@@ -25,3 +25,6 @@ MonoBehaviour:
   _ingredientName: SampleIngredient-01
   _ingredientSprite: {fileID: 21300000, guid: 66fa19194577350438c952106f661c2f, type: 3}
   _type: {fileID: 11400000, guid: 40b2f77d372bda249be0ec6403108f2f, type: 2}
+  _effects:
+  - Effect: {fileID: 11400000, guid: eb3c10b3f252846449377389baa4d36c, type: 2}
+    Parameter: {fileID: 11400000, guid: 4511ab20053dedb458ce8db5f609ce54, type: 2}

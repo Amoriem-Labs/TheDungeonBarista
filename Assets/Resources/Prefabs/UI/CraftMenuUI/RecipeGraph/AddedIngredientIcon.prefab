@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ingredientIcon: {fileID: 68279085251692702}
+  _displayIngredientInfoEvent: {fileID: 11400000, guid: 2760582a528f63e4eb647fab25ee62dd, type: 2}
 --- !u!114 &364762247001594934
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CraftSystem.EffectSystem.Data;
 using TDB.IngredientStorageSystem.Data;
 using UnityEngine;
 
@@ -22,11 +23,18 @@ namespace TDB.CraftSystem.Data
         }
 
         public Dictionary<IngredientDefinition, int> GetAddedIngredients() =>
-            NodeData.SelectMany(n => n.AddedIngredient)
+            NodeData.SelectMany(n => n.AddedIngredients)
                 .GroupBy(i => i)
                 .ToDictionary(g => g.Key, g => g.Count());
 
         public bool IsRecipeReady => NodeData.Any(n => n.IsNodeReady);
+        
+        public List<EffectData> GetAllEffectData() =>
+            NodeData.SelectMany(n => n.Effects)
+                .GroupBy(p => p.Effect)
+                .Select(g => 
+                    g.Key.GenerateEffectData(g.Select(p => p.Parameter).ToList()))
+                .ToList();
 
         public int GetServingsAvailable(IngredientStorageData ingredientStorage)
         {

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec863adcd944a06987380f5b9cfa463, type: 3}
+  m_Name: LUE-Sweet
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _newParamType
+      Entry: 6
+      Data: 
+  _resourcesPath: Data/CraftSystem/Effects/LUE-Sweet
+  <CraftMenuRecipeEffectItemPrefab>k__BackingField: {fileID: 1049655894884558165, guid: 67d6f492de66edf489148b26e3be6590, type: 3}
+  _attributeName: Sweet

@@ -63,8 +63,7 @@ namespace TDB.CraftSystem.UI
             OpenMenu(new OpenMenuInfo(){
                 IngredientStorage = GameManager.Instance.GameConfig.TestIngredientStorage,
                 CurrentRecipe = GameManager.Instance.GameConfig.TestFinalRecipe,
-                RecipeBook = new RecipeBookData(GameManager.Instance.GameConfig.TestRecipeBook.AllObtainedRawRecipes,
-                    new List<FinalRecipeData> { GameManager.Instance.GameConfig.TestFinalRecipe })
+                RecipeBook = GameManager.Instance.GameConfig.ExtendedTestRecipeBook
             });
         }
 

@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
+using TDB.CraftSystem.UI.Info;
 using TDB.GameManagers;
 using TDB.Utils.EventChannels;
 using TDB.Utils.ObjectPools;
@@ -19,6 +20,9 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         private const float CanRemoveTime = .5f;
             
         [SerializeField] private Image _ingredientIcon;
+
+        [Title("Events")]
+        [SerializeField] private EventChannel _displayIngredientInfoEvent;
         
         private IngredientNodeUI _nodeUI;
         private IngredientDefinition _ingredient;
@@ -111,9 +115,28 @@ namespace TDB.CraftSystem.UI.RecipeGraph
             _hovered = true;
             // move to top so it is not blocked by other ingredients
             transform.SetAsLastSibling();
+
+            if (CanRemove)
+            {
+                _displayIngredientInfoEvent.RaiseEvent(new DisplayIngredientInfo
+                {
+                    Ingredient = _ingredient,
+                });
+            }
         }
 
-        public void OnUIHoverExit() => _hovered = false;
+        public void OnUIHoverExit()
+        {
+            _hovered = false;
+            
+            if (CanRemove)
+            {
+                _displayIngredientInfoEvent.RaiseEvent(new DisplayIngredientInfo
+                {
+                    Ingredient = null,
+                });
+            }
+        }
     }
 
     [System.Serializable]

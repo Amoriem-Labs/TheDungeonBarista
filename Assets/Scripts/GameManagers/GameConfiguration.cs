@@ -22,6 +22,7 @@ namespace TDB.GameManagers
         [TabGroup("Testing")] [SerializeField] private bool _skipTutorial;
         [TabGroup("Testing")] [SerializeField] private bool _infiniteResource;
 
+        #region CraftSystem
 
         [TabGroup("CraftSystem")]
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Ingredient Storage")]
@@ -34,12 +35,20 @@ namespace TDB.GameManagers
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Recipe Book")]
         [SerializeField, InlineProperty, HideLabel] public RecipeBookData TestRecipeBook;
 
+        public RecipeBookData ExtendedTestRecipeBook =>
+            new RecipeBookData(TestRecipeBook.AllObtainedRawRecipes,
+                new List<FinalRecipeData> { TestFinalRecipe });
+
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
-        // [TitleGroup("_DefaultTabGroup/CraftSystem/SubTabGroup/Test", "Added Ingredient Animation")]
-        [Header("Added Ingredient Animation")]
-        [SerializeField, InlineProperty, HideLabel]
-        public AddedIngredientAnimParam AddedIngredientAnimParam; 
+        [SerializeField]
+        public float LevelUpProgressFillTime = .5f;
         
+        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
+        [Title("Added Ingredient Animation")]
+        [SerializeField, InlineProperty, HideLabel]
+        public AddedIngredientAnimParam AddedIngredientAnimParam;
+        
+        #endregion
         
 #if UNITY_EDITOR
         public bool SkipTutorial => _skipTutorial;

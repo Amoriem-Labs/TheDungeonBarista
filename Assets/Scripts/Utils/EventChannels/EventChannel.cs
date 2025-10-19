@@ -4,7 +4,9 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
+using TDB.CraftSystem.UI.Info;
 using TDB.CraftSystem.UI.RecipeGraph;
+using TDB.IngredientStorageSystem.Data;
 using TDB.Utils.UI.Tooltip;
 using UnityEngine;
 using UnityEngine.Events;
@@ -62,6 +64,7 @@ namespace TDB.Utils.EventChannels
                 typeof(FinalRecipeData),
                 typeof(ReturnIngredientInfo),
                 typeof(IngredientNodeUI),
+                typeof(DisplayIngredientInfo),
                 #endregion
             };
 

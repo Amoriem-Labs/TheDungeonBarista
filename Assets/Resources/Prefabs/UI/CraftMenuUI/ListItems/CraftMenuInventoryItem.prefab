@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 4710465323315148856}
   - component: {fileID: 81068804443197414}
   - component: {fileID: 3368460292864929209}
+  - component: {fileID: 255570843240905572}
   m_Layer: 0
   m_Name: CraftMenuInventoryItem
   m_TagString: Untagged
@@ -521,10 +522,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9509d7f7fa484ddeb7f15f22cfd9185d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inStockNumber: {fileID: 72260682302487703}
-  _requireNumber: {fileID: 3229362015751424466}
+  _inStockNumberText: {fileID: 72260682302487703}
+  _requireNumberText: {fileID: 3229362015751424466}
   _iconImage: {fileID: 1698277033404324719}
   _dragIconImage: {fileID: 2227314120080767297}
+  _displayCraftMenuInventoryItemInfoEvent: {fileID: 11400000, guid: 949b06eaf184c0b45be1b65f0dcb6000, type: 2}
 --- !u!114 &3368460292864929209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +540,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dragIcon: {fileID: 8074906481088558501}
+--- !u!114 &255570843240905572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7059695616785253732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0398795dfdb49d38c52d4e7828f3b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &53043784583216686
 PrefabInstance:
   m_ObjectHideFlags: 0

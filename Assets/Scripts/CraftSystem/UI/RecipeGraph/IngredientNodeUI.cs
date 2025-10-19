@@ -61,7 +61,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
             // set icon
             _typeIcon.sprite = _nodeData.RequiredType.Icon;
             // added ingredient icons
-            foreach (var ingredient in _nodeData.AddedIngredient)
+            foreach (var ingredient in _nodeData.AddedIngredients)
             {
                 AddIngredientIconFrom(ingredient, transform.position);
             }
@@ -71,7 +71,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
 
         private void UpdateCountText()
         {
-            _countText.text = $"{_nodeData.AddedIngredient.Count}/{_nodeData.RequiredAmount}";
+            _countText.text = $"{_nodeData.AddedIngredients.Count}/{_nodeData.RequiredAmount}";
         }
 
         private void AddIngredientIconFrom(IngredientDefinition ingredient, Vector3 position)

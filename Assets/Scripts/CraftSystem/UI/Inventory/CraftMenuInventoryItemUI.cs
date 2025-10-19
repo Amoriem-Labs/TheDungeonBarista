@@ -1,6 +1,10 @@
 ﻿using DG.Tweening;
+using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
+using TDB.CraftSystem.UI.Info;
 using TDB.CraftSystem.UI.RecipeGraph;
+using TDB.Utils.EventChannels;
+using TDB.Utils.UI.UIHover;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,12 +12,15 @@ using UnityEngine.UI;
 
 namespace TDB.CraftSystem.UI.Inventory
 {
-    public class CraftMenuInventoryItemUI : MonoBehaviour
+    public class CraftMenuInventoryItemUI : MonoBehaviour, IUIHoverHandler
     {
         [FormerlySerializedAs("_inStockNumber")] [SerializeField] private TextMeshProUGUI _inStockNumberText;
         [FormerlySerializedAs("_requireNumber")] [SerializeField] private TextMeshProUGUI _requireNumberText;
         [SerializeField] private Image _iconImage;
         [SerializeField] private Image _dragIconImage;
+        
+        [Title("Events")]
+        [SerializeField] private EventChannel _displayCraftMenuInventoryItemInfoEvent;
         
         private IngredientDefinition _ingredient;
         private int _inStockNumber;
@@ -85,6 +92,24 @@ namespace TDB.CraftSystem.UI.Inventory
             }
 
             return true;
+        }
+
+        public void OnUIHoverEnter()
+        {
+            _displayCraftMenuInventoryItemInfoEvent.RaiseEvent(new DisplayIngredientInfo
+            {
+                Ingredient = _ingredient,
+                InStock = _inStockNumber,
+                Required = _requiredNumber
+            });
+        }
+
+        public void OnUIHoverExit()
+        {
+            _displayCraftMenuInventoryItemInfoEvent.RaiseEvent(new DisplayIngredientInfo
+            {
+                Ingredient = null
+            });
         }
     }
 }
