@@ -31,6 +31,9 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         {
             // disable current graph
             if (_currentGraph) _currentGraph.gameObject.SetActive(false);
+            _currentGraph = null;
+            // display nothing if no recipe selected
+            if (recipe == null) return;
             // get or instantiate new graph
             if (!_recipeGraphs.TryGetValue(recipe.RawRecipe, out _currentGraph))
             {

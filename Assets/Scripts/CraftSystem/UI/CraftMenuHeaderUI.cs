@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
-using TDB.IngredientStorageSystem.Data;
 using TDB.Utils.EventChannels;
 using TMPro;
 using UnityEngine;
@@ -10,28 +8,51 @@ using UnityEngine.UI;
 
 namespace TDB.CraftSystem.UI
 {
-    public class CraftMenuHeaderUI : MonoBehaviour, IIngredientStorageReceiver
+    public class CraftMenuHeaderUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _titleText;
         [SerializeField] private Button _titleEditButton;
-        [SerializeField] private TextMeshProUGUI _servingCountNumber;
-        [SerializeField] private List<GameObject> _displayWhenReady;
-        [SerializeField] private List<GameObject> _displayWhenNotReady;
+        [SerializeField] private ServingCountUI _servingCountUI;
+
+        [SerializeField] private Button _recipeBookButton;
+        [SerializeField] private Button _confirmRecipeButton;
 
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
         [SerializeField] private EventChannel _onRecipeUpdatedEvent;
 
         private FinalRecipeData _recipe;
-        private IngredientStorageData _ingredientStorage;
-        private string _servingCountNumberTemplate;
+        private CraftMenuUI _craftMenuUI;
 
         public string NoRecipeSelectedTitle => "No Recipe Selected";
 
         private void Awake()
         {
-            _servingCountNumberTemplate = _servingCountNumber.text;
+            _craftMenuUI = GetComponentInParent<CraftMenuUI>();
+            
+            _recipeBookButton.onClick.AddListener(HandleRecipeBookButtonClicked);
+            _titleEditButton.onClick.AddListener(HandleTitleEditButtonClicked);
+            _confirmRecipeButton.onClick.AddListener(HandleConfirmRecipeButtonClicked);
         }
+
+        #region ButtonHandlers
+
+        private void HandleConfirmRecipeButtonClicked()
+        {
+            _craftMenuUI.ConfirmFinalRecipe();
+        }
+
+        private void HandleTitleEditButtonClicked()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleRecipeBookButtonClicked()
+        {
+            _craftMenuUI.ToggleRecipeBook();
+        }
+
+        #endregion
 
         private void OnEnable()
         {
@@ -47,7 +68,7 @@ namespace TDB.CraftSystem.UI
 
         private void HandleRecipeUpdated()
         {
-            UpdateServingCount();
+            _servingCountUI.UpdateServingCount(_recipe);
         }
 
         private void HandleRecipeSelected(FinalRecipeData recipe)
@@ -56,36 +77,18 @@ namespace TDB.CraftSystem.UI
             if (_recipe == null)
             {
                 _titleText.text = NoRecipeSelectedTitle;
-                _titleEditButton.interactable = false;
+                _titleEditButton.gameObject.SetActive(false);
                 
-                _displayWhenReady.ForEach(g => g.SetActive(false));
-                _displayWhenNotReady.ForEach(g => g.SetActive(false));
+                _servingCountUI.gameObject.SetActive(false);
             }
             else
             {
                 _titleText.text = _recipe.RecipeName;
-                _titleEditButton.interactable = true;
+                _titleEditButton.gameObject.SetActive(true);
 
-                UpdateServingCount();
+                _servingCountUI.gameObject.SetActive(true);
+                _servingCountUI.UpdateServingCount(_recipe);
             }
-        }
-
-        private void UpdateServingCount()
-        {
-            var recipeReady = _recipe.IsRecipeReady;
-            _displayWhenReady.ForEach(g => g.SetActive(recipeReady));
-            _displayWhenNotReady.ForEach(g => g.SetActive(!recipeReady));
-
-            if (recipeReady)
-            {
-                _servingCountNumber.text = string.Format(_servingCountNumberTemplate,
-                _recipe.GetServingsAvailable(_ingredientStorage));
-            }
-        }
-
-        public void ReceiveIngredientStorage(IngredientStorageData ingredientStorage)
-        {
-            _ingredientStorage = ingredientStorage;
         }
     }
 }

@@ -61,7 +61,8 @@ namespace TDB.CraftSystem.UI.Inventory
         {
             // TODO: clear filters
             // update ingredient number
-            var addedIngredients = recipe.GetAddedIngredients();
+            var addedIngredients =
+                recipe?.GetAddedIngredients() ?? new Dictionary<IngredientDefinition, int>();
             foreach (var ingredient in addedIngredients.Keys.Union(_items.Keys))
             {
                 // add item UI if missing

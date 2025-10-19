@@ -30,6 +30,9 @@ namespace TDB.GameManagers
         [FormerlySerializedAs("FinalRecipe")]
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Final Recipe")]
         [SerializeField, InlineProperty, HideLabel] public FinalRecipeData TestFinalRecipe;
+        
+        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Recipe Book")]
+        [SerializeField, InlineProperty, HideLabel] public RecipeBookData TestRecipeBook;
 
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
         // [TitleGroup("_DefaultTabGroup/CraftSystem/SubTabGroup/Test", "Added Ingredient Animation")]

@@ -17,6 +17,8 @@ namespace TDB.CraftSystem.Data
         {
             RawRecipe = rawRecipe;
             NodeData = rawRecipe.InitialNodeData;
+
+            RecipeName = rawRecipe.RecipeName + $"-{Random.Range(0, 100):00}";
         }
 
         public Dictionary<IngredientDefinition, int> GetAddedIngredients() =>

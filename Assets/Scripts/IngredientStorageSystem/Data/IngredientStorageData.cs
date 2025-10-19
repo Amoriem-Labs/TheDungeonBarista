@@ -15,7 +15,7 @@ namespace TDB.IngredientStorageSystem.Data
     {
         [field: TableList]
         [field: SerializeField]
-        public List<IngredientStorageStackData> Ingredients { get; private set; }
+        public List<IngredientStorageStackData> Ingredients { get; private set; } = new();
 
         public Dictionary<IngredientDefinition, int> GetIngredientsCount =>
             Ingredients

@@ -10,6 +10,7 @@ namespace TDB.Utils.ObjectPools
     public class MonoObjectPool<T> : MonoBehaviour where T: MonoBehaviour, IPooledObject<T>
     {
         [SerializeField] protected T _pooledPrefab;
+        [SerializeField] private Transform _pooledObjectParent;
         [SerializeField] private bool _collectionCheck = true;
         [SerializeField] private int _defaultCapacity = 10;
         [SerializeField] private int _maxSize = 500;
@@ -36,6 +37,7 @@ namespace TDB.Utils.ObjectPools
             _pool = new ObjectPool<T>(OnPooledObjectCreate, OnPooledObjectGet, OnPooledObjectRelease, OnPooledObjectDestroy,
                                       _collectionCheck, _defaultCapacity, _maxSize);
             _maxActivePooledObjects = 0;
+            _pooledObjectParent = _pooledObjectParent ?? transform;
 
             if (_pooledPrefab)
             {
@@ -105,7 +107,7 @@ namespace TDB.Utils.ObjectPools
 
         protected virtual T OnPooledObjectCreate()
         {
-            T obj = GameObject.Instantiate(_pooledPrefab, transform);
+            T obj = GameObject.Instantiate(_pooledPrefab, _pooledObjectParent);
             obj.SetPool(this);
             OnPooledObjectCreateCallback?.Invoke(obj);
             return obj;
@@ -133,7 +135,7 @@ namespace TDB.Utils.ObjectPools
         {
             T obj = _pool.Get();
             obj.gameObject.SetActive(true);
-            obj.transform.SetParent(parent ?? (inSceneRoot ? null : transform));
+            obj.transform.SetParent(parent ?? (inSceneRoot ? null : _pooledObjectParent));
             return obj;
         }
 
@@ -146,7 +148,7 @@ namespace TDB.Utils.ObjectPools
 
         public virtual void Release(T obj)
         {
-            obj.transform.SetParent(transform);
+            obj.transform.SetParent(_pooledObjectParent);
             obj.gameObject.SetActive(false);
             _pool.Release(obj);
         }

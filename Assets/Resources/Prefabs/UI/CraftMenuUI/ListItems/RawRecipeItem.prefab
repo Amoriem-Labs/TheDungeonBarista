@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1597990286166606926}
   - component: {fileID: 5347238454947396255}
   - component: {fileID: 7402590376157741685}
+  - component: {fileID: 341017052798617810}
   m_Layer: 0
   m_Name: RawRecipeItem
   m_TagString: Untagged
@@ -103,6 +104,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &341017052798617810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513384809246000067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deae740dfb6445948c89ef5ee728c611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recipeNameText: {fileID: 8200464213158318904}
 --- !u!1001 &6746790742741869764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217,3 +231,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7344971146471043095, guid: 461df5d75a082664c95e6689253f4458, type: 3}
   m_PrefabInstance: {fileID: 6746790742741869764}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8200464213158318904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3201088115072514044, guid: 461df5d75a082664c95e6689253f4458, type: 3}
+  m_PrefabInstance: {fileID: 6746790742741869764}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
