@@ -17,6 +17,8 @@ namespace TDB.Utils.EventChannels
         [SerializeField]
         private string _paramType;
 
+        [SerializeField, TextArea(10, 100), PropertyOrder(Single.MaxValue)] private string _comment;
+        
         private bool CanEdit => !Application.isPlaying;
     
         private Type _cachedType;
