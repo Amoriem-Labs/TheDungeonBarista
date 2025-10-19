@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.IngredientStorageSystem.Data;
@@ -18,12 +19,12 @@ namespace TDB.CraftSystem.UI.RecipeBook
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
         
-        private List<FinalRecipeItemUI> _trackedItems = new();
+        private readonly List<FinalRecipeItemUI> _trackedItems = new();
         private RecipeBookData _recipeBook;
         private RawRecipeDefinition _rawRecipe;
         private IngredientStorageData _ingredientStorage;
         private FinalRecipeData _selectedRecipe;
-        private List<FinalRecipeData> _displayedFinalRecipes;
+        private List<(FinalRecipeData recipe, FinalRecipeItemUI itemUI)> _displayedFinalRecipes;
 
         private void Awake()
         {
@@ -45,15 +46,17 @@ namespace TDB.CraftSystem.UI.RecipeBook
             _recipeBook = recipeBook;
             _rawRecipe = rawRecipe;
 
-            _displayedFinalRecipes = _recipeBook.GetFinalRecipesDerivedFrom(_rawRecipe);
+            _displayedFinalRecipes = _recipeBook.GetFinalRecipesDerivedFrom(_rawRecipe)
+                .Select<FinalRecipeData, (FinalRecipeData recipe, FinalRecipeItemUI itemUI)>(r => (r, null)).ToList();
             int i = 0;
             // ensure all raw recipes have any UI element
             for (; i < _displayedFinalRecipes.Count; i++)
             {
-                FinalRecipeItemUI item;
-                item = GetNewItem(i);
+                var recipe = _displayedFinalRecipes[i].recipe;
+                var item = GetNewItem(i);
+                _displayedFinalRecipes[i] = (recipe, item);
 
-                item.BindFinalRecipe(_displayedFinalRecipes[i], this, _ingredientStorage);
+                item.BindFinalRecipe(recipe, this, _ingredientStorage);
             }
             // hide extra UI elements
             for (; i < _trackedItems.Count; i++)
@@ -63,6 +66,8 @@ namespace TDB.CraftSystem.UI.RecipeBook
             }
             // move the add button to the last
             _addFinalRecipeItem.transform.SetAsLastSibling();
+
+            CheckConsistency();
         }
 
         private FinalRecipeItemUI GetNewItem(int i)
@@ -91,13 +96,15 @@ namespace TDB.CraftSystem.UI.RecipeBook
             var item = GetNewItem(_displayedFinalRecipes.Count);
             item.BindFinalRecipe(newRecipe, this, _ingredientStorage);
             // track new displayed recipe
-            _displayedFinalRecipes.Add(newRecipe);
+            _displayedFinalRecipes.Add((newRecipe, item));
             
             // move the add button to the last
             _addFinalRecipeItem.transform.SetAsLastSibling();
             
             // select new recipe
             _onRecipeSelectedEvent.RaiseEvent<FinalRecipeData>(newRecipe);
+
+            CheckConsistency();
         }
 
         public void DeleteRecipe(FinalRecipeData finalRecipe)
@@ -108,7 +115,7 @@ namespace TDB.CraftSystem.UI.RecipeBook
                 _onRecipeSelectedEvent.RaiseEvent<FinalRecipeData>(null);
             }
 
-            var recipeIdx = _displayedFinalRecipes.FindIndex(r => r == finalRecipe);
+            var recipeIdx = _displayedFinalRecipes.FindIndex(r => r.recipe == finalRecipe);
             if (recipeIdx < 0 || recipeIdx >= _trackedItems.Count)
             {
                 Debug.LogError($"Recipe {finalRecipe.RecipeName} not displayed");
@@ -117,12 +124,32 @@ namespace TDB.CraftSystem.UI.RecipeBook
             {
                 // hide item UI
                 var item = _trackedItems[recipeIdx];
+                // move to the last
+                item.transform.SetAsLastSibling();
+                _trackedItems.RemoveAt(recipeIdx);
+                _trackedItems.Add(item);
                 item.gameObject.SetActive(false);
                 // remove recipe from tracked list
-                _displayedFinalRecipes.Remove(finalRecipe);
+                var idx = _displayedFinalRecipes.FindIndex(t => t.recipe == finalRecipe);
+                _displayedFinalRecipes.RemoveAt(idx);
                 // delete recipe from book
                 _recipeBook.DeleteRecipe(finalRecipe);
+
+                CheckConsistency();
             }
+        }
+
+        private void CheckConsistency()
+        {
+#if UNITY_EDITOR
+            if (_displayedFinalRecipes == null) return;
+            for (var i = 0; i < _displayedFinalRecipes.Count; i++)
+            {
+                var item = _displayedFinalRecipes[i].itemUI;
+                var idx = _trackedItems.FindIndex(i => i == item);
+                Debug.Assert(i == idx, $"Index for displayed recipe and item UI mismatch: {i} - {idx}");
+            }
+#endif
         }
 
         public void ReceiveIngredientStorage(IngredientStorageData ingredientStorage)
