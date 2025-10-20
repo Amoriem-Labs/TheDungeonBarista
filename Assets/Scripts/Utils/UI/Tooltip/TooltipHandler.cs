@@ -21,7 +21,7 @@ namespace TDB.Utils.UI.Tooltip
         
         private void Awake()
         {
-            _displayTooltipEvent = Resources.Load<EventChannel>("Events/DisplayTooltipEvent");
+            _displayTooltipEvent = Resources.Load<EventChannel>("Events/GeneralPurpose/DisplayTooltip");
             _data.TriggerTransform = transform;
         }
 

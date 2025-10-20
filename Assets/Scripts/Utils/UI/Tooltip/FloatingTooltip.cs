@@ -11,7 +11,6 @@ namespace TDB.Utils.UI.Tooltip
     public class FloatingTooltip : MonoBehaviour
     {
         [SerializeField] private EventChannel _displayTooltipEvent;
-        [SerializeField] private Camera _mainCamera;
         [SerializeField, Tooltip("In screen space.")] private Vector2 _offset;
         
         private LayoutGroup _layoutGroup;
@@ -21,9 +20,14 @@ namespace TDB.Utils.UI.Tooltip
         private RectTransform _rectTransform;
         private Transform _anchorTransform;
         private float _padding;
+        private Canvas _canvas;
+
+        private Camera MainCamera => _canvas.worldCamera;
 
         private void Awake()
         {
+            _canvas = GetComponentInParent<Canvas>();
+            
             _layoutGroup = GetComponent<LayoutGroup>();
             _rectTransform = GetComponent<RectTransform>();
             _text = GetComponentInChildren<TextMeshProUGUI>();
@@ -67,13 +71,13 @@ namespace TDB.Utils.UI.Tooltip
         {
             var screenPos = Mouse.current != null
                 ? Mouse.current.position.ReadValue()
-                : _mainCamera.WorldToScreenPoint(_anchorTransform.position.SetZ(0)).ToVector2();
+                : MainCamera.WorldToScreenPoint(_anchorTransform.position.SetZ(0)).ToVector2();
             
-            var viewPos = _mainCamera.ScreenToViewportPoint(screenPos);
+            var viewPos = MainCamera.ScreenToViewportPoint(screenPos);
             _rectTransform.pivot = new Vector2(viewPos.x > 0.5f ? 1 : 0, viewPos.y > 0.5f ? 1 : 0);
             
             var offsetDir = new Vector2(viewPos.x > 0.5f ? -1 : 1, viewPos.y > 0.5f ? -1 : 1);
-            _rectTransform.position = _mainCamera.ScreenToWorldPoint(screenPos + offsetDir * _offset).SetZ(0);
+            _rectTransform.position = MainCamera.ScreenToWorldPoint(screenPos + offsetDir * _offset).SetZ(0);
         }
     }
 }
