@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.Audio;
+using TDB.Utils.CrossSceneCameraBinding;
 using TDB.Utils.Misc;
 using TDB.Utils.ObjectPools;
 using TDB.Utils.SceneTransitions;
@@ -28,6 +29,7 @@ namespace TDB.GameManagers
             // GameManager determines the initialization order of all passive singletons.
             // All passive singletons should be a CHILD of the GameManager.
             InitializeManager<AudioManager>();
+            InitializeManager<CameraBindingManager>();
 
             // pooled object initialization is usually dependent on other systems
             InitializeManager<ObjectPoolManager>();
