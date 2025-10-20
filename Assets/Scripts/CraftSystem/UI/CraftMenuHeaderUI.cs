@@ -1,5 +1,6 @@
 ﻿using System;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using TDB.CraftSystem.Data;
 using TDB.Utils.EventChannels;
 using TMPro;
@@ -13,7 +14,8 @@ namespace TDB.CraftSystem.UI
         [SerializeField] private TextMeshProUGUI _titleText;
         [SerializeField] private Button _titleEditButton;
         [SerializeField] private ServingCountUI _servingCountUI;
-
+        [SerializeField] private TMP_InputField _titleInputField;
+        
         [SerializeField] private Button _recipeBookButton;
         [SerializeField] private Button _confirmRecipeButton;
 
@@ -23,6 +25,7 @@ namespace TDB.CraftSystem.UI
 
         private FinalRecipeData _recipe;
         private CraftMenuUI _craftMenuUI;
+        private bool _isEditingTitle;
 
         public string NoRecipeSelectedTitle => "No Recipe Selected";
 
@@ -33,23 +36,60 @@ namespace TDB.CraftSystem.UI
             _recipeBookButton.onClick.AddListener(HandleRecipeBookButtonClicked);
             _titleEditButton.onClick.AddListener(HandleTitleEditButtonClicked);
             _confirmRecipeButton.onClick.AddListener(HandleConfirmRecipeButtonClicked);
+            
+            _titleInputField.onEndEdit.AddListener(HandleTitleInputFieldEndEdit);
+            
+            _titleInputField.gameObject.SetActive(false);
         }
 
-        #region ButtonHandlers
+        #region InputHandlers
 
         private void HandleConfirmRecipeButtonClicked()
         {
-            _craftMenuUI.ConfirmFinalRecipe();
+            AbortEditingTitle();
+            _craftMenuUI.ConfirmFinalRecipe(_recipe);
         }
 
         private void HandleTitleEditButtonClicked()
         {
-            throw new NotImplementedException();
+            _isEditingTitle = true;
+            
+            _titleInputField.gameObject.SetActive(true);
+            _titleInputField.text = _titleText.text;
+            
+            _titleText.gameObject.SetActive(false);
+            
+            _titleInputField.Select();
         }
 
         private void HandleRecipeBookButtonClicked()
         {
+            AbortEditingTitle();
             _craftMenuUI.ToggleRecipeBook();
+        }
+
+        private void HandleTitleInputFieldEndEdit(string text)
+        {
+            if (!_isEditingTitle) return;
+            _isEditingTitle = false;
+            
+            if (!text.IsNullOrWhitespace())
+            {
+                _titleText.text = text;
+                _recipe.SetName(text);
+            }
+            
+            _titleInputField.gameObject.SetActive(false);
+            _titleText.gameObject.SetActive(true);
+        }
+
+        private void AbortEditingTitle()
+        {
+            if (!_isEditingTitle) return;
+            _isEditingTitle = false;
+            
+            _titleInputField.gameObject.SetActive(false);
+            _titleText.gameObject.SetActive(true);
         }
 
         #endregion
@@ -73,6 +113,8 @@ namespace TDB.CraftSystem.UI
 
         private void HandleRecipeSelected(FinalRecipeData recipe)
         {
+            AbortEditingTitle();
+            
             _recipe = recipe;
             if (_recipe == null)
             {

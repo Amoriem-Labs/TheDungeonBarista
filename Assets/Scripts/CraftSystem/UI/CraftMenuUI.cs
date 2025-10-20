@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI.Inventory;
@@ -20,11 +21,19 @@ namespace TDB.CraftSystem.UI
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
 
+        [Title("Testing")]
+        [SerializeField, ReadOnly] private bool _testRecipeBookInitialized;
+        [SerializeField, ReadOnly, HideLabel, InlineProperty, BoxGroup("Chosen Recipe")]
+        private FinalRecipeData _testChosenRecipe;
+        [SerializeField, ReadOnly, HideLabel, InlineProperty, BoxGroup("Current Recipe Book")]
+        private RecipeBookData _testCurrentRecipeBook;
+        
         private IIngredientStorageReceiver[] _ingredientStorageReceivers;
 
         private RawRecipeMenuUI _rawRecipeMenu;
         private UIEnabler _rawRecipeMenuEnabler;
         private UIEnabler _craftMenuEnabler;
+        private Action<FinalRecipeData> _callback;
 
         private void Awake()
         {
@@ -37,6 +46,7 @@ namespace TDB.CraftSystem.UI
 
         /// <summary>
         /// Opening the craft menu from production devices with some existing recipe will open that recipe.
+        /// See OpenMenuInfo for more details.
         /// </summary>
         [Button(ButtonSizes.Large, ButtonStyle.FoldoutButton), DisableInEditorMode]
         public void OpenMenu(OpenMenuInfo openMenuInfo)
@@ -55,15 +65,54 @@ namespace TDB.CraftSystem.UI
             _rawRecipeMenu.BindRecipeBook(openMenuInfo.RecipeBook);
             // select/deselect recipe
             _onRecipeSelectedEvent.RaiseEvent(openMenuInfo.CurrentRecipe);
+            // confirm callback
+            _callback = openMenuInfo.RecipeDecidedCallback;
+
+            _testChosenRecipe = null;
         }
 
         [Button(ButtonSizes.Large), DisableInEditorMode]
         public void OpenMenuWithTestData()
         {
+            var testStorage = GameManager.Instance.GameConfig.TestIngredientStorage;
+            var testSelectedRecipe = GameManager.Instance.GameConfig.TestFinalRecipe;
+            
+            if (!_testRecipeBookInitialized)
+            {
+                _testRecipeBookInitialized = true;
+                _testCurrentRecipeBook = GameManager.Instance.GameConfig.ExtendedTestRecipeBook;
+            }
+            else
+            {
+                // simulate the situation where no recipe was selected on the production device
+                testSelectedRecipe = null;
+            }
+                
             OpenMenu(new OpenMenuInfo(){
-                IngredientStorage = GameManager.Instance.GameConfig.TestIngredientStorage,
-                CurrentRecipe = GameManager.Instance.GameConfig.TestFinalRecipe,
-                RecipeBook = GameManager.Instance.GameConfig.ExtendedTestRecipeBook
+                IngredientStorage = testStorage,
+                CurrentRecipe = testSelectedRecipe,
+                RecipeBook = _testCurrentRecipeBook,
+                RecipeDecidedCallback = recipe =>
+                {
+                    _testChosenRecipe = recipe;
+                    if (recipe == null)
+                    {
+                        Debug.Log("No recipe was selected.");
+                    }
+                    else
+                    {
+                        // this demonstrates some usages of the FinalRecipeData
+                        Debug.Log(
+                            $"Selected recipe: {recipe.RecipeName}\n\t" +
+                            $"The recipe uses {recipe.RawRecipe.RecipeName} as the raw recipe.\n\t" +
+                            $"The recipe has {recipe.GetAllEffectData().Count} effects.\n\t" +
+                            $"The recipe consumes {recipe.GetAddedIngredients().Sum(kv => kv.Value)} ingredients.\n\t" +
+                            (recipe.IsRecipeReady
+                                ? $"The recipe has {recipe.GetServingsAvailable(testStorage)} servings available."
+                                : "The recipe is not ready to be served.")
+                        );
+                    }
+                }
             });
         }
 
@@ -85,9 +134,11 @@ namespace TDB.CraftSystem.UI
             }
         }
 
-        public void ConfirmFinalRecipe()
+        public void ConfirmFinalRecipe(FinalRecipeData recipe)
         {
-            throw new NotImplementedException();
+            _callback?.Invoke(recipe);
+            // close menu
+            _craftMenuEnabler.Disable(.5f);
         }
     }
 
@@ -100,6 +151,14 @@ namespace TDB.CraftSystem.UI
         public IngredientStorageData IngredientStorage;
         // all recipes obtained & created by the player
         public RecipeBookData RecipeBook;
+        // tell the caller of the CraftMenu the recipe decided by the player
+        // There are three cases:
+        //      - the returned recipe is null: the player chooses no recipe
+        //      - the returned recipe is not null, but recipe.IsRecipeReady = false:
+        //              the chosen recipe is incomplete and cannot be used
+        //      - the returned recipe is not null and recipe.IsRecipeReady = true:
+        //              the chosen recipe is ready to use
+        public Action<FinalRecipeData> RecipeDecidedCallback;
     }
 
     public interface IIngredientStorageReceiver

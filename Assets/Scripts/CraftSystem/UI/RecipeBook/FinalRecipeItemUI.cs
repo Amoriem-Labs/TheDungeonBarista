@@ -27,16 +27,31 @@ namespace TDB.CraftSystem.UI.RecipeBook
             _deleteButton.onClick.AddListener(HandleDeleteButtonClicked);
         }
 
+        private void OnDisable()
+        {
+            if (_finalRecipe != null) _finalRecipe.OnNameChange -= HandleNameChange;
+            _finalRecipe = null;
+        }
+
         public void BindFinalRecipe(FinalRecipeData displayedFinalRecipe, FinalRecipeMenuUI finalRecipeMenuUI,
             IngredientStorageData ingredientStorage)
         {
+            // unbind before binding
+            if (_finalRecipe != null) _finalRecipe.OnNameChange -= HandleNameChange;
+            
             _finalRecipe = displayedFinalRecipe;
             _parentMenu = finalRecipeMenuUI;
 
             _recipeNameText.text = _finalRecipe.RecipeName;
             _servingCountUI.UpdateServingCount(_finalRecipe, ingredientStorage);
             
-            // TODO: bind callbacks to listen for name/recipe change
+            // bind callbacks to listen for name change
+            _finalRecipe.OnNameChange += HandleNameChange;
+        }
+
+        private void HandleNameChange()
+        {
+            _recipeNameText.text = _finalRecipe.RecipeName;
         }
 
         public void OnPointerClick(PointerEventData eventData)

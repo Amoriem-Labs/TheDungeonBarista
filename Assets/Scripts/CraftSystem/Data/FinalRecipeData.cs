@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.IngredientStorageSystem.Data;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TDB.CraftSystem.Data
 {
@@ -14,6 +16,8 @@ namespace TDB.CraftSystem.Data
         [field: SerializeField] public List<IngredientNodeData> NodeData { get; private set; }
         [field: SerializeField] public string RecipeName { get; private set; }
 
+        public Action OnNameChange;
+        
         public FinalRecipeData(RawRecipeDefinition rawRecipe)
         {
             RawRecipe = rawRecipe;
@@ -41,6 +45,12 @@ namespace TDB.CraftSystem.Data
             var perServing = GetAddedIngredients();
             var available = ingredientStorage.GetIngredientsCount;
             return perServing.Min(kv => available.GetValueOrDefault(kv.Key, 0) / kv.Value);
+        }
+
+        public void SetName(string text)
+        {
+            RecipeName = text;
+            OnNameChange?.Invoke();
         }
     }
 }
