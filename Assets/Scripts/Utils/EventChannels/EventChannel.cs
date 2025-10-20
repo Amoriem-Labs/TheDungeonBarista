@@ -7,6 +7,7 @@ using TDB.CraftSystem.UI;
 using TDB.CraftSystem.UI.Info;
 using TDB.CraftSystem.UI.RecipeGraph;
 using TDB.IngredientStorageSystem.Data;
+using TDB.Utils.UI.ConfirmPanel;
 using TDB.Utils.UI.Tooltip;
 using UnityEngine;
 using UnityEngine.Events;
@@ -58,6 +59,7 @@ namespace TDB.Utils.EventChannels
                 typeof(Vector3),
             
                 // custom data types
+                typeof(ConfirmationData),
                 typeof(TooltipData),
 
                 #region CraftSystemTypes
