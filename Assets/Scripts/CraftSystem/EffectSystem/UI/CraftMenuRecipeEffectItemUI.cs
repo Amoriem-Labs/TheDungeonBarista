@@ -1,11 +1,22 @@
 ﻿using TDB.CraftSystem.EffectSystem.Data;
+using TDB.Utils.UI.Tooltip;
 using UnityEngine;
 
 namespace TDB.CraftSystem.EffectSystem.UI
 {
     public abstract class CraftMenuRecipeEffectItemUI : MonoBehaviour
     {
-        public abstract void BindEffectData(EffectData effectData);
+        private TooltipHandler _tooltip;
+
+        protected virtual void Awake()
+        {
+            _tooltip = GetComponent<TooltipHandler>();
+        }
+        
+        public virtual void BindEffectData(EffectData effectData)
+        {
+            _tooltip.SetTooltipText(effectData.GetTooltipText());
+        }
     }
 
     public abstract class TypedCraftMenuRecipeEffectItemUI<T> : CraftMenuRecipeEffectItemUI where T : EffectData
@@ -14,6 +25,8 @@ namespace TDB.CraftSystem.EffectSystem.UI
         
         public sealed override void BindEffectData(EffectData effectData)
         {
+            base.BindEffectData(effectData);
+            
             if (effectData is not T typedData)
             {
                 throw new System.ArgumentException(

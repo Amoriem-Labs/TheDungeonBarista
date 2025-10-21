@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using TDB.CraftSystem.Data;
 using TDB.Utils.EventChannels;
+using TDB.Utils.UI.ConfirmPanel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,12 +23,21 @@ namespace TDB.CraftSystem.UI
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
         [SerializeField] private EventChannel _onRecipeUpdatedEvent;
+        [SerializeField] private EventChannel _displayConfirmationEvent;
 
         private FinalRecipeData _recipe;
         private CraftMenuUI _craftMenuUI;
         private bool _isEditingTitle;
 
-        public string NoRecipeSelectedTitle => "No Recipe Selected";
+        private static string NoRecipeSelectedTitle => "No Recipe Selected";
+
+        private string NoRecipeSelectedConfirmMessage => "No recipe is selected. Do you want to exit the craft menu?";
+        private string IncompleteRecipeConfirmMessage =>
+            "The selected recipe is incomplete and cannot be served." +
+            " At least one node must be completed for the recipe to be served." +
+            " Are you sure you want to submit this recipe?";
+        private string ContinueText => "Continue";
+        private string CancelText => "Cancel";
 
         private void Awake()
         {
@@ -47,6 +57,33 @@ namespace TDB.CraftSystem.UI
         private void HandleConfirmRecipeButtonClicked()
         {
             AbortEditingTitle();
+
+            if (_recipe == null)
+            {
+                _displayConfirmationEvent.RaiseEvent(new ConfirmationData()
+                {
+                    Message = NoRecipeSelectedConfirmMessage,
+                    LeftButtonInfo = ConfirmationButtonInfo.RegularButton(CancelText),
+                    RightButtonInfo = ConfirmationButtonInfo.WarningButton(ContinueText, ConfirmSelectedRecipe)
+                });
+            }
+            else if (!_recipe.IsRecipeReady)
+            {
+                _displayConfirmationEvent.RaiseEvent(new ConfirmationData()
+                {
+                    Message = IncompleteRecipeConfirmMessage,
+                    LeftButtonInfo = ConfirmationButtonInfo.RegularButton(CancelText),
+                    RightButtonInfo = ConfirmationButtonInfo.WarningButton(ContinueText, ConfirmSelectedRecipe)
+                });
+            }
+            else
+            {
+                ConfirmSelectedRecipe();
+            }
+        }
+
+        private void ConfirmSelectedRecipe()
+        {
             _craftMenuUI.ConfirmFinalRecipe(_recipe);
         }
 

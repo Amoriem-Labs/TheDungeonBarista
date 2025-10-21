@@ -18,6 +18,7 @@ namespace TDB.CraftSystem.EffectSystem.LevelUpEffect
     public class LevelUpEffectDefinition : TypedEffectDefinition<LevelUpEffectData>
     {
         [SerializeField] private string _attributeName;
+        [SerializeField, TextArea] private string _description;
         
         protected override LevelUpEffectData GenerateEffectData(List<TypedEffectParameter<LevelUpEffectData>> typedParams)
         {
@@ -34,5 +35,11 @@ namespace TDB.CraftSystem.EffectSystem.LevelUpEffect
                 : "Undefined Parameter";
         
         public string EffectName => _attributeName;
+
+        public string GetTooltipText(int currentLevel)
+        {
+            // TODO: display the data associated with the current level
+            return _description;
+        }
     }
 }

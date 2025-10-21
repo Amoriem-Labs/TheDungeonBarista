@@ -13,6 +13,8 @@ namespace TDB.CraftSystem.EffectSystem.Data
         public EffectDefinition Definition { get; protected set; }
         
         internal virtual void SetDefinition(EffectDefinition definition) => Definition = definition;
+
+        public abstract string GetTooltipText();
     }
 
     /// <summary>

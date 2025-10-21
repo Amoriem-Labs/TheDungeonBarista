@@ -15,5 +15,7 @@ namespace TDB.CraftSystem.EffectSystem.LevelUpEffect
         {
             _progress = progress;
         }
+
+        public override string GetTooltipText() => (Definition as LevelUpEffectDefinition).GetTooltipText(Level);
     }
 }

@@ -28,7 +28,7 @@ namespace TDB.Utils.UI.ConfirmPanel
             _buttonText.text = info.ButtonText;
             
             _button.onClick.RemoveAllListeners();
-            _button.onClick.AddListener(info.ClickAction);
+            if (info.ClickAction != null) _button.onClick.AddListener(info.ClickAction);
             _button.onClick.AddListener(confirmPanel.Hide);
         }
     }

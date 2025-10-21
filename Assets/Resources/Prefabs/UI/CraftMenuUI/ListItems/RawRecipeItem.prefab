@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 5347238454947396255}
   - component: {fileID: 7402590376157741685}
   - component: {fileID: 341017052798617810}
+  - component: {fileID: -3920231347306776175}
+  - component: {fileID: 6481021584067070139}
+  - component: {fileID: 390786409286020149}
   m_Layer: 0
   m_Name: RawRecipeItem
   m_TagString: Untagged
@@ -117,6 +120,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _recipeNameText: {fileID: 8200464213158318904}
+--- !u!114 &-3920231347306776175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513384809246000067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e34945391214b42ad24beac0e720e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6481021584067070139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513384809246000067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0398795dfdb49d38c52d4e7828f3b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &390786409286020149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513384809246000067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6be2622b689a48eaab9385957cc17515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverScale: 1.05
+  _clickScale: 0.95
+  _smoothTime: 0.1
+  _controlElement: {fileID: 0}
 --- !u!1001 &6746790742741869764
 PrefabInstance:
   m_ObjectHideFlags: 0

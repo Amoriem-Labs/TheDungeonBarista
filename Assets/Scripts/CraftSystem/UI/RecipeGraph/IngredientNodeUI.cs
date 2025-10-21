@@ -4,6 +4,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.Utils.EventChannels;
+using TDB.Utils.UI.Tooltip;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,9 +28,15 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         private readonly List<AddedIngredientIconController> _trackedIngredientIcons = new();
         private bool _selected;
 
+        private TooltipHandler _tooltip;
+        
+        private string CompleteTooltipText => "Node Completed";
+        private string IncompleteTooltipText => "Add {0} Ingredient(s) to Complete The Node";
+
         private void Awake()
         {
             _addedIngredientPool = GetComponentInParent<AddedIngredientIconControllerPool>();
+            _tooltip = GetComponent<TooltipHandler>();
 
             _selectionMarker.alpha = 0;
         }
@@ -72,6 +79,9 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         private void UpdateCountText()
         {
             _countText.text = $"{_nodeData.AddedIngredients.Count}/{_nodeData.RequiredAmount}";
+            _tooltip.SetTooltipText(_nodeData.IsNodeReady
+                ? CompleteTooltipText
+                : string.Format(IncompleteTooltipText, _nodeData.RequiredAmount - _nodeData.AddedIngredients.Count));
         }
 
         private void AddIngredientIconFrom(IngredientDefinition ingredient, Vector3 position)

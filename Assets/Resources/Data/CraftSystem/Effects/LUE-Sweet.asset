@@ -25,5 +25,6 @@ MonoBehaviour:
       Entry: 6
       Data: 
   _resourcesPath: Data/CraftSystem/Effects/LUE-Sweet
-  <CraftMenuRecipeEffectItemPrefab>k__BackingField: {fileID: 1049655894884558165, guid: 67d6f492de66edf489148b26e3be6590, type: 3}
+  <CraftMenuRecipeEffectItemPrefab>k__BackingField: {fileID: 4309549788246413265, guid: 51cc3b1c5e9335e48974ca5e4c0f6ead, type: 3}
   _attributeName: Sweet
+  _description: A flavor. Customers who like this flavor will pay extra money.

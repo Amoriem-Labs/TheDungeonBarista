@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 3357554089588323624}
   - component: {fileID: 6660593460968525213}
   - component: {fileID: 364762247001594934}
+  - component: {fileID: -7447764892834203876}
+  - component: {fileID: -8303332368610149855}
+  - component: {fileID: 4812674775976783726}
   m_Layer: 0
   m_Name: AddedIngredientIcon
   m_TagString: Untagged
@@ -124,3 +127,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0398795dfdb49d38c52d4e7828f3b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7447764892834203876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053428820516168861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e34945391214b42ad24beac0e720e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8303332368610149855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053428820516168861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6be2622b689a48eaab9385957cc17515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverScale: 1.1
+  _clickScale: 0.9
+  _smoothTime: 0.1
+  _controlElement: {fileID: 0}
+--- !u!114 &4812674775976783726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053428820516168861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cee82ffb3f34578b8cf891ce6ce5ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayDelay: 0.3
+  _data:
+    TooltipText: Click to Remove Ingredient
+    TooltipType: 0
+    TriggerTransform: {fileID: 0}

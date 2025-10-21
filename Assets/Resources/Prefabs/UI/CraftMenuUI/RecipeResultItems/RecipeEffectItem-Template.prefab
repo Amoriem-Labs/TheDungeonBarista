@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1058900720491918745}
   - component: {fileID: 1822399273156919179}
   - component: {fileID: 4757747638574755873}
+  - component: {fileID: -531138025506885450}
   m_Layer: 0
-  m_Name: RecipeResultItem-Template
+  m_Name: RecipeEffectItem-Template
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,3 +76,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-531138025506885450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7392052480544448753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cee82ffb3f34578b8cf891ce6ce5ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayDelay: 0.2
+  _data:
+    TooltipText: Effect Tooltip Not Set
+    TooltipType: 0
+    TriggerTransform: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using System;
 using TDB.CraftSystem.EffectSystem.UI;
 using TDB.GameManagers;
+using TDB.Utils.UI.Tooltip;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +20,10 @@ namespace TDB.CraftSystem.EffectSystem.LevelUpEffect
         private float _smoothTime;
         private float _velocity;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             _smoothTime = GameManager.Instance.GameConfig.LevelUpProgressFillTime;
         }
 
