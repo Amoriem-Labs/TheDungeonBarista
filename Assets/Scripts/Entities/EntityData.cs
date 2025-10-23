@@ -39,6 +39,7 @@ namespace TDB
         {
             CurrentHealth = MaxHealth;
             Rb = GetComponent<Rigidbody2D>();
+            Rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
         }
 
         void Update()
