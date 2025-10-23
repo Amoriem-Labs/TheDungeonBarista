@@ -22,6 +22,7 @@ namespace TDB
         public float Decceleration = 1;
         public float MaxSpeed = 1;
         public float MaxHealth = 1;
+        public float Knockback = 10;
 
 
         // for controlling exactly when velocity is applied!
@@ -44,26 +45,6 @@ namespace TDB
 
         void Update()
         {
-
-        }
-
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (collision.gameObject.GetComponent<EntityData>() != null)
-            {
-               
-            }
-
-        }
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            if (collision.gameObject.GetComponent<EntityData>() != null)
-            {
-              
-            }
-
-
-
 
         }
 

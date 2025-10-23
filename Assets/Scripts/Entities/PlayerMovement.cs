@@ -35,18 +35,37 @@ namespace TDB
             _entityData = GetComponent<EntityData>();
             _animator = GetComponent<Animator>();
             InputManager.attackKeyPressed += AttackKeyPressed;
+
+           
+           GetComponentInChildren<AttackHitbox>().dealDamage += DealDamage;
         }
 
 
 
+        private void DealDamage(GameObject _damagedEntity)
+        {
+            _damagedEntity.GetComponent<EntityData>().CurrentHealth -= 1;
+
+            _damagedEntity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
+            
+
+            if (_damagedEntity.GetComponent<EntityData>().CurrentHealth <= 0)
+            {
+                //run the die method
+               Destroy(_damagedEntity);
+
+            }
+        }
 
         private void AttackKeyPressed()
         {
             _entityData.IsAttacking = true;
+           
         }
         // Start is called before the first frame update
         void Start()
         {
+            
         }
 
         void Update()
@@ -95,14 +114,14 @@ namespace TDB
                 //updates the last direction the player was facing
                 _entityData.lastDirection = new Vector2(_entityData.movementDirection.x, _entityData.movementDirection.y);
 
-                _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Rb.velocity.x, _entityData.MaxSpeed * _entityData.movementDirection.x,_entityData.Acceleration * Time.deltaTime)
-                                                    ,Mathf.MoveTowards(_entityData.Rb.velocity.y, _entityData.MaxSpeed * _entityData.movementDirection.y, _entityData.Acceleration * Time.deltaTime));
+                _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Velocity.x, _entityData.MaxSpeed * _entityData.movementDirection.x,_entityData.Acceleration * Time.deltaTime)
+                                                    ,Mathf.MoveTowards(_entityData.Velocity.y, _entityData.MaxSpeed * _entityData.movementDirection.y, _entityData.Acceleration * Time.deltaTime));
             }
             else
             {
                
-                _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Rb.velocity.x, 0, _entityData.Decceleration * Time.deltaTime)
-                                                  , Mathf.MoveTowards(_entityData.Rb.velocity.y, 0, _entityData.Decceleration * Time.deltaTime));
+                _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Velocity.x, 0, _entityData.Decceleration * Time.deltaTime)
+                                                  , Mathf.MoveTowards(_entityData.Velocity.y, 0, _entityData.Decceleration * Time.deltaTime));
             }
 
         }

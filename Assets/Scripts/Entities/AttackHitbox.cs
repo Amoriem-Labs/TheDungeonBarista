@@ -13,8 +13,8 @@ namespace TDB
     //=================================================================================
     public class AttackHitbox : MonoBehaviour
     {
-        public delegate void BaseDelegate();
-        public static BaseDelegate TriggerEntered;
+        public delegate void BaseDelegate(GameObject entity);
+        public BaseDelegate dealDamage;
 
 
         private const int _enemyLayer = 8;
@@ -40,15 +40,7 @@ namespace TDB
         {
             if (collision.gameObject.layer == _enemyLayer)
             {
-                collision.gameObject.GetComponentInParent<EntityData>().CurrentHealth -= 1;
-
-                if (collision.gameObject.GetComponentInParent<EntityData>().CurrentHealth <= 0)
-                {
-                    Destroy(collision.gameObject.GetComponentInParent<EntityData>().gameObject);
-                }
-                
-                print(collision.gameObject.GetComponentInParent<EntityData>().CurrentHealth);
-                    //GetComponent<EntityData>().CurrentHealth);
+                dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
             }
             
 
