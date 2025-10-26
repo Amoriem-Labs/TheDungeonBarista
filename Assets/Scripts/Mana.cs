@@ -2,7 +2,8 @@
 // File: Mana.cs
 // Author: Callum Legendre
 // Date: October 25, 2025
-// Description: Handles the mana calculations for the player character
+// Description: Script is designed to be attached to the mana bar UI object.
+// Handles mana calculations and updates it to the bar
 // ===================================================================
 
 
@@ -10,6 +11,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TDB
 {
@@ -21,15 +23,25 @@ namespace TDB
         
         // intialisation of max mana and current mana fields, current is set to max in start function
         [SerializeField] int MaxMana = 100;
-        [SerializeField] int CurrentMana;
+        public Slider ManaBar;
         
         // =======================
         // Unity Lifecycle Methods
         // =======================
         void Start()
         {
+            // gets the slider component
+            ManaBar = GetComponent<Slider>();
+            
+            // sets maximum and minimum value of the bar, along with only using whole numbers
+            ManaBar.maxValue = MaxMana;
+            ManaBar.minValue = 0;
+            ManaBar.wholeNumbers = true;
+            
             // spawns the player in with a full mana bar
-            CurrentMana = MaxMana;
+            ManaBar.value = MaxMana;
+            
+            
         }
         
         void Update()
@@ -45,15 +57,15 @@ namespace TDB
         public void UseMana(int mana)
         {
             // checks if mana would go into negatives
-            if (CurrentMana - mana < 0)
+            if (ManaBar.value - mana < 0)
             {
                 // sets it to 0 instead if it would
-                CurrentMana = 0;
+                ManaBar.value = 0;
             }
             else
             {
                 // otherwise reduce mana by specified amount
-                CurrentMana -=  mana;
+                ManaBar.value -=  mana;
             }
         }
 
@@ -61,15 +73,15 @@ namespace TDB
         public void RecoverMana(int mana)
         {
             // checks if mana would go above the max mana value
-            if (CurrentMana + mana > MaxMana)
+            if (ManaBar.value + mana > MaxMana)
             {
                 // sets it to max mana if so
-                CurrentMana = MaxMana;
+                ManaBar.value = MaxMana;
             }
             else
             {
                 // otherwise adds mana by specified amount
-                CurrentMana += mana;
+                ManaBar.value += mana;
             }
 
         }
