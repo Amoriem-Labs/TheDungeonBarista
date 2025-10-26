@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TDB.DungeonSystem.BSP
 {
-    public class BSPNode : MonoBehaviour
+    public class BSPNode
     {
         // area of the node
         public RectInt rect;
@@ -26,6 +26,8 @@ namespace TDB.DungeonSystem.BSP
         public BSPNode(RectInt rect)
         {
             this.rect = rect;
+            left = null;
+            right = null;
         }
         public bool IsLeaf()
         {
