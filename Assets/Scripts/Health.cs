@@ -23,6 +23,17 @@ namespace TDB
         {
             _currentHealth = MaxHealth;
         }
+        
+        // temporary for testing health bar
+        void Update()
+        {
+            // Press Space to take 10 damage
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TakeDamage(10f);
+                Debug.Log("Took 10 damage, current HP: " + _currentHealth);
+            }
+        }
 
         public void TakeDamage(float amount)
         {
@@ -32,12 +43,17 @@ namespace TDB
             if (_currentHealth <= 0)
             {
                 _currentHealth = 0;
-                Die();
+                // Die();
             }
 
             // Makes sure HP doesn't go above MaxHealth
             if (_currentHealth > MaxHealth)
                 _currentHealth = MaxHealth;
+        }
+
+        public float GetCurrentHealth()
+        {
+            return _currentHealth;
         }
 
         private void Die()
