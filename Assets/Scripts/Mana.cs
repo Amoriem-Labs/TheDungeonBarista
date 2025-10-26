@@ -20,8 +20,8 @@ namespace TDB
         // ==============
         
         // intialisation of max mana and current mana fields, current is set to max in start function
-        public int MaxMana = 100;
-        public int CurrentMana;
+        [SerializeField] int MaxMana = 100;
+        [SerializeField] int CurrentMana;
         
         // =======================
         // Unity Lifecycle Methods
