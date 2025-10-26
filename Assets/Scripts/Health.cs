@@ -45,6 +45,11 @@ namespace TDB
                 _currentHealth = 0;
                 // Die();
             }
+        }
+
+        public void RegenHealth(float amount)
+        {
+            _currentHealth += amount;
 
             // Makes sure HP doesn't go above MaxHealth
             if (_currentHealth > MaxHealth)
