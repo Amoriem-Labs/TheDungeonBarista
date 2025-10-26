@@ -14,18 +14,18 @@ namespace TDB.DungeonSystem.BSP
     public class BSPNode : MonoBehaviour
     {
         // area of the node
-        public RectInt space;
+        public RectInt rect;
         public BSPNode left;
         public BSPNode right;
-        // rectable in this room
-        public RectInt? RectInt;
+        // rectangle in this room
+        public RectInt? room;
 
         // ================================
         // Public Methods
         // ================================
         public BSPNode(RectInt rect)
         {
-            this.RectInt = rect;
+            this.rect = rect;
         }
         public bool IsLeaf()
         {
