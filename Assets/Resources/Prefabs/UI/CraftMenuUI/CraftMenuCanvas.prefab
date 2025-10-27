@@ -3845,7 +3845,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -21585357
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &649405238011408770
@@ -3896,7 +3896,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8697639736995352599}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -3939,6 +3939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _addedIngredientParent: {fileID: 8155078055633088116}
+  _configureRecipeEvent: {fileID: 11400000, guid: 53a83a57ae00f6e4aab852a9c8d2c5cf, type: 2}
   _onRecipeSelectedEvent: {fileID: 11400000, guid: e27682c49221b8e4780a1cb0b65e6b10, type: 2}
   _testRecipeBookInitialized: 0
   _testChosenRecipe:
@@ -3982,7 +3983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayOnAwake: 0
-  _overrideDisplayParameter: 0
+  _overrideDisplayParameter: 1
   _alpha: 1
   _interactable: 1
   _blockRaycast: 1

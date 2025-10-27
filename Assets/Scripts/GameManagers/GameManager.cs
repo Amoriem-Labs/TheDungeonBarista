@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.Audio;
+using TDB.CafeSystem.Managers;
 using TDB.Utils.CrossSceneCameraBinding;
 using TDB.Utils.Misc;
 using TDB.Utils.ObjectPools;
@@ -74,7 +75,14 @@ namespace TDB.GameManagers
         public void StartSession()
         {
             StartCoroutine(SceneTransitionCoroutine(GameConfig.CafePhaseScenes,
-                scenesToUnload: GameConfig.MainMenuScenes));
+                scenesToUnload: GameConfig.MainMenuScenes,
+                sceneLoadedCallback: StartSessionOnLoaded()));
+        }
+
+        private IEnumerator StartSessionOnLoaded()
+        {
+            CafeSceneManager.FindAndInitialize();
+            yield break;
         }
 
         [Button(ButtonSizes.Large)]
@@ -88,7 +96,14 @@ namespace TDB.GameManagers
         public void DungeonToCafe()
         {
             StartCoroutine(SceneTransitionCoroutine(GameConfig.CafePhaseScenes,
-                scenesToUnload: GameConfig.DungeonPhaseScenes));
+                scenesToUnload: GameConfig.DungeonPhaseScenes,
+                sceneLoadedCallback: DungeonToCafeOnLoaded()));
+        }
+
+        private IEnumerator DungeonToCafeOnLoaded()
+        {
+            CafeSceneManager.FindAndInitialize();
+            yield break;
         }
 
         [Button(ButtonSizes.Large)]

@@ -17,8 +17,9 @@ namespace TDB.CraftSystem.UI
     public class CraftMenuUI : MonoBehaviour
     {
         [SerializeField] private Transform _addedIngredientParent;
-        
+
         [TitleGroup("Events")]
+        [SerializeField] private EventChannel _configureRecipeEvent;
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
 
         [Title("Testing")]
@@ -42,6 +43,16 @@ namespace TDB.CraftSystem.UI
             _rawRecipeMenu = GetComponentInChildren<RawRecipeMenuUI>();
             _rawRecipeMenuEnabler = _rawRecipeMenu.GetComponent<UIEnabler>();
             _craftMenuEnabler = GetComponent<UIEnabler>();
+        }
+
+        private void OnEnable()
+        {
+            _configureRecipeEvent.AddListener<OpenMenuInfo>(OpenMenu);
+        }
+
+        private void OnDisable()
+        {
+            _configureRecipeEvent.RemoveListener<OpenMenuInfo>(OpenMenu);
         }
 
         /// <summary>

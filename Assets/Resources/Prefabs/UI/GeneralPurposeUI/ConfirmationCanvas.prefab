@@ -451,7 +451,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4129748630631936043}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayOnAwake: 0
-  _overrideDisplayParameter: 0
+  _overrideDisplayParameter: 1
   _alpha: 1
   _interactable: 1
   _blockRaycast: 1

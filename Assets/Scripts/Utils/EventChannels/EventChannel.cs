@@ -67,6 +67,7 @@ namespace TDB.Utils.EventChannels
                 typeof(ReturnIngredientInfo),
                 typeof(IngredientNodeUI),
                 typeof(DisplayIngredientInfo),
+                typeof(OpenMenuInfo)
                 #endregion
             };
 
