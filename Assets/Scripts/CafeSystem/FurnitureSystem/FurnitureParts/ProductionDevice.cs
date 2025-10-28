@@ -14,6 +14,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
     [RequireComponent(typeof(Furniture))]
     public class ProductionDevice : MonoBehaviour, IFurniturePartDataHolder
     {
+        // [SerializeReference]
         private ProductionDeviceData _deviceData;
 
         [Title("Events")]
@@ -51,10 +52,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
         public Type DataType => typeof(ProductionDeviceData);
         public object CreateDefaultData() => new ProductionDeviceData();
 
-        public void LoadData(object data)
-        {
-            _deviceData = data as ProductionDeviceData;
-        }
+        public void LoadData(object data) => _deviceData = new ProductionDeviceData(data);
 
         public object ExtractData() => _deviceData;
 
@@ -65,5 +63,23 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
     public class ProductionDeviceData
     {
         public FinalRecipeData ConfiguredRecipe = null;
+
+        public ProductionDeviceData(object data)
+        {
+            if (data is ProductionDeviceData deviceData)
+            {
+                // use provided data only if the ConfiguredRecipe is a valid one (with RawRecipe)
+                ConfiguredRecipe = deviceData.ConfiguredRecipe?.RawRecipe ? deviceData.ConfiguredRecipe : null;
+            }
+            else
+            {
+                ConfiguredRecipe = null;
+            }
+        }
+
+        public ProductionDeviceData()
+        {
+            ConfiguredRecipe = null;
+        }
     }
 }

@@ -1,6 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace TDB.CafeSystem.Managers
 {
@@ -14,15 +20,16 @@ namespace TDB.CafeSystem.Managers
         {
             Clear();
             
-            foreach (var furniture in FurnitureRoot.GetComponentsInChildren<Furniture>())
-            {
-                _trackedFurnitures.TryAdd(furniture.FurnitureID, furniture);
-                
-                // create default data, might be overwritten later
-                furniture.Initialize();
-                var data = furniture.CreateNewInstanceData(furniture.FurnitureID, furniture.Definition);
-                furniture.LoadData(data);
-            }
+            // all existing furnitures will be removed
+            // foreach (var furniture in FurnitureRoot.GetComponentsInChildren<Furniture>())
+            // {
+            //     _trackedFurnitures.TryAdd(furniture.FurnitureID, furniture);
+            //     
+            //     // create default data, might be overwritten later
+            //     furniture.Initialize();
+            //     var data = furniture.CreateNewInstanceData(furniture.FurnitureID, furniture.Definition);
+            //     furniture.LoadData(data);
+            // }
 
             foreach (var data in furnitureData)
             {
@@ -65,6 +72,56 @@ namespace TDB.CafeSystem.Managers
                 Destroy(furniture.gameObject);
             }
             _trackedFurnitures.Clear();
+
+            // clear dangling furnitures
+            foreach (var furniture in FurnitureRoot.GetComponentsInChildren<Furniture>().ToList())
+            {
+                Destroy(furniture.gameObject);
+            }
         }
+
+#if UNITY_EDITOR
+        [Button(ButtonSizes.Large)]
+        private void ExtractFurniturePreset()
+        {
+            var allFurnitures = FurnitureRoot.GetComponentsInChildren<Furniture>();
+            var furnitureData = allFurnitures.Select(f => f.ExtractData(forceReloadParts: true)).ToList();
+            
+            // Ask for save path
+            var defaultName = $"New Furniture Preset";
+            var path = EditorUtility.SaveFilePanelInProject(
+                "Save Furniture Preset",
+                defaultName,
+                "asset",
+                "Choose a location and name for the FurniturePreset asset."
+            );
+
+            if (string.IsNullOrEmpty(path))
+                return; // user cancelled
+
+            // Create or update the asset
+            var preset = AssetDatabase.LoadAssetAtPath<FurniturePreset>(path);
+            if (preset == null)
+            {
+                preset = ScriptableObject.CreateInstance<FurniturePreset>();
+                preset.FurnitureData = furnitureData;
+                AssetDatabase.CreateAsset(preset, path);
+                EditorUtility.SetDirty(preset);
+            }
+            else
+            {
+                Undo.RecordObject(preset, "Update Furniture Preset");
+                preset.FurnitureData = furnitureData;
+                EditorUtility.SetDirty(preset);
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            // Focus / ping for convenience
+            Selection.activeObject = preset;
+            EditorGUIUtility.PingObject(preset);
+        }
+#endif
     }
 }

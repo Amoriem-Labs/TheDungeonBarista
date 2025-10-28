@@ -54,3 +54,4 @@ MonoBehaviour:
     AngularSpeedRange: {x: 50, y: 80}
     HoverRadiusRange: {x: 0.8, y: 1.5}
     SmoothTime: 0.1
+  DefaultFurniturePreset: {fileID: 11400000, guid: cbe796952c619c942b90fde22f012492, type: 2}

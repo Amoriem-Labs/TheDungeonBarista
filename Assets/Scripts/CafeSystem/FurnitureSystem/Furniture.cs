@@ -63,10 +63,17 @@ namespace TDB.CafeSystem.FurnitureSystem
             }
         }
 
-        private List<FurniturePartData> ExtractPartsData() =>
-            _parts.Values.Select(p => new FurniturePartData
-                    { PartID = p.PartID, Json = DataToJson(p.ExtractData()) })
+        private List<FurniturePartData> ExtractPartsData(bool forceReloadParts = false)
+        {
+            if (forceReloadParts)
+            {
+                Initialize();
+            } 
+            
+            return _parts.Values.Select(p => new FurniturePartData
+                    { PartID = p.PartID, Json = DataToJson(p.ExtractData() ?? p.CreateDefaultData()) })
                 .ToList();
+        }
 
         #endregion
         
@@ -84,7 +91,7 @@ namespace TDB.CafeSystem.FurnitureSystem
         /// Called by Furniture Manager to save furniture data.
         /// </summary>
         /// <returns></returns>
-        public FurnitureData ExtractData()
+        public FurnitureData ExtractData(bool forceReloadParts = false)
         {
             return new FurnitureData()
             {
@@ -92,7 +99,7 @@ namespace TDB.CafeSystem.FurnitureSystem
                 FurnitureDefinition = Definition,
                 Position = transform.position,
                 Rotation = transform.rotation,
-                Parts = ExtractPartsData()
+                Parts = ExtractPartsData(forceReloadParts)
             };
         }
         

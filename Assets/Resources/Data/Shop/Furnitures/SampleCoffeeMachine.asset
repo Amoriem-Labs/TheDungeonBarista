@@ -21,6 +21,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _resourcesPath: Data/Furnitures/SampleCoffeeMachine
+  _resourcesPath: Data/Shop/Furnitures/SampleCoffeeMachine
   DefinitionID: Sample_Coffee_Machine
   FurniturePrefab: {fileID: 4297571028627881224, guid: 704b8983f3bc4e449b94f39b76b2820f, type: 3}

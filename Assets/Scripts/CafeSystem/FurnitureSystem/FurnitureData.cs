@@ -11,7 +11,7 @@ namespace TDB.CafeSystem.FurnitureSystem
         
         [HideInInspector] public Vector3 Position;
         [HideInInspector] public Quaternion Rotation;
-        
+     
         [HideInInspector] public List<FurniturePartData> Parts = new();
     }
 

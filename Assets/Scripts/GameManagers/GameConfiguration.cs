@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.FurnitureSystem;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI.RecipeGraph;
 using TDB.IngredientStorageSystem.Data;
@@ -48,6 +49,13 @@ namespace TDB.GameManagers
         [SerializeField, InlineProperty, HideLabel]
         public AddedIngredientAnimParam AddedIngredientAnimParam;
         
+        #endregion
+
+        #region CafeSystem
+
+        [TabGroup("CafeSystem")]
+        [SerializeField] public FurniturePreset DefaultFurniturePreset;
+
         #endregion
         
 #if UNITY_EDITOR

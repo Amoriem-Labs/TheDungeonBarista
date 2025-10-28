@@ -32,7 +32,8 @@ namespace TDB.CafeSystem.Managers
         {
             #region Get Data
 
-            var furnitureData = new List<FurnitureData>();
+            // TODO: get furniture data from save data first, use default preset if non-existent
+            var furnitureData = null ?? GameManager.Instance.GameConfig.DefaultFurniturePreset.FurnitureData;
             
             // test recipe book
             var recipeBookData = GameManager.Instance.GameConfig.ExtendedTestRecipeBook;

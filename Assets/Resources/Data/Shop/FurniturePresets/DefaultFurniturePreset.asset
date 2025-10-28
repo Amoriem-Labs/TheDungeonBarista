@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71d55db3abb430bbc8d6a3ed04ce91f, type: 3}
+  m_Name: DefaultFurniturePreset
+  m_EditorClassIdentifier: 
+  FurnitureData:
+  - FurnitureDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+    FurnitureID: Sample_Coffee_Machine_Default
+    Position: {x: -3.53, y: 0, z: 0}
+    Rotation: {x: -0, y: -0, z: -0, w: 1}
+    Parts:
+    - PartID: ProductionDevice
+      Json: "{\r\n    \"$id\": 0,\r\n    \"$type\": \"0|TDB.CafeSystem.FurnitureSystem.FurnitureParts.ProductionDeviceData,
+        Assembly-CSharp\",\r\n    \"ConfiguredRecipe\": {\r\n        \"$id\": 1,\r\n       
+        \"$type\": \"1|TDB.CraftSystem.Data.FinalRecipeData, Assembly-CSharp\",\r\n       
+        \"<RawRecipe>k__BackingField\": null,\r\n        \"<NodeData>k__BackingField\":
+        {\r\n            \"$id\": 2,\r\n            \"$type\": \"2|System.Collections.Generic.List`1[[TDB.CraftSystem.Data.IngredientNodeData,
+        Assembly-CSharp]], mscorlib\",\r\n            \"$rlength\": 0,\r\n           
+        \"$rcontent\": [\r\n            ]\r\n        },\r\n        \"<RecipeName>k__BackingField\":
+        \"\",\r\n        \"OnNameChange\": null\r\n    }\r\n}"

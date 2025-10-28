@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TDB.CafeSystem.FurnitureSystem
 {
-    [CreateAssetMenu(fileName = "New Furniture", menuName = "Data/Furniture Definition", order = 0)]
+    [CreateAssetMenu(fileName = "New Furniture", menuName = "Data/Shop/Furniture Definition", order = 0)]
     public class FurnitureDefinition : ResourceScriptableObject
     {
         public string DefinitionID;
