@@ -20,10 +20,12 @@ namespace TDB
         // =============
         // Fields
         // ==============
-        
-        // intialisation of max mana and current mana fields, current is set to max in start function
+
+        // intialisation of max mana and current mana fields
         [SerializeField] int MaxMana = 100;
-        public Slider ManaBar;
+        
+        // the variable where the referance to the UI element is stored. All operations to adjust mana happen on the value element of the slider.
+        [SerializeField] Slider ManaBar;
         
         // =======================
         // Unity Lifecycle Methods
@@ -39,9 +41,7 @@ namespace TDB
             ManaBar.wholeNumbers = true;
             
             // spawns the player in with a full mana bar
-            ManaBar.value = MaxMana;
-            
-            
+            ManaBar.value = MaxMana; 
         }
         
         void Update()
@@ -53,37 +53,18 @@ namespace TDB
         // Public Methods
         // ==============
         
-        // takes a positive integer, does not allow current mana to go below 0
+        // takes a positive integer, decreases mana by specified value
         public void UseMana(int mana)
         {
-            // checks if mana would go into negatives
-            if (ManaBar.value - mana < 0)
-            {
-                // sets it to 0 instead if it would
-                ManaBar.value = 0;
-            }
-            else
-            {
-                // otherwise reduce mana by specified amount
-                ManaBar.value -=  mana;
-            }
+            // reduce mana by specified value
+            ManaBar.value -= mana;
         }
 
-        // takes a positive integer, does not allow current mana to go above max mana
+        // takes a positive integer, decreases mana by specified value
         public void RecoverMana(int mana)
         {
-            // checks if mana would go above the max mana value
-            if (ManaBar.value + mana > MaxMana)
-            {
-                // sets it to max mana if so
-                ManaBar.value = MaxMana;
-            }
-            else
-            {
-                // otherwise adds mana by specified amount
-                ManaBar.value += mana;
-            }
-
+            // increase mana by specified value
+            ManaBar.value += mana;
         }
 
         // ================
