@@ -74,14 +74,24 @@ namespace TDB.GameManagers
         [Button(ButtonSizes.Large)]
         public void StartSession()
         {
-            StartCoroutine(SceneTransitionCoroutine(GameConfig.CafePhaseScenes,
+            var coroutine = SceneTransitionCoroutine(
+                GameConfig.CafePhaseScenes,
                 scenesToUnload: GameConfig.MainMenuScenes,
-                sceneLoadedCallback: StartSessionOnLoaded()));
+                sceneLoadedCallback: StartSessionOnLoaded(),
+                transitionOutroCallback: StartSessionOutroFinish()
+            );
+            StartCoroutine(coroutine);
         }
 
         private IEnumerator StartSessionOnLoaded()
         {
             CafeSceneManager.FindAndInitialize();
+            yield break;
+        }
+        
+        private IEnumerator StartSessionOutroFinish()
+        {
+            CafePhaseController.FindAndStart();
             yield break;
         }
 
@@ -95,14 +105,24 @@ namespace TDB.GameManagers
         [Button(ButtonSizes.Large)]
         public void DungeonToCafe()
         {
-            StartCoroutine(SceneTransitionCoroutine(GameConfig.CafePhaseScenes,
+            var coroutine = SceneTransitionCoroutine(
+                GameConfig.CafePhaseScenes,
                 scenesToUnload: GameConfig.DungeonPhaseScenes,
-                sceneLoadedCallback: DungeonToCafeOnLoaded()));
+                sceneLoadedCallback: DungeonToCafeOnLoaded(),
+                transitionOutroCallback: DungeonToCafeOutroFinish()
+            );
+            StartCoroutine(coroutine);
         }
 
         private IEnumerator DungeonToCafeOnLoaded()
         {
             CafeSceneManager.FindAndInitialize();
+            yield break;
+        }
+        
+        private IEnumerator DungeonToCafeOutroFinish()
+        {
+            CafePhaseController.FindAndStart();
             yield break;
         }
 

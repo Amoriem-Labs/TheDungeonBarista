@@ -14,7 +14,7 @@ namespace TDB.CafeSystem.Managers
     public class CafeSceneManager : MonoBehaviour
     {
         /// <summary>
-        /// Invoked once by the GameManager when the scene transition finishes.
+        /// Invoked once by the GameManager when the scene loading finishes.
         /// </summary>
         [Button(ButtonSizes.Large), DisableInEditorMode]
         public static void FindAndInitialize()
