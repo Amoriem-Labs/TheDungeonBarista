@@ -3,7 +3,7 @@ using TDB.CafeSystem.FurnitureSystem.Customers;
 
 namespace TDB.Player.Interaction.Triggers
 {
-    public class CustomerInteractionTrigger : InteractionTrigger<Customer>
+    public class ServeCustomerInteractionTrigger : InteractionTrigger<Customer>
     {
         protected override void Interact(Customer interactable)
         {

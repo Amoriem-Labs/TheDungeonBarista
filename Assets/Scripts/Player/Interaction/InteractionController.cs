@@ -63,8 +63,6 @@ namespace TDB.Player.Interaction
 
         /// <summary>
         /// Invoked by the player input controller to interact.
-        /// FIXME: currently bound to PlayerInput just for testing.
-        ///     Interact is now triggered by started/performed/canceled 3 events so this is trigger 3 times per click.
         /// </summary>
         public void Interact()
         {

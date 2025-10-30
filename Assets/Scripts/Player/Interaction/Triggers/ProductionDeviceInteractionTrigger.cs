@@ -12,7 +12,7 @@ namespace TDB.Player.Interaction.Triggers
     /// </summary>
     public class ProductionDeviceInteractionTrigger : InteractionTrigger<ProductionDevice>
     {
-        [SerializeField] private CustomerInteractionTrigger _customerInteractionTrigger;
+        [SerializeField] private ServeCustomerInteractionTrigger _customerInteractionTrigger;
         
         [Title("Events")]
         [SerializeField] private EventChannel _cafePreparationStartEvent;
@@ -30,9 +30,6 @@ namespace TDB.Player.Interaction.Triggers
             DungeonPreparation,
         }
         private EInteractionState _interactionState = EInteractionState.Invalid;
-        
-        [SerializeField, ReadOnly]
-        private bool _isBlockedByAction = false;
 
         private EInteractionState InteractionState
         {
@@ -41,17 +38,6 @@ namespace TDB.Player.Interaction.Triggers
             {
                 if (_interactionState == value) return;
                 _interactionState = value;
-                TryUpdateCurrentInteractable();
-            }
-        }
-
-        private bool IsBlockedByAction
-        {
-            get => _isBlockedByAction;
-            set
-            {
-                if (_isBlockedByAction == value) return;
-                _isBlockedByAction = value;
                 TryUpdateCurrentInteractable();
             }
         }
@@ -106,9 +92,7 @@ namespace TDB.Player.Interaction.Triggers
         };
 
         protected override bool GetCanInteract(ProductionDevice device) =>
-            InteractionState != EInteractionState.Invalid
-            && !IsBlockedByAction
-            && base.GetCanInteract(device);
+            InteractionState != EInteractionState.Invalid && base.GetCanInteract(device);
 
         protected override void Interact(ProductionDevice device)
         {
@@ -142,10 +126,10 @@ namespace TDB.Player.Interaction.Triggers
         private void InteractCafePreparation(ProductionDevice device)
         {
             Debug.Log("Interacting cafe preparation");
-            IsBlockedByAction = true;
+            ToggleBlockingPlayerInput(true);
             device.ConfigureRecipe(() =>
             {
-                IsBlockedByAction = false;
+                ToggleBlockingPlayerInput(false);
             });
         }
 

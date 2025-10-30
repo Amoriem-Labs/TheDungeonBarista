@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using TDB.Utils.EventChannels;
 using UnityEngine;
 
 namespace TDB.Player.Interaction.Triggers
@@ -13,6 +14,9 @@ namespace TDB.Player.Interaction.Triggers
     [RequireComponent(typeof(CircleCollider2D))]
     public abstract class InteractionTrigger<T> : MonoBehaviour, IInteractionTrigger where T : class, IInteractable
     {
+        [SerializeField] private EventChannel _enablePlayerInputEvent;
+        [SerializeField] private EventChannel _disablePlayerInputEvent;
+        
         private (GameObject go, T interactable)? _currentInteractable = null;
         private readonly List<(GameObject go, T interactable)> _allInteractablesInRange = new();
 
@@ -58,11 +62,18 @@ namespace TDB.Player.Interaction.Triggers
 
         /// <summary>
         /// Let concrete interaction triggers determine how to interact.
+        /// Remember to block/unblock properly through ToggleBlockingPlayerInput.
         /// </summary>
         /// <param name="interactable"></param>
         protected abstract void Interact([NotNull] T interactable);
 
         protected void TryUpdateCurrentInteractable() => TryUpdateCurrentInteractable(false);
+
+        protected void ToggleBlockingPlayerInput(bool isBlocked)
+        {
+            var ev = isBlocked ? _disablePlayerInputEvent : _enablePlayerInputEvent;
+            ev.RaiseEvent();
+        }
         
         protected void TryUpdateCurrentInteractable(bool forceUpdate)
         {
@@ -114,8 +125,20 @@ namespace TDB.Player.Interaction.Triggers
 
         protected virtual void OnValidate()
         {
-            if (!TryGetComponent(out Collider2D coll)) return;
-            coll.isTrigger = true;
+            if (TryGetComponent(out Collider2D coll))
+            {
+                coll.isTrigger = true;
+            }
+
+            if (!_enablePlayerInputEvent)
+            {
+                _enablePlayerInputEvent = Resources.Load<EventChannel>("Events/Player/Input/EnablePlayerInput");
+            }
+
+            if (!_disablePlayerInputEvent)
+            {
+                _disablePlayerInputEvent = Resources.Load<EventChannel>("Events/Player/Input/DisablePlayerInput");
+            }
         }
     }
     
