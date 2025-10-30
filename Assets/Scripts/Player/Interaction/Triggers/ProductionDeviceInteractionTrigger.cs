@@ -1,8 +1,12 @@
 ﻿using System;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem.FurnitureParts;
+using TDB.CraftSystem.Data;
+using TDB.CraftSystem.EffectSystem.Data;
+using TDB.GameManagers;
 using TDB.Utils.EventChannels;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TDB.Player.Interaction.Triggers
 {
@@ -12,9 +16,10 @@ namespace TDB.Player.Interaction.Triggers
     /// </summary>
     public class ProductionDeviceInteractionTrigger : InteractionTrigger<ProductionDevice>
     {
-        [SerializeField] private ServeCustomerInteractionTrigger _customerInteractionTrigger;
+        [TitleGroup("References", order: -1)]
+        [SerializeField] private CustomerServiceInteractionTrigger _customerServiceInteractionTrigger;
         
-        [Title("Events")]
+        [TitleGroup("Events")]
         [SerializeField] private EventChannel _cafePreparationStartEvent;
         [SerializeField] private EventChannel _cafePreparationEndEvent;
         [SerializeField] private EventChannel _cafeOperationStartEvent;
@@ -30,6 +35,8 @@ namespace TDB.Player.Interaction.Triggers
             DungeonPreparation,
         }
         private EInteractionState _interactionState = EInteractionState.Invalid;
+        
+        private EffectDefinition _qualityEffect;
 
         private EInteractionState InteractionState
         {
@@ -40,6 +47,11 @@ namespace TDB.Player.Interaction.Triggers
                 _interactionState = value;
                 TryUpdateCurrentInteractable();
             }
+        }
+
+        private void Awake()
+        {
+            _qualityEffect = GameManager.Instance.GameConfig.QualityEffect;
         }
 
         private void OnEnable()
@@ -160,6 +172,12 @@ namespace TDB.Player.Interaction.Triggers
                     $"The recipe uses {recipe.RawRecipe.RecipeName} as the raw recipe.\n\t" +
                     $"The recipe has {recipe.GetAllEffectData().Count} effects.\n\t"
                 );
+
+                // TODO: generate product data from recipe and minigame result
+                // currently use the quality level of recipe as the quality level of the product
+                var product = new ProductData(recipeData: recipe, qualityLevel: recipe.GetQualityLevel(_qualityEffect));
+                // send to service interaction trigger so it can be served to customers
+                _customerServiceInteractionTrigger.AddProductToServe(product);
             }
         }
 

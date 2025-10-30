@@ -49,7 +49,7 @@ namespace TDB.Player.Interaction
         private void HandleInteractableUpdate()
         {
             _currentTrigger = _triggers.Find(t => t.GetCanInteract());
-            Debug.Log($"{gameObject.name} interactable updated: {CanInteract}");
+            // Debug.Log($"{gameObject.name} interactable updated: {CanInteract}");
             // update animation/sprite so the player know there is something to interact
             if (CanInteract)
             {

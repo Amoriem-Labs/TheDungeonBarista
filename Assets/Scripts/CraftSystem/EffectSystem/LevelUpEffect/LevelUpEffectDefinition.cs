@@ -34,7 +34,7 @@ namespace TDB.CraftSystem.EffectSystem.LevelUpEffect
                 ? $"{_attributeName}{(p.Progress > 0 ? '+' : '-')}{(int)(Mathf.Abs(p.Progress) * 100)}%"
                 : "Undefined Parameter";
         
-        public string EffectName => _attributeName;
+        public override string EffectName => _attributeName;
 
         public string GetTooltipText(int currentLevel)
         {

@@ -23,8 +23,10 @@ namespace TDB.CraftSystem.EffectSystem.Data
     public abstract class EffectDefinition : ResourceScriptableObject
     {
         [field: SerializeField]
-        public CraftMenuRecipeEffectItemUI CraftMenuRecipeEffectItemPrefab { get; protected set; } 
-        
+        public CraftMenuRecipeEffectItemUI CraftMenuRecipeEffectItemPrefab { get; protected set; }
+
+        public abstract string EffectName { get; }
+
         /// <summary>
         /// Aggregates all effect instances defined by the list of parameters to generate the data. 
         /// </summary>

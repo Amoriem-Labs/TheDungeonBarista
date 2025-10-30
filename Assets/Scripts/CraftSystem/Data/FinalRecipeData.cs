@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.EffectSystem.Data;
+using TDB.CraftSystem.EffectSystem.LevelUpEffect;
 using TDB.IngredientStorageSystem.Data;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -52,6 +53,19 @@ namespace TDB.CraftSystem.Data
         {
             RecipeName = text;
             OnNameChange?.Invoke();
+        }
+
+        public int GetQualityLevel(EffectDefinition qualityEffect)
+        {
+            var effects = GetAllEffectData();
+            var effect = effects.Find(e => e.Definition == qualityEffect);
+            return effect is not LevelUpEffectData quality ? 0 : quality.Level;
+        }
+
+        public int GetBasicPrice()
+        {
+            // TODO: maybe some effects can increase basic price
+            return RawRecipe.BasicPrice;
         }
     }
 }

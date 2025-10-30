@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Sirenix.OdinInspector;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 
@@ -14,7 +15,9 @@ namespace TDB.Player.Interaction.Triggers
     [RequireComponent(typeof(CircleCollider2D))]
     public abstract class InteractionTrigger<T> : MonoBehaviour, IInteractionTrigger where T : class, IInteractable
     {
+        [TitleGroup("Events")]
         [SerializeField] private EventChannel _enablePlayerInputEvent;
+        [TitleGroup("Events")]
         [SerializeField] private EventChannel _disablePlayerInputEvent;
         
         private (GameObject go, T interactable)? _currentInteractable = null;

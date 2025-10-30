@@ -19,6 +19,8 @@ namespace TDB.CraftSystem.Data
         
         [TableList]
         [SerializeField] private List<IngredientNodeData> _initialNodeData;
+
+        [field:SerializeField] public int BasicPrice { get; private set; } = 100;
         
         // take deep copy of the data
         // all node data in _initialNodeData is a template that should not be changed during runtime

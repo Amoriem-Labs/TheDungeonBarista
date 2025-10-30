@@ -54,4 +54,13 @@ MonoBehaviour:
     AngularSpeedRange: {x: 50, y: 80}
     HoverRadiusRange: {x: 0.8, y: 1.5}
     SmoothTime: 0.1
+  QualityEffect: {fileID: 11400000, guid: f0ffe00a64525c247bc8e23533c049d7, type: 2}
   DefaultFurniturePreset: {fileID: 11400000, guid: cbe796952c619c942b90fde22f012492, type: 2}
+  AllFlavors:
+  - {fileID: 11400000, guid: 0bab62332a6509640bbae5edd68a1057, type: 2}
+  - {fileID: 11400000, guid: b06663dfd2349ef418cd84b7ec668da1, type: 2}
+  - {fileID: 11400000, guid: c4f132bb77c25ef44a3c7b6ab37a20e9, type: 2}
+  - {fileID: 11400000, guid: f1121b597f9f566448c7cc8f3d8bd3f0, type: 2}
+  BonusPerFlavorLevel: 0.2
+  PunishmentPerFlavorLevel: 0.1
+  BonusPerQualityLevel: 0.2

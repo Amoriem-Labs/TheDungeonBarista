@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.Customers;
 using TDB.CafeSystem.FurnitureSystem;
 using TDB.CraftSystem.Data;
+using TDB.CraftSystem.EffectSystem.Data;
 using TDB.CraftSystem.UI.RecipeGraph;
 using TDB.IngredientStorageSystem.Data;
 using TDB.Utils.SceneTransitions;
@@ -48,6 +50,10 @@ namespace TDB.GameManagers
         [Title("Added Ingredient Animation")]
         [SerializeField, InlineProperty, HideLabel]
         public AddedIngredientAnimParam AddedIngredientAnimParam;
+
+        [TabGroup("CraftSystem")]
+        [SerializeField]
+        public EffectDefinition QualityEffect;
         
         #endregion
 
@@ -56,6 +62,16 @@ namespace TDB.GameManagers
         [TabGroup("CafeSystem")]
         [SerializeField] public FurniturePreset DefaultFurniturePreset;
 
+        [TabGroup("CafeSystem")]
+        [SerializeField] public List<FlavorDefinition> AllFlavors;
+
+        [TabGroup("CafeSystem")]
+        [SerializeField] public float BonusPerFlavorLevel = .2f;
+        [TabGroup("CafeSystem")]
+        [SerializeField] public float PunishmentPerFlavorLevel = .1f;
+        [TabGroup("CafeSystem")]
+        [SerializeField] public float BonusPerQualityLevel = .2f;
+        
         #endregion
         
 #if UNITY_EDITOR
