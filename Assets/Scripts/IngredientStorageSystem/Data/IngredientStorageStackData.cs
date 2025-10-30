@@ -10,5 +10,11 @@ namespace TDB.IngredientStorageSystem.Data
         public IngredientDefinition Definition { get; private set; }
         [field: SerializeField]
         public int Amount { get; private set; }
+
+        public void Consume(int amount)
+        {
+            Amount -= amount;
+            Amount = Mathf.Max(0, Amount);
+        }
     }
 }

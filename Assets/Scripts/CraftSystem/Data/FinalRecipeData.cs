@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.IngredientStorageSystem.Data;
 using UnityEngine;

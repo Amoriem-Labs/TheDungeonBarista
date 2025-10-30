@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
+using TDB.Player.Interaction;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
     /// Handles how player interact with the production device.
     /// </summary>
     [RequireComponent(typeof(Furniture))]
-    public class ProductionDevice : MonoBehaviour, IFurniturePartDataHolder
+    public class ProductionDevice : MonoBehaviour, IFurniturePartDataHolder, IInteractable
     {
         // [SerializeReference]
         private ProductionDeviceData _deviceData;
@@ -30,20 +31,44 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
         }
 
         [Button(ButtonSizes.Large), DisableInEditorMode]
-        private void ConfigureRecipe()
+        public void ConfigureRecipe(Action finishCallback = null)
         {
             _configureRecipeEvent.RaiseEvent<OpenMenuInfo>(new OpenMenuInfo()
             {
                 CurrentRecipe = _deviceData?.ConfiguredRecipe,
                 IngredientStorage = _ingredientStorage.GetAllIngredientStorage(),
                 RecipeBook = _recipeBookHolder.GetRecipeBook(),
-                RecipeDecidedCallback = HandleRecipeDecided
+                RecipeDecidedCallback = r =>
+                {
+                    HandleRecipeDecided(r);
+                    finishCallback?.Invoke();
+                }
             });
+        }
+
+        /// <summary>
+        /// Check configured recipe and ingredient storage.
+        /// Consume ingredients and retrieve recipe.
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <returns>Whether the production succeeds</returns>
+        public bool TryCookProduct(out FinalRecipeData recipe)
+        {
+            recipe = _deviceData.ConfiguredRecipe;
+            // not configured
+            if (recipe == null) return false;
+            // not enough ingredients
+            var servings = recipe.GetServingsAvailable(_ingredientStorage.GetAllIngredientStorage());
+            if (servings <= 0) return false;
+            // consume ingredients
+            var requirement = recipe.GetAddedIngredients();
+            return _ingredientStorage.TryConsume(requirement);
         }
 
         private void HandleRecipeDecided(FinalRecipeData recipe)
         {
             _deviceData.ConfiguredRecipe = recipe;
+            // TODO: update UI to indicate serving counts
         }
 
         #region Data Management
@@ -55,6 +80,24 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
         public void LoadData(object data) => _deviceData = new ProductionDeviceData(data);
 
         public object ExtractData() => _deviceData;
+
+        #endregion
+
+        #region Interaction
+        
+        // always interactable
+        public bool IsInteractable => true;
+        public Action OnInteractableUpdated { get; set; }
+
+        public void SetReady()
+        {
+            // TODO:
+        }
+
+        public void SetNotReady()
+        {
+            // TODO:
+        }
 
         #endregion
     }

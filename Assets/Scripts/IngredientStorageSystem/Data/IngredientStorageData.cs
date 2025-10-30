@@ -21,5 +21,23 @@ namespace TDB.IngredientStorageSystem.Data
             Ingredients
                 .GroupBy(i => i.Definition)
                 .ToDictionary(g => g.Key, g => g.Sum(i => i.Amount));
+        
+        public void TryConsume(Dictionary<IngredientDefinition, int> requirement)
+        {
+            foreach (var stack in Ingredients)
+            {
+                // not enough resource in the current stack
+                if (stack.Amount <= 0) continue;
+                
+                var ingredient = stack.Definition;
+                // current stack is not required or already satisfied
+                if (!requirement.TryGetValue(ingredient, out var required) || required <= 0) continue;
+                
+                // consume from the stack and subtract from requirement
+                var supply = Mathf.Min(stack.Amount, required);
+                stack.Consume(supply);
+                requirement[ingredient] = required - supply;
+            }
+        }
     }
 }
