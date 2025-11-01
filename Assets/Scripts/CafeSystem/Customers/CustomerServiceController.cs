@@ -4,6 +4,7 @@ using System.Linq;
 using TDB.CraftSystem.Data;
 using TDB.GameManagers;
 using TDB.Player.Interaction;
+using TDB.Utils.Misc;
 using UnityEngine;
 
 namespace TDB.CafeSystem.Customers
@@ -19,12 +20,12 @@ namespace TDB.CafeSystem.Customers
         private void Awake()
         {
             _customerController = GetComponent<CustomerController>();
-            _customerController.OnCustomerDataUpdated += OnInteractableUpdated;
+            _customerController.BindOnCustomerDataUpdatedCallback(OnInteractableUpdated);
         }
         
         public int ChooseAndServeFood(List<ProductData> productsToServe)
         {
-            if (_customerController.Data.Status != CustomerStatus.Waiting)
+            if (_customerController.Status != CustomerStatus.Waiting)
             {
                 Debug.LogError("Can only serve food when the customer is Waiting.");
                 return -1;
@@ -37,11 +38,8 @@ namespace TDB.CafeSystem.Customers
             // compute income
             ComputeIncome(servedProduct);
             
-            // TODO: start eating
-            
-            // update data and callback
-            _customerController.Data.Status = CustomerStatus.Eating;
-            _customerController.OnCustomerDataUpdated?.Invoke();
+            // update data, which triggers interaction callback and StartEating function
+            _customerController.Status = CustomerStatus.Eating;
 
             return servedProductIdx;
         }
@@ -54,7 +52,7 @@ namespace TDB.CafeSystem.Customers
 
             var effects = product.RecipeData.GetAllEffectData();
             var preference =
-                _customerController.Data.Preferences.ToDictionary(
+                _customerController.Preferences.ToDictionary(
                     p => p.Flavor.EffectDefinition,
                     p => p.PreferenceLevel);
 
@@ -79,16 +77,22 @@ namespace TDB.CafeSystem.Customers
 
         #region Interaction
 
-        public bool IsInteractable => _customerController.Data.Status == CustomerStatus.Waiting;
+        public bool IsInteractable => 
+            _customerController.Status == CustomerStatus.Waiting
+            // TODO: to simplify things, must ask for order before serving
+            && _customerController.IsPreferenceRevealed;
+        
         public Action OnInteractableUpdated { get; set; }
         public void SetReady()
         {
-            // TODO: update sprite
+            // update sprite
+            _customerController.OutlineController.ToggleOutline(true, this);
         }
 
         public void SetNotReady()
         {
-            // TODO: update sprite
+            // update sprite
+            _customerController.OutlineController.ToggleOutline(false, this);
         }
 
         #endregion

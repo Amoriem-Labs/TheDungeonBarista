@@ -30,7 +30,7 @@ namespace TDB.CafeSystem.Customers
         // can be served with dishes
         Waiting,
         // eating and cannot interact
-        Eating
+        Eating,
     }
     
     [System.Serializable]

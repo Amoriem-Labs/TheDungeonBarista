@@ -16,7 +16,7 @@ namespace TDB.CafeSystem.Customers
         private void Awake()
         {
             _customerController = GetComponent<CustomerController>();
-            _customerController.OnCustomerDataUpdated += OnInteractableUpdated;
+            _customerController.BindOnCustomerDataUpdatedCallback(OnInteractableUpdated);
         }
 
         /// <summary>
@@ -26,13 +26,13 @@ namespace TDB.CafeSystem.Customers
         {
             // TODO: reveal preferences
             var preference =
-                _customerController.Data.Preferences.ToDictionary(
+                _customerController.Preferences.ToDictionary(
                     p => p.Flavor.Name,
                     p => p.PreferenceLevel);
-            var likeString = "I like " + string.Join(",",
-                preference
-                    .Where(p => p.Value > 0)
-                    .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("❤️", p.Value)) + ")"));
+            var likes = preference
+                .Where(p => p.Value > 0)
+                .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("❤️", p.Value)) + ")");
+            var likeString = "I like " + string.Join(",", likes);
             var dislikes = preference
                 .Where(p => p.Value < 0)
                 .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("👎", -p.Value)) + ")");
@@ -41,22 +41,23 @@ namespace TDB.CafeSystem.Customers
             Debug.Log(dislikeString);
             
             // update data and callback
-            _customerController.Data.IsPreferenceRevealed = true;
-            _customerController.OnCustomerDataUpdated?.Invoke();
+            _customerController.IsPreferenceRevealed = true;
         }
 
         #region Interaction
 
-        public bool IsInteractable => !_customerController.Data.IsPreferenceRevealed;
+        public bool IsInteractable => !_customerController.IsPreferenceRevealed;
         public Action OnInteractableUpdated { get; set; }
         public void SetReady()
         {
-            // TODO: update sprite
+            // update sprite
+            _customerController.OutlineController.ToggleOutline(true, this);
         }
 
         public void SetNotReady()
         {
-            // TODO: update sprite
+            // update sprite
+            _customerController.OutlineController.ToggleOutline(false, this);
         }
 
         #endregion

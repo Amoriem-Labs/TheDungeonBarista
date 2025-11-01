@@ -71,6 +71,9 @@ namespace TDB.GameManagers
         [SerializeField] public float PunishmentPerFlavorLevel = .1f;
         [TabGroup("CafeSystem")]
         [SerializeField] public float BonusPerQualityLevel = .2f;
+
+        [TabGroup("CafeSystem")]
+        public float CustomerEatTime = 5f;
         
         #endregion
         
