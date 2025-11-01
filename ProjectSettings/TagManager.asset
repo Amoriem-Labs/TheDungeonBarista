@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Visual
+    uniqueID: 1339062629
+    locked: 0
+  - name: Collision
+    uniqueID: 2591510177
+    locked: 0
+  - name: Characters
+    uniqueID: 3699957187
+    locked: 0
   - name: UI
     uniqueID: 4273381939
     locked: 0
