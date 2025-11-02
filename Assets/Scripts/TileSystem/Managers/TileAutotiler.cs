@@ -17,7 +17,6 @@ namespace TDB.TileSystem
             AddRule(0b0101, null, 0); // vertical
             AddRule(0b1010, null, 90); // horizontal
             AddRule(0b1000, null, 0); // wall on top
-                                      // You’ll assign sprites later in TileDefinitions
         }
 
         public static void AddRule(int mask, Sprite sprite, int rotation)
