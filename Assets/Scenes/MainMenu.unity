@@ -366,6 +366,7 @@ MonoBehaviour:
   height: 32
   tileDB: {fileID: 11400000, guid: 12cd712bb7209de44851dc444d5797e8, type: 2}
   visualTilemap: {fileID: 1885748956}
+  autotileProfile: {fileID: 11400000, guid: 2dc74dfa7085b2740bd4f5fa1fe10aa1, type: 2}
 --- !u!4 &774904644
 Transform:
   m_ObjectHideFlags: 0

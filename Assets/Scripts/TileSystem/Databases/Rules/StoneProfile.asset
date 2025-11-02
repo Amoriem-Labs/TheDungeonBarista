@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153a809e080b80a4d96e4a082db1eef7, type: 3}
+  m_Name: StoneProfile
+  m_EditorClassIdentifier: 
+  rules:
+  - mask: 0
+    sprite: {fileID: -2128128593, guid: f39abd25783423b45a9a11f4eebdad14, type: 3}
+    rotation: 0
+  - mask: 1
+    sprite: {fileID: -1020362580, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 2
+    sprite: {fileID: 757707834, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 3
+    sprite: {fileID: 757707834, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 270
+  - mask: 4
+    sprite: {fileID: -550802958, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 6
+    sprite: {fileID: 757707834, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 7
+    sprite: {fileID: 0}
+    rotation: 0
+  - mask: 8
+    sprite: {fileID: -1054877153, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 9
+    sprite: {fileID: 957763101, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 10
+    sprite: {fileID: -2128128593, guid: f39abd25783423b45a9a11f4eebdad14, type: 3}
+    rotation: 0
+  - mask: 11
+    sprite: {fileID: 0}
+    rotation: 0
+  - mask: 12
+    sprite: {fileID: 2141679323, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 13
+    sprite: {fileID: -839678749, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 14
+    sprite: {fileID: 930337500, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 15
+    sprite: {fileID: 908866339, guid: 992c31e4f6ef12a4eaf9e2d6872d23f2, type: 3}
+    rotation: 0
+  - mask: 0
+    sprite: {fileID: 0}
+    rotation: 0

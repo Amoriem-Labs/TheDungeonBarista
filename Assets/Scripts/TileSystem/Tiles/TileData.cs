@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace TDB
 {
+    // rename bc we are ysing unity tilemap 
     //Todo: implement, data for each tile ie is player touching, is there any enemy. is there a chest etc
     public class TileData : MonoBehaviour
     {

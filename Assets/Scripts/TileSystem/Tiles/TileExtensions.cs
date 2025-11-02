@@ -8,9 +8,14 @@ namespace TDB.TileSystem
         {
             public static bool IsSolid(this TileType type)
             {
-                var def = TileDatabase.GetDefinition(type);
-                if (def == null) return false;
-                return def.isSolid;
+                switch (type)
+                {
+                    case TileType.Wall:
+                    case TileType.Floor:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 
