@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace TDB
 {
-    public class Traps : MonoBehaviour
+    public class TrapUniversal : MonoBehaviour
     {
         // ================================
         // Fields
@@ -59,14 +59,14 @@ namespace TDB
         // Public Methods
         // ================================
 
-        // called by the part of the trap which damages the player, called on contact with the player
-        public void DamagePlayer()
+        // called by the part of the trap which damages the entity it hits, called on contact with the an entity
+        public void DealDamage(Collision2D _collision)
         {
             // TODO: correctly get referance to the function in the health script
-            TakeDamage(_damage);
+            // TODO: figure out how to damage the entity which it hit
         }
         
-        // called by the part of the trap that damages the player, condition different for each trap
+        // called by the part of the trap that deals damage, condition different for each trap
         public void DeactivateTrap()
         {
             // deactivate trap

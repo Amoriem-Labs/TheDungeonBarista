@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace TDB
@@ -16,6 +17,19 @@ namespace TDB
         // ================================
         // Fields
         // ================================
+
+        // referance to the collider which will do damage
+        [SerializeField] BoxCollider2D _spikesCollider;
+
+        // referance to the universal traps script attached to the spikes prefab
+        [SerializeField] TrapUniversal _trapsUniversal;
+
+        // the the number of seconds the trap will be active for
+        [SerializeField] int _lifeTime;
+
+        // the timer for long the trap will be active for
+        private float _timer = 0;
+
 
 
         // ================================
@@ -30,13 +44,30 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-
+  
         }
 
         // Update is called once per frame
         void Update()
         {
+            // timer deacticates the spikes after the lifetime of the trap expires
+            if (_timer < _lifeTime)
+            {
+                // increase timer by change in time
+                _timer += Time.deltaTime;
+            }
+            else if (_timer >= _lifeTime)
+            {
+                // deactivate the spikes
+                _trapsUniversal.DeactivateTrap();
+            }
+        }
 
+        // when something enters the spikes, deal damage to it
+        void OnCollisionEnter2D(Collision2D _collision)
+        {
+            // TODO: deal the damage to the entity which entered
+            _trapsUniversal.DealDamage(_collision);
         }
 
         // ================================
