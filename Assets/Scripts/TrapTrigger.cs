@@ -1,9 +1,9 @@
-// ==================================================================================================
-// File: TrapActivation.cs
+// ===========================================================================================================
+// File: TrapUniversal.cs
 // Author: Callum Legendre
 // Date: October 30, 2025
-// Description: Reusable script which handes the activation, deactivation, and damaging of the player
-// ==================================================================================================
+// Description: Reusable script which handes the activation, deactivation, and damaging of the player by traps
+// ===========================================================================================================
 
 using System.Collections;
 using System.Collections.Generic;
@@ -59,11 +59,14 @@ namespace TDB
         // Public Methods
         // ================================
 
+        // called by the part of the trap which damages the player, called on contact with the player
         public void DamagePlayer()
         {
-            // TODO: impliment damaging the player when health stuff is done
+            // TODO: correctly get referance to the function in the health script
+            TakeDamage(_damage);
         }
-
+        
+        // called by the part of the trap that damages the player, condition different for each trap
         public void DeactivateTrap()
         {
             // deactivate trap
