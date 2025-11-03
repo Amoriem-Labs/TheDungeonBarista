@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 1522870973757190303}
   _activatedTrap: {fileID: 7219953720455221460}
-  _damage: 0
+  _damage: 5
 --- !u!1 &7219953720455221460
 GameObject:
   m_ObjectHideFlags: 0
