@@ -25,7 +25,7 @@ namespace TDB
         [SerializeField] TrapUniversal _trapsUniversal;
 
         // the the number of seconds the trap will be active for
-        [SerializeField] int _lifeTime;
+        [SerializeField] int _timeActive;
 
         // the timer for long the trap will be active for
         private float _timer = 0;
@@ -44,19 +44,20 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-  
+            // get correct referance to TrapsUniversal script
+            _trapsUniversal = GetComponentInParent<TrapUniversal>();
         }
 
         // Update is called once per frame
         void Update()
         {
             // timer deacticates the spikes after the lifetime of the trap expires
-            if (_timer < _lifeTime)
+            if (_timer < _timeActive)
             {
                 // increase timer by change in time
                 _timer += Time.deltaTime;
             }
-            else if (_timer >= _lifeTime)
+            else if (_timer >= _timeActive)
             {
                 // deactivate the spikes
                 _trapsUniversal.DeactivateTrap();

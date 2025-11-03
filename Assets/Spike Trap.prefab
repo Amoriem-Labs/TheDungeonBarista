@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8031898508932826592}
   - component: {fileID: 6402158132575270903}
   - component: {fileID: 1522870973757190303}
-  - component: {fileID: 7857434349465263704}
   m_Layer: 0
   m_Name: Spikes Dormant
   m_TagString: spikes
@@ -131,21 +130,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7857434349465263704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241368083991507889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb0f39cd051af4e63abe4ce08aca2e0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collider: {fileID: 1522870973757190303}
-  _activatedTrap: {fileID: 7219953720455221460}
-  _damage: 5
 --- !u!1 &7219953720455221460
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spikesCollider: {fileID: 1955662876635166585}
-  _lifeTime: 1
+  _trapsUniversal: {fileID: 0}
+  _timeActive: 1
 --- !u!1 &8538941613837290254
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3161886949301978247}
+  - component: {fileID: 3142289739931384563}
   m_Layer: 0
   m_Name: Spike Trap
   m_TagString: spikes
@@ -324,3 +310,18 @@ Transform:
   - {fileID: 8031898508932826592}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3142289739931384563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538941613837290254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0f39cd051af4e63abe4ce08aca2e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collider: {fileID: 1522870973757190303}
+  _activatedTrap: {fileID: 7219953720455221460}
+  _damage: 5
