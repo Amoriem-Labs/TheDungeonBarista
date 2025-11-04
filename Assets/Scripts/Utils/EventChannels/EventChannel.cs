@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.UI.OrderUI;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
 using TDB.CraftSystem.UI.Info;
 using TDB.CraftSystem.UI.RecipeGraph;
-using TDB.IngredientStorageSystem.Data;
 using TDB.Utils.UI.ConfirmPanel;
 using TDB.Utils.UI.Tooltip;
 using UnityEngine;
@@ -67,7 +67,13 @@ namespace TDB.Utils.EventChannels
                 typeof(ReturnIngredientInfo),
                 typeof(IngredientNodeUI),
                 typeof(DisplayIngredientInfo),
-                typeof(OpenMenuInfo)
+                typeof(OpenMenuInfo),
+                #endregion
+
+                #region CafeSystemTypes
+
+                typeof(DisplayCustomerOrderInfo),
+
                 #endregion
             };
 

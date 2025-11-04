@@ -355,6 +355,7 @@ MonoBehaviour:
     Preferences: []
     IsPreferenceRevealed: 0
     Status: 0
+  _displayCustomerOrderEvent: {fileID: 11400000, guid: 24faeb4fe250b204da2347e1d7ceef64, type: 2}
 --- !u!114 &8711085759505013492
 MonoBehaviour:
   m_ObjectHideFlags: 0

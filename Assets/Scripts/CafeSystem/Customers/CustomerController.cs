@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.UI.OrderUI;
 using TDB.GameManagers;
+using TDB.Utils.EventChannels;
 using TDB.Utils.Misc;
 using TDB.Utils.ObjectPools;
 using UnityEngine;
@@ -20,6 +22,10 @@ namespace TDB.CafeSystem.Customers
         [SerializeField, ReadOnly, InlineProperty, HideLabel, BoxGroup("Customer Data")]
         private CustomerData _customerData;
 
+        [Title("Events")]
+        [SerializeField]
+        private EventChannel _displayCustomerOrderEvent;
+        
         private SpriteOutlineController _spriteOutlineController;
         
         private System.Action _onCustomerDataUpdated;
@@ -162,6 +168,16 @@ namespace TDB.CafeSystem.Customers
         private void FinishEating()
         {
             _onCustomerFinish?.Invoke(this);
+        }
+
+        [Button(ButtonSizes.Large), DisableInEditorMode]
+        public void RevealPreferences()
+        {
+            _displayCustomerOrderEvent?.RaiseEvent<DisplayCustomerOrderInfo>(new DisplayCustomerOrderInfo()
+            {
+                CustomerData = _customerData,
+                CustomerPosition = transform.position
+            });
         }
 
         #region PooledObject

@@ -14,6 +14,8 @@ namespace TDB.CafeSystem.Customers
         public bool IsPreferenceRevealed;
 
         public CustomerStatus Status;
+        
+        public string CustomerName => "Default Customer";
 
         public CustomerData(List<CustomerPreferenceData> preferences)
         {

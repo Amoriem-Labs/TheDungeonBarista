@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using TDB.Player.Interaction;
+using TDB.Utils.EventChannels;
 using UnityEngine;
 
 namespace TDB.CafeSystem.Customers
@@ -25,20 +26,22 @@ namespace TDB.CafeSystem.Customers
         public void RevealPreferences()
         {
             // TODO: reveal preferences
-            var preference =
-                _customerController.Preferences.ToDictionary(
-                    p => p.Flavor.Name,
-                    p => p.PreferenceLevel);
-            var likes = preference
-                .Where(p => p.Value > 0)
-                .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("❤️", p.Value)) + ")");
-            var likeString = "I like " + string.Join(",", likes);
-            var dislikes = preference
-                .Where(p => p.Value < 0)
-                .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("👎", -p.Value)) + ")");
-            var dislikeString = "I don't like " + string.Join(",", dislikes);
-            Debug.Log(likeString);
-            Debug.Log(dislikeString);
+            _customerController.RevealPreferences();
+            
+            // var preference =
+            //     _customerController.Preferences.ToDictionary(
+            //         p => p.Flavor.Name,
+            //         p => p.PreferenceLevel);
+            // var likes = preference
+            //     .Where(p => p.Value > 0)
+            //     .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("❤️", p.Value)) + ")");
+            // var likeString = "I like " + string.Join(",", likes);
+            // var dislikes = preference
+            //     .Where(p => p.Value < 0)
+            //     .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("👎", -p.Value)) + ")");
+            // var dislikeString = "I don't like " + string.Join(",", dislikes);
+            // Debug.Log(likeString);
+            // Debug.Log(dislikeString);
             
             // update data and callback
             _customerController.IsPreferenceRevealed = true;
