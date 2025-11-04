@@ -64,15 +64,15 @@ namespace TDB.CafeSystem.Customers
                 flavorBonusMultiplier += multiplier * Mathf.Abs(preferenceLevel);
             }
             
-            var qualityBonusMultiplier = product.QualityLevel * bonusPerQualityLevel;
+            // var qualityBonusMultiplier = product.QualityLevel * bonusPerQualityLevel;
 
             var basicPrice = product.RecipeData.GetBasicPrice();
-            var finalPrice = basicPrice * (1 + flavorBonusMultiplier) * (1 + qualityBonusMultiplier);
+            var finalPrice = basicPrice * (1 + flavorBonusMultiplier) * product.MinigamePriceMultiplier;
 
             // TODO: display the result
             Debug.Log(
                 $"Income from order {product.RecipeData.RecipeName} is " +
-                $"{finalPrice} = {basicPrice} * (100% + {flavorBonusMultiplier:P0}) * (100% + {qualityBonusMultiplier:P0})");
+                $"{finalPrice} = {basicPrice} * (100% + {flavorBonusMultiplier:P0}) * ({product.MinigamePriceMultiplier:P0})");
         }
 
         #region Interaction

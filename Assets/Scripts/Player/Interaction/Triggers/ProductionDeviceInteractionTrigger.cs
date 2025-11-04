@@ -18,6 +18,7 @@ namespace TDB.Player.Interaction.Triggers
     {
         [TitleGroup("References", order: -1)]
         [SerializeField] private CustomerServiceInteractionTrigger _customerServiceInteractionTrigger;
+        // TODO: the minigame canvas can probably be a child of this interaction trigger and gets referred to by it
         
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _cafePreparationStartEvent;
@@ -164,21 +165,51 @@ namespace TDB.Player.Interaction.Triggers
             }
             else
             {
-                // TODO: cooking game
-                //      remember to set _isBlockedByAction
-                // TODO: bind product to CustomerInteractionTrigger
-                Debug.Log(
-                    $"Selected recipe: {recipe.RecipeName}\n\t" +
-                    $"The recipe uses {recipe.RawRecipe.RecipeName} as the raw recipe.\n\t" +
-                    $"The recipe has {recipe.GetAllEffectData().Count} effects.\n\t"
-                );
+                StartCookingMinigame(recipe);
+            }
+        }
 
-                // TODO: generate product data from recipe and minigame result
-                // currently use the quality level of recipe as the quality level of the product
-                var product = new ProductData(recipeData: recipe, qualityLevel: recipe.GetQualityLevel(_qualityEffect));
+        [TitleGroup("Testing")]
+        [Button(ButtonSizes.Large, ButtonStyle.FoldoutButton)]
+        private void TestStartCookingMinigame()
+        {
+            // enforce to use manually set test data
+            StartCookingMinigame(null);
+        }
+        
+        private void StartCookingMinigame(FinalRecipeData recipe)
+        {
+            // block input before starting minigame
+            ToggleBlockingPlayerInput(true);
+                
+            // TODO: cooking game
+            // you probably need the following data
+            // manually set them for testing
+            var recipeName = recipe?.RecipeName ?? "Test Name";
+            var basicPrice = recipe?.GetBasicPrice() ?? 100;
+            var recipeQuality = recipe?.GetQualityLevel(_qualityEffect) ?? 3;
+            // finish callback
+            var finishCallback = new Action<MinigameOutcome>(outcome =>
+            {
+                // unblock input after finishing the minigame
+                ToggleBlockingPlayerInput(false);
+                // generate product info based on minigame output
+                var product = new ProductData(recipeData: recipe, minigameOutcome: outcome);
                 // send to service interaction trigger so it can be served to customers
                 _customerServiceInteractionTrigger.AddProductToServe(product);
-            }
+            });
+                
+            // TODO: start cooking game
+            // TODO: you probably need to bind input actions in the minigame
+            //       please check out Scripts/Player/Input/InputController.cs on how to do it
+            Debug.Log("Starting cooking minigame");
+                
+            // TODO: temporarily invoke finish callback directly for testing,
+            // remove this when finishing the cooking game
+            finishCallback.Invoke(new MinigameOutcome()
+            {
+                PriceMultiplier = 1f
+            });
         }
 
         /// <summary>

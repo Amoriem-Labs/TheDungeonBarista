@@ -51,6 +51,7 @@ namespace TDB.CafeSystem.Managers
         [InfoBox("What is the condition for closing the shop? End the operation hour here for the moment.")]
         [Button(ButtonSizes.Large), DisableInEditorMode]
         [EnableIf(nameof(_canEndOperation))]
+        [TitleGroup("Testing")]
         public void EndCafeOperation()
         {
             _canEndOperation = false;

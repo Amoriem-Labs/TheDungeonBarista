@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TDB.CafeSystem.Customers;
 using TDB.CraftSystem.Data;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace TDB.Player.Interaction.Triggers
 {
     public class CustomerServiceInteractionTrigger : InteractionTrigger<CustomerServiceController>
     {
+        [TableList, ReadOnly, SerializeField]
         private List<ProductData> _productsToServe = new();
 
         protected override bool GetCanInteract(CustomerServiceController interactable) =>

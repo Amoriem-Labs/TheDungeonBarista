@@ -6,12 +6,19 @@ namespace TDB.CraftSystem.Data
     public class ProductData
     {
         public FinalRecipeData RecipeData;
-        public int QualityLevel;
+        public float MinigamePriceMultiplier;
 
-        public ProductData(FinalRecipeData recipeData, int qualityLevel)
+        public int Price => Mathf.CeilToInt(RecipeData.GetBasicPrice() * MinigamePriceMultiplier);
+
+        public ProductData(FinalRecipeData recipeData, MinigameOutcome minigameOutcome)
         {
             RecipeData = recipeData;
-            QualityLevel = qualityLevel;
+            MinigamePriceMultiplier = minigameOutcome.PriceMultiplier;
         }
+    }
+
+    public struct MinigameOutcome
+    {
+        public float PriceMultiplier;
     }
 }
