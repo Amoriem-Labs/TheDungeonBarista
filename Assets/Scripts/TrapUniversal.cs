@@ -19,7 +19,7 @@ namespace TDB
         // ================================
 
         // referance to the boxcollider is defined in the unity editor
-        [SerializeField] BoxCollider2D _collider;
+        [SerializeField] BoxCollider2D _trigger;
 
         // the activated state of the trap, defined in the unity editor 
         [SerializeField] GameObject _activatedTrap;
