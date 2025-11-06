@@ -51,14 +51,10 @@ namespace TDB.CafeSystem.Customers
             get => Data.IsPreferenceRevealed;
             set
             {
+                Debug.Log($"Change preference reveal from {Data.IsPreferenceRevealed} to {value}");
                 if (Data.IsPreferenceRevealed == value) return;
                 Data.IsPreferenceRevealed = value;
                 _onCustomerDataUpdated?.Invoke();
-
-                if (Data.IsPreferenceRevealed)
-                {
-                    
-                }
             }
         }
 
@@ -151,6 +147,8 @@ namespace TDB.CafeSystem.Customers
             }
             
             Data = new CustomerData(preferences);
+
+            Data.OnReadyUpdate += UpdateSpriteOutline;
         }
 
         private void StartEating()
@@ -207,5 +205,12 @@ namespace TDB.CafeSystem.Customers
         }
 
         #endregion
+        
+        public void SetReady(object source) => _customerData.SetReady(true, source);
+
+        public void SetNotReady(object source) => _customerData.SetReady(false, source);
+
+        private void UpdateSpriteOutline() =>
+            OutlineController.ToggleOutline(_customerData.IsReady);
     }
 }

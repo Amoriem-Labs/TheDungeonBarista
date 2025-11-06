@@ -20,9 +20,14 @@ namespace TDB.CafeSystem.Customers
         private void Awake()
         {
             _customerController = GetComponent<CustomerController>();
-            _customerController.BindOnCustomerDataUpdatedCallback(OnInteractableUpdated);
+            _customerController.BindOnCustomerDataUpdatedCallback(OnCustomerDataUpdated);
         }
-        
+
+        private void OnCustomerDataUpdated()
+        {
+            OnInteractableUpdated?.Invoke();
+        }
+
         public int ChooseAndServeFood(List<ProductData> productsToServe)
         {
             if (_customerController.Status != CustomerStatus.Waiting)
@@ -83,17 +88,9 @@ namespace TDB.CafeSystem.Customers
             && _customerController.IsPreferenceRevealed;
         
         public Action OnInteractableUpdated { get; set; }
-        public void SetReady()
-        {
-            // update sprite
-            _customerController.OutlineController.ToggleOutline(true, this);
-        }
+        public void SetReady() => _customerController.SetReady(this);
 
-        public void SetNotReady()
-        {
-            // update sprite
-            _customerController.OutlineController.ToggleOutline(false, this);
-        }
+        public void SetNotReady() => _customerController.SetNotReady(this);
 
         #endregion
     }

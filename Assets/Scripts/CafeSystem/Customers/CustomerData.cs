@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.EffectSystem.Data;
 using UnityEngine;
@@ -14,14 +15,33 @@ namespace TDB.CafeSystem.Customers
         public bool IsPreferenceRevealed;
 
         public CustomerStatus Status;
+
+        private List<object> _sources = new();
         
+        public Action OnReadyUpdate;
         public string CustomerName => "Default Customer";
+        public bool IsReady => _sources.Count > 0;
 
         public CustomerData(List<CustomerPreferenceData> preferences)
         {
             Preferences = preferences;
             IsPreferenceRevealed = false;
             Status = CustomerStatus.Invalid;
+        }
+
+        public void SetReady(bool isReady, object source)
+        {
+            if (isReady)
+            {
+                if (_sources.Contains(source)) return;
+                _sources.Add(source);
+                OnReadyUpdate?.Invoke();
+            }
+            else
+            {
+                if (!_sources.Remove(source)) return;
+                OnReadyUpdate?.Invoke();
+            }
         }
     }
 

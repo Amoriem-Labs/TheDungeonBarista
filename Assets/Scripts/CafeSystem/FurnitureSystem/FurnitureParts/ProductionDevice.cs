@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
+using TDB.GameManagers;
 using TDB.Player.Interaction;
 using TDB.Utils.EventChannels;
 using UnityEngine;
@@ -23,11 +24,14 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
 
         private RecipeBookDataHolder _recipeBookHolder;
         private IngredientStorageManager _ingredientStorage;
+        private bool _infiniteResource;
 
         private void Awake()
         {
             _recipeBookHolder = FindObjectOfType<RecipeBookDataHolder>();
             _ingredientStorage = FindObjectOfType<IngredientStorageManager>();
+
+            _infiniteResource = GameManager.Instance.GameConfig.InfiniteResource;
         }
 
         [Button(ButtonSizes.Large), DisableInEditorMode]
@@ -59,10 +63,10 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             if (recipe == null) return false;
             // not enough ingredients
             var servings = recipe.GetServingsAvailable(_ingredientStorage.GetAllIngredientStorage());
-            if (servings <= 0) return false;
+            if (!_infiniteResource && servings <= 0) return false;
             // consume ingredients
             var requirement = recipe.GetAddedIngredients();
-            return _ingredientStorage.TryConsume(requirement);
+            return _infiniteResource || _ingredientStorage.TryConsume(requirement);
         }
 
         private void HandleRecipeDecided(FinalRecipeData recipe)

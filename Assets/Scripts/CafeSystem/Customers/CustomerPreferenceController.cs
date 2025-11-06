@@ -17,7 +17,13 @@ namespace TDB.CafeSystem.Customers
         private void Awake()
         {
             _customerController = GetComponent<CustomerController>();
-            _customerController.BindOnCustomerDataUpdatedCallback(OnInteractableUpdated);
+            _customerController.BindOnCustomerDataUpdatedCallback(OnCustomerDataUpdated);
+        }
+
+        private void OnCustomerDataUpdated()
+        {
+            // Debug.Log("Customer data updated");
+            OnInteractableUpdated?.Invoke();
         }
 
         /// <summary>
@@ -25,23 +31,8 @@ namespace TDB.CafeSystem.Customers
         /// </summary>
         public void RevealPreferences()
         {
-            // TODO: reveal preferences
+            // reveal preferences
             _customerController.RevealPreferences();
-            
-            // var preference =
-            //     _customerController.Preferences.ToDictionary(
-            //         p => p.Flavor.Name,
-            //         p => p.PreferenceLevel);
-            // var likes = preference
-            //     .Where(p => p.Value > 0)
-            //     .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("❤️", p.Value)) + ")");
-            // var likeString = "I like " + string.Join(",", likes);
-            // var dislikes = preference
-            //     .Where(p => p.Value < 0)
-            //     .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat("👎", -p.Value)) + ")");
-            // var dislikeString = "I don't like " + string.Join(",", dislikes);
-            // Debug.Log(likeString);
-            // Debug.Log(dislikeString);
             
             // update data and callback
             _customerController.IsPreferenceRevealed = true;
@@ -53,14 +44,16 @@ namespace TDB.CafeSystem.Customers
         public Action OnInteractableUpdated { get; set; }
         public void SetReady()
         {
-            // update sprite
-            _customerController.OutlineController.ToggleOutline(true, this);
+            _customerController.SetReady(this);
+            // // update sprite
+            // _customerController.OutlineController.ToggleOutline(true, this);
         }
 
         public void SetNotReady()
         {
-            // update sprite
-            _customerController.OutlineController.ToggleOutline(false, this);
+            _customerController.SetNotReady(this);
+            // // update sprite
+            // _customerController.OutlineController.ToggleOutline(false, this);
         }
 
         #endregion

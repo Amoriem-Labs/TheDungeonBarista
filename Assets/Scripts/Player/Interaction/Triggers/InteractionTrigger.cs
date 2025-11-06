@@ -80,6 +80,7 @@ namespace TDB.Player.Interaction.Triggers
         
         protected void TryUpdateCurrentInteractable(bool forceUpdate)
         {
+            // Debug.Log(GetCanInteract());
             // no update if the current interactable is still interactable
             if (!forceUpdate && GetCanInteract()) return;
                 
