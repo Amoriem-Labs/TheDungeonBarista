@@ -5,7 +5,6 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.Customers;
 using TDB.Utils.Misc;
-using TDB.Utils.ObjectPools;
 using TDB.Utils.UI.UIHover;
 using TMPro;
 using UnityEngine;
@@ -13,69 +12,69 @@ using UnityEngine.UI;
 
 namespace TDB.CafeSystem.UI.OrderUI
 {
-    public class CustomerOrderItemUI : MonoBehaviour, IPooledObject<CustomerOrderItemUI>, IUIHoverHandler
+    public class CustomerOrderItemUI : DynamicItemUI<CustomerData>, IUIHoverHandler
     {
+        [Title("References")]
         [SerializeField] private RectTransform _anchor;
         [SerializeField] private TextMeshProUGUI _customerName;
-        [SerializeField] private List<TextMeshProUGUI> _likeTexts;
-        [SerializeField] private List<TextMeshProUGUI> _dislikeTexts;
+        [SerializeField] private List<AttributeItemUI> _likeTexts;
+        [SerializeField] private List<AttributeItemUI> _dislikeTexts;
 
         [Title("Texts")]
         [SerializeField] private string _likeRichText;
         [SerializeField] private string _dislikeRichText;
 
-        [Title("Animation")]
+        [TitleGroup("Animation")]
         [SerializeField] private Vector2 _selectedExtraAnchorHeight = new Vector2(10, 20);
+        [TitleGroup("Animation")]
         [SerializeField] private float _introTime = .4f;
+        [TitleGroup("Animation")]
         [SerializeField] private Vector2 _introVelocity = new Vector2(0, 1);
-        [SerializeField] private float _smoothTime = 0.2f;
 
-        [Title("Rotation")]
-        [SerializeField, Min(0f)] private float _rotationMultiplier = 1f;
-        [SerializeField, Range(0, 90)] private float _maxRotationAngle = 30f;
-        
         private CustomerData _data;
         
         private Canvas _canvas;
-        private Camera _canvasCamera;
-        private MonoObjectPool<CustomerOrderItemUI> _pool;
-        private Vector3 _velocity;
-        private float _rotationSpeed;
         private ImageOutlineController _outline;
         private Vector2 _initialSize;
         private LayoutElement _anchorLayout;
+        private bool _hoverable;
+        private readonly Dictionary<FlavorDefinition, AttributeItemUI> _flavorToTexts = new();
+        private CanvasGroup _canvasGroup;
 
-        public RectTransform Anchor => _anchor;
-        private Vector3 DesiredPosition => Anchor.position;
+        public override RectTransform Anchor => _anchor;
 
-        private float DesiredRotation =>
-            Mathf.Clamp(_velocity.x * _velocity.y * _rotationMultiplier * SmoothTime, -1f, 1f) * _maxRotationAngle;
-
-        public float SmoothTime => _smoothTime;
-        
         public string LikeRichText => _likeRichText;
         public string DislikeRichText => _dislikeRichText;
+        public float AnchorWidth => _anchorLayout.preferredWidth;
+        public float WorldSpaceScale => _canvas.transform.localScale.x;
         
         private void Awake()
         {
             _canvas = GetComponentInParent<Canvas>();
-            _canvasCamera = _canvas.worldCamera;
 
             _outline = GetComponentInChildren<ImageOutlineController>();
 
             _anchorLayout = Anchor.GetComponent<LayoutElement>();
             _initialSize = new Vector2(_anchorLayout.preferredWidth, _anchorLayout.preferredHeight);
+
+            _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            
             transform.DOKill();
             transform.DOScale(1, _introTime)
                 .From(0)
                 .SetEase(Ease.OutBack);
             
-            _velocity = _introVelocity;
-            _rotationSpeed = 0;
+            Velocity = _introVelocity;
+            
+            ToggleInteractable(true);
+            
+            _canvasGroup.alpha = 1;
+            _anchorLayout.ignoreLayout = false;
         }
 
         private void OnDisable()
@@ -88,30 +87,7 @@ namespace TDB.CafeSystem.UI.OrderUI
             }
         }
 
-        private void Update()
-        {
-            UpdatePosition();
-            UpdateRotation();
-        }
-
-        private void UpdateRotation()
-        {
-            var desiredRotation = DesiredRotation;
-            var currentRotation = transform.rotation.eulerAngles.z;
-            if (Mathf.Approximately(desiredRotation, currentRotation)) return;
-
-            transform.rotation = Quaternion.Euler(0, 0, desiredRotation);
-        }
-
-        private void UpdatePosition()
-        {
-            var desiredPosition = DesiredPosition;
-            if (Mathf.Approximately(Vector3.Distance(desiredPosition, transform.position), 0)) return;
-
-            transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref _velocity, SmoothTime);
-        }
-
-        public void BindData(CustomerData data)
+        public override void BindData(CustomerData data)
         {
             _data = data;
 
@@ -131,19 +107,22 @@ namespace TDB.CafeSystem.UI.OrderUI
             
             var preference =
                 data.Preferences.ToDictionary(
-                    p => p.Flavor.Name,
+                    p => p.Flavor,
                     p => p.PreferenceLevel);
+
+            _flavorToTexts.Clear();
             
             var likes = preference
                 .Where(p => p.Value > 0)
-                .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat(LikeRichText, p.Value)) + ")")
+                .Select(p => (Flavor: p.Key, Text: p.Key.Name + "(" + string.Join("", Enumerable.Repeat(LikeRichText, p.Value)) + ")"))
                 .ToList();
             for (int i = 0; i < _likeTexts.Count; i++)
             {
                 if (i < likes.Count)
                 {
                     _likeTexts[i].gameObject.SetActive(true);
-                    _likeTexts[i].text = likes[i];
+                    _likeTexts[i].SetText(likes[i].Text);
+                    _flavorToTexts.Add(likes[i].Flavor, _likeTexts[i]);
                 }
                 else
                 {
@@ -153,14 +132,15 @@ namespace TDB.CafeSystem.UI.OrderUI
             
             var dislikes = preference
                 .Where(p => p.Value < 0)
-                .Select(p => p.Key + "(" + string.Join("", Enumerable.Repeat(DislikeRichText, -p.Value)) + ")")
+                .Select(p => (Flavor: p.Key, Text: p.Key.Name + "(" + string.Join("", Enumerable.Repeat(DislikeRichText, -p.Value)) + ")"))
                 .ToList();
             for (int i = 0; i < _dislikeTexts.Count; i++)
             {
                 if (i < dislikes.Count)
                 {
                     _dislikeTexts[i].gameObject.SetActive(true);
-                    _dislikeTexts[i].text = dislikes[i];
+                    _dislikeTexts[i].SetText(dislikes[i].Text);
+                    _flavorToTexts.Add(dislikes[i].Flavor, _dislikeTexts[i]);
                 }
                 else
                 {
@@ -176,34 +156,54 @@ namespace TDB.CafeSystem.UI.OrderUI
             _anchorLayout.preferredWidth = _initialSize.x + (enable ? _selectedExtraAnchorHeight.x : 0f);
             _anchorLayout.preferredHeight = _initialSize.y + (enable ? _selectedExtraAnchorHeight.y : 0f);
         }
-        
-        public void SetPool(MonoObjectPool<CustomerOrderItemUI> pool)
-        {
-            _pool = pool;
-        }
 
-        public void DestroyItem()
+        public void ForceAnchorExpanded()
         {
-            _anchor.SetParent(transform);
-            
-            if (_pool)
-            {
-                _pool.Release(this);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            _anchorLayout.preferredWidth = _initialSize.x + _selectedExtraAnchorHeight.x;
+            _anchorLayout.preferredHeight = _initialSize.y + _selectedExtraAnchorHeight.y;
         }
 
         public void OnUIHoverEnter()
         {
+            if (!_hoverable) return;
+                
             _data.SetReady(true, this);
         }
 
         public void OnUIHoverExit()
         {
             _data.SetReady(false, this);
+        }
+
+        public override void DestroyItem()
+        {
+            _anchor.SetParent(transform);
+            base.DestroyItem();
+        }
+        
+        public void FadeOut(float duration, Vector2 fadeOffset)
+        {
+            _anchorLayout.ignoreLayout = true;
+            _anchorLayout.transform.SetParent(transform);
+            _canvasGroup.DOFade(0, duration);
+            transform.DOMove(fadeOffset, duration)
+                .SetRelative(true);
+        }
+
+        public void ToggleInteractable(bool hoverable)
+        {
+            if (!hoverable)
+            {
+                OnUIHoverExit();
+            }
+            
+            _hoverable = hoverable;
+        }
+
+        public void HighlightAttribute(FlavorDefinition flavor, float animTime)
+        {
+            if(!_flavorToTexts.TryGetValue(flavor, out var attribute)) return;
+            attribute.TurnOnHighlight(animTime);
         }
     }
 }

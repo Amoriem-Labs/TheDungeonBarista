@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TDB.CafeSystem.UI.ProductUI;
 using TDB.CraftSystem.Data;
+using TDB.CraftSystem.EffectSystem.Data;
 using TDB.GameManagers;
 using TDB.Player.Interaction;
 using TDB.Utils.Misc;
@@ -28,28 +30,25 @@ namespace TDB.CafeSystem.Customers
             OnInteractableUpdated?.Invoke();
         }
 
-        public int ChooseAndServeFood(List<ProductData> productsToServe)
+        public ServeProductInfo ChooseAndServeFood(List<ProductData> productsToServe)
         {
             if (_customerController.Status != CustomerStatus.Waiting)
             {
                 Debug.LogError("Can only serve food when the customer is Waiting.");
-                return -1;
+                return default;
             }
             
             // TODO: find the food the customer like the most from the list
             var servedProductIdx = 0;
             var servedProduct = productsToServe[servedProductIdx];
             
-            // compute income
-            ComputeIncome(servedProduct);
-            
             // update data, which triggers interaction callback and StartEating function
             _customerController.Status = CustomerStatus.Eating;
 
-            return servedProductIdx;
+            return ComputeOutcome(servedProduct);
         }
 
-        private void ComputeIncome(ProductData product)
+        private ServeProductInfo ComputeOutcome(ProductData product)
         {
             var bonusPerFlavorLevel = GameManager.Instance.GameConfig.BonusPerFlavorLevel;
             var punishmentPerFlavorLevel = GameManager.Instance.GameConfig.PunishmentPerFlavorLevel;
@@ -61,23 +60,33 @@ namespace TDB.CafeSystem.Customers
                     p => p.Flavor.EffectDefinition,
                     p => p.PreferenceLevel);
 
-            var flavorBonusMultiplier = 0f;
+            var flavorBonusMultipliers = new Dictionary<EffectDefinition, float>();
+            var totalFlavorMultiplier = 0f;
             foreach (var effect in effects)
             {
                 if (!preference.TryGetValue(effect.Definition, out var preferenceLevel)) continue;
-                var multiplier = preferenceLevel < 0 ? punishmentPerFlavorLevel : bonusPerFlavorLevel;
-                flavorBonusMultiplier += multiplier * Mathf.Abs(preferenceLevel);
+                var multiplier = preferenceLevel < 0 ? -punishmentPerFlavorLevel : bonusPerFlavorLevel;
+                flavorBonusMultipliers.Add(effect.Definition, multiplier * Mathf.Abs(preferenceLevel));
+                totalFlavorMultiplier += multiplier * Mathf.Abs(preferenceLevel);
             }
             
             // var qualityBonusMultiplier = product.QualityLevel * bonusPerQualityLevel;
 
             var basicPrice = product.RecipeData.GetBasicPrice();
-            var finalPrice = basicPrice * (1 + flavorBonusMultiplier) * product.MinigamePriceMultiplier;
+            var finalPrice = Mathf.CeilToInt(basicPrice * (1 + totalFlavorMultiplier) * product.MinigamePriceMultiplier);
 
-            // TODO: display the result
-            Debug.Log(
-                $"Income from order {product.RecipeData.RecipeName} is " +
-                $"{finalPrice} = {basicPrice} * (100% + {flavorBonusMultiplier:P0}) * ({product.MinigamePriceMultiplier:P0})");
+            // Debug.Log(
+            //     $"Income from order {product.RecipeData.RecipeName} is " +
+            //     $"{finalPrice} = {basicPrice} * (100% + {totalFlavorMultiplier:P0}) * ({product.MinigamePriceMultiplier:P0})");
+            
+            return new ServeProductInfo()
+            {
+                Product = product,
+                Customer = _customerController.GetData(),
+                FlavorMultipliers = flavorBonusMultipliers,
+                TotalFlavorMultiplier = totalFlavorMultiplier,
+                FinalPrice = finalPrice
+            };
         }
 
         #region Interaction

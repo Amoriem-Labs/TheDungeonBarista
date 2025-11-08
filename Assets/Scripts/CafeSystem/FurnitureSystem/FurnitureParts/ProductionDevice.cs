@@ -21,7 +21,9 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
 
         [Title("Events")]
         [SerializeField] private EventChannel _configureRecipeEvent;
-
+        [SerializeField] private EventChannel _productionDeviceReadyEvent;
+        [SerializeField] private EventChannel _productionDeviceNotReadyEvent;
+        
         private RecipeBookDataHolder _recipeBookHolder;
         private IngredientStorageManager _ingredientStorage;
         private bool _infiniteResource;
@@ -95,12 +97,12 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
 
         public void SetReady()
         {
-            // TODO:
+            _productionDeviceReadyEvent.RaiseEvent(_deviceData);
         }
 
         public void SetNotReady()
         {
-            // TODO:
+            _productionDeviceNotReadyEvent.RaiseEvent();
         }
 
         #endregion
@@ -109,7 +111,19 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
     [System.Serializable]
     public class ProductionDeviceData
     {
-        public FinalRecipeData ConfiguredRecipe = null;
+        private FinalRecipeData _configuredRecipe = null;
+
+        public Action OnRecipeUpdated;
+        
+        public FinalRecipeData ConfiguredRecipe
+        {
+            get => _configuredRecipe;
+            set
+            {
+                _configuredRecipe = value;
+                OnRecipeUpdated?.Invoke();
+            }
+        }
 
         public ProductionDeviceData(object data)
         {

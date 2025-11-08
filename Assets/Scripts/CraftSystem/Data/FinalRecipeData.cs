@@ -28,6 +28,13 @@ namespace TDB.CraftSystem.Data
             RecipeName = rawRecipe.RecipeName + $"-{Random.Range(0, 100):00}";
         }
 
+        protected FinalRecipeData(FinalRecipeData recipe)
+        {
+            RawRecipe = recipe.RawRecipe;
+            NodeData = recipe.NodeData;
+            RecipeName = recipe.RecipeName;
+        }
+
         public Dictionary<IngredientDefinition, int> GetAddedIngredients() =>
             NodeData.SelectMany(n => n.AddedIngredients)
                 .GroupBy(i => i)

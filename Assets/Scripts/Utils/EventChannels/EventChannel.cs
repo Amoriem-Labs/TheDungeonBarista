@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.FurnitureSystem.FurnitureParts;
 using TDB.CafeSystem.UI.OrderUI;
+using TDB.CafeSystem.UI.ProductUI;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
 using TDB.CraftSystem.UI.Info;
@@ -73,6 +75,9 @@ namespace TDB.Utils.EventChannels
                 #region CafeSystemTypes
 
                 typeof(DisplayCustomerOrderInfo),
+                typeof(ProductionDeviceData),
+                typeof(ProductData),
+                typeof(ServeProductInfo),
 
                 #endregion
             };

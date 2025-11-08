@@ -75,6 +75,9 @@ namespace TDB.GameManagers
         [TabGroup("CafeSystem")]
         public float CustomerEatTime = 5f;
         
+        [TabGroup("CafeSystem")]
+        [SerializeField] public int ProductListCapacity = 3;
+        
         #endregion
         
 #if UNITY_EDITOR

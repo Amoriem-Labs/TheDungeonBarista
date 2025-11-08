@@ -3,16 +3,15 @@
 namespace TDB.CraftSystem.Data
 {
     [System.Serializable]
-    public class ProductData
+    public class ProductData : FinalRecipeData
     {
-        public FinalRecipeData RecipeData;
         public float MinigamePriceMultiplier;
 
+        public FinalRecipeData RecipeData => this;
         public int Price => Mathf.CeilToInt(RecipeData.GetBasicPrice() * MinigamePriceMultiplier);
 
-        public ProductData(FinalRecipeData recipeData, MinigameOutcome minigameOutcome)
+        public ProductData(FinalRecipeData recipeData, MinigameOutcome minigameOutcome) : base(recipeData)
         {
-            RecipeData = recipeData;
             MinigamePriceMultiplier = minigameOutcome.PriceMultiplier;
         }
     }

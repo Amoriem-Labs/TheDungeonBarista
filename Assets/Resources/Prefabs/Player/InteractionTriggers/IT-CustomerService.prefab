@@ -82,4 +82,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enablePlayerInputEvent: {fileID: 11400000, guid: c45800a236922ab4d852a65157aa8e89, type: 2}
   _disablePlayerInputEvent: {fileID: 11400000, guid: 8fe25287dd2653f4fb441d775c334606, type: 2}
+  _addProductEvent: {fileID: 11400000, guid: 84efc224d7096034f8190e5c66f47b94, type: 2}
+  _serveProductEvent: {fileID: 11400000, guid: 8b5afbfa5b895c1419d81132c1e4aa66, type: 2}
   _productsToServe: []

@@ -89,6 +89,8 @@ namespace TDB.CafeSystem.Customers
             _onCustomerDataUpdated += action;
         }
 
+        public CustomerData GetData() => Data;
+        
         #endregion
 
         private void Awake()

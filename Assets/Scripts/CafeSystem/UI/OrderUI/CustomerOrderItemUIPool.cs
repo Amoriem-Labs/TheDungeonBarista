@@ -1,6 +1,6 @@
-﻿using TDB.Utils.ObjectPools;
+﻿using TDB.CafeSystem.Customers;
 
 namespace TDB.CafeSystem.UI.OrderUI
 {
-    public class CustomerOrderItemUIPool : MonoObjectPool<CustomerOrderItemUI> { }
+    public class CustomerOrderItemUIPool : DynamicItemUIPool<CustomerData> { }
 }

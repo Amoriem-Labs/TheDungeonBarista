@@ -52,6 +52,12 @@ MonoBehaviour:
     m_Scale: 1
     m_Name: DislikeIcon
     m_HashCode: 1713263870
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 2
+    m_Scale: 1
+    m_Name: StarIcon
+    m_HashCode: -321094561
   m_SpriteGlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -85,6 +91,22 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: -182557682, guid: 7db44a5eb72fc0c4eb03504bae7baf3c, type: 3}
+  - m_Index: 2
+    m_Metrics:
+      m_Width: 32
+      m_Height: 32
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 24
+      m_HorizontalAdvance: 32
+    m_GlyphRect:
+      m_X: 64
+      m_Y: 0
+      m_Width: 32
+      m_Height: 32
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 674721294, guid: 7db44a5eb72fc0c4eb03504bae7baf3c, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []
 --- !u!21 &4277261989773186169

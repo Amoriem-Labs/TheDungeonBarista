@@ -105,7 +105,9 @@ namespace TDB.Player.Interaction.Triggers
         };
 
         protected override bool GetCanInteract(ProductionDevice device) =>
-            InteractionState != EInteractionState.Invalid && base.GetCanInteract(device);
+            _customerServiceInteractionTrigger.CanAddProduct
+            && InteractionState != EInteractionState.Invalid
+            && base.GetCanInteract(device);
 
         protected override void Interact(ProductionDevice device)
         {
@@ -197,6 +199,8 @@ namespace TDB.Player.Interaction.Triggers
                 var product = new ProductData(recipeData: recipe, minigameOutcome: outcome);
                 // send to service interaction trigger so it can be served to customers
                 _customerServiceInteractionTrigger.AddProductToServe(product);
+                // interactable update due to product creation
+                TryUpdateCurrentInteractable();
             });
                 
             // TODO: start cooking game

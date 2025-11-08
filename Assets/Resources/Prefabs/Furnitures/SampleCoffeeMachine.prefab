@@ -378,3 +378,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _configureRecipeEvent: {fileID: 11400000, guid: 53a83a57ae00f6e4aab852a9c8d2c5cf, type: 2}
+  _productionDeviceReadyEvent: {fileID: 11400000, guid: e68355dbfb7f0624c87a444d5a7f91e2, type: 2}
+  _productionDeviceNotReadyEvent: {fileID: 11400000, guid: bfe61f3e2b198284fbbc51b8bfb925b1, type: 2}
