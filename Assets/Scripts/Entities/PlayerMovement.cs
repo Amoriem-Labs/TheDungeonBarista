@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TDB.Player.Input;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TDB
 {
@@ -15,11 +17,12 @@ namespace TDB
         //=================================================================================
 
         private EntityData _entityData;
+        private InputController _inputController;
        
         private void Awake()
         {
             _entityData = GetComponent<EntityData>();
-           
+            _inputController = GetComponentInChildren<InputController>();
         }
 
       
@@ -32,7 +35,9 @@ namespace TDB
         void Update()
         {
             //first, update movement for this frame.
-            _entityData.movementDirection.Set(InputManager.Movement.x, InputManager.Movement.y);
+            // _entityData.movementDirection.Set(InputManager.Movement.x, InputManager.Movement.y);
+            // read from input controller
+            _entityData.movementDirection.Set(_inputController.Movement.x, _inputController.Movement.y);
 
 
             //finally, update velocity for this frame. 

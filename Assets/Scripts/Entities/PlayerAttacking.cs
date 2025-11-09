@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TDB.Player.Input;
 using UnityEngine;
 
 namespace TDB
@@ -15,10 +16,16 @@ namespace TDB
     {
         // Start is called before the first frame update
         private EntityData _entityData;
+        private InputController _inputController;
+        
         private void Awake()
         {
             _entityData = GetComponent<EntityData>();
-            InputManager.attackKeyPressed += AttackKeyPressed;
+
+            // InputManager.attackKeyPressed += AttackKeyPressed;
+            _inputController = GetComponentInChildren<InputController>();
+            _inputController.AttackKeyPressed += AttackKeyPressed;
+            
             GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
         }
         private void AttackKeyPressed()
