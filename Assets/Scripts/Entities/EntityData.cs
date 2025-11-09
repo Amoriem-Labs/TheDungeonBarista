@@ -43,11 +43,21 @@ namespace TDB
             Rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
         }
 
-        void Update()
+        public void DealDamage(GameObject _damagedEntity)
         {
+            
+            _damagedEntity.GetComponent<EntityData>().CurrentHealth -= 1;
 
+            _damagedEntity.GetComponent<EntityData>().Velocity = lastDirection * Knockback;
+
+
+            if (_damagedEntity.GetComponent<EntityData>().CurrentHealth <= 0)
+            {
+                //run the die method
+                Destroy(_damagedEntity);
+
+            }
         }
-
 
 
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,12 +14,16 @@ namespace TDB
     //=================================================================================
     public class AttackHitbox : MonoBehaviour
     {
+        private string _playerObjectName = "Player";
         public delegate void BaseDelegate(GameObject entity);
+        public GameObject Hurtbox;
         public BaseDelegate dealDamage;
 
 
         private const int _enemyLayer = 8;
         private const int _playerLayer = 7;
+
+        
         // Start is called before the first frame update
         private void Awake()
         {
@@ -38,11 +43,26 @@ namespace TDB
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.layer == _enemyLayer)
-            {
-                dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
-            }
-            
+            //print(GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer);
+            // print(collision.gameObject.layer);
+
+                //if we're a player and we're registering the enemy on hit
+                if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _playerLayer && collision.gameObject.layer == _enemyLayer) 
+                {
+                    dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+                   // print("PLAYA");
+                }
+
+                //if we're an enemy and we're registering the player on hit
+                if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _enemyLayer && collision.gameObject.layer == _playerLayer)
+                {
+                    dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+                    //print("ENEMY");
+                }
+
+            // GetComponentInParent<EntityData>().gameObject.
+          
+
 
         }
 
