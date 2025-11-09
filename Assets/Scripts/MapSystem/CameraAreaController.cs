@@ -19,6 +19,7 @@ namespace TDB.MapSystem
             if (other.gameObject.CompareTag(_targetTag))
             {
                 _vcam.gameObject.SetActive(true);
+                _vcam.Follow = other.gameObject.transform;
             }
         }
 
