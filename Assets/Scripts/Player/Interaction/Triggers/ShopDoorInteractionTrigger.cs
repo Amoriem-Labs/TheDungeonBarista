@@ -12,6 +12,6 @@ namespace TDB.Player.Interaction.Triggers
     {
         public override string InteractionTip => CurrentInteractable?.interactable?.InteractionTip ?? "Cannot Interact";
 
-        protected override void Interact(ShopDoor door) => door.Interact();
+        protected override void Interact(ShopDoor door) => door!.Interact();
     }
 }

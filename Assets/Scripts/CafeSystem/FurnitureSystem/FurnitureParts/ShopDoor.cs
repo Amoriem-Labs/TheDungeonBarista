@@ -9,6 +9,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
 {
     /// <summary>
     /// Cafe phase transition trigger.
+    /// Cannot enter dungeon through this component. Check out PassageEntrance.cs.
     /// </summary>
     public class ShopDoor : MonoBehaviour, IInteractable
     {
@@ -74,19 +75,19 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             _controller.StartCafeOperation();
         }
 
-        [Button(ButtonSizes.Large), DisableInEditorMode]
-        [EnableIf(nameof(DoorState), EDoorState.WaitingToEnterDungeon)]
-        private void EnterDungeon()
-        {
-            if (DoorState != EDoorState.WaitingToEnterDungeon) return;
-            DoorState = EDoorState.Invalid;
-            
-            _controller.EnterDungeon();
-        }
+        // [Button(ButtonSizes.Large), DisableInEditorMode]
+        // [EnableIf(nameof(DoorState), EDoorState.WaitingToEnterDungeon)]
+        // private void EnterDungeon()
+        // {
+        //     if (DoorState != EDoorState.WaitingToEnterDungeon) return;
+        //     DoorState = EDoorState.Invalid;
+        //     
+        //     _controller.EnterDungeon();
+        // }
 
         #region Interaction
 
-        public bool IsInteractable => DoorState != EDoorState.Invalid;
+        public bool IsInteractable => DoorState == EDoorState.WaitingToOpenShop;
         public Action OnInteractableUpdated { get; set; }
 
         public string InteractionTip =>
@@ -94,7 +95,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             {
                 EDoorState.Invalid => "Invalid",
                 EDoorState.WaitingToOpenShop => "Open Shop",
-                EDoorState.WaitingToEnterDungeon => "Enter Dungeon",
+                // EDoorState.WaitingToEnterDungeon => "Enter Dungeon",
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -107,9 +108,9 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
                 case EDoorState.WaitingToOpenShop:
                     OpenShop();
                     break;
-                case EDoorState.WaitingToEnterDungeon:
-                    EnterDungeon();
-                    break;
+                // case EDoorState.WaitingToEnterDungeon:
+                    // EnterDungeon();
+                    // break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
