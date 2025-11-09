@@ -17,6 +17,11 @@ namespace TDB.Player.Input
         [SerializeField] private InputActionReference _primaryActionReference;
         [SerializeField] private InputActionReference _secondaryActionReference;
         
+        // the PlayerAttack script should listen to this event to handle attacks
+        public Action AttackKeyPressed;
+        // the PlayerMovement script should monitor this value to control movement
+        public Vector2 Movement { get; private set; }
+        
         private void OnEnable()
         {
             _moveActionReference.action.Enable();
@@ -43,15 +48,7 @@ namespace TDB.Player.Input
 
         private void HandleMoveAction(InputAction.CallbackContext context)
         {
-            var direction = Vector2.zero;
-            if (context.canceled)
-            {
-                // TODO: update player movement to direction (stop move)
-                return;
-            }
-
-            direction = context.ReadValue<Vector2>();
-            // TODO: update player movement to direction
+            Movement = context.performed ? context.ReadValue<Vector2>() : Vector2.zero;
         }
 
         private void HandlePrimaryAction(InputAction.CallbackContext context)
@@ -62,7 +59,8 @@ namespace TDB.Player.Input
             }
             else
             {
-                // TODO: attack if can
+                // attack if cannot interact
+                AttackKeyPressed?.Invoke();
             }
         }
         
