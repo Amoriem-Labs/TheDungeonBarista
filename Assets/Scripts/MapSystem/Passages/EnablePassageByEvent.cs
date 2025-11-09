@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace TDB.MapSystem.Passages
         [SerializeField] private List<VoidEvent> _disableEvents = new();
         [SerializeField] private bool _initiallyEnabled = true;
 
+        [SerializeField, ReadOnly]
         private bool _isSatisfied;
         
         public Action OnConditionChanged { get; set; }
@@ -24,6 +26,11 @@ namespace TDB.MapSystem.Passages
                 _isSatisfied = value;
                 OnConditionChanged?.Invoke();
             }
+        }
+
+        private void Awake()
+        {
+            IsSatisfied = _initiallyEnabled;
         }
 
         private void OnEnable()
@@ -55,10 +62,5 @@ namespace TDB.MapSystem.Passages
         private void HandleEnable() => IsSatisfied = true;
 
         private void HandleDisable() => IsSatisfied = false;
-
-        private void Start()
-        {
-            IsSatisfied = true;
-        }
     }
 }
