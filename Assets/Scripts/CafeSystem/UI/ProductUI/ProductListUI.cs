@@ -130,6 +130,7 @@ namespace TDB.CafeSystem.UI.ProductUI
             }
 
             _orderListUI.ServeOrder(info, productItemUI);
+            _productCountText.text = string.Format(ProductCountTemplate, _productItems.Count, _maxProductCount);
         }
     }
 
