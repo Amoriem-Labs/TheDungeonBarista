@@ -577,11 +577,11 @@ MonoBehaviour:
   MaxSpeed: 5
   MaxHealth: 2
   Knockback: 5
+  lastDirection: {x: 0, y: 1}
   Velocity: {x: 0, y: 0}
   CurrentHealth: 0
   movementDirection: {x: 0, y: 0}
   Rb: {fileID: 0}
-  lastDirection: {x: 0, y: 1}
   IsAttacking: 0
 --- !u!95 &879029394
 Animator:
@@ -642,6 +642,7 @@ GameObject:
   - component: {fileID: 1284155604}
   - component: {fileID: 1284155605}
   - component: {fileID: 1284155606}
+  - component: {fileID: 1284155607}
   m_Layer: 6
   m_Name: BasicEnemy
   m_TagString: Enemy
@@ -734,12 +735,12 @@ MonoBehaviour:
   Decceleration: 30
   MaxSpeed: 1
   MaxHealth: 3
-  Knockback: 0
+  Knockback: 5
+  lastDirection: {x: 0, y: -1}
   Velocity: {x: 0, y: 0}
   CurrentHealth: 0
   movementDirection: {x: 0, y: 0}
   Rb: {fileID: 0}
-  lastDirection: {x: 0, y: 1}
   IsAttacking: 0
 --- !u!50 &1284155604
 Rigidbody2D:
@@ -823,6 +824,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd46f0eb1c270c44f87ffdb9c739be70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1284155607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284155600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe9dc8f9e28e604bbea6fb6149f0568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1446074233
