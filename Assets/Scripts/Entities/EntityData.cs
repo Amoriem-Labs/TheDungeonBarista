@@ -57,11 +57,22 @@ namespace TDB
 
             _damagedEntity.GetComponent<EntityData>().Velocity = lastDirection * Knockback;
 
-            if(_damagedEntity.layer == AttackHitbox._playerLayer)
+
+
+            //THIS NEEDS TO BE CHANGED POST-DEMO TO BE GENERALIZED TO A METHOD THAT ALL ENTITIES HAVE THAT IS LIKE A RUN
+            //THIS WHEN THIS SPECIFIC TYPE OF ENEMY IS HIT -ZACH 
+            //-----------------------------------------------------------------------------------------------------------//
+            if (_damagedEntity.GetComponentInChildren<Hurtbox>().gameObject.layer == AttackHitbox._playerLayer)
             {
                 _damagedEntity.GetComponent<PlayerStateHandler>().ChangeState(PlayerStateHandler.States.stunned);
             }
-               
+
+           
+            if (_damagedEntity.GetComponentInChildren<Hurtbox>().gameObject.layer == AttackHitbox._enemyLayer)
+            {
+                _damagedEntity.GetComponent<BaseEnemyStateHandler>().ChangeState(BaseEnemyStateHandler.States.stunned);
+            }
+            //-----------------------------------------------------------------------------------------------------------//
 
 
             if (_damagedEntity.GetComponent<EntityData>().CurrentHealth <= 0)

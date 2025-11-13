@@ -214,7 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fc1d83f4dbcc84f8d923971334a1a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hurtbox: {fileID: 0}
 --- !u!33 &168716820
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -643,6 +642,9 @@ GameObject:
   - component: {fileID: 1284155605}
   - component: {fileID: 1284155606}
   - component: {fileID: 1284155607}
+  - component: {fileID: 1284155610}
+  - component: {fileID: 1284155609}
+  - component: {fileID: 1284155608}
   m_Layer: 6
   m_Name: BasicEnemy
   m_TagString: Enemy
@@ -838,6 +840,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe9dc8f9e28e604bbea6fb6149f0568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1284155608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284155600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e672a090bdb3c4a9cb95f0b3baa7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1284155609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284155600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683be1fdf78096e409f96d74a029daa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1284155610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284155600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb616bbd1632464f8fdf329f01fc428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 3
 --- !u!1 &1446074233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fc1d83f4dbcc84f8d923971334a1a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hurtbox: {fileID: 0}
 --- !u!61 &1741981414
 BoxCollider2D:
   m_ObjectHideFlags: 0

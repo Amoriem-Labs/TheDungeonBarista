@@ -23,10 +23,9 @@ namespace TDB
         {
             _entityData = GetComponent<EntityData>();
             _playerStateHandler = GetComponent<PlayerStateHandler>();
-            // InputManager.attackKeyPressed += AttackKeyPressed;
             _inputController = GetComponentInChildren<InputController>();
+
             _inputController.AttackKeyPressed += AttackKeyPressed;
-            
             GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
         }
 
@@ -39,8 +38,6 @@ namespace TDB
             {
                 _entityData.IsAttacking = true;
             }
-           
-
         }
     }
 }

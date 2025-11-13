@@ -14,7 +14,7 @@ namespace TDB
     //=================================================================================
     public class AttackHitbox : MonoBehaviour
     {
-        private string _playerObjectName = "Player";
+       
         public delegate void BaseDelegate(GameObject entity);
        
         public BaseDelegate dealDamage;

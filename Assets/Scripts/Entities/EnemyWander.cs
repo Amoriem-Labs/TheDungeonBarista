@@ -14,9 +14,9 @@ namespace TDB
         }
 
         // Update is called once per frame
-        void Update()
+        public void WanderUpdate()
         {
-        
+            //print("wandering and stuff");
         }
 
         private void Awake()
