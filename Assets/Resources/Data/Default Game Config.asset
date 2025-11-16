@@ -45,7 +45,7 @@ MonoBehaviour:
       _effects:
       - Effect: {fileID: 11400000, guid: eb3c10b3f252846449377389baa4d36c, type: 2}
         Parameter: {fileID: 11400000, guid: 4511ab20053dedb458ce8db5f609ce54, type: 2}
-    <RecipeName>k__BackingField: FinalRecipe-01
+    <RecipeName>k__BackingField: Placeholder Coffee (Sweet)
   TestRecipeBook:
     _obtainedRawRecipes: []
     _allRecipeData: []
@@ -65,3 +65,5 @@ MonoBehaviour:
   PunishmentPerFlavorLevel: 0.1
   BonusPerQualityLevel: 0.2
   CustomerEatTime: 5
+  ProductListCapacity: 3
+  CafeOperationTime: 60
