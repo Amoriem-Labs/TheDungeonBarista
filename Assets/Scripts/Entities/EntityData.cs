@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace TDB
@@ -12,6 +13,7 @@ namespace TDB
     //=================================================================================
     public class EntityData : MonoBehaviour
     {
+        public delegate void UpdateDelegate();
         //===============================//
 
         // This object requires a rigidbody2d component!
@@ -23,6 +25,11 @@ namespace TDB
         public float MaxSpeed = 1;
         public float MaxHealth = 1;
         public float Knockback = 10;
+        public UpdateDelegate updateDelegate;
+        public Vector2 lastDirection = new Vector2(0, -1);
+
+        public static int _enemyLayer = 8;
+        public static int _playerLayer = 7;
 
 
         // for controlling exactly when velocity is applied!
@@ -31,9 +38,11 @@ namespace TDB
         [HideInInspector] public float CurrentHealth = 0;
         [HideInInspector] public Vector2 movementDirection = Vector2.zero;
         [HideInInspector] public Rigidbody2D Rb;
-        [HideInInspector] public Vector2 lastDirection = new Vector2(0, 1);
+        
 
         [HideInInspector] public bool IsAttacking = false;
+
+        
 
 
         private void Awake()
@@ -41,6 +50,7 @@ namespace TDB
             CurrentHealth = MaxHealth;
             Rb = GetComponent<Rigidbody2D>();
             Rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+            
         }
 
         public void DealDamage(GameObject _damagedEntity)
@@ -51,6 +61,23 @@ namespace TDB
             _damagedEntity.GetComponent<EntityData>().Velocity = lastDirection * Knockback;
 
 
+
+            //THIS NEEDS TO BE CHANGED POST-DEMO TO BE GENERALIZED TO A METHOD THAT ALL ENTITIES HAVE THAT IS LIKE A RUN
+            //THIS WHEN THIS SPECIFIC TYPE OF ENEMY IS HIT -ZACH 
+            //-----------------------------------------------------------------------------------------------------------//
+            if (_damagedEntity.GetComponentInChildren<Hurtbox>().gameObject.layer == AttackHitbox._playerLayer)
+            {
+                _damagedEntity.GetComponent<PlayerStateHandler>().ChangeState(PlayerStateHandler.States.stunned);
+            }
+
+           
+            if (_damagedEntity.GetComponentInChildren<Hurtbox>().gameObject.layer == AttackHitbox._enemyLayer)
+            {
+                _damagedEntity.GetComponent<BaseEnemyStateHandler>().ChangeState(BaseEnemyStateHandler.States.stunned);
+            }
+            //-----------------------------------------------------------------------------------------------------------//
+
+
             if (_damagedEntity.GetComponent<EntityData>().CurrentHealth <= 0)
             {
                 //run the die method
@@ -58,6 +85,12 @@ namespace TDB
 
             }
         }
+        public void Update()
+        {
+            updateDelegate?.Invoke();
+        }
+
+
 
 
     }

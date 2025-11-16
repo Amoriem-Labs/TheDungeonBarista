@@ -30,6 +30,7 @@ namespace TDB
         {
             _animator = GetComponent<Animator>();
             _entityData = GetComponent<EntityData>();
+            _entityData.updateDelegate += AnimationUpdate;
         }
         void Start()
         {
@@ -37,7 +38,7 @@ namespace TDB
         }
 
         // Update is called once per frame
-        void Update()
+        void AnimationUpdate()
         {
             UpdateAnimationVariables();
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TDB.Player.Input;
 using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,38 +14,39 @@ namespace TDB
         // File: PlayerMovement.cs
         // Author: Zach Lima
         // Date: 10/21/2025
-        // Description: Player Movement, pretty self explanatory. 
+        // Description: Player Movement State, pretty self explanatory. 
         //=================================================================================
 
         private EntityData _entityData;
         private InputController _inputController;
+        private PlayerStateHandler _playerStateHandler;
        
         private void Awake()
         {
             _entityData = GetComponent<EntityData>();
             _inputController = GetComponentInChildren<InputController>();
+            _playerStateHandler = GetComponentInChildren<PlayerStateHandler>();
         }
 
-      
         // Start is called before the first frame update
         void Start()
         {
-            
+           
         }
 
-        void Update()
+        public void MovementUpdate()
         {
             //first, update movement for this frame.
             // _entityData.movementDirection.Set(InputManager.Movement.x, InputManager.Movement.y);
             // read from input controller
             _entityData.movementDirection.Set(_inputController.Movement.x, _inputController.Movement.y);
 
-
             //finally, update velocity for this frame. 
 
             if (_entityData.IsAttacking)
             {
                 _entityData.Velocity = Vector2.zero;
+                
             }
             else
             {
