@@ -4,6 +4,24 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/CafeMinigameTesting.unity
+    guid: 7ce96c3e7a2471e42aa95654c288f595
+  - enabled: 1
+    path: Assets/Scenes/CafeScene.unity
+    guid: 2de49ab364c855c45a5393dbab4c17c0
+  - enabled: 1
+    path: Assets/Scenes/EntityTesting.unity
+    guid: e655f80a648f7df45a246c7af920dc1d
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: fef56a60e9d4b0b479fac7ac0fab529e
+  - enabled: 1
+    path: Assets/Scenes/PauseMenu.unity
+    guid: 72d0c274496a69543a8f8dbdc0f0e701
+  - enabled: 1
+    path: Assets/Scenes/Persistent.unity
+    guid: 2a4b876d39118304ca42c466bb9ad02d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6f57f7d3ede7e6b4cabec8c9099e3e3c, type: 3}
