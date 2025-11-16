@@ -6,6 +6,7 @@ using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.CraftSystem.EffectSystem.LevelUpEffect;
 using TDB.IngredientStorageSystem.Data;
+using TDB.MinigameSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

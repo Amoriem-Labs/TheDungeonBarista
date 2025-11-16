@@ -3,6 +3,7 @@ using Sirenix.Serialization;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.UI.RecipeGraph;
+using TDB.MinigameSystem;
 using TDB.Utils.Misc;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace TDB.CraftSystem.Data
         [SerializeField] private List<IngredientNodeData> _initialNodeData;
 
         [field:SerializeField] public int BasicPrice { get; private set; } = 100;
+        [field: SerializeField] public MinigameDefinition Minigame { get; private set; }
         
         // take deep copy of the data
         // all node data in _initialNodeData is a template that should not be changed during runtime

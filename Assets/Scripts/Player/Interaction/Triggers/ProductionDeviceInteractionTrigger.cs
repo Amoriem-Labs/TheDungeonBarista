@@ -4,6 +4,7 @@ using TDB.CafeSystem.FurnitureSystem.FurnitureParts;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.GameManagers;
+using TDB.MinigameSystem;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,6 +20,7 @@ namespace TDB.Player.Interaction.Triggers
         [TitleGroup("References", order: -1)]
         [SerializeField] private CustomerServiceInteractionTrigger _customerServiceInteractionTrigger;
         // TODO: the minigame canvas can probably be a child of this interaction trigger and gets referred to by it
+        [SerializeField] private Canvas _minigameCanvas;
         
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _cafePreparationStartEvent;
@@ -176,7 +178,7 @@ namespace TDB.Player.Interaction.Triggers
         private void TestStartCookingMinigame()
         {
             // enforce to use manually set test data
-            StartCookingMinigame(null);
+            StartCookingMinigame(new FinalRecipeData(Resources.Load<RawRecipeDefinition>("Data/CraftSystem/RawRecipes/SampleRawRecipe-01")));
         }
         
         private void StartCookingMinigame(FinalRecipeData recipe)
@@ -191,12 +193,13 @@ namespace TDB.Player.Interaction.Triggers
             var basicPrice = recipe?.GetBasicPrice() ?? 100;
             var recipeQuality = recipe?.GetQualityLevel(_qualityEffect) ?? 3;
             // finish callback
-            var finishCallback = new Action<MinigameOutcome>(outcome =>
+            var finishCallback = new Action<MinigameResult>(outcome =>
             {
                 // unblock input after finishing the minigame
                 ToggleBlockingPlayerInput(false);
                 // generate product info based on minigame output
-                var product = new ProductData(recipeData: recipe, minigameOutcome: outcome);
+                var product = new ProductData(recipeData: recipe, minigameResult: outcome);
+                Debug.Log("[ProductionDeviceInteractionTrigger] Product Multiplier: " + product.MinigamePriceMultiplier);
                 // send to service interaction trigger so it can be served to customers
                 _customerServiceInteractionTrigger.AddProductToServe(product);
                 // interactable update due to product creation
@@ -204,16 +207,8 @@ namespace TDB.Player.Interaction.Triggers
             });
                 
             // TODO: start cooking game
-            // TODO: you probably need to bind input actions in the minigame
-            //       please check out Scripts/Player/Input/InputController.cs on how to do it
             Debug.Log("Starting cooking minigame");
-                
-            // TODO: temporarily invoke finish callback directly for testing,
-            // remove this when finishing the cooking game
-            finishCallback.Invoke(new MinigameOutcome()
-            {
-                PriceMultiplier = 1f
-            });
+            MinigameController.Play(recipe?.RawRecipe.Minigame, _minigameCanvas, finishCallback);
         }
 
         /// <summary>
