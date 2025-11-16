@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TDB.MinigameSystem;
+using UnityEngine;
 
 namespace TDB.CraftSystem.Data
 {
@@ -10,14 +11,10 @@ namespace TDB.CraftSystem.Data
         public FinalRecipeData RecipeData => this;
         public int Price => Mathf.CeilToInt(RecipeData.GetBasicPrice() * MinigamePriceMultiplier);
 
-        public ProductData(FinalRecipeData recipeData, MinigameOutcome minigameOutcome) : base(recipeData)
+        public ProductData(FinalRecipeData recipeData, MinigameResult minigameResult) : base(recipeData)
         {
-            MinigamePriceMultiplier = minigameOutcome.PriceMultiplier;
+            // TODO: Create some proper path for the multiplier to be calculated from score. I assume upgrades and other things can matter here.
+            MinigamePriceMultiplier = minigameResult.Score + 1f;
         }
-    }
-
-    public struct MinigameOutcome
-    {
-        public float PriceMultiplier;
     }
 }

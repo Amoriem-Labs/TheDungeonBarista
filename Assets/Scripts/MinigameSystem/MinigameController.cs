@@ -33,15 +33,24 @@ namespace TDB.MinigameSystem
     {
 
         // Optionally override canvas per-call if you want a different parent.
-        public static async Task<MinigameResult> PlayAsync(
+        public static void Play(
             MinigameDefinition def,
             Canvas parentCanvas,
+            Action<MinigameResult> onComplete,
             float difficulty = .5f,
             float slowdownScale = 1f)
         {
-            if (def == null) {
+            if (onComplete is null)
+            {
+                Debug.LogError("[MinigameController] No onComplete callback provided.");
+                return;
+            }
+    
+            if (def == null) 
+            {
                 Debug.LogError("[MinigameController] Definition is null.");
-                return default;
+                onComplete.Invoke(default);
+                return;
             }
 
             float oldScale = Time.timeScale;
@@ -49,48 +58,42 @@ namespace TDB.MinigameSystem
 
             var go = UnityEngine.Object.Instantiate(def.MinigamePrefab, parentCanvas.transform);
             var mini = go.GetComponent<IMinigame>();
-            if (mini == null) {
+            if (mini == null) 
+            {
                 Debug.LogError($"[MinigameController] Prefab '{def.MinigamePrefab?.name}' does not implement IMinigame.");
                 UnityEngine.Object.Destroy(go);
                 Time.timeScale = oldScale;
-                return new MinigameResult { Success = false, Score = 0f };
+                onComplete.Invoke(new MinigameResult { Success = false, Score = 0f });
+                return;
             }
 
             var map = ResolveActionMap(def);
             map.Enable();
 
-            // Await completion via TaskCompletionSource
-            var tcs = new TaskCompletionSource<MinigameResult>();
-            void OnComplete(MinigameResult r) { if (!tcs.Task.IsCompleted) tcs.SetResult(r); }
-
-            
-            mini.Initialize(difficulty, map, OnComplete);
+            // Callback wrapper that cleans up and forwards to user callback
+            void OnMinigameComplete(MinigameResult result)
+            {
+                map.Disable();
+                UnityEngine.Object.Destroy(go);
+                Time.timeScale = oldScale;
+        
+                onComplete.Invoke(result);
+            }
+    
+            mini.Initialize(difficulty, map, OnMinigameComplete);
             mini.Begin();
-
-            var result = await tcs.Task;
-
-            map.Disable();
-            UnityEngine.Object.Destroy(go);
-            Time.timeScale = oldScale;
-
-            return result;
         }
+        
         private static InputActionMap ResolveActionMap(MinigameDefinition def)
         {
             if (def.InputAsset != null && !string.IsNullOrEmpty(def.ActionMapName)) {
                 var found = def.InputAsset.FindActionMap(def.ActionMapName, throwIfNotFound: false);
                 if (found != null) return found;
             }
-
-            // Fallback: construct a minimal Submit action
-            var asset = ScriptableObject.CreateInstance<InputActionAsset>();
-            var map = new InputActionMap("Minigame");
-            var submit = map.AddAction("Submit", InputActionType.Button);
-            submit.AddBinding("<Mouse>/leftButton");
-            submit.AddBinding("<Keyboard>/space");
-            submit.AddBinding("<Gamepad>/buttonSouth");
-            asset.AddActionMap(map);
-            return map;
+            
+            Debug.LogError("[MinigameController] ActionMap not found.");
+            
+            return null;
         }
     }
 }

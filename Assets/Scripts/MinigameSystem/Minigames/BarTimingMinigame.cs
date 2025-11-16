@@ -58,6 +58,7 @@ namespace TDB.MinigameSystem.Minigames
         [Button("Run Minigame")]
         private void RunMinigameEditorButton()
         {
+            // Dummy actionmap just for testing in editor
             var asset = ScriptableObject.CreateInstance<InputActionAsset>();
             var map = new InputActionMap("Minigame");
             var submit = map.AddAction("Submit", InputActionType.Button);
