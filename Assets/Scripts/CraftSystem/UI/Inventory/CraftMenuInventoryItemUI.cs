@@ -17,6 +17,7 @@ namespace TDB.CraftSystem.UI.Inventory
         [FormerlySerializedAs("_inStockNumber")] [SerializeField] private TextMeshProUGUI _inStockNumberText;
         [FormerlySerializedAs("_requireNumber")] [SerializeField] private TextMeshProUGUI _requireNumberText;
         [SerializeField] private Image _iconImage;
+        [SerializeField] private Image _typeIconImage;
         [SerializeField] private Image _dragIconImage;
         
         [Title("Events")]
@@ -43,6 +44,7 @@ namespace TDB.CraftSystem.UI.Inventory
         {
             _ingredient = ingredient;
             _iconImage.sprite = _ingredient.IngredientSprite;
+            _typeIconImage.sprite = _ingredient.Type.Icon;
             _dragIconImage.sprite = _ingredient.IngredientSprite;
 
             _inventoryUI = craftMenuInventoryUI;
