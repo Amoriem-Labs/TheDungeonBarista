@@ -16,28 +16,25 @@ namespace TDB
     {
         [Header("References")]
         public Slider slider;
-        public Health health;
+        public EntityData entity;
 
         // Start is called before the first frame update
         void Start()
         {
-            if (health == null)
+            if (entity == null)
             {
-                health = FindObjectOfType<Health>();
+                entity = FindObjectOfType<EntityData>();
             }
 
-            slider.maxValue = health.MaxHealth;
-            slider.value = health.MaxHealth;
+            slider.maxValue = entity.MaxHealth;
+            slider.value = entity.CurrentHealth;
             slider.minValue = 0f;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (health != null)
-            {
-                slider.value = health.GetCurrentHealth();
-            }
+            slider.value = entity.CurrentHealth;
         }
     }
 }
