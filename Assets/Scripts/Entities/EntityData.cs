@@ -28,6 +28,9 @@ namespace TDB
         public UpdateDelegate updateDelegate;
         public Vector2 lastDirection = new Vector2(0, -1);
 
+        public static int _enemyLayer = 8;
+        public static int _playerLayer = 7;
+
 
         // for controlling exactly when velocity is applied!
         [HideInInspector] public Vector2 Velocity = Vector2.zero;
