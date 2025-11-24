@@ -27,6 +27,9 @@ namespace TDB
         // the the number of seconds the trap will be active for
         [SerializeField] int _timeActive;
 
+        // referance to the dormant spike trap
+        [SerializeField] GameObject _dormantSpikes;
+
         // the timer for long the trap will be active for
         private float _timer = 0;
 
@@ -45,7 +48,7 @@ namespace TDB
         void Start()
         {
             // get correct referance to TrapsUniversal script
-            _trapsUniversal = GetComponentInParent<TrapUniversal>();
+            _trapsUniversal = _dormantSpikes.GetComponent<TrapUniversal>();
         }
 
         // Update is called once per frame
@@ -61,6 +64,7 @@ namespace TDB
             {
                 // deactivate the spikes
                 _trapsUniversal.DeactivateTrap();
+                _timer = 0;
             }
         }
 

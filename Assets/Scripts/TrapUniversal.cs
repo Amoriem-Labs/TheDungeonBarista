@@ -53,6 +53,7 @@ namespace TDB
         {
             // activates the trap
             _activatedTrap.SetActive(true);
+            Debug.Log("Trap activated");
         }
 
         // ================================
