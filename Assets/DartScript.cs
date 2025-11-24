@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace TDB
@@ -18,6 +19,15 @@ namespace TDB
         // Fields
         // ================================
 
+        [SerializeField] BoxCollider2D _hitbox;
+
+        [SerializeField] TrapUniversal _trapUniversal;
+
+        [SerializeField] GameObject _launcher;
+
+        [SerializeField] Transform _transform;
+
+        private enum direction {right, up, left, down};
 
 
         // ================================
@@ -33,20 +43,26 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-        
+            float _rotation; // get rotation of the parent
+
         }
 
         // Update is called once per frame
         void Update()
         {
-        
+            _transform.position += _transform.forward * Time.deltaTime;
         }
 
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            // check if entity and deal damage if yes
+
+            // deactivate and set position to launcher
+        }
 
         // ================================
         // Public Methods
         // ================================
-
 
 
         // ================================
