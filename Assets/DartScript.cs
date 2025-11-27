@@ -8,7 +8,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace TDB
 {
@@ -19,16 +21,20 @@ namespace TDB
         // Fields
         // ================================
 
+        // the referance for the boxcollider used as hitbox
         [SerializeField] BoxCollider2D _hitbox;
 
+        // referance for the unversal trap script to access the public functions
         [SerializeField] TrapUniversal _trapUniversal;
 
-        [SerializeField] GameObject _launcher;
+        // referance to the rigidbody element of the dart
+        [SerializeField] Rigidbody2D _rigidbody;
 
-        [SerializeField] Transform _transform;
+        // referance to the parent object
+        [SerializeField] GameObject _parent;
 
-        private enum direction {right, up, left, down};
-
+        // speed used to adjust how fast the dart moves
+        [SerializeField] float _speed;
 
         // ================================
         // Properties
@@ -43,14 +49,18 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-            float _rotation; // get rotation of the parent
 
         }
 
         // Update is called once per frame
         void Update()
         {
-            _transform.position += _transform.forward * Time.deltaTime;
+            
+        }
+
+        void OnEnable()
+        {
+            _rigidbody.velocity = transform.parent.forward * _speed;
         }
 
         void OnTriggerEnter2D(Collider2D collision)
