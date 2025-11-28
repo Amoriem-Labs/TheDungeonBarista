@@ -49,11 +49,11 @@ namespace TDB
 
         }
 
+        // exists as kind of a shortcut to avoid having two scripts for just the spike trap
         void OnTriggerEnter2D(Collider2D collision)
         {
-            // activates the trap
-            _activatedTrap.SetActive(true);
-            Debug.Log("Trap activated");
+            // calls activated trap
+            ActivateTrap();
         }
 
         // ================================
@@ -61,7 +61,7 @@ namespace TDB
         // ================================
 
         // called by the part of the trap which damages the entity it hits, called on contact with the an entity
-        public void DealDamage(Collision2D _collision)
+        public void DealDamage(GameObject entity)
         {
             // TODO: correctly get referance to the function in the health script
             // TODO: figure out how to damage the entity which it hit
@@ -72,6 +72,13 @@ namespace TDB
         {
             // deactivate trap
             _activatedTrap.SetActive(false);
+        }
+
+        // called by the part of the trap that triggers it, conditions different for each trap
+        public void ActivateTrap()
+        {
+            // activate the trap
+            _activatedTrap.SetActive(true);
         }
 
 

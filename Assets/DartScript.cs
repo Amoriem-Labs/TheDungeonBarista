@@ -49,7 +49,7 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-
+            _trapUniversal = GetComponentInParent<TrapUniversal>();
         }
 
         // Update is called once per frame
@@ -66,8 +66,14 @@ namespace TDB
         void OnTriggerEnter2D(Collider2D collision)
         {
             // check if entity and deal damage if yes
-
+            if (collision.CompareTag("player") || collision.CompareTag("enemy")) // TODO: double check tags for player and enemies to ensure this is correct
+            {
+                _trapUniversal.DealDamage(collision.gameObject);
+            }
+            
             // deactivate and set position to launcher
+            transform.position = transform.parent.position;
+            _trapUniversal.DeactivateTrap();
         }
 
         // ================================
