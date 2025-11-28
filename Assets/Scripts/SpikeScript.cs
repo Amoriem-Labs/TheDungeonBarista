@@ -69,10 +69,10 @@ namespace TDB
         }
 
         // when something enters the spikes, deal damage to it
-        void OnCollisionEnter2D(Collision2D _collision)
+        void OnCollisionEnter2D(Collision2D collision)
         {
             // TODO: deal the damage to the entity which entered
-            _trapsUniversal.DealDamage(_collision);
+            _trapsUniversal.DealDamage(collision.gameObject);
         }
 
         // ================================
