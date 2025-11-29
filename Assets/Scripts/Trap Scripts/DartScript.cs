@@ -33,6 +33,12 @@ namespace TDB
         // speed used to adjust how fast the dart moves
         [SerializeField] float _speed;
 
+        // layer values to tell what the dart hits
+        private const int _wallLayer = 6;
+        private const int _playerLayer = 7;
+        private const int _enemyLayer = 8;
+        
+
         // ================================
         // Properties
         // ================================
@@ -65,7 +71,7 @@ namespace TDB
         void OnTriggerEnter2D(Collider2D collision)
         {
             // check if entity and deal damage if yes
-            if (collision.CompareTag("Player") || collision.CompareTag("Enemy")) // TODO: double check tags for player and enemies to ensure this is correct
+            if (collision.gameObject.layer == _playerLayer || collision.gameObject.layer == _enemyLayer)
             {
                 // deal damage to the entity it collided with
                 _trapUniversal.DealDamage(collision.gameObject);
@@ -73,12 +79,9 @@ namespace TDB
                 // deactivate and set position to launcher
                 transform.position = transform.parent.position;
                 _trapUniversal.DeactivateTrap();
-
-                // end function FIXME: remove when next section is fixed because redundant
-                return;
             }
             // if collider a wall, reset trap
-            if (collision.CompareTag("Wall")) // FIXME: because wall tag is not defined game crashes, talk to person doing dungeon generation to fix
+            else if (collision.gameObject.layer == _wallLayer)
             {
                 // deactivate and set position to launcher
                 transform.position = transform.parent.position;

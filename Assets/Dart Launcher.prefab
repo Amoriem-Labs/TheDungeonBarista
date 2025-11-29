@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6227416163271631985}
   - component: {fileID: 4859498255053104196}
-  m_Layer: 4
+  m_Layer: 3
   m_Name: Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4996524160118741826}
   - component: {fileID: 2435112714566553813}
-  m_Layer: 4
+  m_Layer: 3
   m_Name: Dart Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 5938232624534193040}
   - component: {fileID: 3029452304931958162}
   - component: {fileID: 4910402734116246314}
-  m_Layer: 4
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 4703143853402740534}
   - component: {fileID: 2823498798507244323}
   - component: {fileID: 2548427635151491648}
-  m_Layer: 4
+  m_Layer: 6
   m_Name: Dart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
