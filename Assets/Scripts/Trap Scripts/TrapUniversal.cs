@@ -27,6 +27,10 @@ namespace TDB
         // the damage that the trap does
         [SerializeField] int _damage;
 
+        // constants used to determine what layer the entity to deal damage to is on
+        private const int _playerLayer = 7;
+        private const int _enemyLayer = 8;
+
 
         // ================================
         // Properties
@@ -64,7 +68,7 @@ namespace TDB
         public void DealDamage(GameObject entity)
         {
             // if the entity is a player deal damage through the player health script system
-            if (entity.CompareTag("Player"))
+            if (entity.layer == _playerLayer)
             {
                 // get the referance to the health script
                 Health healthScript = entity.GetComponent<Health>();
@@ -73,9 +77,23 @@ namespace TDB
                 healthScript.TakeDamage(_damage);
             }
             // if the entity is an enemy, deal damage to them using thier health system thingy
-            else if (entity.CompareTag("Enemy"))
+            else if (entity.layer == _enemyLayer)
             {
+                // the following code i just completely ripped from 'PlayerMovement.cs'
+                // if there is a more elegant way of doing this let me know, but this s it for now
                 
+                // deals the damage to the entity
+                entity.GetComponent<EntityData>().CurrentHealth -= _damage;
+
+                // applies knockback, wouldnt work well with spike trap so disabled for now
+                // entity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
+                
+                // if heals is 0 or below, kills it
+                if (entity.GetComponent<EntityData>().CurrentHealth <= 0)
+                {
+                    //run the die method
+                    Destroy(entity);
+                }
             }
         }
         
