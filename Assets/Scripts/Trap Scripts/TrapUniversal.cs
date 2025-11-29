@@ -63,8 +63,20 @@ namespace TDB
         // called by the part of the trap which damages the entity it hits, called on contact with the an entity
         public void DealDamage(GameObject entity)
         {
-            // TODO: correctly get referance to the function in the health script
-            // TODO: figure out how to damage the entity which it hit
+            // if the entity is a player deal damage through the player health script system
+            if (entity.CompareTag("Player"))
+            {
+                // get the referance to the health script
+                Health healthScript = entity.GetComponent<Health>();
+
+                // use the script to deal damage
+                healthScript.TakeDamage(_damage);
+            }
+            // if the entity is an enemy, deal damage to them using thier health system thingy
+            else if (entity.CompareTag("Enemy"))
+            {
+                
+            }
         }
         
         // called by the part of the trap that deals damage, condition different for each trap
