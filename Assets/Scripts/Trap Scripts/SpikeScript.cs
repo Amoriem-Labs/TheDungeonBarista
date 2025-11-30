@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace TDB
 {
@@ -21,17 +22,18 @@ namespace TDB
         // referance to the collider which will do damage
         [SerializeField] BoxCollider2D _spikesCollider;
 
-        // referance to the universal traps script attached to the spikes prefab
-        [SerializeField] TrapUniversal _trapsUniversal;
-
         // the the number of seconds the trap will be active for
         [SerializeField] int _timeActive;
 
-        // referance to the dormant spike trap
-        [SerializeField] GameObject _dormantSpikes;
-
         // the timer for long the trap will be active for
         private float _timer = 0;
+
+        // referance to the universal traps script attached to the spikes prefab
+        private TrapUniversal _trapsUniversal;
+
+        // size in x and y of the damaging area of the spikes
+        private Vector2 _size;
+
 
 
 
@@ -47,8 +49,8 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-            // get correct referance to TrapsUniversal script
-            _trapsUniversal = _dormantSpikes.GetComponent<TrapUniversal>();
+            // gets the size of the area by setting it equal to scale of the spikes
+            _size = transform.localScale;
         }
 
         // Update is called once per frame
@@ -68,11 +70,17 @@ namespace TDB
             }
         }
 
-        // when something enters the spikes, deal damage to it
-        void OnCollisionEnter2D(Collision2D collision)
+        void OnEnable()
         {
-            // TODO: deal the damage to the entity which entered
-            _trapsUniversal.DealDamage(collision.gameObject);
+            // create an array of all entities in the spike trap on activation
+            Collider2D[] inSpikes = Physics2D.OverlapBoxAll(transform.position, _size, 0f, _trapsUniversal._targetLayers);
+
+            // iterate through all entites in the spike array and deal damage to them
+            foreach (Collider2D entity in inSpikes)
+            {
+                // call universal deal damage method
+                _trapsUniversal.DealDamage(entity.gameObject);
+            }
         }
 
         // ================================

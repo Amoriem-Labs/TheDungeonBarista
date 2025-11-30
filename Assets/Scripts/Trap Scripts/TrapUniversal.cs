@@ -18,18 +18,18 @@ namespace TDB
         // Fields
         // ================================
 
-        // referance to the boxcollider is defined in the unity editor
-        [SerializeField] BoxCollider2D _trigger;
-
         // the activated state of the trap, defined in the unity editor 
         [SerializeField] GameObject _activatedTrap;
 
         // the damage that the trap does
         [SerializeField] int _damage;
 
-        // constants used to determine what layer the entity to deal damage to is on
-        private const int _playerLayer = 7;
-        private const int _enemyLayer = 8;
+        // string constants for layers that we want to detect things on (player and enemy layers)
+        [HideInInspector] public const string _playerLayer = "Player";
+        [HideInInspector] public const string _enemyLayer = "Enemy";
+
+        // layermask used in checking of entity on trap activation
+        [HideInInspector] public LayerMask _targetLayers = LayerMask.GetMask(_playerLayer, _enemyLayer);
 
 
         // ================================
@@ -53,13 +53,6 @@ namespace TDB
 
         }
 
-        // exists as kind of a shortcut to avoid having two scripts for just the spike trap
-        void OnTriggerEnter2D(Collider2D collision)
-        {
-            // calls activated trap
-            ActivateTrap();
-        }
-
         // ================================
         // Public Methods
         // ================================
@@ -68,24 +61,26 @@ namespace TDB
         public void DealDamage(GameObject entity)
         {
             // if the entity is a player deal damage through the player health script system
-            if (entity.layer == _playerLayer)
+            if (entity.layer == LayerMask.NameToLayer(_playerLayer))
             {
                 // get the referance to the health script
                 Health healthScript = entity.GetComponent<Health>();
 
                 // use the script to deal damage
                 healthScript.TakeDamage(_damage);
+
+                Debug.Log("dealt" + _damage);
             }
             // if the entity is an enemy, deal damage to them using thier health system thingy
-            else if (entity.layer == _enemyLayer)
+            else if (entity.layer == LayerMask.NameToLayer(_enemyLayer))
             {
                 // the following code i just completely ripped from 'PlayerMovement.cs'
                 // if there is a more elegant way of doing this let me know, but this s it for now
-                
+
                 // deals the damage to the entity
                 entity.GetComponent<EntityData>().CurrentHealth -= _damage;
 
-                // applies knockback, wouldnt work well with spike trap so disabled for now
+                // knockback wouldnt work well with spike trap so disabled for now
                 // entity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
                 
                 // if heals is 0 or below, kills it

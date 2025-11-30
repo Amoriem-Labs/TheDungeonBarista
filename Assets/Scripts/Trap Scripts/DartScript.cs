@@ -33,11 +33,8 @@ namespace TDB
         // speed used to adjust how fast the dart moves
         [SerializeField] float _speed;
 
-        // layer values to tell what the dart hits
+        // layer value for walls (i think) FIXME: just in case
         private const int _wallLayer = 6;
-        private const int _playerLayer = 7;
-        private const int _enemyLayer = 8;
-        
 
         // ================================
         // Properties
@@ -68,10 +65,11 @@ namespace TDB
             _rigidbody.velocity = transform.parent.forward * _speed;
         }
 
+        // when the dart collides with something
         void OnTriggerEnter2D(Collider2D collision)
         {
             // check if entity and deal damage if yes
-            if (collision.gameObject.layer == _playerLayer || collision.gameObject.layer == _enemyLayer)
+            if ((_trapUniversal._targetLayers.value & (1 << collision.gameObject.layer)) != 0)
             {
                 // deal damage to the entity it collided with
                 _trapUniversal.DealDamage(collision.gameObject);
