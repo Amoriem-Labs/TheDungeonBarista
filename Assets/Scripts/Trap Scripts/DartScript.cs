@@ -69,7 +69,7 @@ namespace TDB
         void OnTriggerEnter2D(Collider2D collision)
         {
             // check if entity and deal damage if yes
-            if ((_trapUniversal._targetLayers.value & (1 << collision.gameObject.layer)) != 0)
+            if (collision.gameObject.layer == TrapUniversal._playerLayerInt || collision.gameObject.layer == TrapUniversal._enemyLayerInt)
             {
                 // deal damage to the entity it collided with
                 _trapUniversal.DealDamage(collision.gameObject);

@@ -45,7 +45,7 @@ namespace TDB
         void Start()
         {
             // get referance to the universal trap script
-            _trapUniversal = GetComponent<TrapUniversal>();
+            _trapUniversal = GetComponentInParent<TrapUniversal>();
         }
 
         // Update is called once per frame
@@ -77,7 +77,7 @@ namespace TDB
         void OnTriggerEnter2D(Collider2D collision)
         {
             // checks if the trigger was a player or enemy
-            if ((_trapUniversal._targetLayers.value & (1 << collision.gameObject.layer)) != 0)
+            if (collision.gameObject.layer == TrapUniversal._playerLayerInt || collision.gameObject.layer == TrapUniversal._enemyLayerInt)
             {
                 _activating = true;
             }

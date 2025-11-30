@@ -34,6 +34,8 @@ namespace TDB
         // size in x and y of the damaging area of the spikes
         private Vector2 _size;
 
+        private LayerMask _targetLayers;
+
 
 
 
@@ -51,6 +53,12 @@ namespace TDB
         {
             // gets the size of the area by setting it equal to scale of the spikes
             _size = transform.localScale;
+
+            // get referance to universal script
+            _trapsUniversal = GetComponentInParent<TrapUniversal>();
+
+            // instnatiates the layermaskj for use with detection of entities above spike trap
+            _targetLayers = LayerMask.GetMask(TrapUniversal._playerLayer, TrapUniversal._enemyLayer);
         }
 
         // Update is called once per frame
@@ -73,7 +81,7 @@ namespace TDB
         void OnEnable()
         {
             // create an array of all entities in the spike trap on activation
-            Collider2D[] inSpikes = Physics2D.OverlapBoxAll(transform.position, _size, 0f, _trapsUniversal._targetLayers);
+            Collider2D[] inSpikes = Physics2D.OverlapBoxAll(transform.position, _size, 0f, _targetLayers);
 
             // iterate through all entites in the spike array and deal damage to them
             foreach (Collider2D entity in inSpikes)

@@ -28,8 +28,9 @@ namespace TDB
         [HideInInspector] public const string _playerLayer = "Player";
         [HideInInspector] public const string _enemyLayer = "Enemy";
 
-        // layermask used in checking of entity on trap activation
-        [HideInInspector] public LayerMask _targetLayers = LayerMask.GetMask(_playerLayer, _enemyLayer);
+        // the layer values of the player and enemy layers. This will break if the layers happen to change, so keep an eye out for that
+        [HideInInspector] public const int _playerLayerInt = 7;
+        [HideInInspector] public const int _enemyLayerInt = 8;
 
 
         // ================================
@@ -44,7 +45,7 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-            
+
         }
 
         // Update is called once per frame
@@ -61,18 +62,16 @@ namespace TDB
         public void DealDamage(GameObject entity)
         {
             // if the entity is a player deal damage through the player health script system
-            if (entity.layer == LayerMask.NameToLayer(_playerLayer))
+            if (entity.layer == _playerLayerInt)
             {
                 // get the referance to the health script
                 Health healthScript = entity.GetComponent<Health>();
 
                 // use the script to deal damage
                 healthScript.TakeDamage(_damage);
-
-                Debug.Log("dealt" + _damage);
             }
             // if the entity is an enemy, deal damage to them using thier health system thingy
-            else if (entity.layer == LayerMask.NameToLayer(_enemyLayer))
+            else if (entity.layer == _enemyLayerInt)
             {
                 // the following code i just completely ripped from 'PlayerMovement.cs'
                 // if there is a more elegant way of doing this let me know, but this s it for now
