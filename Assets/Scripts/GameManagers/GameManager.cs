@@ -162,30 +162,45 @@ namespace TDB.GameManagers
                     // or the scene to load is not the one to be unloaded 
                     (reloadOverlappedScenes || scenesToUnload.All(toUnload => toUnload.SceneName != toLoad.SceneName)))
                 .ToList();
-            
+
+
+            IEnumerator SceneLoadingCoroutine()
+            {
+                // unload scenes in order
+                foreach (var toUnload in scenesToUnload)
+                {
+                    if (!SceneManager.GetSceneByName(toUnload.SceneName).isLoaded) continue;
+                
+                    var unload = SceneManager.UnloadSceneAsync(toUnload.SceneName);
+                    while (unload is { isDone: false }) yield return null;
+                }
+                // unloading finished
+                yield return sceneUnloadedCallback;
+                // load scenes in order
+                foreach (var toLoad in scenesToLoad)
+                {
+                    if (SceneManager.GetSceneByName(toLoad.SceneName).isLoaded) continue;
+                
+                    var load = SceneManager.LoadSceneAsync(toLoad.SceneName, LoadSceneMode.Additive);
+                    while (load is { isDone: false }) yield return null;
+                }
+                // loading finished
+                yield return sceneLoadedCallback;
+            }
+            var sceneLoadingCoroutine = SceneLoadingCoroutine();
+
+            yield return StartTransition(sceneLoadingCoroutine, transitionIntroCallback, transitionOutroCallback);
+        }
+
+        public IEnumerator StartTransition(IEnumerator workDuringTransition,
+            IEnumerator transitionIntroCallback = null,
+            IEnumerator transitionOutroCallback = null)
+        {
             // transition intro
             yield return _transitionController.StartTransitionIntro();
             yield return transitionIntroCallback;
-            // unload scenes in order
-            foreach (var toUnload in scenesToUnload)
-            {
-                if (!SceneManager.GetSceneByName(toUnload.SceneName).isLoaded) continue;
-                
-                var unload = SceneManager.UnloadSceneAsync(toUnload.SceneName);
-                while (unload is { isDone: false }) yield return null;
-            }
-            // unloading finished
-            yield return sceneUnloadedCallback;
-            // load scenes in order
-            foreach (var toLoad in scenesToLoad)
-            {
-                if (SceneManager.GetSceneByName(toLoad.SceneName).isLoaded) continue;
-                
-                var load = SceneManager.LoadSceneAsync(toLoad.SceneName, LoadSceneMode.Additive);
-                while (load is { isDone: false }) yield return null;
-            }
-            // loading finished
-            yield return sceneLoadedCallback;
+            // scene loading
+            yield return workDuringTransition;
             // transition intro
             yield return _transitionController.StartTransitionOutro();
             yield return transitionOutroCallback;

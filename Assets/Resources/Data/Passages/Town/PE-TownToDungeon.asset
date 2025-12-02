@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72165091b778409dbf3e06380e2fbe22, type: 3}
-  m_Name: SampleCoffeeMachine
+  m_Script: {fileID: 11500000, guid: d1e890b038954addabcfc8ea17825332, type: 3}
+  m_Name: PE-TownToDungeon
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,6 +21,4 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _resourcesPath: Data/Shop/Furnitures/SampleCoffeeMachine
-  DefinitionID: Sample_Coffee_Machine
-  FurniturePrefab: {fileID: 4297571028627881224, guid: 704b8983f3bc4e449b94f39b76b2820f, type: 3}
+  _resourcesPath: 

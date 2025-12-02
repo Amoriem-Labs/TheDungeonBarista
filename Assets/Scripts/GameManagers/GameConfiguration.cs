@@ -77,6 +77,10 @@ namespace TDB.GameManagers
         
         [TabGroup("CafeSystem")]
         [SerializeField] public int ProductListCapacity = 3;
+
+        [TabGroup("CafeSystem")]
+        [SerializeField, Tooltip("In second.")]
+        public float CafeOperationTime = 60;
         
         #endregion
         

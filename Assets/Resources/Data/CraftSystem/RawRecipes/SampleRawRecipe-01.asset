@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _resourcesPath: Data/CraftSystem/RawRecipes/SampleRawRecipe-01
-  _recipeName: SampleRawRecipe-01
+  _recipeName: Placeholder Coffee
   _emptyGraphPrefab: {fileID: 217548063783620384, guid: f7be65291f869124e8ecb6dac670ef46, type: 3}
   _initialNodeData:
   - _addedIngredients: []
@@ -34,4 +34,3 @@ MonoBehaviour:
     _requiredType: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
     _effects: []
   <BasicPrice>k__BackingField: 100
-  <Minigame>k__BackingField: {fileID: 11400000, guid: 3624e2fa8fb66c145a2a8cbfb915338b, type: 2}
