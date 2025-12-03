@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.IngredientStorageSystem.Data;
 using TDB.Utils.EventChannels;
+using TDB.Utils.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,11 @@ namespace TDB.CraftSystem.UI.RecipeBook
         [SerializeField] private TextMeshProUGUI _recipeNameText;
         [SerializeField] private ServingCountUI _servingCountUI;
         [SerializeField] private Button _deleteButton;
+
+        [SerializeField] private CanvasGroup _itemBodyGroup;
+        [SerializeField] private UIEnabler _controlButtonEnabler;
+        [SerializeField] private Button _editButton;
+        [SerializeField] private Button _submitButton;
         
         [TitleGroup("Events")]
         [SerializeField] private EventChannel _onRecipeSelectedEvent;
@@ -25,6 +31,8 @@ namespace TDB.CraftSystem.UI.RecipeBook
         private void Awake()
         {
             _deleteButton.onClick.AddListener(HandleDeleteButtonClicked);
+            _editButton.onClick.AddListener(HandleEditButtonClicked);
+            _submitButton.onClick.AddListener(HandleSubmitButtonClicked);
         }
 
         private void OnDisable()
@@ -63,6 +71,30 @@ namespace TDB.CraftSystem.UI.RecipeBook
         {
             // TODO: confirmation
             _parentMenu.DeleteRecipe(_finalRecipe);
+        }
+
+        private void HandleSubmitButtonClicked()
+        {
+            _parentMenu.HandleRecipeSubmit();
+        }
+
+        private void HandleEditButtonClicked()
+        {
+            _parentMenu.HandleRecipeEdit();
+        }
+
+        public void HandleRecipeSelected(bool isSelected)
+        {
+            _itemBodyGroup.blocksRaycasts = !isSelected;
+
+            if (isSelected)
+            {
+                _controlButtonEnabler.Enable(.2f);
+            }
+            else
+            {
+                _controlButtonEnabler.Disable(.2f);   
+            }
         }
     }
 }

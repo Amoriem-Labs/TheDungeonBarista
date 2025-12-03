@@ -34,7 +34,10 @@ namespace TDB.CraftSystem.UI
         private RawRecipeMenuUI _rawRecipeMenu;
         private UIEnabler _rawRecipeMenuEnabler;
         private UIEnabler _craftMenuEnabler;
-        private Action<FinalRecipeData> _callback;
+        private Action<FinalRecipeData> _recipeDecidedCallback;
+
+        public Action OnRecipeBookToggled;
+        private FinalRecipeData _currentSelectedRecipe;
 
         private void Awake()
         {
@@ -48,11 +51,13 @@ namespace TDB.CraftSystem.UI
         private void OnEnable()
         {
             _configureRecipeEvent.AddListener<OpenMenuInfo>(OpenMenu);
+            _onRecipeSelectedEvent.AddListener<FinalRecipeData>(HandleRecipeSelected);
         }
 
         private void OnDisable()
         {
             _configureRecipeEvent.RemoveListener<OpenMenuInfo>(OpenMenu);
+            _onRecipeSelectedEvent.RemoveListener<FinalRecipeData>(HandleRecipeSelected);
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace TDB.CraftSystem.UI
             // select/deselect recipe
             _onRecipeSelectedEvent.RaiseEvent(openMenuInfo.CurrentRecipe);
             // confirm callback
-            _callback = openMenuInfo.RecipeDecidedCallback;
+            _recipeDecidedCallback = openMenuInfo.RecipeDecidedCallback;
 
             _testChosenRecipe = null;
         }
@@ -127,7 +132,11 @@ namespace TDB.CraftSystem.UI
             });
         }
 
-        public void ToggleRecipeBook() => ToggleRecipeBook(!_rawRecipeMenuEnabler.Enabled);
+        public void ToggleRecipeBook()
+        {
+            ToggleRecipeBook(!_rawRecipeMenuEnabler.Enabled);
+            OnRecipeBookToggled?.Invoke();
+        }
 
         public void ToggleRecipeBook(bool enable)
         {
@@ -145,11 +154,16 @@ namespace TDB.CraftSystem.UI
             }
         }
 
-        public void ConfirmFinalRecipe(FinalRecipeData recipe)
+        public void ConfirmFinalRecipe()
         {
-            _callback?.Invoke(recipe);
+            _recipeDecidedCallback?.Invoke(_currentSelectedRecipe);
             // close menu
             _craftMenuEnabler.Disable(.5f);
+        }
+        
+        private void HandleRecipeSelected(FinalRecipeData recipe)
+        {
+            _currentSelectedRecipe = recipe;
         }
     }
 

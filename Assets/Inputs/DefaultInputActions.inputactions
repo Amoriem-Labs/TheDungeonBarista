@@ -672,17 +672,6 @@
                 },
                 {
                     "name": "",
-                    "id": "22dbad9a-9e81-489e-ac81-f47a3076e993",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Submit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d3a50872-70be-4722-9024-ea02ef4ef64d",
                     "path": "<Keyboard>/space",
                     "interactions": "",
