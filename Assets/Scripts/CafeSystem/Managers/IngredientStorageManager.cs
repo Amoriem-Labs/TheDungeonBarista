@@ -33,5 +33,10 @@ namespace TDB.CafeSystem.Managers
             // failed to supply all required ingredients
             return requirement.Values.Sum() >= 0;
         }
+
+        public void AddVolatileIngredient(IngredientDefinition itemDefinition)
+        {
+            _volatileStorage.AddIngredient(itemDefinition);
+        }
     }
 }

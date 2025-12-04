@@ -6,6 +6,8 @@ using TDB.CraftSystem.Data;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.CraftSystem.UI.RecipeGraph;
 using TDB.IngredientStorageSystem.Data;
+using TDB.ShopSystem;
+using TDB.ShopSystem.IngredientShop;
 using TDB.Utils.SceneTransitions;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -82,6 +84,15 @@ namespace TDB.GameManagers
         [SerializeField, Tooltip("In second.")]
         public float CafeOperationTime = 60;
         
+        #endregion
+
+        #region ShopSystem
+
+        [TabGroup("ShopSystem")]
+        [BoxGroup("_DefaultTabGroup/ShopSystem/Test Ingredient Shop Data")]
+        [SerializeField, InlineProperty, HideLabel]
+        public IngredientShopData TestIngredientShopData;
+
         #endregion
         
 #if UNITY_EDITOR

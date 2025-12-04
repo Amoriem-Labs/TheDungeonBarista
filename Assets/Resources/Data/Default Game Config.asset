@@ -67,3 +67,10 @@ MonoBehaviour:
   CustomerEatTime: 5
   ProductListCapacity: 3
   CafeOperationTime: 60
+  TestIngredientShopData:
+    _purchasableIngredients:
+    - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+    - {fileID: 11400000, guid: 881d35119d416744c9aee1b5d037880a, type: 2}
+    - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+    _shopSlots: 8
+    _itemAmount: {x: 1, y: 10}

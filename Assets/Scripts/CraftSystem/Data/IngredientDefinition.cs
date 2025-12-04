@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using TDB.CraftSystem.EffectSystem;
 using TDB.CraftSystem.EffectSystem.Data;
+using TDB.ShopSystem;
 using TDB.Utils.Misc;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace TDB.CraftSystem.Data
 {
     [CreateAssetMenu(fileName = "New Ingredient", menuName = "Data/Craft System/Ingredient Definition", order = 0)]
-    public class IngredientDefinition : ResourceScriptableObject
+    public class IngredientDefinition : ResourceScriptableObject, IShopItemDefinition
     {
         [SerializeField] private string _ingredientName;
         [SerializeField] private Sprite _ingredientSprite;

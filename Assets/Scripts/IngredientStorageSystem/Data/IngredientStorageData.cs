@@ -39,5 +39,16 @@ namespace TDB.IngredientStorageSystem.Data
                 requirement[ingredient] = required - supply;
             }
         }
+
+        public void AddIngredient(IngredientDefinition itemDefinition, int amount = 1)
+        {
+            var stack = Ingredients.Find(i => i.Definition == itemDefinition);
+            if (stack == null)
+            {
+                stack = new IngredientStorageStackData(itemDefinition);
+                Ingredients.Add(stack);
+            }
+            stack.Deposit(amount);
+        }
     }
 }

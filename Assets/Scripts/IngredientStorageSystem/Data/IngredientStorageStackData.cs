@@ -16,5 +16,16 @@ namespace TDB.IngredientStorageSystem.Data
             Amount -= amount;
             Amount = Mathf.Max(0, Amount);
         }
+
+        public void Deposit(int amount)
+        {
+            Amount += amount;
+        }
+
+        public IngredientStorageStackData(IngredientDefinition definition)
+        {
+            Definition = definition;
+            Amount = 0;
+        }
     }
 }

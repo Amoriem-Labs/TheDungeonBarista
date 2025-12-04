@@ -11,6 +11,7 @@ namespace TDB.Utils.UI
         public float rowSpacing = 0f;
         public bool controlChildWidth = true;
         public bool controlChildHeight = true;
+        public bool reversed = false;
 
         private void GetCellAndGrid(out float cellW, out float cellH, out int rows, out int cols, out int count)
         {
@@ -140,7 +141,7 @@ namespace TDB.Utils.UI
                 for (int i = 0; i < actualCount; i++)
                 {
                     int index = rowStart + i;
-                    var child = rectChildren[index];
+                    var child = rectChildren[reversed ? rectChildren.Count - index - 1 : index];
                     float x = padding.left + xOffsetRow + i * (cellWidth + spacing);
 
                     SetChildAlongAxis(child, 0, x, cellWidth);
