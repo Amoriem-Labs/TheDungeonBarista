@@ -9,12 +9,16 @@ namespace TDB.ShopSystem
         public abstract IEnumerable<ShopItemData<T>> AllItems { get; }
     }
 
-    public abstract class ShopItemData<T> where T : ScriptableObject, IShopItemDefinition
+    public abstract class ShopItemDataBase
     {
-        public T ItemDefinition;
-        public int InStockCount { get; private set; }
+        public int InStockCount { get; protected set; }
         public abstract int Price { get; }
+    }
 
+    public abstract class ShopItemData<T> : ShopItemDataBase where T : ScriptableObject, IShopItemDefinition
+    {
+        public readonly T ItemDefinition;
+        
         protected abstract void HandlePurchase();
         
         public void Purchase()

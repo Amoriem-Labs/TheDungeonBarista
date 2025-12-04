@@ -3,14 +3,17 @@ using UnityEngine;
 
 namespace TDB.ShopSystem
 {
-    public abstract class ShopItemUI<T> : MonoBehaviour where T : ScriptableObject, IShopItemDefinition
+    public abstract class ShopItemUIBase : MonoBehaviour
+    {
+        public Action<ShopItemDataBase> OnBindItemData;
+        public Action<bool> OnPurchasableUpdate;
+    }
+    
+    public abstract class ShopItemUI<T> : ShopItemUIBase where T : ScriptableObject, IShopItemDefinition
     {
         private ShopItemData<T> _boundItemData;
         
-        public Action<ShopItemData<T>> OnBindItemData;
         private IMoneyDataHolder _moneyData;
-
-        public Action<bool> OnPurchasableUpdate;
         
         private void OnDisable()
         {
@@ -38,7 +41,10 @@ namespace TDB.ShopSystem
             CheckCanPurchase();
         }
 
-        protected abstract void CheckCanPurchase();
+        protected virtual void CheckCanPurchase()
+        {
+            OnPurchasableUpdate?.Invoke(CanPurchase);
+        }
 
         public void HandlePurchase()
         {

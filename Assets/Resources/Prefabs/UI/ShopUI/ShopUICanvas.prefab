@@ -32,7 +32,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8325105822056793774}
+  - {fileID: 8944699041536944672}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraType: 1
---- !u!1001 &4632319514125424432
+--- !u!1001 &5755615503219637182
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -124,10 +124,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6554742507674299471}
     m_Modifications:
-    - target: {fileID: 1782162369744392744, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
-      propertyPath: _moneyText
-      value: 
-      objectReference: {fileID: 8955842806554957413}
     - target: {fileID: 2071588273413844919, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -139,10 +135,6 @@ PrefabInstance:
     - target: {fileID: 2385287786803384715, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2385287786803384715, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.000014543533
       objectReference: {fileID: 0}
     - target: {fileID: 3729536488345768350, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
       propertyPath: m_Pivot.x
@@ -228,32 +220,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: IngredientShopUI
       objectReference: {fileID: 0}
-    - target: {fileID: 8467573664903399102, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467573664903399102, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
---- !u!224 &8325105822056793774 stripped
+--- !u!224 &8944699041536944672 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3729536488345768350, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
-  m_PrefabInstance: {fileID: 4632319514125424432}
+  m_PrefabInstance: {fileID: 5755615503219637182}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8955842806554957413 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4323672911945417045, guid: 9128881ce1d2b4f45a2441b6b06a5eea, type: 3}
-  m_PrefabInstance: {fileID: 4632319514125424432}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

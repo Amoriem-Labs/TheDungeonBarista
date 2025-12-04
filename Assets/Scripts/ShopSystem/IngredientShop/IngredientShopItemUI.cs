@@ -1,4 +1,5 @@
-﻿using TDB.CraftSystem.Data;
+﻿using System;
+using TDB.CraftSystem.Data;
 using TDB.Utils.UI.UIHover;
 using TMPro;
 using UnityEngine;
@@ -6,36 +7,34 @@ using UnityEngine.UI;
 
 namespace TDB.ShopSystem.IngredientShop
 {
-    public class IngredientShopItemUI : ShopItemUI<IngredientDefinition>, IUIClickHandler
+    public class IngredientShopItemUI : ShopItemUI<IngredientDefinition>
     {
         [SerializeField] private Image _ingredientIcon;
         [SerializeField] private Image _typeIcon;
         [SerializeField] private TextMeshProUGUI _ingredientName;
-        
+        private Button _button;
+
+        private void Awake()
+        {
+            _button = GetComponent<Button>();
+            _button.onClick.AddListener(HandlePurchase);
+        }
+
         public override void BindItemData(ShopItemData<IngredientDefinition> itemData, IMoneyDataHolder moneyData)
         {
             base.BindItemData(itemData, moneyData);
 
             _ingredientIcon.sprite = itemData.ItemDefinition.IngredientSprite;
             _ingredientName.text = itemData.ItemDefinition.IngredientName;
-            _typeIcon.sprite = itemData.ItemDefinition.IngredientSprite;
+            _typeIcon.sprite = itemData.ItemDefinition.Type.Icon;
         }
 
         protected override void CheckCanPurchase()
         {
-            // TODO: update UI
-        }
-
-        public void OnUIClickStart() { }
-
-        public void OnUIClickFinish()
-        {
-            if (!CanPurchase)
-            {
-                Debug.Log("Notify player cannot purchase.");
-                return;
-            }
-            HandlePurchase();
+            base.CheckCanPurchase();
+            
+            // update UI
+            _button.interactable = CanPurchase;
         }
     }
 }

@@ -76,13 +76,9 @@ namespace TDB.Utils.Misc
         
         public static IEnumerable<T> Shuffled<T>(this IList<T> list)
         {
-            int n = list.Count;
-            while (n > 1)
-            {
-                int k = rng.Next(n);
-                yield return list[k];
-                n--;
-            }
+            var newList = new List<T>(list);
+            newList.Shuffle();
+            return newList;
         }
         
         public static bool IsAncestorOf(this Transform ancestor, Transform child)
