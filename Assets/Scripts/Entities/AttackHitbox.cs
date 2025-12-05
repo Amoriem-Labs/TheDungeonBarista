@@ -14,14 +14,14 @@ namespace TDB
     //=================================================================================
     public class AttackHitbox : MonoBehaviour
     {
-        private string _playerObjectName = "Player";
+       
         public delegate void BaseDelegate(GameObject entity);
-        public GameObject Hurtbox;
+       
         public BaseDelegate dealDamage;
 
 
-        private const int _enemyLayer = 8;
-        private const int _playerLayer = 7;
+        public static int _enemyLayer = 8;
+        public static int _playerLayer = 7;
 
         
         // Start is called before the first frame update

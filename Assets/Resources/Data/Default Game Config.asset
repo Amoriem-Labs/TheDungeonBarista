@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 587585437e73f6d4c92426727898c7a3, type: 2}
   DungeonPhaseScenes:
   - {fileID: 11400000, guid: c1d13ded320917f4b8ef3c5fa82663e7, type: 2}
-  - {fileID: 11400000, guid: 65e3d0fd96c7d4b499656cb6e03c045b, type: 2}
+  - {fileID: 11400000, guid: ce7f480fba82ce241929b4aeba91ab97, type: 2}
   _skipTutorial: 0
   _infiniteResource: 1
   TestIngredientStorage:

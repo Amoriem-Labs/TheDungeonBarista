@@ -34,3 +34,4 @@ MonoBehaviour:
     _requiredType: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
     _effects: []
   <BasicPrice>k__BackingField: 100
+  <Minigame>k__BackingField: {fileID: 11400000, guid: 3624e2fa8fb66c145a2a8cbfb915338b, type: 2}

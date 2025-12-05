@@ -17,21 +17,27 @@ namespace TDB
         // Start is called before the first frame update
         private EntityData _entityData;
         private InputController _inputController;
+        private PlayerStateHandler _playerStateHandler;
         
         private void Awake()
         {
             _entityData = GetComponent<EntityData>();
-
-            // InputManager.attackKeyPressed += AttackKeyPressed;
+            _playerStateHandler = GetComponent<PlayerStateHandler>();
             _inputController = GetComponentInChildren<InputController>();
+
             _inputController.AttackKeyPressed += AttackKeyPressed;
-            
             GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
         }
+
+
+
+
         private void AttackKeyPressed()
         {
-            _entityData.IsAttacking = true;
-
+            if ( _playerStateHandler.currentState == PlayerStateHandler.States.free)
+            {
+                _entityData.IsAttacking = true;
+            }
         }
     }
 }

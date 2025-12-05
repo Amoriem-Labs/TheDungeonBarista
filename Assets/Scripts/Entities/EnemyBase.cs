@@ -23,10 +23,10 @@ namespace TDB
         // Update is called once per frame
         void Update()
         {
-            _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Velocity.x, 0, _entityData.Decceleration * Time.deltaTime)
-                                                 , Mathf.MoveTowards(_entityData.Velocity.y, 0, _entityData.Decceleration * Time.deltaTime));
+           // _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Velocity.x, 0, _entityData.Decceleration * Time.deltaTime)
+             //                                    , Mathf.MoveTowards(_entityData.Velocity.y, 0, _entityData.Decceleration * Time.deltaTime));
         
-            _entityData.Rb.velocity = _entityData.Velocity;
+            //_entityData.Rb.velocity = _entityData.Velocity;
         }
     }
 }
