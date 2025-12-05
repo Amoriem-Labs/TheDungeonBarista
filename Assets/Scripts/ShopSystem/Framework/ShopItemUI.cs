@@ -1,21 +1,21 @@
 ﻿using System;
 using UnityEngine;
 
-namespace TDB.ShopSystem
+namespace TDB.ShopSystem.Framework
 {
-    public abstract class ShopItemUIBase : MonoBehaviour
-    {
-        public Action<ShopItemDataBase> OnBindItemData;
-        public Action<bool> OnPurchasableUpdate;
-    }
     
-    public abstract class ShopItemUI<T> : ShopItemUIBase where T : ScriptableObject, IShopItemDefinition
+    public abstract class ShopItemUI<T> : MonoBehaviour, IShopItemUI where T : ScriptableObject, IShopItemDefinition
     {
         private ShopItemData<T> _boundItemData;
         
         private IMoneyDataHolder _moneyData;
         
-        private void OnDisable()
+        public Action<IShopItemData> OnBindItemData { get; set; }
+        public Action<bool> OnPurchasableUpdate{ get; set; }
+
+        protected bool CanPurchase => _boundItemData.InStockCount > 0 && _boundItemData.Price <= _moneyData.GetMoney();
+        
+        protected virtual void OnDisable()
         {
             if (_boundItemData != null)
             {
@@ -59,7 +59,12 @@ namespace TDB.ShopSystem
             _boundItemData.Purchase();
             _moneyData.SetMoney(money - price);
         }
-
-        protected bool CanPurchase => _boundItemData.InStockCount > 0 && _boundItemData.Price <= _moneyData.GetMoney();
+    }
+    
+    public interface IShopItemUI
+    {
+        Action<IShopItemData> OnBindItemData { get; set; }
+        Action<bool> OnPurchasableUpdate { get; set; }
+        public void HandlePurchase();
     }
 }

@@ -23,4 +23,6 @@ MonoBehaviour:
     SerializationNodes: []
   _resourcesPath: Data/Cafe/Furnitures/SampleCoffeeMachine
   DefinitionID: Sample_Coffee_Machine
+  FurnitureName: Sample Coffee Machine
   FurniturePrefab: {fileID: 4297571028627881224, guid: 704b8983f3bc4e449b94f39b76b2820f, type: 3}
+  <PreviewImage>k__BackingField: {fileID: 21300000, guid: 190c43ac8c7af48e2ae7663a44f1c7ec, type: 3}

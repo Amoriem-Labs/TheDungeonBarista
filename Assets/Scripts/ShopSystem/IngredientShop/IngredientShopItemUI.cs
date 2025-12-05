@@ -1,5 +1,6 @@
 ﻿using System;
 using TDB.CraftSystem.Data;
+using TDB.ShopSystem.Framework;
 using TDB.Utils.UI.UIHover;
 using TMPro;
 using UnityEngine;

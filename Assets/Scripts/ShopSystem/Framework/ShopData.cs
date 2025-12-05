@@ -2,30 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TDB.ShopSystem
+namespace TDB.ShopSystem.Framework
 {
-    public abstract class ShopData<T> where T : ScriptableObject, IShopItemDefinition
+    public interface IShopData<T> where T : ScriptableObject, IShopItemDefinition
     {
-        public abstract IEnumerable<ShopItemData<T>> AllItems { get; }
+        public IEnumerable<ShopItemData<T>> AllItems { get; }
     }
 
-    public abstract class ShopItemDataBase
+    public interface IShopItemData
     {
-        public int InStockCount { get; protected set; }
-        public abstract int Price { get; }
+        public int InStockCount { get; set; }
+        public int Price { get; }
+        public void Purchase();
     }
 
-    public abstract class ShopItemData<T> : ShopItemDataBase where T : ScriptableObject, IShopItemDefinition
+    public abstract class ShopItemData<T> : IShopItemData where T : ScriptableObject, IShopItemDefinition
     {
         public readonly T ItemDefinition;
-        
-        protected abstract void HandlePurchase();
-        
+
+        public int InStockCount { get; set; }
+
+        public abstract int Price { get; }
+
         public void Purchase()
         {
             InStockCount--;
             HandlePurchase();
         }
+        
+        protected abstract void HandlePurchase();
 
         protected ShopItemData(T itemDefinition, int inStockCount)
         {

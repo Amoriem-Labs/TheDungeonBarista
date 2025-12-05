@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using TMPro;
 using UnityEngine;
@@ -8,13 +9,13 @@ namespace TDB.ShopSystem.UI
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class ItemSoldOutText : MonoBehaviour
     {
-        private ShopItemUIBase _itemUI;
+        private IShopItemUI _itemUI;
         private TextMeshProUGUI _text;
-        private ShopItemDataBase _itemData;
+        private IShopItemData _itemData;
 
         private void Awake()
         {
-            _itemUI = GetComponentInParent<ShopItemUIBase>();
+            _itemUI = GetComponentInParent<IShopItemUI>();
             _itemUI.OnBindItemData += HandleBindItemData;
             _itemUI.OnPurchasableUpdate += HandlePurchasableUpdate;
 
@@ -34,7 +35,7 @@ namespace TDB.ShopSystem.UI
             _text.DOFade(_itemData.InStockCount > 0 ? 0 : 1, 0.2f);
         }
 
-        private void HandleBindItemData(ShopItemDataBase data)
+        private void HandleBindItemData(IShopItemData data)
         {
             _itemData = data;
             HandlePurchasableUpdate(true);

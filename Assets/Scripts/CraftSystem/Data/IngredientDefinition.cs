@@ -4,6 +4,7 @@ using Sirenix.Serialization;
 using TDB.CraftSystem.EffectSystem;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.ShopSystem;
+using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
 

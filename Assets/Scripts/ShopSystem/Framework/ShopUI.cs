@@ -5,7 +5,7 @@ using TDB.Utils.UI;
 using TMPro;
 using UnityEngine;
 
-namespace TDB.ShopSystem
+namespace TDB.ShopSystem.Framework
 {
     /// <summary>
     /// This class is responsible for instantiate the shop item list and bind data.
@@ -38,7 +38,7 @@ namespace TDB.ShopSystem
             }
         }
         
-        public void OpenShop(ShopData<T> shopData, IMoneyDataHolder moneyData, Action closeShopCallback)
+        public void OpenShop(IShopData<T> shopData, IMoneyDataHolder moneyData, Action closeShopCallback)
         {
             // bind money UI
             _moneyData = moneyData;

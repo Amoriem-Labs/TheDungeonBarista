@@ -1,4 +1,5 @@
 ﻿using TDB.ShopSystem;
+using TDB.ShopSystem.Framework;
 
 namespace TDB.Player.Interaction.Triggers
 {

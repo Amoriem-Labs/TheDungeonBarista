@@ -1,6 +1,7 @@
 ﻿using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
 using TDB.GameManagers;
+using TDB.ShopSystem.Framework;
 using UnityEngine;
 
 namespace TDB.ShopSystem.IngredientShop
@@ -16,7 +17,7 @@ namespace TDB.ShopSystem.IngredientShop
             _ingredientStorage = FindObjectOfType<IngredientStorageManager>();
         }
 
-        protected override ShopData<IngredientDefinition> RequestShopData()
+        protected override IShopData<IngredientDefinition> RequestShopData()
         {
             var data = GameManager.Instance.GameConfig.TestIngredientShopData;
             data.SetStorage(_ingredientStorage);

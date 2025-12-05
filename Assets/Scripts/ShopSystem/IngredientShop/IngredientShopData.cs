@@ -4,13 +4,14 @@ using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
 using TDB.IngredientStorageSystem.Data;
+using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
 
 namespace TDB.ShopSystem.IngredientShop
 {
     [System.Serializable]
-    public class IngredientShopData : ShopData<IngredientDefinition>
+    public class IngredientShopData : IShopData<IngredientDefinition>
     {
         [SerializeField]
         private List<IngredientDefinition> _purchasableIngredients;
@@ -24,11 +25,11 @@ namespace TDB.ShopSystem.IngredientShop
         
         public void SetStorage(IngredientStorageManager storage) => _ingredientStorage = storage;
 
-        public override IEnumerable<ShopItemData<IngredientDefinition>> AllItems =>
+        public IEnumerable<ShopItemData<IngredientDefinition>> AllItems =>
             _purchasableIngredients.Shuffled()
                 .Where((_, i) => i < _shopSlots)
                 .Select(i =>
-                    new IngredientShopItemData(i, Random.Range(_itemAmount.x, _itemAmount.y), _ingredientStorage));
+                    new IngredientShopItemData(i, Random.Range(_itemAmount.x, _itemAmount.y + 1), _ingredientStorage));
     }
     
     public class IngredientShopItemData : ShopItemData<IngredientDefinition>

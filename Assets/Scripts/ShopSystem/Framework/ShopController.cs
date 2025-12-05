@@ -2,7 +2,7 @@
 using TDB.Player.Interaction;
 using UnityEngine;
 
-namespace TDB.ShopSystem
+namespace TDB.ShopSystem.Framework
 {
     public abstract class ShopControllerBase : MonoBehaviour, IInteractable
     {
@@ -41,7 +41,7 @@ namespace TDB.ShopSystem
             _shopUI = FindObjectOfType<ShopUI<T>>();
         }
 
-        protected abstract ShopData<T> RequestShopData();
+        protected abstract IShopData<T> RequestShopData();
 
         #region Interactable
 

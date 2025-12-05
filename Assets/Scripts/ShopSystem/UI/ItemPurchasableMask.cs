@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +10,13 @@ namespace TDB.ShopSystem.UI
     [RequireComponent(typeof(Image))]
     public class ItemPurchasableMask : MonoBehaviour
     {
-        private ShopItemUIBase _itemUI;
+        private IShopItemUI _itemUI;
         private Image _image;
         private float _disabledAlpha;
 
         private void Awake()
         {
-            _itemUI = GetComponentInParent<ShopItemUIBase>();
+            _itemUI = GetComponentInParent<IShopItemUI>();
             _itemUI.OnPurchasableUpdate += HandlePurchasableUpdate;
 
             _image = GetComponent<Image>();
