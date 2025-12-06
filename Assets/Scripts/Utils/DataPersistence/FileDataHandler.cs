@@ -26,24 +26,29 @@ namespace TDB.Utils.DataPersistence
             if (!fullFileName.EndsWith(_dataFileExt)) fullFileName += _dataFileExt;
             
             string fullPath = Path.Combine(_dataDirPath, fullFileName);
+            
             GameData loadedData = null;
             if (File.Exists(fullPath))
             {
                 try
                 {
-                    ReadDataFromFile(fullPath, out byte[] dataToLoad);
-
-                    // deserialize json
-                    // loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
-                    loadedData = SerializationUtility.DeserializeValue<GameData>(dataToLoad, DataFormat.JSON);
-
-                    // var info = new FileInfo(fullPath);
-                    // loadedData.SaveTime = info.LastWriteTime;
+                    var loadedBytes = File.ReadAllBytes(fullPath);
+            
+                    loadedData = SerializationUtility.DeserializeValue<GameData>(loadedBytes, DataFormat.JSON);
+                    
+                    // ReadDataFromFile(fullPath, out byte[] dataToLoad);
+                    //
+                    // // deserialize json
+                    // loadedData = SerializationUtility.DeserializeValue<GameData>(dataToLoad, DataFormat.JSON);
                 }
                 catch (Exception e)
                 {
                     Debug.LogError($"Error occured when loading data from {fullPath}.\n{e}");
                 }
+            }
+            else
+            {
+                Debug.LogError($"File {fullFileName} does not exist.");
             }
             return loadedData;
         }
@@ -55,17 +60,17 @@ namespace TDB.Utils.DataPersistence
             string fullPath = Path.Combine(_dataDirPath, fullFileName);
             try
             {
-                // create the directory
-                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-
-                // serialize data to json string
-                var dataToStore = SerializationUtility.SerializeValue(data, DataFormat.JSON);
-                // string dataToStore = JsonUtility.ToJson(data, true);
-
-                SaveDataToFile(fullPath, dataToStore);
-
-                // var info = new FileInfo(fullPath);
-                // data.SaveTime = info.LastWriteTime;
+                // // create the directory
+                // Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+                //
+                // // serialize data to json string
+                // var dataToStore = SerializationUtility.SerializeValue(data, DataFormat.JSON);
+                //
+                // SaveDataToFile(fullPath, dataToStore);
+                
+                var bytes = SerializationUtility.SerializeValue(data, DataFormat.JSON);
+            
+                File.WriteAllBytes(fullPath, bytes);
             }
             catch (Exception e)
             {
@@ -75,14 +80,12 @@ namespace TDB.Utils.DataPersistence
 
         private void SaveDataToFile(string fullPath, byte[] dataToStore)
         {
-            // write data to file
-            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    writer.Write(dataToStore);
-                }
-            }
+            File.WriteAllBytes(fullPath, dataToStore);
+        }
+        
+        public static void ReadDataFromFile(string fullPath, out byte[] dataToLoad)
+        {
+            dataToLoad = File.ReadAllBytes(fullPath);
         }
 
         public static void SaveDataToFile(string fullPath, string dataToStore)
@@ -97,19 +100,6 @@ namespace TDB.Utils.DataPersistence
             }
         }
         
-        public static void ReadDataFromFile(string fullPath, out byte[] dataToLoad)
-        {
-            dataToLoad = File.ReadAllBytes(fullPath);
-            // // load data from file
-            // using (FileStream stream = new FileStream(fullPath, FileMode.Open))
-            // {
-            //     using (StreamReader reader = new StreamReader(stream))
-            //     {
-            //         dataToLoad = reader.ReadToEnd();
-            //     }
-            // }
-        }
-
         public static void ReadDataFromFile(string fullPath, out string dataToLoad)
         {
             // load data from file

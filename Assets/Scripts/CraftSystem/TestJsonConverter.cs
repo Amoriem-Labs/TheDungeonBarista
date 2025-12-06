@@ -1,8 +1,8 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.IO;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using TDB.CraftSystem.Data;
 using TDB.GameManagers;
-using TDB.InventorySystem.IngredientStorage;
+using TDB.Utils.DataPersistence;
 using UnityEngine;
 
 namespace TDB.CraftSystem
@@ -12,23 +12,23 @@ namespace TDB.CraftSystem
     /// </summary>
     public class TestJsonConverter : MonoBehaviour
     {
-        [SerializeField, ReadOnly, HideLabel, BoxGroup("Loaded Storage")]
-        private IngredientStorageData _loadedStorage;
+        [SerializeField, ReadOnly, HideLabel, BoxGroup("Loaded Game Data")]
+        private GameData _gameData;
         
-        [SerializeField, ReadOnly, HideLabel, BoxGroup("Loaded Recipe Book")]
-        public RecipeBookData _loadedRecipeBook;
-        
-        // [Button(ButtonSizes.Large)]
-        // public void Test()
-        // {
-        //     var originStorage = GameManager.Instance.GameConfig.TestIngredientStorage;
-        //     var originRecipeBook = GameManager.Instance.GameConfig.ExtendedTestRecipeBook;
-        //     
-        //     var bytes = SerializationUtility.SerializeValue(originStorage, DataFormat.JSON);
-        //     _loadedStorage = SerializationUtility.DeserializeValue<IngredientStorageData>(bytes, DataFormat.JSON);
-        //     
-        //     bytes = SerializationUtility.SerializeValue(originRecipeBook, DataFormat.JSON);
-        //     _loadedRecipeBook = SerializationUtility.DeserializeValue<RecipeBookData>(bytes, DataFormat.JSON);
-        // }
+        [Button(ButtonSizes.Large)]
+        public void Test()
+        {
+            var originalData = GameManager.Instance.GameConfig.NewGameData;
+
+            var path = Path.Combine(Application.persistentDataPath, "TestSave.sav");
+            Debug.Log(path);
+            
+            var bytes = SerializationUtility.SerializeValue(originalData, DataFormat.JSON);
+            
+            File.WriteAllBytes(path, bytes);
+            var loadedBytes = File.ReadAllBytes(path);
+            
+            _gameData = SerializationUtility.DeserializeValue<GameData>(loadedBytes, DataFormat.JSON);
+        }
     }
 }

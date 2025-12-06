@@ -66,6 +66,9 @@ namespace TDB.CafeSystem.Managers
         }
 
         [Button(ButtonSizes.Large), DisableInEditorMode]
+        [InfoBox(
+            "If the data is not generated from DataPersistenceManager, it will not be loaded correctly after being saved.",
+            InfoMessageType.Warning)]
         private void OverwriteAndSave()
         {
             if (_currentSessionGameData == null)
@@ -73,15 +76,15 @@ namespace TDB.CafeSystem.Managers
                 Debug.LogError("Session data is missing.");
                 return;
             }
-            
+
             foreach (var dataWriter in _dataWriters)
             {
                 dataWriter.WriteToData(_currentSessionGameData);
             }
-            
+
             DataPersistenceManager.Instance.SaveGame();
         }
-        
+
         public void RegisterDataWriter(IGameDataWriter dataWriter)
         {
             _dataWriters.Add(dataWriter);
