@@ -1,4 +1,5 @@
 ﻿using System;
+using TDB.GameManagers.SessionManagers;
 using TDB.Player.Interaction;
 using UnityEngine;
 
@@ -35,10 +36,12 @@ namespace TDB.ShopSystem.Framework
     public abstract class ShopController<T> : ShopControllerBase where T : ScriptableObject, IShopItemDefinition
     {
         private ShopUI<T> _shopUI;
+        private MoneyManager _moneyManager;
 
         protected virtual void Awake()
         {
             _shopUI = FindObjectOfType<ShopUI<T>>();
+            _moneyManager = FindObjectOfType<MoneyManager>();
         }
 
         protected abstract IShopData<T> RequestShopData();
@@ -49,12 +52,9 @@ namespace TDB.ShopSystem.Framework
         {
             base.OpenShop(closeShopCallback);
 
-            
-            // TODO: get money data
-            var moneyData = new TestMoneyData();
             // get shop data
             var shopData = RequestShopData();   
-            _shopUI.OpenShop(shopData, moneyData, OnCloseShop);
+            _shopUI.OpenShop(shopData, _moneyManager, OnCloseShop);
         }
 
         #endregion

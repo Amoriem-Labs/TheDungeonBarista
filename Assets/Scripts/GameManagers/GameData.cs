@@ -15,7 +15,7 @@ namespace TDB.GameManagers
     public class GameData
     {
         // public DateTime SaveTime;
-
+        
         #region Inventory Data
 
         [SerializeField]
@@ -56,6 +56,12 @@ namespace TDB.GameManagers
         public FurnitureShopData FurnitureShopData;
 
         #endregion
+
+        #region Other Data
+
+        [SerializeField] public int Money;
+
+        #endregion
         
 
         public GameData(GameData newGameData)
@@ -76,6 +82,9 @@ namespace TDB.GameManagers
             // copy shop data
             IngredientShopData = new IngredientShopData(newGameData.IngredientShopData);
             FurnitureShopData = new FurnitureShopData(newGameData.FurnitureShopData);
+            
+            // copy other data
+            Money = newGameData.Money;
         }
     }
 }
