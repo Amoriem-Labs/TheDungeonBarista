@@ -3,6 +3,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
+using TDB.GameManagers.SessionManagers;
 using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
@@ -21,7 +22,14 @@ namespace TDB.ShopSystem.IngredientShop
         
         // needs to be set when requesting data
         private IngredientStorageManager _ingredientStorage;
-        
+
+        public IngredientShopData(IngredientShopData data)
+        {
+            _purchasableIngredients = new List<IngredientDefinition>(data._purchasableIngredients);
+            _shopSlots = data._shopSlots;
+            _itemAmount = data._itemAmount;
+        }
+
         public void SetStorage(IngredientStorageManager storage) => _ingredientStorage = storage;
 
         public IEnumerable<ShopItemData<IngredientDefinition>> AllItems =>
@@ -48,6 +56,10 @@ namespace TDB.ShopSystem.IngredientShop
             base(itemDefinition, inStockCount)
         {
             _ingredientStorage = ingredientStorage;
+        }
+
+        private IngredientShopItemData(IngredientShopItemData data) : base(data)
+        {
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
 using TDB.GameManagers;
+using TDB.GameManagers.SessionManagers;
 using UnityEngine;
 
 namespace TDB.CafeSystem.Managers

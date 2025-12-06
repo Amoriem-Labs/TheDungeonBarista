@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
+using TDB.GameManagers;
 using TDB.Utils.DataPersistence;
 using UnityEngine;
 

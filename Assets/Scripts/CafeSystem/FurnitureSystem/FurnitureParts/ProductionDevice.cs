@@ -4,6 +4,7 @@ using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
 using TDB.GameManagers;
+using TDB.GameManagers.SessionManagers;
 using TDB.Player.Interaction;
 using TDB.Utils.EventChannels;
 using UnityEngine;

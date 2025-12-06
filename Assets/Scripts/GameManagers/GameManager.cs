@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.Audio;
 using TDB.CafeSystem.Managers;
+using TDB.GameManagers.SessionManagers;
 using TDB.Utils.CrossSceneCameraBinding;
 using TDB.Utils.DataPersistence;
 using TDB.Utils.Misc;
@@ -73,13 +74,23 @@ namespace TDB.GameManagers
             StartCoroutine(SceneTransitionCoroutine(GameConfig.MainMenuScenes));
         }
 
-        [Button(ButtonSizes.Large)]
-        public void StartSession()
+        [Button(ButtonSizes.Large, ButtonStyle.FoldoutButton)]
+        public void StartSession(bool newGame = false)
         {
+            if (newGame)
+            {
+                DataPersistenceManager.Instance.StartNewGame();
+            }
+            else
+            {
+                DataPersistenceManager.Instance.LoadGame();
+            }
+            var data = DataPersistenceManager.Instance.CurrentGameData;
+            
             var coroutine = SceneTransitionCoroutine(
                 GameConfig.CafePhaseScenes,
                 scenesToUnload: GameConfig.MainMenuScenes,
-                sceneLoadedCallback: StartSessionOnLoaded(),
+                sceneLoadedCallback: StartSessionOnLoaded(data),
                 transitionOutroCallback: StartSessionOutroFinish()
             );
             StartCoroutine(coroutine);
@@ -91,8 +102,10 @@ namespace TDB.GameManagers
             yield break;
         }
 
-        private IEnumerator StartSessionOnLoaded()
+        private IEnumerator StartSessionOnLoaded(GameData gameData)
         {
+            SessionManager.FindAndInitialize(gameData);
+            
             CafeSceneManager.FindAndInitialize();
             yield break;
         }

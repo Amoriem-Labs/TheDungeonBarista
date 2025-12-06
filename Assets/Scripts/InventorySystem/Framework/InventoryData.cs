@@ -38,7 +38,7 @@ namespace TDB.InventorySystem.Framework
             }
         }
 
-        public void AddIngredient(T itemDefinition, int amount = 1)
+        public void Deposit(T itemDefinition, int amount = 1)
         {
             var stack = Stacks.Find(i => i.Definition == itemDefinition);
             if (stack == null)

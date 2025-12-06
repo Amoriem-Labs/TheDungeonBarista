@@ -4,7 +4,7 @@ using TDB.CraftSystem.Data;
 using TDB.InventorySystem.IngredientStorage;
 using UnityEngine;
 
-namespace TDB.CafeSystem.Managers
+namespace TDB.GameManagers.SessionManagers
 {
     public class IngredientStorageManager : MonoBehaviour
     {
@@ -40,7 +40,7 @@ namespace TDB.CafeSystem.Managers
 
         public void AddVolatileIngredient(IngredientDefinition itemDefinition)
         {
-            _volatileStorage.AddIngredient(itemDefinition);
+            _volatileStorage.Deposit(itemDefinition);
         }
     }
 }

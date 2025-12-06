@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
-using TDB.GameManagers;
+using TDB.InventorySystem.FurnitureInventory;
+using TDB.ShopSystem.FurnitureShop;
+using TDB.ShopSystem.IngredientShop;
 using TDB.Utils.DataPersistence;
 using UnityEngine;
 
-namespace TDB.CafeSystem.Managers
+namespace TDB.GameManagers.SessionManagers
 {
     /// <summary>
     /// Session scene serves as the game data holder.
@@ -13,6 +15,8 @@ namespace TDB.CafeSystem.Managers
     /// </summary>
     public class SessionManager : MonoBehaviour, IDataWriterDestination
     {
+        // do not create a public property for this
+        // always enforce accessing fields of game data through managers or specific properties 
         [ShowInInspector, ReadOnly]
         private GameData _currentSessionGameData;
         
@@ -20,13 +24,32 @@ namespace TDB.CafeSystem.Managers
         
         public List<FurnitureData> AllInstalledFurnitureData => _currentSessionGameData.AllInstalledFurnitureData;
 
-        [Button(ButtonSizes.Large), DisableInEditorMode]
-        public void TestInitializeWithNewGame()
+        #region Shop Data Accessor
+
+        public IngredientShopData IngredientShopData => _currentSessionGameData.IngredientShopData;
+        public FurnitureShopData FurnitureShopData => _currentSessionGameData.FurnitureShopData;
+
+        #endregion
+
+        // some inventory like ingredient storage are managed by separate managers
+        #region Inventory Data Accessor
+
+        public FurnitureInventoryData FurnitureInventoryData => _currentSessionGameData.FurnitureInventoryData;
+
+        #endregion
+
+        public static void FindAndInitialize(GameData gameData)
         {
-            Initialize(GameManager.Instance.GameConfig.NewGameData);
+            var sessionManager = FindObjectOfType<SessionManager>();
+            if (!sessionManager)
+            {
+                Debug.Log("Session scene not loaded.");
+                return;
+            }
+            sessionManager.Initialize(gameData);
         }
-        
-        public void Initialize(GameData gameData)
+
+        private void Initialize(GameData gameData)
         {
             #region Get Data
 

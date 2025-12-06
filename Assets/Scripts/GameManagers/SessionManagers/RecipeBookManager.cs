@@ -1,7 +1,7 @@
 using TDB.CraftSystem.Data;
 using UnityEngine;
 
-namespace TDB.CafeSystem.Managers
+namespace TDB.GameManagers.SessionManagers
 {
     public class RecipeBookManager : MonoBehaviour
     {

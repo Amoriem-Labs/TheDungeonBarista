@@ -9,5 +9,9 @@ namespace TDB.InventorySystem.IngredientStorage
         public IngredientStorageStackData(IngredientDefinition definition) : base(definition)
         {
         }
+
+        public IngredientStorageStackData(InventoryStackData<IngredientDefinition> stack) : base(stack)
+        {
+        }
     }
 }

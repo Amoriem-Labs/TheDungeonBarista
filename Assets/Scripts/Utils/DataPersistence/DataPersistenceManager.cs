@@ -58,7 +58,8 @@ namespace TDB.Utils.DataPersistence
             }
             else
             {
-                Debug.LogWarning("Load succeed.");
+                _currentGameData = GameDataMigration.Migrate(_currentGameData);
+                Debug.Log("Load succeed.");
             }
         }
     }

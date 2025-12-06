@@ -1,4 +1,6 @@
 
+using TDB.GameManagers;
+
 namespace TDB.Utils.DataPersistence
 {
     public interface IGameDataWriter
