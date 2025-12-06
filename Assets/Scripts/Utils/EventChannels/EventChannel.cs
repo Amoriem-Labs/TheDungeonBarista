@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.FurnitureSystem.FurnitureParts;
+using TDB.CafeSystem.UI.OrderUI;
+using TDB.CafeSystem.UI.ProductUI;
+using TDB.CraftSystem.Data;
+using TDB.CraftSystem.UI;
+using TDB.CraftSystem.UI.Info;
+using TDB.CraftSystem.UI.RecipeGraph;
 using TDB.Utils.UI.ConfirmPanel;
 using TDB.Utils.UI.Tooltip;
 using UnityEngine;
@@ -19,6 +26,7 @@ namespace TDB.Utils.EventChannels
         private string _paramType;
 
         [SerializeField, TextArea(10, 100), PropertyOrder(Single.MaxValue)] private string _comment;
+
         
         private bool CanEdit => !Application.isPlaying;
     
@@ -55,6 +63,23 @@ namespace TDB.Utils.EventChannels
                 // custom data types
                 typeof(ConfirmationData),
                 typeof(TooltipData),
+
+                #region CraftSystemTypes
+                typeof(FinalRecipeData),
+                typeof(ReturnIngredientInfo),
+                typeof(IngredientNodeUI),
+                typeof(DisplayIngredientInfo),
+                typeof(OpenMenuInfo),
+                #endregion
+
+                #region CafeSystemTypes
+
+                typeof(DisplayCustomerOrderInfo),
+                typeof(ProductionDeviceData),
+                typeof(ProductData),
+                typeof(ServeProductInfo),
+
+                #endregion
             };
 
             return types.Select(t =>

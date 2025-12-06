@@ -6,8 +6,8 @@ namespace TDB.Utils.UI
 {
     public class FillBar : MonoBehaviour
     {
-        [SerializeField] private float _animTime = 0.2f;
-        [SerializeField] private Image _mask;
+        [SerializeField] private float _smoothTime = 0.2f;
+        [SerializeField] private Image _fillImage;
         [SerializeField] private TextMeshProUGUI _currentAmountText;
         [SerializeField] private TextMeshProUGUI _maxAmountText;
         [SerializeField] private int _padCurrent = 3;
@@ -18,16 +18,16 @@ namespace TDB.Utils.UI
 
         private void Update()
         {
-            if (!Mathf.Approximately(_mask.fillAmount, _targetFillAmount))
+            if (!Mathf.Approximately(_fillImage.fillAmount, _targetFillAmount))
             {
-                _mask.fillAmount = Mathf.SmoothDamp(_mask.fillAmount, _targetFillAmount, ref _velocity, _animTime);
+                _fillImage.fillAmount = Mathf.SmoothDamp(_fillImage.fillAmount, _targetFillAmount, ref _velocity, _smoothTime);
             }
         }
 
         public void UpdateUI(float currentAmount, float maxAmount, float baseAmount = 0)
         {
-            _currentAmountText.text = currentAmount.ToString("0").PadLeft(_padCurrent, '0');
-            _maxAmountText.text = maxAmount.ToString("0").PadLeft(_padMax, '0');
+            if (_currentAmountText) _currentAmountText.text = currentAmount.ToString("0").PadLeft(_padCurrent, '0');
+            if (_maxAmountText) _maxAmountText.text = maxAmount.ToString("0").PadLeft(_padMax, '0');
 
             _targetFillAmount = (currentAmount - baseAmount) / (maxAmount - baseAmount);
         }

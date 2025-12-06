@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5426044059866706648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1062621832970659543}
+  - component: {fileID: 8563574497792392786}
+  - component: {fileID: 4273097424479068695}
+  m_Layer: 0
+  m_Name: InputController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1062621832970659543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426044059866706648}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8563574497792392786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426044059866706648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3975f35d8fd43eb95abdd49197c3e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _primaryInteractionController: {fileID: 0}
+  _secondaryInteractionController: {fileID: 0}
+  _moveActionReference: {fileID: -1680190386980627800, guid: 6f57f7d3ede7e6b4cabec8c9099e3e3c, type: 3}
+  _primaryActionReference: {fileID: 1120369429361536294, guid: 6f57f7d3ede7e6b4cabec8c9099e3e3c, type: 3}
+  _secondaryActionReference: {fileID: -670286100851433832, guid: 6f57f7d3ede7e6b4cabec8c9099e3e3c, type: 3}
+--- !u!114 &4273097424479068695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426044059866706648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c20d417ac774ee5b7eef1d5beb8dae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enableOnEvents:
+  - {fileID: 11400000, guid: c45800a236922ab4d852a65157aa8e89, type: 2}
+  _disableOnEvents:
+  - {fileID: 11400000, guid: 8fe25287dd2653f4fb441d775c334606, type: 2}
