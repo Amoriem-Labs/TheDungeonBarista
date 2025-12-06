@@ -1,7 +1,7 @@
 ﻿using System;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TDB.Utils.EventChannels;
 using TDB.Utils.UI;
 using TMPro;

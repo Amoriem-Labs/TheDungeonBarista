@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using TDB.Audio;
 using TDB.CafeSystem.Managers;
 using TDB.Utils.CrossSceneCameraBinding;
+using TDB.Utils.DataPersistence;
 using TDB.Utils.Misc;
 using TDB.Utils.ObjectPools;
 using TDB.Utils.SceneTransitions;
@@ -31,6 +32,7 @@ namespace TDB.GameManagers
             // All passive singletons should be a CHILD of the GameManager.
             InitializeManager<AudioManager>();
             InitializeManager<CameraBindingManager>();
+            InitializeManager<DataPersistenceManager>();
 
             // pooled object initialization is usually dependent on other systems
             InitializeManager<ObjectPoolManager>();
@@ -83,6 +85,12 @@ namespace TDB.GameManagers
             StartCoroutine(coroutine);
         }
 
+        private IEnumerator SaveSession()
+        {
+            SessionManager.FindAndOverwriteSave();
+            yield break;
+        }
+
         private IEnumerator StartSessionOnLoaded()
         {
             CafeSceneManager.FindAndInitialize();
@@ -98,8 +106,12 @@ namespace TDB.GameManagers
         [Button(ButtonSizes.Large)]
         public void CafeToDungeon()
         {
-            StartCoroutine(SceneTransitionCoroutine(GameConfig.DungeonPhaseScenes,
-                scenesToUnload: GameConfig.CafePhaseScenes));
+            var coroutine = SceneTransitionCoroutine(
+                GameConfig.DungeonPhaseScenes,
+                scenesToUnload: GameConfig.CafePhaseScenes,
+                transitionIntroCallback: SaveSession()
+            );
+            StartCoroutine(coroutine);
         }
 
         [Button(ButtonSizes.Large)]
@@ -108,6 +120,7 @@ namespace TDB.GameManagers
             var coroutine = SceneTransitionCoroutine(
                 GameConfig.CafePhaseScenes,
                 scenesToUnload: GameConfig.DungeonPhaseScenes,
+                transitionIntroCallback: SaveSession(),
                 sceneLoadedCallback: DungeonToCafeOnLoaded(),
                 transitionOutroCallback: DungeonToCafeOutroFinish()
             );
@@ -129,8 +142,12 @@ namespace TDB.GameManagers
         [Button(ButtonSizes.Large)]
         public void GoToMainMenu()
         {
-            StartCoroutine(SceneTransitionCoroutine(GameConfig.MainMenuScenes,
-                scenesToUnload: GameConfig.DungeonPhaseScenes.Union(GameConfig.CafePhaseScenes).ToList()));
+            var coroutine = SceneTransitionCoroutine(
+                GameConfig.MainMenuScenes,
+                scenesToUnload: GameConfig.DungeonPhaseScenes.Union(GameConfig.CafePhaseScenes).ToList(),
+                transitionIntroCallback: SaveSession()
+            );
+            StartCoroutine(coroutine);
         }
 
         #endregion

@@ -1,8 +1,9 @@
 using System;
 using System.IO;
+using Sirenix.Serialization;
 using UnityEngine;
 
-namespace TDB.Utils.DataPersistance
+namespace TDB.Utils.DataPersistence
 {
     public class FileDataHandler
     {
@@ -22,21 +23,22 @@ namespace TDB.Utils.DataPersistance
         
         public GameData Load(string fullFileName)
         {
+            if (!fullFileName.EndsWith(_dataFileExt)) fullFileName += _dataFileExt;
+            
             string fullPath = Path.Combine(_dataDirPath, fullFileName);
             GameData loadedData = null;
             if (File.Exists(fullPath))
             {
                 try
                 {
-                    string dataToLoad = "";
-
-                    dataToLoad = ReadStringFromFile(fullPath);
+                    ReadDataFromFile(fullPath, out byte[] dataToLoad);
 
                     // deserialize json
-                    loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                    // loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                    loadedData = SerializationUtility.DeserializeValue<GameData>(dataToLoad, DataFormat.JSON);
 
-                    var info = new FileInfo(fullPath);
-                    loadedData.SaveTime = info.LastWriteTime;
+                    // var info = new FileInfo(fullPath);
+                    // loadedData.SaveTime = info.LastWriteTime;
                 }
                 catch (Exception e)
                 {
@@ -48,6 +50,8 @@ namespace TDB.Utils.DataPersistance
 
         public void Save(GameData data, string fullFileName)
         {
+            if (!fullFileName.EndsWith(_dataFileExt)) fullFileName += _dataFileExt;
+            
             string fullPath = Path.Combine(_dataDirPath, fullFileName);
             try
             {
@@ -55,12 +59,13 @@ namespace TDB.Utils.DataPersistance
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
                 // serialize data to json string
-                string dataToStore = JsonUtility.ToJson(data, true);
+                var dataToStore = SerializationUtility.SerializeValue(data, DataFormat.JSON);
+                // string dataToStore = JsonUtility.ToJson(data, true);
 
-                SaveStringToFile(fullPath, dataToStore);
+                SaveDataToFile(fullPath, dataToStore);
 
-                var info = new FileInfo(fullPath);
-                data.SaveTime = info.LastWriteTime;
+                // var info = new FileInfo(fullPath);
+                // data.SaveTime = info.LastWriteTime;
             }
             catch (Exception e)
             {
@@ -68,7 +73,7 @@ namespace TDB.Utils.DataPersistance
             }
         }
 
-        public static void SaveStringToFile(string fullPath, string dataToStore)
+        private void SaveDataToFile(string fullPath, byte[] dataToStore)
         {
             // write data to file
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))
@@ -80,9 +85,33 @@ namespace TDB.Utils.DataPersistance
             }
         }
 
-        public static string ReadStringFromFile(string fullPath)
+        public static void SaveDataToFile(string fullPath, string dataToStore)
         {
-            string dataToLoad;
+            // write data to file
+            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(dataToStore);
+                }
+            }
+        }
+        
+        public static void ReadDataFromFile(string fullPath, out byte[] dataToLoad)
+        {
+            dataToLoad = File.ReadAllBytes(fullPath);
+            // // load data from file
+            // using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+            // {
+            //     using (StreamReader reader = new StreamReader(stream))
+            //     {
+            //         dataToLoad = reader.ReadToEnd();
+            //     }
+            // }
+        }
+
+        public static void ReadDataFromFile(string fullPath, out string dataToLoad)
+        {
             // load data from file
             using (FileStream stream = new FileStream(fullPath, FileMode.Open))
             {
@@ -91,8 +120,6 @@ namespace TDB.Utils.DataPersistance
                     dataToLoad = reader.ReadToEnd();
                 }
             }
-
-            return dataToLoad;
         }
     }
 }

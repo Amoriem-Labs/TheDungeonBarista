@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TDB.CraftSystem.Data;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using UnityEngine;
 
 namespace TDB.CafeSystem.Managers
@@ -9,14 +9,18 @@ namespace TDB.CafeSystem.Managers
     public class IngredientStorageManager : MonoBehaviour
     {
         private IngredientStorageData _volatileStorage;
-        
-        public void InitializeVolatileStorage(IngredientStorageData volatileIngredientStorage)
+        private IngredientStorageData _refrigeratedStorage;
+
+        public void InitializeStorages(IngredientStorageData volatileIngredientStorage,
+            IngredientStorageData refrigeratedIngredientStorage)
         {
             _volatileStorage = volatileIngredientStorage;
+            _refrigeratedStorage = refrigeratedIngredientStorage;
         }
 
         public IngredientStorageData GetAllIngredientStorage()
         {
+            // TODO: merge with _refrigeratedStorage
             return _volatileStorage;
         }
 

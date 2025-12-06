@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TDB.GameManagers;
 using TDB.Utils.Singletons;
 using UnityEngine;
 
-namespace TDB.Utils.DataPersistance
+namespace TDB.Utils.DataPersistence
 {
     public class DataPersistenceManager : PassiveSingleton<DataPersistenceManager>
     {
@@ -17,8 +18,6 @@ namespace TDB.Utils.DataPersistance
 
         private FileDataHandler _dataHandler;
 
-        private List<IGameDataPersistence> _dataSources;
-
         public string FileExt => _fileExt;
         public GameData CurrentGameData { get => _currentGameData; set => _currentGameData = value; }
 
@@ -27,39 +26,16 @@ namespace TDB.Utils.DataPersistance
             base.Initialize();
 
             _dataHandler = new FileDataHandler(Application.persistentDataPath, _fileExt);
-            _dataSources = new List<IGameDataPersistence>();
-        }
-
-        public void AddDataSource(IGameDataPersistence source)
-        {
-            _dataSources.Add(source);
-        }
-
-        public void RemoveDataSource(IGameDataPersistence source)
-        {
-            _dataSources.Remove(source);
         }
 
         public void StartNewGame()
         {
             // start game with a fresh data
-            _currentGameData = new GameData();
-
-            // push data to IGameDataPersistence objects
-            foreach (var source in _dataSources)
-            {
-                source.LoadDataFrom(_currentGameData);
-            }
+            _currentGameData = GameManager.Instance.GameConfig.NewGameData;
         }
 
         public void SaveGame()
         {
-            // load data from IGameDataPersistence objects
-            foreach (var source in _dataSources)
-            {
-                source.SaveDataTo(_currentGameData);
-            }
-
             // store data to file
             _dataHandler.Save(_currentGameData, _profileName);
         }
@@ -70,6 +46,7 @@ namespace TDB.Utils.DataPersistance
             return data != null;
         }
         
+        [Button(ButtonSizes.Large), DisableInEditorMode]
         public void LoadGame()
         {
             //Debug.Log("load game: preparing data");
@@ -82,11 +59,6 @@ namespace TDB.Utils.DataPersistance
             else
             {
                 Debug.LogWarning("Load succeed.");
-                // push data to IGameDataPersistence objects
-                foreach (var source in _dataSources)
-                {
-                    source.LoadDataFrom(_currentGameData);
-                }
             }
         }
     }

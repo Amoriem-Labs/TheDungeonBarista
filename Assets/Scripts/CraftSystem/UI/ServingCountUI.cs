@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TDB.CraftSystem.Data;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TMPro;
 using UnityEngine;
 

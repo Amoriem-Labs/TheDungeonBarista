@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
+using TDB.Utils.DataPersistence;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -10,15 +12,32 @@ using UnityEditor;
 
 namespace TDB.CafeSystem.Managers
 {
-    public class FurnitureManager : MonoBehaviour
+    public class FurnitureManager : MonoBehaviour, IGameDataWriter
     {
         private readonly Dictionary<string, Furniture> _trackedFurnitures = new ();
+        private IDataWriterDestination _currentDataDestination;
 
         private Transform FurnitureRoot => transform;
-        
-        public void Initialize(List<FurnitureData> furnitureData)
+
+        private void OnDisable()
+        {
+            if (_currentDataDestination != null)
+            {
+                _currentDataDestination.UnregisterDataWriter(this);
+                _currentDataDestination = null;
+            }
+        }
+
+        public void Initialize(List<FurnitureData> furnitureData, IDataWriterDestination dataWriterDestination)
         {
             Clear();
+
+            if (_currentDataDestination != null)
+            {
+                _currentDataDestination.UnregisterDataWriter(this);
+                _currentDataDestination = dataWriterDestination;
+                _currentDataDestination.RegisterDataWriter(this);
+            }
             
             // all existing furnitures will be removed
             // foreach (var furniture in FurnitureRoot.GetComponentsInChildren<Furniture>())
@@ -123,5 +142,10 @@ namespace TDB.CafeSystem.Managers
             EditorGUIUtility.PingObject(preset);
         }
 #endif
+        
+        public void WriteToData(GameData data)
+        {
+            data.AllInstalledFurnitureData = _trackedFurnitures.Select(kv => kv.Value.ExtractData()).ToList();
+        }
     }
 }

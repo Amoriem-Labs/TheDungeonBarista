@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TDB.Utils.DataPersistance
+namespace TDB.Utils.DataPersistence
 {
     [Serializable]
     public class SettingData

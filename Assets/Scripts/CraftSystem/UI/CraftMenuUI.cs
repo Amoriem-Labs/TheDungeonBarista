@@ -6,7 +6,7 @@ using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI.Inventory;
 using TDB.CraftSystem.UI.RecipeBook;
 using TDB.GameManagers;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TDB.Utils.EventChannels;
 using TDB.Utils.UI;
 using UnityEngine;
@@ -87,50 +87,50 @@ namespace TDB.CraftSystem.UI
             _testChosenRecipe = null;
         }
 
-        [Button(ButtonSizes.Large), DisableInEditorMode]
-        public void OpenMenuWithTestData()
-        {
-            var testStorage = GameManager.Instance.GameConfig.TestIngredientStorage;
-            var testSelectedRecipe = GameManager.Instance.GameConfig.TestFinalRecipe;
-            
-            if (!_testRecipeBookInitialized)
-            {
-                _testRecipeBookInitialized = true;
-                _testCurrentRecipeBook = GameManager.Instance.GameConfig.ExtendedTestRecipeBook;
-            }
-            else
-            {
-                // simulate the situation where no recipe was selected on the production device
-                testSelectedRecipe = null;
-            }
-                
-            OpenMenu(new OpenMenuInfo(){
-                IngredientStorage = testStorage,
-                CurrentRecipe = testSelectedRecipe,
-                RecipeBook = _testCurrentRecipeBook,
-                RecipeDecidedCallback = recipe =>
-                {
-                    _testChosenRecipe = recipe;
-                    if (recipe == null)
-                    {
-                        Debug.Log("No recipe was selected.");
-                    }
-                    else
-                    {
-                        // this demonstrates some usages of the FinalRecipeData
-                        Debug.Log(
-                            $"Selected recipe: {recipe.RecipeName}\n\t" +
-                            $"The recipe uses {recipe.RawRecipe.RecipeName} as the raw recipe.\n\t" +
-                            $"The recipe has {recipe.GetAllEffectData().Count} effects.\n\t" +
-                            $"The recipe consumes {recipe.GetAddedIngredients().Sum(kv => kv.Value)} ingredients.\n\t" +
-                            (recipe.IsRecipeReady
-                                ? $"The recipe has {recipe.GetServingsAvailable(testStorage)} servings available."
-                                : "The recipe is not ready to be served.")
-                        );
-                    }
-                }
-            });
-        }
+        // [Button(ButtonSizes.Large), DisableInEditorMode]
+        // public void OpenMenuWithTestData()
+        // {
+        //     var testStorage = GameManager.Instance.GameConfig.TestIngredientStorage;
+        //     var testSelectedRecipe = GameManager.Instance.GameConfig.TestFinalRecipe;
+        //     
+        //     if (!_testRecipeBookInitialized)
+        //     {
+        //         _testRecipeBookInitialized = true;
+        //         _testCurrentRecipeBook = GameManager.Instance.GameConfig.ExtendedTestRecipeBook;
+        //     }
+        //     else
+        //     {
+        //         // simulate the situation where no recipe was selected on the production device
+        //         testSelectedRecipe = null;
+        //     }
+        //         
+        //     OpenMenu(new OpenMenuInfo(){
+        //         IngredientStorage = testStorage,
+        //         CurrentRecipe = testSelectedRecipe,
+        //         RecipeBook = _testCurrentRecipeBook,
+        //         RecipeDecidedCallback = recipe =>
+        //         {
+        //             _testChosenRecipe = recipe;
+        //             if (recipe == null)
+        //             {
+        //                 Debug.Log("No recipe was selected.");
+        //             }
+        //             else
+        //             {
+        //                 // this demonstrates some usages of the FinalRecipeData
+        //                 Debug.Log(
+        //                     $"Selected recipe: {recipe.RecipeName}\n\t" +
+        //                     $"The recipe uses {recipe.RawRecipe.RecipeName} as the raw recipe.\n\t" +
+        //                     $"The recipe has {recipe.GetAllEffectData().Count} effects.\n\t" +
+        //                     $"The recipe consumes {recipe.GetAddedIngredients().Sum(kv => kv.Value)} ingredients.\n\t" +
+        //                     (recipe.IsRecipeReady
+        //                         ? $"The recipe has {recipe.GetServingsAvailable(testStorage)} servings available."
+        //                         : "The recipe is not ready to be served.")
+        //                 );
+        //             }
+        //         }
+        //     });
+        // }
 
         public void ToggleRecipeBook()
         {

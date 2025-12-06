@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TDB.CafeSystem.Managers
 {
-    public class RecipeBookDataHolder : MonoBehaviour
+    public class RecipeBookManager : MonoBehaviour
     {
         private RecipeBookData _recipeBookData;
 

@@ -16,6 +16,12 @@ namespace TDB.CraftSystem.Data
             _allRecipeData = allRecipeData;
         }
 
+        public RecipeBookData(RecipeBookData recipeBook)
+        {
+            _obtainedRawRecipes = new List<RawRecipeDefinition>(recipeBook._obtainedRawRecipes);
+            _allRecipeData = recipeBook._allRecipeData.Select(r => new FinalRecipeData(r)).ToList();
+        }
+
         public List<RawRecipeDefinition> AllObtainedRawRecipes =>
             _obtainedRawRecipes.Union(_allRecipeData.Select(r => r.RawRecipe).Distinct()).ToList();
 

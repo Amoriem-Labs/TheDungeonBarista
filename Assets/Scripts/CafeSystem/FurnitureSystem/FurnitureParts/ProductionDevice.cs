@@ -24,13 +24,13 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
         [SerializeField] private EventChannel _productionDeviceReadyEvent;
         [SerializeField] private EventChannel _productionDeviceNotReadyEvent;
         
-        private RecipeBookDataHolder _recipeBookHolder;
+        private RecipeBookManager _recipeBookHolder;
         private IngredientStorageManager _ingredientStorage;
         private bool _infiniteResource;
 
         private void Awake()
         {
-            _recipeBookHolder = FindObjectOfType<RecipeBookDataHolder>();
+            _recipeBookHolder = FindObjectOfType<RecipeBookManager>();
             _ingredientStorage = FindObjectOfType<IngredientStorageManager>();
 
             _infiniteResource = GameManager.Instance.GameConfig.InfiniteResource;

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.Customers;
 using TDB.CafeSystem.FurnitureSystem;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.CraftSystem.UI.RecipeGraph;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TDB.ShopSystem;
 using TDB.ShopSystem.IngredientShop;
+using TDB.Utils.DataPersistence;
 using TDB.Utils.SceneTransitions;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -29,20 +31,20 @@ namespace TDB.GameManagers
 
         #region CraftSystem
 
-        [TabGroup("CraftSystem")]
-        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Ingredient Storage")]
-        [SerializeField, InlineProperty, HideLabel] public IngredientStorageData TestIngredientStorage;
-        
-        [FormerlySerializedAs("FinalRecipe")]
-        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Final Recipe")]
-        [SerializeField, InlineProperty, HideLabel] public FinalRecipeData TestFinalRecipe;
-        
-        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Recipe Book")]
-        [SerializeField, InlineProperty, HideLabel] public RecipeBookData TestRecipeBook;
+        // [TabGroup("CraftSystem")]
+        // [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Ingredient Storage")]
+        // [SerializeField, InlineProperty, HideLabel] public IngredientStorageData TestIngredientStorage;
+        //
+        // [FormerlySerializedAs("FinalRecipe")]
+        // [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Final Recipe")]
+        // [SerializeField, InlineProperty, HideLabel] public FinalRecipeData TestFinalRecipe;
+        //
+        // [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Recipe Book")]
+        // [SerializeField, InlineProperty, HideLabel] public RecipeBookData TestRecipeBook;
 
-        public RecipeBookData ExtendedTestRecipeBook =>
-            new RecipeBookData(TestRecipeBook.AllObtainedRawRecipes,
-                new List<FinalRecipeData> { TestFinalRecipe });
+        // public RecipeBookData ExtendedTestRecipeBook =>
+        //     new RecipeBookData(TestRecipeBook.AllObtainedRawRecipes,
+        //         new List<FinalRecipeData> { TestFinalRecipe });
 
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
         [SerializeField]
@@ -60,9 +62,6 @@ namespace TDB.GameManagers
         #endregion
 
         #region CafeSystem
-
-        [TabGroup("CafeSystem")]
-        [SerializeField] public FurniturePreset DefaultFurniturePreset;
 
         [TabGroup("CafeSystem")]
         [SerializeField] public List<FlavorDefinition> AllFlavors;
@@ -92,6 +91,24 @@ namespace TDB.GameManagers
         [BoxGroup("_DefaultTabGroup/ShopSystem/Test Ingredient Shop Data")]
         [SerializeField, InlineProperty, HideLabel]
         public IngredientShopData TestIngredientShopData;
+
+        #endregion
+        
+        #region Initial Game Data
+
+        [TabGroup("Initial Game Data")]
+        [SerializeField] public FurniturePreset DefaultFurniturePreset;
+        
+        [TabGroup("Initial Game Data")]
+        [SerializeField, InlineProperty, HideLabel]
+        private GameData _initialGameData;
+
+        public GameData NewGameData => new GameData(_initialGameData)
+        {
+            // override installed furniture with the default preset
+            AllInstalledFurnitureData =
+                DefaultFurniturePreset.FurnitureData.Select(f => new FurnitureData(f)).ToList()
+        };
 
         #endregion
         

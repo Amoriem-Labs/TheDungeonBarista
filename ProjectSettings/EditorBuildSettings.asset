@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PauseMenu.unity
     guid: 72d0c274496a69543a8f8dbdc0f0e701
   - enabled: 1
+    path: Assets/Scenes/Session.unity
+    guid: adc00d1131160294497893af5ae02b64
+  - enabled: 1
     path: Assets/Scenes/CafeScene.unity
     guid: 2de49ab364c855c45a5393dbab4c17c0
   - enabled: 1

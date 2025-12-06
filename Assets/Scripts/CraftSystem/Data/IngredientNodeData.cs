@@ -22,10 +22,10 @@ namespace TDB.CraftSystem.Data
         
         public IngredientNodeData(IngredientNodeData data)
         {
-            _addedIngredients = data.AddedIngredients.ToList();
+            _addedIngredients = new(data.AddedIngredients);
             _requiredAmount = data.RequiredAmount;
             _requiredType = data.RequiredType;
-            _effects = data._effects.ToList();
+            _effects = new List<EffectParamPair>(data._effects);
         }
 
         public List<IngredientDefinition> AddedIngredients => _addedIngredients;

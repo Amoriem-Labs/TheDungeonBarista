@@ -3,7 +3,6 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
-using TDB.IngredientStorageSystem.Data;
 using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
