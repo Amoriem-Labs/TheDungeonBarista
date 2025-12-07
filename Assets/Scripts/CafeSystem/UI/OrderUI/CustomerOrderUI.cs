@@ -78,6 +78,7 @@ namespace TDB.CafeSystem.UI.OrderUI
                     (bonus >= 0 ? "+" : "-") + $"{Mathf.Abs(bonus):P0}",
                     bonus >= 0 ? _positiveColor : _negativeColor,
                     _stepTime / 2);
+                productItemUI.BonusAnimation(bonus);
                 yield return new WaitForSeconds(_stepTime);
             }
             // display total bonus
