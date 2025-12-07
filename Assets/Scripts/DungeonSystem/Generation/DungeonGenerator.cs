@@ -26,8 +26,14 @@ namespace TDB.DungeonSystem.Generate
         // used for Dungeon Drawing
         public GameObject floorPrefab;
 
+
+        [SerializeField] private RoomLibrary roomLibrary;
+        private RoomChooser _roomChooser;
+
+        //[SerializeField] private GridManager gridManager;   // TODO ADD
         void Start()
         {
+            _roomChooser = new RoomChooser(roomLibrary);
             GenerateDungeon();
         }
 
@@ -39,6 +45,7 @@ namespace TDB.DungeonSystem.Generate
             Debug.Log("Leaves created: " + leaves.Count);
 
             CreateRooms(root);
+            ConnectRooms(root);
             DrawDungeon();
         }
 
@@ -96,19 +103,52 @@ namespace TDB.DungeonSystem.Generate
 
             if (node.IsLeaf())
             {
-                int roomWidth = Random.Range(minRoomSize, Mathf.Min(maxRoomSize, node.rect.width - 2));
-                int roomHeight = Random.Range(minRoomSize, Mathf.Min(maxRoomSize, node.rect.height - 2));
+                //int roomWidth = Random.Range(minRoomSize, Mathf.Min(maxRoomSize, node.rect.width - 2));
+                //int roomHeight = Random.Range(minRoomSize, Mathf.Min(maxRoomSize, node.rect.height - 2));
 
-                int roomX = node.rect.x + Random.Range(1, node.rect.width - roomWidth - 1);
-                int roomY = node.rect.y + Random.Range(1, node.rect.height - roomHeight - 1);
+                //int roomX = node.rect.x + Random.Range(1, node.rect.width - roomWidth - 1);
+                //int roomY = node.rect.y + Random.Range(1, node.rect.height - roomHeight - 1);
 
-                node.room = new RectInt(roomX, roomY, roomWidth, roomHeight);
+                //node.room = new RectInt(roomX, roomY, roomWidth, roomHeight);
+                FillLeaf(node);
             }
             else
             {
                 CreateRooms(node.left);
                 CreateRooms(node.right);
             }
+        }
+
+        private void FillLeaf(BSPNode node)
+        {
+            if (!node.IsLeaf()) return;
+
+            RoomSO room = _roomChooser.ChooseRoom(node.rect);
+            if (room == null) return;
+
+            // Center the room inside the BSP rect
+            int offsetX = node.rect.x + (node.rect.width - room.width) / 2;
+            int offsetY = node.rect.y + (node.rect.height - room.height) / 2;
+
+            for (int y = 0; y < room.height; y++)
+            {
+                for (int x = 0; x < room.width; x++)
+                {
+                    int index = x + y * room.width;
+                    TileType tile = room.tiles[index];
+
+                    if (tile != null)
+                    {
+                        Vector2Int worldPos = new Vector2Int(offsetX + x, offsetY + y);
+                        // TODO ADD LATER
+                        //gridManager.SetTile(worldPos, tile);
+                        Instantiate(floorPrefab, new Vector3(worldPos.x, worldPos.y, 0), Quaternion.identity);
+
+                    }
+                }
+            }
+
+            node.room = new RectInt(offsetX, offsetY, room.width, room.height);
         }
 
         void DrawDungeon()
@@ -130,6 +170,61 @@ namespace TDB.DungeonSystem.Generate
                 }
             }
         }
+        void ConnectRooms(BSPNode node)
+        {
+            if (node == null) return;
+
+            // If this node has children, connect their rooms
+            if (!node.IsLeaf())
+            {
+                ConnectRooms(node.left);
+                ConnectRooms(node.right);
+
+                if (node.left.room.HasValue && node.right.room.HasValue)
+                {
+                    CreateCorridor(node.left.room.Value, node.right.room.Value);
+                }
+            }
+        }
+
+        void CreateCorridor(RectInt roomA, RectInt roomB)
+        {
+            Vector2Int pointA = new Vector2Int(
+                Random.Range(roomA.x + 1, roomA.xMax - 1),
+                Random.Range(roomA.y + 1, roomA.yMax - 1));
+
+            Vector2Int pointB = new Vector2Int(
+                Random.Range(roomB.x + 1, roomB.xMax - 1),
+                Random.Range(roomB.y + 1, roomB.yMax - 1));
+
+            if (Random.value > 0.5f)
+            {
+                CreateHorizontalCorridor(pointA.x, pointB.x, pointA.y);
+                CreateVerticalCorridor(pointA.y, pointB.y, pointB.x);
+            }
+            else
+            {
+                CreateVerticalCorridor(pointA.y, pointB.y, pointA.x);
+                CreateHorizontalCorridor(pointA.x, pointB.x, pointB.y);
+            }
+        }
+
+        void CreateHorizontalCorridor(int xStart, int xEnd, int y)
+        {
+            for (int x = Mathf.Min(xStart, xEnd); x <= Mathf.Max(xStart, xEnd); x++)
+            {
+                Instantiate(floorPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            }
+        }
+
+        void CreateVerticalCorridor(int yStart, int yEnd, int x)
+        {
+            for (int y = Mathf.Min(yStart, yEnd); y <= Mathf.Max(yStart, yEnd); y++)
+            {
+                Instantiate(floorPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            }
+        }
+
 
     }
 }
