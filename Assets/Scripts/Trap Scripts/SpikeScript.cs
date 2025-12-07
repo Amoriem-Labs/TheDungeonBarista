@@ -80,12 +80,14 @@ namespace TDB
 
         void OnEnable()
         {
+            Debug.Log("trap eneabled");
             // create an array of all entities in the spike trap on activation
             Collider2D[] inSpikes = Physics2D.OverlapBoxAll(transform.position, _size, 0f, _targetLayers);
 
             // iterate through all entites in the spike array and deal damage to them
             foreach (Collider2D entity in inSpikes)
             {
+                Debug.Log("deal damage to" + entity.gameObject);
                 // call universal deal damage method
                 _trapsUniversal.DealDamage(entity.gameObject);
             }

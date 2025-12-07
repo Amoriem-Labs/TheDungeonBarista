@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector.Editor.Modules;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TDB
@@ -77,16 +78,18 @@ namespace TDB
                 // if there is a more elegant way of doing this let me know, but this s it for now
 
                 // deals the damage to the entity
-                entity.GetComponent<EntityData>().CurrentHealth -= _damage;
+                entity.GetComponentInParent<EntityData>().CurrentHealth -= _damage;
+
+                Debug.Log("damage to enemy");
 
                 // knockback wouldnt work well with spike trap so disabled for now
                 // entity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
                 
                 // if heals is 0 or below, kills it
-                if (entity.GetComponent<EntityData>().CurrentHealth <= 0)
+                if (entity.GetComponentInParent<EntityData>().CurrentHealth <= 0)
                 {
                     //run the die method
-                    Destroy(entity);
+                    Destroy(entity.transform.parent.gameObject);
                 }
             }
         }
