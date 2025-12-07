@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -207.76}
-  m_SizeDelta: {x: 29.082, y: 2.1}
+  m_SizeDelta: {x: 29.082, y: 4.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &520667669944126941
 CanvasRenderer:
@@ -246,9 +246,10 @@ MonoBehaviour:
   zoneOne: {fileID: 3024958166211259299}
   zoneTwo: {fileID: 4143971440410456000}
   zoneThree: {fileID: 4014073491752565022}
-  easySpeedPctPerSec: 0.2
-  hardSpeedPctPerSec: 0.49
+  easySpeedPctPerSec: 1.14
+  hardSpeedPctPerSec: 1.78
   passes: 3
+  waitTime: 0.5
   goodHeightPercentRange: {x: 0.5, y: 0.4}
   awesomeOfGood: 0.4
   perfectOfGood: 0.1
