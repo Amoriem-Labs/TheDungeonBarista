@@ -80,8 +80,6 @@ namespace TDB
                 // deals the damage to the entity
                 entity.GetComponentInParent<EntityData>().CurrentHealth -= _damage;
 
-                Debug.Log("damage to enemy");
-
                 // knockback wouldnt work well with spike trap so disabled for now
                 // entity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
                 
