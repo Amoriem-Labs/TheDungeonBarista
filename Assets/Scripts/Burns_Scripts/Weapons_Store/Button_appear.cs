@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-//This is code for clicking the buttons and having images associated 
-//with the buttons appear. 
+// This is code for clicking the buttons and having images associated 
+// with the buttons appear. 
 
 public class ShowBoxOnClick : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class ShowBoxOnClick : MonoBehaviour
 
     public void ShowBox()
     {
-        // 1. Hide everything controlled by any button
+        // Hide everything controlled by any button
         ShowBoxOnClick[] allButtons = FindObjectsOfType<ShowBoxOnClick>();
         foreach (ShowBoxOnClick btn in allButtons)
         {
@@ -24,7 +24,7 @@ public class ShowBoxOnClick : MonoBehaviour
             }
         }
 
-        // 2. Show all objects belonging to THIS button
+        // Show all objects belonging to this particular button
         foreach (GameObject obj in objectsToShow)
         {
             if (obj != null)
