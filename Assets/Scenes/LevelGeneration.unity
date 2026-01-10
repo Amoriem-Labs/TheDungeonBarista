@@ -312,7 +312,7 @@ MonoBehaviour:
   aspectRatio: 1.25
   floorPrefab: {fileID: 1123145753052581664, guid: 3ae69b39e03460a4ba9dda6a00a413dc, type: 3}
   collectibleGenerator: {fileID: 2049241821}
-  roomLibrary: {fileID: 0}
+  roomLibrary: {fileID: 11400000, guid: 77a5e3d67a58fea45b2fe34c3908bd53, type: 2}
 --- !u!1 &2049241820
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,8 +343,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectiblePrefabs:
-  - {fileID: 1123145753052581664, guid: 3ae69b39e03460a4ba9dda6a00a413dc, type: 3}
-  collectibleCount: 5
+  - {fileID: 2662186017837908027, guid: 0cf30fe43fefe08429b7b21b2de729eb, type: 3}
+  collectibleCount: 8
 --- !u!4 &2049241822
 Transform:
   m_ObjectHideFlags: 0
