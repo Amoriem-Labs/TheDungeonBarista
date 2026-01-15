@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using TDB.Audio;
 using TDB.CafeSystem.Managers;
 using TDB.GameManagers.SessionManagers;
@@ -23,7 +24,8 @@ namespace TDB.GameManagers
         [SerializeField, HideLabel, BoxGroup("Game Config"), InlineEditor]
         private GameConfiguration _gameConfig;
 
-        private SceneTransition _transitionController;
+        [OdinSerialize]
+        private ISceneTransition _transitionController;
 
         public GameConfiguration GameConfig => _gameConfig;
 
@@ -38,7 +40,7 @@ namespace TDB.GameManagers
             // pooled object initialization is usually dependent on other systems
             InitializeManager<ObjectPoolManager>();
             
-            _transitionController = FindObjectOfType<SceneTransition>();
+            // _transitionController = FindObjectsByType<ISceneTransition>(FindObjectsSortMode.None);
         }
 
         private void InitializeManager<T>() where T : PassiveSingleton<T>

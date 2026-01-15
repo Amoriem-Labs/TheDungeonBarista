@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden_URP_SceneTransitionFullscreen
+  m_Shader: {fileID: 4800000, guid: ee253764ee95c6e49b7b8bc35ece1469, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DarkLayerTexture:
+        m_Texture: {fileID: 2800000, guid: fd74a39ba89cd0f4081b0bfc12d4c3c3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FadeMask:
+        m_Texture: {fileID: 2800000, guid: 757fb5419ddacbb40b811eec77d31c93, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmallBubbleTex:
+        m_Texture: {fileID: 2800000, guid: 7f748979035cd884cac4cdaa5fb07c50, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopBubbleTex:
+        m_Texture: {fileID: 2800000, guid: 90bddf49c1b5c714d84309266bb02da7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveBackTex:
+        m_Texture: {fileID: 2800000, guid: 5c4f59f9bdec1c747a3f423d52a84708, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveDarkTex:
+        m_Texture: {fileID: 2800000, guid: fd6ebb2a839635545ac26e4eda72076e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveFrontTex:
+        m_Texture: {fileID: 2800000, guid: f4ebd2e687bc1874c8ee3138af14429c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveLightTex:
+        m_Texture: {fileID: 2800000, guid: be2917e290dcd734c97902ff692df714, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BackParallaxRatio: 0.5
+    - _BubbleAlpha: 0.4
+    - _Progress: 0
+    - _ScrollSpeed: 35
+    m_Colors:
+    - _BackMultiplier: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+    - _DarkColor: {r: 0.2980392, g: 0.16470584, b: 0.18039212, a: 1}
+    - _LightColor: {r: 0.6627451, g: 0.5568628, b: 0.42352945, a: 1}
+    - _NormalColor: {r: 0.59607846, g: 0.43921572, b: 0.25490198, a: 1}
+  m_BuildTextureStacks: []
