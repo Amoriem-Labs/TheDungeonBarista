@@ -17,12 +17,16 @@ namespace TDB.DungeonSystem.Generate
     {
         // Step 1: Filter rooms that fit inside the BSP partition
         List<RoomSO> candidates = new();
+        int padding = 2;
 
         foreach (var room in _library.allRooms)
         {
 
-            if (room.width <= space.width && room.height <= space.height)
-                candidates.Add(room);
+                if (room.width <= space.width - padding &&
+                           room.height <= space.height - padding)
+                {
+                    candidates.Add(room);
+                }
         }
 
         if (candidates.Count == 0)

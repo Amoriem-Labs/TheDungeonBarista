@@ -46,7 +46,7 @@ namespace TDB.DungeonSystem.Generate
 
             CreateRooms(root);
             ConnectRooms(root);
-            DrawDungeon();
+            //DrawDungeon();
         }
 
         void Split(BSPNode node)
@@ -124,11 +124,23 @@ namespace TDB.DungeonSystem.Generate
             if (!node.IsLeaf()) return;
 
             RoomSO room = _roomChooser.ChooseRoom(node.rect);
-            if (room == null) return;
+
+            if (room == null)
+            {
+                Debug.LogWarning($"No room fits leaf {node.rect}");
+                return;
+            }
+
 
             // Center the room inside the BSP rect
             int offsetX = node.rect.x + (node.rect.width - room.width) / 2;
             int offsetY = node.rect.y + (node.rect.height - room.height) / 2;
+
+            if (room.tiles == null || room.tiles.Length != room.width * room.height)
+            {
+                Debug.LogError($"Room {room.name} has invalid tile data");
+                return;
+            }
 
             for (int y = 0; y < room.height; y++)
             {

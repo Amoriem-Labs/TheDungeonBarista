@@ -11,4 +11,19 @@ public class RoomSO : ScriptableObject
     public TileType[] tiles;
 
     public List<Vector2Int> doorPositions = new();
+
+    private void OnValidate()
+    {
+        if (width <= 0 || height <= 0)
+            return;
+
+        int expectedSize = width * height;
+
+        if (tiles == null || tiles.Length != expectedSize)
+        {
+            tiles = new TileType[expectedSize];
+        }
+
+    }
+
 }
