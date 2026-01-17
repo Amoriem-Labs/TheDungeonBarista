@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TDB.DungeonSystem.BSP;
+using TDB.DungeonSystem.Core;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Random = UnityEngine.Random;
@@ -25,6 +26,10 @@ namespace TDB.DungeonSystem.Generate
 
         // used for Dungeon Drawing
         public GameObject floorPrefab;
+        private DungeonGrid dungeonGrid;
+        [SerializeField] private TileType floorTileType;
+        [SerializeField] private DungeonRenderer dungeonRenderer;
+
 
 
         [SerializeField] private RoomLibrary roomLibrary;
@@ -39,6 +44,7 @@ namespace TDB.DungeonSystem.Generate
 
         void GenerateDungeon()
         {
+            dungeonGrid = new DungeonGrid(dungeonWidth, dungeonHeight);
             Debug.Log("Generating Dungeon...");
             BSPNode root = new BSPNode(new RectInt(0, 0, dungeonWidth, dungeonHeight));
             Split(root);
@@ -46,6 +52,8 @@ namespace TDB.DungeonSystem.Generate
 
             CreateRooms(root);
             ConnectRooms(root);
+            GenerateWalls();
+            dungeonRenderer.Render(dungeonGrid);
             //DrawDungeon();
         }
 
@@ -96,7 +104,7 @@ namespace TDB.DungeonSystem.Generate
         }
         void CreateRooms(BSPNode node)
         {
-            if(node == null)
+            if (node == null)
             {
                 return;
             }
@@ -119,28 +127,16 @@ namespace TDB.DungeonSystem.Generate
             }
         }
 
+
         private void FillLeaf(BSPNode node)
         {
             if (!node.IsLeaf()) return;
 
             RoomSO room = _roomChooser.ChooseRoom(node.rect);
+            if (room == null) return;
 
-            if (room == null)
-            {
-                Debug.LogWarning($"No room fits leaf {node.rect}");
-                return;
-            }
-
-
-            // Center the room inside the BSP rect
             int offsetX = node.rect.x + (node.rect.width - room.width) / 2;
             int offsetY = node.rect.y + (node.rect.height - room.height) / 2;
-
-            if (room.tiles == null || room.tiles.Length != room.width * room.height)
-            {
-                Debug.LogError($"Room {room.name} has invalid tile data");
-                return;
-            }
 
             for (int y = 0; y < room.height; y++)
             {
@@ -149,34 +145,33 @@ namespace TDB.DungeonSystem.Generate
                     int index = x + y * room.width;
                     TileType tile = room.tiles[index];
 
-                    if (tile != null)
-                    {
-                        Vector2Int worldPos = new Vector2Int(offsetX + x, offsetY + y);
-                        // TODO ADD LATER
-                        //gridManager.SetTile(worldPos, tile);
-                        Instantiate(floorPrefab, new Vector3(worldPos.x, worldPos.y, 0), Quaternion.identity);
+                    if (tile == null) continue;
 
-                    }
+                    Vector2Int worldPos = new(offsetX + x, offsetY + y);
+                    dungeonGrid.SetTile(worldPos, tile);
                 }
             }
 
             node.room = new RectInt(offsetX, offsetY, room.width, room.height);
+            node.roomTemplate = room;
+
         }
+
 
         void DrawDungeon()
         {
             // traverse the tree and draw rooms for each leaf 
-            foreach(var leaf in leaves)
+            foreach (var leaf in leaves)
             {
                 if (leaf.room.HasValue)
                 {
                     Debug.Log($"Drawing room at {leaf.room.Value.position} size {leaf.room.Value.size}");
                     var room = leaf.room.Value;
-                    for (int x  = room.x; x < room.x + room.width; x++)
+                    for (int x = room.x; x < room.x + room.width; x++)
                     {
-                        for (int y = room.y; y < room.y +room.height; y++)
+                        for (int y = room.y; y < room.y + room.height; y++)
                         {
-                            Instantiate(floorPrefab, new Vector3(x,y, 0), Quaternion.identity);
+                            Instantiate(floorPrefab, new Vector3(x, y, 0), Quaternion.identity);
                         }
                     }
                 }
@@ -194,21 +189,22 @@ namespace TDB.DungeonSystem.Generate
 
                 if (node.left.room.HasValue && node.right.room.HasValue)
                 {
-                    CreateCorridor(node.left.room.Value, node.right.room.Value);
+                    CreateCorridor(node.left, node.right);
                 }
             }
         }
 
-        void CreateCorridor(RectInt roomA, RectInt roomB)
+        void CreateCorridor(BSPNode nodeA, BSPNode nodeB)
         {
-            Vector2Int pointA = new Vector2Int(
-                Random.Range(roomA.x + 1, roomA.xMax - 1),
-                Random.Range(roomA.y + 1, roomA.yMax - 1));
+            // Safety check
+            if (!nodeA.room.HasValue || !nodeB.room.HasValue) return;
+            if (nodeA.roomTemplate == null || nodeB.roomTemplate == null) return;
 
-            Vector2Int pointB = new Vector2Int(
-                Random.Range(roomB.x + 1, roomB.xMax - 1),
-                Random.Range(roomB.y + 1, roomB.yMax - 1));
+            // Get a door position from each room in world coordinates
+            Vector2Int pointA = nodeA.roomTemplate.GetRandomDoorWorld(nodeA.room.Value);
+            Vector2Int pointB = nodeB.roomTemplate.GetRandomDoorWorld(nodeB.room.Value);
 
+            // Choose L-shaped corridor direction randomly
             if (Random.value > 0.5f)
             {
                 CreateHorizontalCorridor(pointA.x, pointB.x, pointA.y);
@@ -221,11 +217,13 @@ namespace TDB.DungeonSystem.Generate
             }
         }
 
+
+
         void CreateHorizontalCorridor(int xStart, int xEnd, int y)
         {
             for (int x = Mathf.Min(xStart, xEnd); x <= Mathf.Max(xStart, xEnd); x++)
             {
-                Instantiate(floorPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                dungeonGrid.SetTile(new Vector2Int(x, y), floorTileType);
             }
         }
 
@@ -233,10 +231,46 @@ namespace TDB.DungeonSystem.Generate
         {
             for (int y = Mathf.Min(yStart, yEnd); y <= Mathf.Max(yStart, yEnd); y++)
             {
-                Instantiate(floorPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                dungeonGrid.SetTile(new Vector2Int(x, y), floorTileType);
             }
         }
 
 
-    }
+
+    
+
+        [SerializeField] private TileType wallTileType; // assign in Inspector
+
+            void GenerateWalls()
+            {
+                for (int x = 1; x < dungeonWidth - 1; x++)
+                {
+                    for (int y = 1; y < dungeonHeight - 1; y++)
+                    {
+                        if (dungeonGrid.GetTile(new Vector2Int(x, y)) != null) continue;
+
+                        if (HasNeighborFloor(x, y))
+                            dungeonGrid.SetTile(new Vector2Int(x, y), wallTileType);
+                    }
+                }
+            }
+
+            bool HasNeighborFloor(int x, int y)
+            {
+                Vector2Int[] dirs = {
+            Vector2Int.up, Vector2Int.down,
+            Vector2Int.left, Vector2Int.right
+        };
+
+                foreach (var d in dirs)
+                {
+                    var t = dungeonGrid.GetTile(new Vector2Int(x + d.x, y + d.y));
+                    if (t != null && t.walkable)
+                        return true;
+                }
+                return false;
+            }
+
+    } 
 }
+

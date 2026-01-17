@@ -19,6 +19,8 @@ namespace TDB.DungeonSystem.BSP
         public BSPNode right;
         // rectangle in this room
         public RectInt? room;
+        public RoomSO roomTemplate;
+
 
         // ================================
         // Public Methods
