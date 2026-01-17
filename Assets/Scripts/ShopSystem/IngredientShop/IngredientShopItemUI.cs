@@ -21,7 +21,7 @@ namespace TDB.ShopSystem.IngredientShop
             _button.onClick.AddListener(HandlePurchase);
         }
 
-        public override void BindItemData(ShopItemData<IngredientDefinition> itemData, IMoneyDataHolder moneyData)
+        public override void BindItemData(ShopItemData<IngredientDefinition> itemData, IResourceDataHolder moneyData)
         {
             base.BindItemData(itemData, moneyData);
 

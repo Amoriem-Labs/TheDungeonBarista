@@ -8,12 +8,12 @@ namespace TDB.ShopSystem.Framework
     {
         private ShopItemData<T> _boundItemData;
         
-        private IMoneyDataHolder _moneyData;
+        private IResourceDataHolder _moneyData;
         
         public Action<IShopItemData> OnBindItemData { get; set; }
         public Action<bool> OnPurchasableUpdate{ get; set; }
 
-        protected bool CanPurchase => _boundItemData.InStockCount > 0 && _boundItemData.Price <= _moneyData.GetMoney();
+        protected bool CanPurchase => _boundItemData.InStockCount > 0 && _boundItemData.Price <= _moneyData.GetResource();
         
         protected virtual void OnDisable()
         {
@@ -24,17 +24,17 @@ namespace TDB.ShopSystem.Framework
             
             if (_moneyData != null)
             {
-                _moneyData.OnMoneyUpdate -= CheckCanPurchase;
+                _moneyData.OnResourceUpdate -= CheckCanPurchase;
                 _moneyData = null;
             }
         }
 
-        public virtual void BindItemData(ShopItemData<T> itemData, IMoneyDataHolder moneyData)
+        public virtual void BindItemData(ShopItemData<T> itemData, IResourceDataHolder moneyData)
         {
             _boundItemData = itemData;
 
             _moneyData = moneyData;
-            _moneyData.OnMoneyUpdate += CheckCanPurchase;
+            _moneyData.OnResourceUpdate += CheckCanPurchase;
             
             OnBindItemData?.Invoke(itemData);
             
@@ -54,10 +54,10 @@ namespace TDB.ShopSystem.Framework
                 return;
             }
 
-            var money = _moneyData.GetMoney();
+            var money = _moneyData.GetResource();
             var price = _boundItemData.Price;
             _boundItemData.Purchase();
-            _moneyData.SetMoney(money - price);
+            _moneyData.SetResource(money - price);
         }
     }
     

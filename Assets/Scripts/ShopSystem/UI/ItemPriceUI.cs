@@ -1,4 +1,5 @@
 ﻿using System;
+using TDB.GameManagers.SessionManagers;
 using TDB.ShopSystem.Framework;
 using TMPro;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace TDB.ShopSystem.UI
 
         private void HandleBindItemData(IShopItemData data)
         {
-            _text.text = IMoneyDataHolder.MoneyToString(data.Price);
+            _text.text = MoneyManager.MoneyToString(data.Price);
         }
     }
 }

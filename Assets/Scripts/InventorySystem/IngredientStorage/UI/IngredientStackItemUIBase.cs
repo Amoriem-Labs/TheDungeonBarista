@@ -1,0 +1,65 @@
+using System;
+using TDB.CraftSystem.Data;
+using TDB.InventorySystem.Framework;
+using TDB.Utils;
+using TDB.Utils.UI.UIHover;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace TDB.InventorySystem.IngredientStorage.UI
+{
+    public class IngredientStackItemUIBase : InventoryStackUI<IngredientDefinition>, IUIHoverHandler
+    {
+        [SerializeField] private Image _ingredientIcon;
+        [SerializeField] private Image _typeIcon;
+        [SerializeField] private TextMeshProUGUI _amountText;
+        
+        private IngredientDefinition _definition;
+        private IIngredientInfoDisplayer _infoDisplayer;
+        private RectTransform _rectTransform;
+
+        private void Awake()
+        {
+            _infoDisplayer = GetComponentInParent<IIngredientInfoDisplayer>();
+            _rectTransform = transform as RectTransform;
+        }
+
+        public override void SetStack(InventoryStackData<IngredientDefinition> stack)
+        {
+            _definition = stack.Definition;
+            _ingredientIcon.sprite = _definition.IngredientSprite;
+            _typeIcon.sprite = _definition.Type.Icon;
+
+            _amountText.text = $"x{stack.Amount}";
+        }
+
+        public void OnUIHoverEnter()
+        {
+            _infoDisplayer?.DisplayIngredientInfo(new IngredientInfoDisplayInfo()
+            {
+                Ingredient = _definition,
+                AnchorMin = RectTransformUtil.GetAnchorMinWorldPosition(_rectTransform),
+                AnchorMax = RectTransformUtil.GetAnchorMaxWorldPosition(_rectTransform),
+            });
+        }
+
+        public void OnUIHoverExit()
+        {
+            _infoDisplayer?.StopDisplaying();
+        }
+    }
+
+    public interface IIngredientInfoDisplayer
+    {
+        public void DisplayIngredientInfo(IngredientInfoDisplayInfo info);
+        public void StopDisplaying();
+    }
+
+    public struct IngredientInfoDisplayInfo
+    {
+        public IngredientDefinition Ingredient;
+        public Vector3 AnchorMin;
+        public Vector3 AnchorMax;
+    }
+}

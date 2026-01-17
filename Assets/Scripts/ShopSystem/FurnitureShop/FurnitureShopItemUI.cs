@@ -10,7 +10,7 @@ namespace TDB.ShopSystem.FurnitureShop
     {
         [SerializeField] private TextMeshProUGUI _furnitureName;
 
-        public override void BindItemData(ShopItemData<FurnitureDefinition> itemData, IMoneyDataHolder moneyData)
+        public override void BindItemData(ShopItemData<FurnitureDefinition> itemData, IResourceDataHolder moneyData)
         {
             base.BindItemData(itemData, moneyData);
 

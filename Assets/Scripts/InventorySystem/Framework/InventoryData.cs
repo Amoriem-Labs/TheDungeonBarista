@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.InventorySystem.IngredientStorage;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace TDB.InventorySystem.Framework
 {
     [System.Serializable]
-    public class InventoryData<T> where T : ResourceScriptableObject
+    public class InventoryData<T> : IEnumerable<InventoryStackData<T>> where T : ResourceScriptableObject
     {
         [TableList, SerializeField]
         private List<InventoryStackData<T>> _stacks;
@@ -48,5 +49,12 @@ namespace TDB.InventorySystem.Framework
             }
             stack.Deposit(amount);
         }
+
+        public void Clear() => _stacks.Clear();
+
+        IEnumerator<InventoryStackData<T>> IEnumerable<InventoryStackData<T>>.GetEnumerator() =>
+            _stacks.GetEnumerator();
+
+        public IEnumerator GetEnumerator() => _stacks.GetEnumerator();
     }
 }

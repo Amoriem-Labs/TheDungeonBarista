@@ -58,14 +58,12 @@ namespace TDB.ShopSystem.Framework
         
     }
 
-    public interface IMoneyDataHolder
+    public interface IResourceDataHolder
     {
-        public int GetMoney();
-        public void SetMoney(int money);
+        public int GetResource();
+        public void SetResource(int amount);
 
-        public Action OnMoneyUpdate { get; set; }
-
-        public static string MoneyToString(int money) => $"${money}";
+        public Action OnResourceUpdate { get; set; }
     }
     
     // assume only 1 type of resource: money

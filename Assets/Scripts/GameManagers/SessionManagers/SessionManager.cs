@@ -76,7 +76,7 @@ namespace TDB.GameManagers.SessionManagers
             
             // initialize money manager
             TryFindObjectOfType<MoneyManager>(out var moneyManager);
-            moneyManager.SetMoney(gameData.Money);
+            moneyManager.SetResource(gameData.Money);
 
             #endregion
         }

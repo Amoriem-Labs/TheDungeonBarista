@@ -60,18 +60,18 @@ namespace TDB.ShopSystem.Framework
         #endregion
     }
 
-    public class TestMoneyData : IMoneyDataHolder
+    public class TestMoneyData : IResourceDataHolder
     {
         private int _money = 10;
         
-        public int GetMoney() => _money;
+        public int GetResource() => _money;
 
-        public void SetMoney(int money)
+        public void SetResource(int amount)
         {
-            _money = money;
-            OnMoneyUpdate?.Invoke();
+            _money = amount;
+            OnResourceUpdate?.Invoke();
         }
 
-        public Action OnMoneyUpdate { get; set; }
+        public Action OnResourceUpdate { get; set; }
     }
 }

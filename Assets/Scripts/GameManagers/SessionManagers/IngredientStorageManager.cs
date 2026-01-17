@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TDB.CraftSystem.Data;
 using TDB.InventorySystem.IngredientStorage;
+using TDB.Utils.EventChannels;
 using UnityEngine;
 
 namespace TDB.GameManagers.SessionManagers
@@ -24,6 +26,8 @@ namespace TDB.GameManagers.SessionManagers
             return _volatileStorage;
         }
 
+        public IngredientStorageData GetVolatileIngredientStorage() => _volatileStorage;
+
         public bool TryConsume(Dictionary<IngredientDefinition, int> requirement)
         {
             // consume volatile storage first
@@ -41,6 +45,22 @@ namespace TDB.GameManagers.SessionManagers
         public void AddVolatileIngredient(IngredientDefinition itemDefinition)
         {
             _volatileStorage.Deposit(itemDefinition);
+        }
+
+        public int GetVolatileIngredientEssence()
+        {
+            var storedIngredients = _volatileStorage.GetIngredientsCount;
+            int essence = 0;
+            foreach (var (ingredient, count) in storedIngredients)
+            {
+                essence += ingredient.GetEssence() * count;
+            }
+            return essence;
+        }
+
+        public void ClearVolatileIngredients()
+        {
+            _volatileStorage.Clear();
         }
     }
 }

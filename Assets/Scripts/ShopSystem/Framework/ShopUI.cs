@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TDB.GameManagers.SessionManagers;
 using TDB.Utils.UI;
 using TMPro;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace TDB.ShopSystem.Framework
         private readonly List<ShopItemUI<T>> _itemUIs = new List<ShopItemUI<T>>();
         private UIEnabler _enabler;
         private Action _closeShopCallback;
-        private IMoneyDataHolder _moneyData;
+        private IResourceDataHolder _moneyData;
 
         private void Awake()
         {
@@ -33,16 +34,16 @@ namespace TDB.ShopSystem.Framework
         {
             if (_moneyData != null)
             {
-                _moneyData.OnMoneyUpdate -= HandleMoneyUpdate;
+                _moneyData.OnResourceUpdate -= HandleMoneyUpdate;
                 _moneyData = null;
             }
         }
         
-        public void OpenShop(IShopData<T> shopData, IMoneyDataHolder moneyData, Action closeShopCallback)
+        public void OpenShop(IShopData<T> shopData, IResourceDataHolder moneyData, Action closeShopCallback)
         {
             // bind money UI
             _moneyData = moneyData;
-            _moneyData.OnMoneyUpdate += HandleMoneyUpdate;
+            _moneyData.OnResourceUpdate += HandleMoneyUpdate;
             HandleMoneyUpdate();
             
             // enable/create items on demand
@@ -73,8 +74,8 @@ namespace TDB.ShopSystem.Framework
 
         private void HandleMoneyUpdate()
         {
-            var money = _moneyData.GetMoney();
-            _moneyText.text = IMoneyDataHolder.MoneyToString(money);
+            var money = _moneyData.GetResource();
+            _moneyText.text = MoneyManager.MoneyToString(money);
         }
 
         private void AddItem(ShopItemData<T> itemData, int index)

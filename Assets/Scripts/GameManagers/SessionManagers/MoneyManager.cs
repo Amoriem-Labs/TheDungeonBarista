@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TDB.GameManagers.SessionManagers
 {
-    public class MoneyManager : MonoBehaviour, IMoneyDataHolder, IGameDataWriter
+    public class MoneyManager : MonoBehaviour, IResourceDataHolder, IGameDataWriter
     {
         [ShowInInspector] private int _money = 0;
         private SessionManager _sessionManager;
@@ -26,15 +26,15 @@ namespace TDB.GameManagers.SessionManagers
             _sessionManager.UnregisterDataWriter(this);
         }
 
-        public int GetMoney() => _money;
+        public int GetResource() => _money;
 
-        public void SetMoney(int money)
+        public void SetResource(int amount)
         {
-            _money = money;
-            OnMoneyUpdate?.Invoke();
+            _money = amount;
+            OnResourceUpdate?.Invoke();
         }
 
-        public Action OnMoneyUpdate { get; set; }
+        public Action OnResourceUpdate { get; set; }
         public Action<ReceiveMoneyInfo> OnReceiveMoney { get; set; }
             
         public void WriteToData(GameData data)
@@ -44,12 +44,14 @@ namespace TDB.GameManagers.SessionManagers
 
         public void ReceiveMoneyFrom(int amount, Vector3 moneySourcePosition)
         {
-            SetMoney(_money + amount);
+            SetResource(_money + amount);
             OnReceiveMoney?.Invoke(new ReceiveMoneyInfo()
             {
                 MoneySourcePosition = moneySourcePosition,
             });
         }
+
+        public static string MoneyToString(int amount) => $"${amount}";
     }
 
     public struct ReceiveMoneyInfo

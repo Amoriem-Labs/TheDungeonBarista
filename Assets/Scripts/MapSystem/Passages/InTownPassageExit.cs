@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using TDB.GameManagers;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace TDB.MapSystem.Passages
     {
         [SerializeField] private PassageEntranceDefinition _passageExit;
         
-        public IEnumerator HandleEnterPassage()
+        public IEnumerator HandleEnterPassage(Action abort)
         {
             var entrances = FindObjectsOfType<PassageEntrance>().ToList();
             var exitEntrance = entrances.Find(e => e.EntranceDefinition == _passageExit);
@@ -38,6 +39,11 @@ namespace TDB.MapSystem.Passages
             }
 
             yield return GameManager.Instance.StartTransition(TeleportToExit());
+        }
+
+        public IEnumerator UndoEffect()
+        {
+            yield break;
         }
     }
 }

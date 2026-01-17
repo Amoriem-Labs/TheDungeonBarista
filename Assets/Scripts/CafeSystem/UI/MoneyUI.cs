@@ -24,13 +24,13 @@ namespace TDB.CafeSystem.UI
 
         private void OnEnable()
         {
-            _moneyManager.OnMoneyUpdate += HandleMoneyUpdate;
+            _moneyManager.OnResourceUpdate += HandleMoneyUpdate;
             _moneyManager.OnReceiveMoney += HandleReceiveMoney;
         }
 
         private void OnDisable()
         {
-            _moneyManager.OnMoneyUpdate -= HandleMoneyUpdate;
+            _moneyManager.OnResourceUpdate -= HandleMoneyUpdate;
             _moneyManager.OnReceiveMoney -= HandleReceiveMoney;
         }
 
@@ -44,12 +44,12 @@ namespace TDB.CafeSystem.UI
                 _numberAnim.Kill();
             }
             
-            var targetMoney = _moneyManager.GetMoney();
+            var targetMoney = _moneyManager.GetResource();
             float time = Mathf.Min(3f, (targetMoney - _currentMoneyDisplay) * 0.01f);
             _numberAnim = DOTween.To(() => _currentMoneyDisplay, x =>
             {
                 _currentMoneyDisplay = x;
-                _moneyText.text = IMoneyDataHolder.MoneyToString(_currentMoneyDisplay);
+                _moneyText.text = MoneyManager.MoneyToString(_currentMoneyDisplay);
             }, targetMoney, time);
         }
 

@@ -22,7 +22,7 @@ namespace TDB.ShopSystem.Framework
             _previewTrigger.BindUI(this, shopUI.PreviewPanel);
         }
 
-        public override void BindItemData(ShopItemData<T> itemData, IMoneyDataHolder moneyData)
+        public override void BindItemData(ShopItemData<T> itemData, IResourceDataHolder moneyData)
         {
             _previewTrigger.BindData(itemData, itemData.ItemDefinition);
             

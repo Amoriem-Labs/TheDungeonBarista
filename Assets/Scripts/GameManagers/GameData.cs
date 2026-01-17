@@ -60,6 +60,7 @@ namespace TDB.GameManagers
         #region Other Data
 
         [SerializeField] public int Money;
+        [SerializeField] public int Essence;
 
         #endregion
         
@@ -85,6 +86,7 @@ namespace TDB.GameManagers
             
             // copy other data
             Money = newGameData.Money;
+            Essence = newGameData.Essence;
         }
     }
 }

@@ -27,5 +27,12 @@ namespace TDB.CraftSystem.Data
         public IngredientTypeDefinition Type => _type;
 
         public List<EffectParamPair> Effects => _effects;
+
+        public int GetEssence()
+        {
+            // TODO: find a better essence computation
+            // placeholder: the number of effects determines the essence
+            return 1 + Effects.Count;
+        }
     }
 }

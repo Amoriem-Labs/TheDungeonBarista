@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using TDB.GameManagers.SessionManagers;
 using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using TDB.Utils.UI;
@@ -39,7 +40,7 @@ namespace TDB.ShopSystem.UI
         public void SetCurrentTrigger(PreviewTrigger previewItem)
         {
             _currentTrigger = previewItem;
-            _priceText.text = IMoneyDataHolder.MoneyToString(_currentTrigger.Price);
+            _priceText.text = MoneyManager.MoneyToString(_currentTrigger.Price);
 
             HandlePurchasableUpdate();
             
