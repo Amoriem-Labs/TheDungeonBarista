@@ -39,8 +39,8 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _infoDisplayer?.DisplayIngredientInfo(new IngredientInfoDisplayInfo()
             {
                 Ingredient = _definition,
-                AnchorMin = RectTransformUtil.GetAnchorMinWorldPosition(_rectTransform),
-                AnchorMax = RectTransformUtil.GetAnchorMaxWorldPosition(_rectTransform),
+                RootSize = _rectTransform.sizeDelta,
+                RootPosition = transform.position,
             });
         }
 
@@ -59,7 +59,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
     public struct IngredientInfoDisplayInfo
     {
         public IngredientDefinition Ingredient;
-        public Vector3 AnchorMin;
-        public Vector3 AnchorMax;
+        public Vector2 RootSize;
+        public Vector3 RootPosition;
     }
 }
