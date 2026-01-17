@@ -12,6 +12,9 @@ namespace TDB.Utils.UI
     {
         [SerializeField, ToggleLeft]
         private bool _displayOnAwake = true;
+
+        [SerializeField, ToggleLeft]
+        private bool _disableObject = false;
         
         [SerializeField, ToggleLeft]
         private bool _overrideDisplayParameter = false;
@@ -54,6 +57,8 @@ namespace TDB.Utils.UI
         {
             Enabled = true;
             
+            if (_disableObject) gameObject.SetActive(true);
+            
             _canvasGroup.alpha = _alpha;
             _canvasGroup.interactable = _interactable;
             _canvasGroup.blocksRaycasts = _blockRaycast;
@@ -76,10 +81,14 @@ namespace TDB.Utils.UI
             {
                 handler.OnUIDisable();
             }
+            
+            if (_disableObject) gameObject.SetActive(false);
         }
 
         public TweenerCore<float, float, FloatOptions> Enable(float transitionTime)
         {
+            if (_disableObject) gameObject.SetActive(true);
+            
             // prevent click through immediately
             _canvasGroup.blocksRaycasts = _blockRaycast;
             
