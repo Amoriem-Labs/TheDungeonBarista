@@ -32,8 +32,6 @@ namespace TDB
         // =======================
         void Start()
         {
-            // gets the slider component
-            ManaBar = GetComponent<Slider>();
             
             // sets maximum and minimum value of the bar, along with only using whole numbers
             ManaBar.maxValue = MaxMana;

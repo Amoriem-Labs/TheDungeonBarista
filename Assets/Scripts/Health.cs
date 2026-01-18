@@ -31,8 +31,6 @@ namespace TDB
         // Start is called before the first frame update
         void Start()
         {
-            // gets the slider component
-            HealthBar = GetComponent<Slider>();
             
             // sets maximum and minimum value of the bar, along with only using whole numbers
             HealthBar.maxValue = MaxHealth;
