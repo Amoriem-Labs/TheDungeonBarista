@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.InventorySystem.IngredientStorage;
 using TDB.Utils.Misc;
+using TMPro;
 using UnityEngine;
 
 namespace TDB.InventorySystem.Framework
@@ -18,6 +19,25 @@ namespace TDB.InventorySystem.Framework
         protected InventoryData(InventoryData<T> inventoryData)
         {
             _stacks = inventoryData.Stacks.Select(s => new InventoryStackData<T>(s)).ToList();
+        }
+
+        public InventoryData(List<InventoryData<T>> inventories)
+        {
+            if (inventories.Count <= 0)
+            {
+                _stacks = new List<InventoryStackData<T>>();
+                return;
+            }
+            
+            _stacks = inventories[0].Stacks.Select(s => new InventoryStackData<T>(s)).ToList();
+            for (int i = 1; i < inventories.Count; i++)
+            {
+                var inventory = inventories[i];
+                foreach (InventoryStackData<T> stack in inventory)
+                {
+                    Deposit(stack.Definition, stack.Amount);
+                }
+            }
         }
 
         protected List<InventoryStackData<T>> Stacks => _stacks;

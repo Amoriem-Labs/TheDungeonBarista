@@ -188,6 +188,11 @@ namespace TDB.CraftSystem.UI
 
     public interface IIngredientStorageReceiver
     {
+        /// <summary>
+        /// The received storage is read-only. Modification to the storage may not be reflected in the persisted data.
+        /// Directly access IngredientStorageManager to change the ingredient amount. 
+        /// </summary>
+        /// <param name="ingredientStorage"></param>
         public void ReceiveIngredientStorage(IngredientStorageData ingredientStorage);
     }
 }

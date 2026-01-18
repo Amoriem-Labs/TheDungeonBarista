@@ -16,6 +16,10 @@ namespace TDB.InventorySystem.IngredientStorage
         public IngredientStorageData(IngredientStorageData ingredientStorage) : base(ingredientStorage)
         {
         }
+        
+        public IngredientStorageData(List<InventoryData<IngredientDefinition>> inventories) : base(inventories)
+        {
+        }
 
         public Dictionary<IngredientDefinition, int> GetIngredientsCount =>
             Stacks

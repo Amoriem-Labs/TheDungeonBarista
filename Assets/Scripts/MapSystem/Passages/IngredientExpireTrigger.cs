@@ -21,7 +21,7 @@ namespace TDB.MapSystem.Passages
 
         public IEnumerator HandleEnterPassage(Action abort)
         {
-            var expiringIngredients = _ingredientStorage.GetVolatileIngredientStorage();
+            var expiringIngredients = _ingredientStorage.VolatileIngredientStorage;
             var obtainedEssence = _ingredientStorage.GetVolatileIngredientEssence();
             var confirmed = false;
             yield return _expireUI.RequestConfirmation(expiringIngredients, obtainedEssence,

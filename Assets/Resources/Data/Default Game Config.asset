@@ -48,7 +48,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
     _shopSlots: 8
     _itemAmount: {x: 1, y: 2}
-  DefaultFurniturePreset: {fileID: 11400000, guid: cbe796952c619c942b90fde22f012492, type: 2}
+  DefaultFurniturePreset: {fileID: 11400000, guid: 1e85a34b2a307a746891ed0c7ecc79c4, type: 2}
   _initialGameData:
     VolatileIngredientStorageData:
       _stacks:

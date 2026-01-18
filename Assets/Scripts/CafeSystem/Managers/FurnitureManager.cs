@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
 using TDB.GameManagers;
+using TDB.GameManagers.SessionManagers;
 using TDB.Utils.DataPersistence;
 using UnityEngine;
 
@@ -18,7 +19,17 @@ namespace TDB.CafeSystem.Managers
         private readonly Dictionary<string, Furniture> _trackedFurnitures = new ();
         private IDataWriterDestination _currentDataDestination;
 
+        private FurnitureRefrigeratorCapacityCalculator _capacityCalculator;
+        
         private Transform FurnitureRoot => transform;
+
+        private void Awake()
+        {
+            _capacityCalculator = new FurnitureRefrigeratorCapacityCalculator(_trackedFurnitures);
+            
+            var storageManager = FindObjectOfType<IngredientStorageManager>();
+            storageManager.BindRefrigeratorCapacityManager(_capacityCalculator);
+        }
 
         private void OnDisable()
         {
@@ -148,5 +159,19 @@ namespace TDB.CafeSystem.Managers
         {
             data.AllInstalledFurnitureData = _trackedFurnitures.Select(kv => kv.Value.ExtractData()).ToList();
         }
+    }
+    
+    public class FurnitureRefrigeratorCapacityCalculator : IRefrigeratorCapacityCalculator
+    {
+        private readonly Dictionary<string, Furniture> _trackedFurnitures;
+
+        public FurnitureRefrigeratorCapacityCalculator(Dictionary<string, Furniture> trackedFurnitures)
+        {
+            _trackedFurnitures = trackedFurnitures;
+        }
+
+        public int GetCapacity() =>
+            _trackedFurnitures.Select(f => f.Value.Definition as RefrigeratorFurnitureDefinition)
+                .Sum(r => r?.Capacity ?? 0);
     }
 }

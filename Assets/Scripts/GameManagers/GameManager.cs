@@ -70,12 +70,14 @@ namespace TDB.GameManagers
 
         #region Scene Transitions
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         private void StartGame()
         {
             StartCoroutine(SceneTransitionCoroutine(GameConfig.MainMenuScenes));
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large, ButtonStyle.FoldoutButton)]
         public void StartSession(bool newGame = false)
         {
@@ -118,6 +120,7 @@ namespace TDB.GameManagers
             yield break;
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         public void CafeToDungeon()
         {
@@ -129,6 +132,7 @@ namespace TDB.GameManagers
             StartCoroutine(coroutine);
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         public void DungeonToCafe()
         {
@@ -154,6 +158,7 @@ namespace TDB.GameManagers
             yield break;
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         public void GoToMainMenu()
         {

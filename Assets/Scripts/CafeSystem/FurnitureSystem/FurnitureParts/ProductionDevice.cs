@@ -43,7 +43,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             _configureRecipeEvent.RaiseEvent<OpenMenuInfo>(new OpenMenuInfo()
             {
                 CurrentRecipe = _deviceData?.ConfiguredRecipe,
-                IngredientStorage = _ingredientStorage.GetAllIngredientStorage(),
+                IngredientStorage = _ingredientStorage.GetMergedIngredientStorage(),
                 RecipeBook = _recipeBookHolder.GetRecipeBook(),
                 RecipeDecidedCallback = r =>
                 {
@@ -65,7 +65,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             // not configured
             if (recipe == null) return false;
             // not enough ingredients
-            var servings = recipe.GetServingsAvailable(_ingredientStorage.GetAllIngredientStorage());
+            var servings = recipe.GetServingsAvailable(_ingredientStorage.GetMergedIngredientStorage());
             if (!_infiniteResource && servings <= 0) return false;
             // consume ingredients
             var requirement = recipe.GetAddedIngredients();

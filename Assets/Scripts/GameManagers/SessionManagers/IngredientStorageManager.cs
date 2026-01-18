@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TDB.CraftSystem.Data;
+using TDB.InventorySystem.Framework;
 using TDB.InventorySystem.IngredientStorage;
 using TDB.Utils.EventChannels;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TDB.GameManagers.SessionManagers
 {
@@ -12,9 +14,10 @@ namespace TDB.GameManagers.SessionManagers
     {
         private IngredientStorageData _volatileStorage;
         private IngredientStorageData _refrigeratedStorage;
+        
+        private IRefrigeratorCapacityCalculator _capacityCalculator;
 
-        // TODO:
-        public int RefrigeratorCapacity => 5;
+        public int RefrigeratorCapacity => _capacityCalculator?.GetCapacity() ?? 0;
 
         public void InitializeStorages(IngredientStorageData volatileIngredientStorage,
             IngredientStorageData refrigeratedIngredientStorage)
@@ -23,15 +26,25 @@ namespace TDB.GameManagers.SessionManagers
             _refrigeratedStorage = refrigeratedIngredientStorage;
         }
 
-        public IngredientStorageData GetAllIngredientStorage()
+        public void BindRefrigeratorCapacityManager(IRefrigeratorCapacityCalculator calculator)
         {
-            // TODO: merge with _refrigeratedStorage
-            return _volatileStorage;
+            _capacityCalculator = calculator;
         }
 
-        public IngredientStorageData GetVolatileIngredientStorage() => _volatileStorage;
-        
-        public IngredientStorageData GetRefrigeratedIngredientStorage() => _refrigeratedStorage;
+        /// <summary>
+        /// This method provides a read-only copy of the merged storage.
+        /// Any modification to the returned storage may not be reflected in the persisted data.
+        /// </summary>
+        /// <returns></returns>
+        public IngredientStorageData GetMergedIngredientStorage()
+        {
+            return new IngredientStorageData(new List<InventoryData<IngredientDefinition>>
+                { _volatileStorage, _refrigeratedStorage });
+        }
+
+        public IngredientStorageData VolatileIngredientStorage => _volatileStorage;
+
+        public IngredientStorageData RefrigeratedIngredientStorage => _refrigeratedStorage;
 
         public bool TryConsume(Dictionary<IngredientDefinition, int> requirement)
         {
@@ -67,5 +80,10 @@ namespace TDB.GameManagers.SessionManagers
         {
             _volatileStorage.Clear();
         }
+    }
+
+    public interface IRefrigeratorCapacityCalculator
+    {
+        public int GetCapacity();
     }
 }

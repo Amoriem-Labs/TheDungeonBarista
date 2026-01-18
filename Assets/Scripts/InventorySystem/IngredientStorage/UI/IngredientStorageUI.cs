@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.GameManagers.SessionManagers;
 using TDB.Utils.UI;
@@ -21,11 +22,15 @@ namespace TDB.InventorySystem.IngredientStorage.UI
         private IngredientStorageManager _storageManager;
         private IngredientStorageData _volatileStorage;
         private IngredientStorageData _refrigeratedStorage;
-        
+        private RectTransform _rectTransform;
+        private float _fullWidth;
+        private Action _onExitMenu;
+
         private int RefrigeratorCapacity => _storageManager.RefrigeratorCapacity;
         
         private void Awake()
         {
+            _rectTransform = transform as RectTransform;
             _enabler = GetComponent<UIEnabler>();
 
             _storageManager = FindObjectOfType<IngredientStorageManager>();
@@ -34,25 +39,39 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _volatileColumnUI.BindHandler(TransferToRefrigerator);
             
             _closeButton.onClick.AddListener(Hide);
+
+            _fullWidth = _rectTransform!.sizeDelta.x;
         }
 
         [Button(ButtonSizes.Large)]
-        public void Display()
+        public void Display(Action onExitMenu)
         {
+            _onExitMenu = onExitMenu;
             _enabler.Enable();
             
-            _volatileStorage = _storageManager.GetVolatileIngredientStorage();
-            Debug.Assert(_volatileStorage != null);
-            _refrigeratedStorage = _storageManager.GetRefrigeratedIngredientStorage();
-            Debug.Assert(_refrigeratedStorage != null);
-            
+            _volatileStorage = _storageManager.VolatileIngredientStorage;
             _volatileColumnUI.BindAndDisplay(_volatileStorage);
-            _refrigeratedColumnUI.BindAndDisplay(_refrigeratedStorage);
-            UpdateCapacityText();
+
+            _refrigeratedStorage = _storageManager.RefrigeratedIngredientStorage;
+            var displayRefrigerator = RefrigeratorCapacity > 0;
+            _refrigeratedColumnUI.gameObject.SetActive(displayRefrigerator);
+            if (displayRefrigerator)
+            {
+                _refrigeratedColumnUI.BindAndDisplay(_refrigeratedStorage);
+                UpdateCapacityText();
+            }
+
+            _rectTransform.sizeDelta =
+                new Vector2(_fullWidth * (displayRefrigerator ? 1f : .5f), _rectTransform.sizeDelta.y);
         }
 
         private void Hide()
         {
+            if (_onExitMenu != null)
+            {
+                _onExitMenu?.Invoke();
+                _onExitMenu = null;
+            }
             _enabler.Disable();
         }
 
