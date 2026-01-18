@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using TDB.CraftSystem.Data;
+using TDB.InventorySystem.IngredientStorage.UI;
 using TDB.Utils.Misc;
 using UnityEngine;
 
@@ -17,14 +19,25 @@ namespace TDB.InventorySystem.Framework
             _listItemBuffer.Clear();
         }
 
-        public void SetInventory(InventoryData<T> inventory)
+        public void SetInventory(InventoryData<T> inventory, Predicate<InventoryStackData<T>> hidePolicy = null)
         {
             foreach (InventoryStackData<T> item in inventory)
             {
-                _listItemBuffer.AddItem(() => GameObject.Instantiate(_stackUIPrefab, _container),
-                    stackUI => stackUI.SetStack(item));
+                if (hidePolicy?.Invoke(item) == true) continue;
+
+                AddItem(item);
             }
         }
+
+        public void HideItem(InventoryStackUI<T> stack) => _listItemBuffer.RemoveItem(s => s == stack);
+
+        public InventoryStackUI<T> FindItem(Predicate<T> predicate) =>
+            _listItemBuffer.FindItem(item => predicate(item.Stack.Definition));
+
+        public void AddItem(InventoryStackData<T> newStack) =>
+            _listItemBuffer.AddItem(
+                () => GameObject.Instantiate(_stackUIPrefab, _container),
+                stackUI => stackUI.SetStack(newStack));
     }
 
     public class ListItemBuffer<T> where T : MonoBehaviour
@@ -40,6 +53,13 @@ namespace TDB.InventorySystem.Framework
             }
             
             _currentIndex = 0;
+        }
+        
+        public T FindItem(Predicate<T> predicate)
+        {
+            var idx = _trackedItems.FindIndex(predicate);
+            if (idx < 0 ||  idx >= _currentIndex) return null;
+            return _trackedItems[idx];
         }
 
         public void AddItem(Func<T> initializer, Action<T> onActivate)
@@ -62,7 +82,7 @@ namespace TDB.InventorySystem.Framework
         public void RemoveItem(Predicate<T> predicate)
         {
             var idx = _trackedItems.FindIndex(predicate);
-            if (idx < 0 ||  idx >= _trackedItems.Count) return;
+            if (idx < 0 ||  idx >= _currentIndex) return;
             var item = _trackedItems[idx];
             _trackedItems.RemoveAt(idx);
             item.gameObject.SetActive(false);

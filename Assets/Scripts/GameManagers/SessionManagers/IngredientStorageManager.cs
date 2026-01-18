@@ -13,6 +13,9 @@ namespace TDB.GameManagers.SessionManagers
         private IngredientStorageData _volatileStorage;
         private IngredientStorageData _refrigeratedStorage;
 
+        // TODO:
+        public int RefrigeratorCapacity => 5;
+
         public void InitializeStorages(IngredientStorageData volatileIngredientStorage,
             IngredientStorageData refrigeratedIngredientStorage)
         {
@@ -27,6 +30,8 @@ namespace TDB.GameManagers.SessionManagers
         }
 
         public IngredientStorageData GetVolatileIngredientStorage() => _volatileStorage;
+        
+        public IngredientStorageData GetRefrigeratedIngredientStorage() => _refrigeratedStorage;
 
         public bool TryConsume(Dictionary<IngredientDefinition, int> requirement)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -21,6 +22,10 @@ namespace TDB.InventorySystem.Framework
 
         protected List<InventoryStackData<T>> Stacks => _stacks;
 
+        /// <summary>
+        /// Try to consume items from the requirement dictionary.
+        /// Subtract satisfied amount from the requirement dictionary.
+        /// </summary>
         public void TryConsume(Dictionary<T, int> requirement)
         {
             foreach (var stack in Stacks)
@@ -39,17 +44,40 @@ namespace TDB.InventorySystem.Framework
             }
         }
 
+        /// <summary>
+        /// Deposit items to the inventory. Returns the new stack if allocated.
+        /// </summary>
         public void Deposit(T itemDefinition, int amount = 1)
         {
+            var stack = GetStack(itemDefinition, allocateNewStack: true);
+            stack.Deposit(amount);
+        }
+
+        /// <summary>
+        /// Consume items from the inventory.
+        /// </summary>
+        public void Consume(T itemDefinition, int amount = 1)
+        {
             var stack = Stacks.Find(i => i.Definition == itemDefinition);
-            if (stack == null)
+            if (stack == null) throw new ArgumentOutOfRangeException(nameof(itemDefinition), "Item not in inventory.");
+            if (stack.Amount < amount) throw new ArgumentOutOfRangeException(nameof(amount), "Not enough amount.");
+            stack.Consume(amount);
+        }
+
+        public InventoryStackData<T> GetStack(T itemDefinition, bool allocateNewStack = false)
+        {
+            var stack = Stacks.Find(i => i.Definition == itemDefinition);
+            if (stack == null && allocateNewStack)
             {
                 stack = new InventoryStackData<T>(itemDefinition);
                 Stacks.Add(stack);
             }
-            stack.Deposit(amount);
+            return stack;
         }
 
+        /// <summary>
+        /// Resets the inventory.
+        /// </summary>
         public void Clear() => _stacks.Clear();
 
         IEnumerator<InventoryStackData<T>> IEnumerable<InventoryStackData<T>>.GetEnumerator() =>

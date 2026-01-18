@@ -21,5 +21,7 @@ namespace TDB.InventorySystem.IngredientStorage
             Stacks
                 .GroupBy(i => i.Definition)
                 .ToDictionary(g => g.Key, g => g.Sum(i => i.Amount));
+
+        public int TotalIngredients => Stacks.Sum(s => s.Amount);
     }
 }

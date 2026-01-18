@@ -4,14 +4,15 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TDB.Utils.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class UIEnabler : MonoBehaviour
     {
-        [SerializeField, ToggleLeft]
-        private bool _displayOnAwake = true;
+        [FormerlySerializedAs("_displayOnAwake")] [SerializeField, ToggleLeft]
+        private bool _displayOnStart = true;
 
         [SerializeField, ToggleLeft]
         private bool _disableObject = false;
@@ -42,17 +43,21 @@ namespace TDB.Utils.UI
             _alpha = _overrideDisplayParameter ? _alpha : _canvasGroup.alpha;
             _interactable = _overrideDisplayParameter ? _interactable : _canvasGroup.interactable;
             _blockRaycast = _overrideDisplayParameter ? _blockRaycast : _canvasGroup.blocksRaycasts;
-            
-            if (_displayOnAwake)
+        }
+
+        private void Start()
+        {
+            if (_displayOnStart)
             {
                 Enable();
             }
             else
             {
+                // disable in start so other components can awake
                 Disable();
             }
         }
-        
+
         public void Enable()
         {
             Enabled = true;
