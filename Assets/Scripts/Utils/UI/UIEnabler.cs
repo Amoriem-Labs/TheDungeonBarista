@@ -1,5 +1,7 @@
 using System;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -76,24 +78,24 @@ namespace TDB.Utils.UI
             }
         }
 
-        public void Enable(float transitionTime)
+        public TweenerCore<float, float, FloatOptions> Enable(float transitionTime)
         {
             // prevent click through immediately
             _canvasGroup.blocksRaycasts = _blockRaycast;
             
             _canvasGroup.DOKill();
-            _canvasGroup.DOFade(_alpha, transitionTime)
+            return _canvasGroup.DOFade(_alpha, transitionTime)
                 .SetUpdate(true)
                 .OnComplete(Enable);
         }
 
-        public void Disable(float transitionTime)
+        public TweenerCore<float, float, FloatOptions> Disable(float transitionTime)
         {
             // prevent interaction immediately
             _canvasGroup.interactable = false;
             
             _canvasGroup.DOKill();
-            _canvasGroup.DOFade(0, transitionTime)
+            return _canvasGroup.DOFade(0, transitionTime)
                 .SetUpdate(true)
                 .OnComplete(Disable);
         }
