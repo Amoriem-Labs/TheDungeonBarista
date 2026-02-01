@@ -54,6 +54,8 @@ namespace TDB
                                           , Mathf.MoveTowards(_entityData.Velocity.y, 0, _entityData.Decceleration * Time.deltaTime));
             }
 
+            HandleFacing();
+
 
             // _entityData.Velocity = new Vector2(Mathf.MoveTowards(_entityData.Velocity.x, 0, _entityData.Decceleration * Time.deltaTime)
             //      , Mathf.MoveTowards(_entityData.Velocity.y, 0, _entityData.Decceleration * Time.deltaTime));
@@ -85,6 +87,17 @@ namespace TDB
         public void PlayerOutOfRange(EntityData player)
         {
             _target = null;
+        }
+
+        private void HandleFacing()
+        {
+            // flip if moving horizontally
+            if (Mathf.Abs(_entityData.Velocity.x) > 0.01f)
+            {
+                Vector3 scale = _entityData.transform.localScale;
+                scale.x = -Mathf.Sign(_entityData.Velocity.x) * Mathf.Abs(scale.x);
+                _entityData.transform.localScale = scale;
+            }
         }
 
 
