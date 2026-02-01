@@ -20,6 +20,8 @@ namespace TDB
 
         //===============================//
 
+
+
         public float Acceleration = 1;
         public float Decceleration = 1;
         public float MaxSpeed = 1;
