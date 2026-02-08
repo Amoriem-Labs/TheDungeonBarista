@@ -48,8 +48,8 @@ namespace TDB
         // Unity Lifecycle Methods
         // ================================
 
-        // Start is called before the first frame update
-        void Start()
+        // use awake instead of start so that way the varaibles initialise correctly before they are used
+        void Awake()
         {
             // gets the size of the area by setting it equal to scale of the spikes
             _size = transform.localScale;
