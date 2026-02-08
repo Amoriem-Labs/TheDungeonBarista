@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.EffectSystem.UI;
 using TDB.Utils.EventChannels;
@@ -23,12 +22,13 @@ namespace TDB.CraftSystem.UI.Info
         [SerializeField] private EventChannel _displayCraftMenuInventoryItemInfoEvent;
         [SerializeField] private EventChannel _displayIngredientInfoEvent;
 
-        private List<EffectPairItemUI> _trackedItems = new();
         private UIEnabler _enabler;
-
+        private IngredientEffectListDisplay _ingredientEffectListDisplay;
+        
         private void Awake()
         {
             _enabler = GetComponent<UIEnabler>();
+            _ingredientEffectListDisplay = new IngredientEffectListDisplay(_effectItemContainer, _effectPairItemPrefab);
         }
 
         private void OnEnable()
@@ -73,29 +73,7 @@ namespace TDB.CraftSystem.UI.Info
             _headerText.text = ingredient.IngredientName;
             _iconImage.sprite = ingredient.IngredientSprite;
 
-            int i = 0;
-            for (; i < ingredient.Effects.Count; i++)
-            {
-                EffectPairItemUI item = null;
-                if (i >= _trackedItems.Count)
-                {
-                    item = Instantiate(_effectPairItemPrefab, _effectItemContainer);
-                    _trackedItems.Add(item);
-                }
-                else
-                {
-                    item = _trackedItems[i];
-                    item.gameObject.SetActive(true);
-                }
-                
-                var effect = ingredient.Effects[i];
-                item.BindEffectParamPair(effect);
-            }
-
-            for (; i < _trackedItems.Count; i++)
-            {
-                _trackedItems[i].gameObject.SetActive(false);
-            }
+            _ingredientEffectListDisplay.DisplayIngredientEffectList(ingredient);
         }
     }
 

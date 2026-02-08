@@ -51,6 +51,7 @@ namespace TDB.CraftSystem.UI
             
             _titleInputField.gameObject.SetActive(false);
         }
+        
 
         #region InputHandlers
 
@@ -84,7 +85,7 @@ namespace TDB.CraftSystem.UI
 
         private void ConfirmSelectedRecipe()
         {
-            _craftMenuUI.ConfirmFinalRecipe(_recipe);
+            _craftMenuUI.ConfirmFinalRecipe();
         }
 
         private void HandleTitleEditButtonClicked()
@@ -101,7 +102,8 @@ namespace TDB.CraftSystem.UI
 
         private void HandleRecipeBookButtonClicked()
         {
-            AbortEditingTitle();
+            // handled as callback from _craftMenuUI.ToggleRecipeBook
+            // AbortEditingTitle();
             _craftMenuUI.ToggleRecipeBook();
         }
 
@@ -135,12 +137,16 @@ namespace TDB.CraftSystem.UI
         {
             _onRecipeSelectedEvent.AddListener<FinalRecipeData>(HandleRecipeSelected);
             _onRecipeUpdatedEvent.AddListener(HandleRecipeUpdated);
+
+            _craftMenuUI.OnRecipeBookToggled += AbortEditingTitle;
         }
 
         private void OnDisable()
         {
             _onRecipeSelectedEvent.RemoveListener<FinalRecipeData>(HandleRecipeSelected);
             _onRecipeUpdatedEvent.RemoveListener(HandleRecipeUpdated);
+            
+            _craftMenuUI.OnRecipeBookToggled -= AbortEditingTitle;
         }
 
         private void HandleRecipeUpdated()

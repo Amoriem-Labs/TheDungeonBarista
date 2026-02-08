@@ -77,6 +77,7 @@ Transform:
   - {fileID: 4734003287422769242}
   - {fileID: 5429850622294327241}
   - {fileID: 6147828314375378184}
+  - {fileID: 8180792623971231129}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2514763990783273036
@@ -92,6 +93,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameConfig: {fileID: 11400000, guid: 35145ee65f408c240a5c163c8c89407f, type: 2}
+--- !u!1 &2076735620878815509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8180792623971231129}
+  - component: {fileID: 2032390595741303933}
+  m_Layer: 0
+  m_Name: DataPersistenceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8180792623971231129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076735620878815509}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7421007765400401143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032390595741303933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076735620878815509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de7f29dbc4afe3b45a0fd5a0842ce056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fileExt: .sav
+  _profileName: tdb-player
+  _currentGameData:
+    RecipeBookData:
+      _obtainedRawRecipes: []
+      _allRecipeData: []
+    VolatileIngredientStorageData:
+      _stacks: []
+    RefrigeratedIngredientStorageData:
+      _stacks: []
+    AllInstalledFurnitureData: []
 --- !u!1 &2257070491563166262
 GameObject:
   m_ObjectHideFlags: 0

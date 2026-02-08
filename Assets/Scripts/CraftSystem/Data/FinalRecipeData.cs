@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.CraftSystem.EffectSystem.LevelUpEffect;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TDB.MinigameSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,6 +19,7 @@ namespace TDB.CraftSystem.Data
         [field: SerializeField] public List<IngredientNodeData> NodeData { get; private set; }
         [field: SerializeField] public string RecipeName { get; private set; }
 
+        [NonSerialized]
         public Action OnNameChange;
         
         public FinalRecipeData(RawRecipeDefinition rawRecipe)
@@ -29,10 +30,10 @@ namespace TDB.CraftSystem.Data
             RecipeName = rawRecipe.RecipeName + $"-{Random.Range(0, 100):00}";
         }
 
-        protected FinalRecipeData(FinalRecipeData recipe)
+        public FinalRecipeData(FinalRecipeData recipe)
         {
             RawRecipe = recipe.RawRecipe;
-            NodeData = recipe.NodeData;
+            NodeData = recipe.NodeData.Select(n => new IngredientNodeData(n)).ToList();
             RecipeName = recipe.RecipeName;
         }
 

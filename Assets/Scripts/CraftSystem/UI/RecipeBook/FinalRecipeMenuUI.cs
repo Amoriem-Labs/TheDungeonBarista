@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,10 +25,12 @@ namespace TDB.CraftSystem.UI.RecipeBook
         private IngredientStorageData _ingredientStorage;
         private FinalRecipeData _selectedRecipe;
         private List<(FinalRecipeData recipe, FinalRecipeItemUI itemUI)> _displayedFinalRecipes;
+        private CraftMenuUI _craftMenuUI;
 
         private void Awake()
         {
             _addFinalRecipeItem.BindFinalRecipeMenu(this);
+            _craftMenuUI = GetComponentInParent<CraftMenuUI>();
         }
 
         private void OnEnable()
@@ -57,6 +59,7 @@ namespace TDB.CraftSystem.UI.RecipeBook
                 _displayedFinalRecipes[i] = (recipe, item);
 
                 item.BindFinalRecipe(recipe, this, _ingredientStorage);
+                item.HandleRecipeSelected(_selectedRecipe == recipe);
             }
             // hide extra UI elements
             for (; i < _trackedItems.Count; i++)
@@ -160,6 +163,24 @@ namespace TDB.CraftSystem.UI.RecipeBook
         private void HandleFinalRecipeSelected(FinalRecipeData recipe)
         {
             _selectedRecipe = recipe;
+
+            if (_displayedFinalRecipes == null) return;
+            for (int i = 0; i < _displayedFinalRecipes.Count; i++)
+            {
+                var boundRecipe = _displayedFinalRecipes[i].recipe;
+                var item = _trackedItems[i];
+                item.HandleRecipeSelected(_selectedRecipe == boundRecipe);
+            }
+        }
+
+        public void HandleRecipeEdit()
+        {
+            _craftMenuUI.ToggleRecipeBook();
+        }
+
+        public void HandleRecipeSubmit()
+        {
+            _craftMenuUI.ConfirmFinalRecipe();
         }
 
         /// <summary>

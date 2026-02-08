@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71d55db3abb430bbc8d6a3ed04ce91f, type: 3}
+  m_Name: FurniturePresetWithRefrigerator
+  m_EditorClassIdentifier: 
+  FurnitureData:
+  - FurnitureDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+    FurnitureID: Sample_Coffee_Machine_Default
+    Position: {x: -3.53, y: 0, z: 0}
+    Rotation: {x: -0, y: -0, z: -0, w: 1}
+    Parts:
+    - PartID: ProductionDevice
+      Json: "{\r\n    \"$id\": 0,\r\n    \"$type\": \"0|TDB.CafeSystem.FurnitureSystem.FurnitureParts.ProductionDeviceData,
+        Assembly-CSharp\",\r\n    \"OnRecipeUpdated\": null\r\n}"
+  - FurnitureDefinition: {fileID: 11400000, guid: 03a6423e045f99341a571450e5131c74, type: 2}
+    FurnitureID: Refrigerator_Small_Default
+    Position: {x: -3.438, y: 2.392, z: 0}
+    Rotation: {x: -0, y: -0, z: -0, w: 1}
+    Parts: []

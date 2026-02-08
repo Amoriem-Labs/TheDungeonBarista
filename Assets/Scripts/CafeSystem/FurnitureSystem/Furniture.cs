@@ -93,14 +93,8 @@ namespace TDB.CafeSystem.FurnitureSystem
         /// <returns></returns>
         public FurnitureData ExtractData(bool forceReloadParts = false)
         {
-            return new FurnitureData()
-            {
-                FurnitureID = FurnitureID,
-                FurnitureDefinition = Definition,
-                Position = transform.position,
-                Rotation = transform.rotation,
-                Parts = ExtractPartsData(forceReloadParts)
-            };
+            return new FurnitureData(furnitureID: FurnitureID, furnitureDefinition: Definition,
+                position: transform.position, rotation: transform.rotation, parts: ExtractPartsData(forceReloadParts));
         }
         
         /// <summary>
@@ -111,14 +105,8 @@ namespace TDB.CafeSystem.FurnitureSystem
         /// <returns></returns>
         public FurnitureData CreateNewInstanceData(string furnitureID, FurnitureDefinition furnitureDefinition)
         {
-            return new FurnitureData
-            {
-                FurnitureID = furnitureID,
-                FurnitureDefinition = furnitureDefinition,
-                Position = transform.position,
-                Rotation = transform.rotation,
-                Parts = CreateDefaultPartsData()
-            };
+            return new FurnitureData(furnitureID: furnitureID, furnitureDefinition: furnitureDefinition,
+                position: transform.position, rotation: transform.rotation, parts: CreateDefaultPartsData());
         }
         
         // --- Serialize any object to JSON text ---

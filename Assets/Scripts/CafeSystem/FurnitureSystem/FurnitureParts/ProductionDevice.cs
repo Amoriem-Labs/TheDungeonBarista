@@ -4,6 +4,7 @@ using TDB.CafeSystem.Managers;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI;
 using TDB.GameManagers;
+using TDB.GameManagers.SessionManagers;
 using TDB.Player.Interaction;
 using TDB.Utils.EventChannels;
 using UnityEngine;
@@ -24,13 +25,13 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
         [SerializeField] private EventChannel _productionDeviceReadyEvent;
         [SerializeField] private EventChannel _productionDeviceNotReadyEvent;
         
-        private RecipeBookDataHolder _recipeBookHolder;
+        private RecipeBookManager _recipeBookHolder;
         private IngredientStorageManager _ingredientStorage;
         private bool _infiniteResource;
 
         private void Awake()
         {
-            _recipeBookHolder = FindObjectOfType<RecipeBookDataHolder>();
+            _recipeBookHolder = FindObjectOfType<RecipeBookManager>();
             _ingredientStorage = FindObjectOfType<IngredientStorageManager>();
 
             _infiniteResource = GameManager.Instance.GameConfig.InfiniteResource;
@@ -42,7 +43,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             _configureRecipeEvent.RaiseEvent<OpenMenuInfo>(new OpenMenuInfo()
             {
                 CurrentRecipe = _deviceData?.ConfiguredRecipe,
-                IngredientStorage = _ingredientStorage.GetAllIngredientStorage(),
+                IngredientStorage = _ingredientStorage.GetMergedIngredientStorage(),
                 RecipeBook = _recipeBookHolder.GetRecipeBook(),
                 RecipeDecidedCallback = r =>
                 {
@@ -64,7 +65,7 @@ namespace TDB.CafeSystem.FurnitureSystem.FurnitureParts
             // not configured
             if (recipe == null) return false;
             // not enough ingredients
-            var servings = recipe.GetServingsAvailable(_ingredientStorage.GetAllIngredientStorage());
+            var servings = recipe.GetServingsAvailable(_ingredientStorage.GetMergedIngredientStorage());
             if (!_infiniteResource && servings <= 0) return false;
             // consume ingredients
             var requirement = recipe.GetAddedIngredients();

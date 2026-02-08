@@ -1,8 +1,9 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace TDB.Utils.Singletons
 {
-    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class MonoSingleton<T> : SerializedMonoBehaviour  where T : MonoBehaviour
     {
         private static T _instance;
 

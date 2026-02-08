@@ -1,15 +1,21 @@
 using System;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TDB.Utils.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class UIEnabler : MonoBehaviour
     {
+        [FormerlySerializedAs("_displayOnAwake")] [SerializeField, ToggleLeft]
+        private bool _displayOnStart = true;
+
         [SerializeField, ToggleLeft]
-        private bool _displayOnAwake = true;
+        private bool _disableObject = false;
         
         [SerializeField, ToggleLeft]
         private bool _overrideDisplayParameter = false;
@@ -37,20 +43,26 @@ namespace TDB.Utils.UI
             _alpha = _overrideDisplayParameter ? _alpha : _canvasGroup.alpha;
             _interactable = _overrideDisplayParameter ? _interactable : _canvasGroup.interactable;
             _blockRaycast = _overrideDisplayParameter ? _blockRaycast : _canvasGroup.blocksRaycasts;
-            
-            if (_displayOnAwake)
+        }
+
+        private void Start()
+        {
+            if (_displayOnStart)
             {
                 Enable();
             }
             else
             {
+                // disable in start so other components can awake
                 Disable();
             }
         }
-        
+
         public void Enable()
         {
             Enabled = true;
+            
+            if (_disableObject) gameObject.SetActive(true);
             
             _canvasGroup.alpha = _alpha;
             _canvasGroup.interactable = _interactable;
@@ -74,26 +86,30 @@ namespace TDB.Utils.UI
             {
                 handler.OnUIDisable();
             }
+            
+            if (_disableObject) gameObject.SetActive(false);
         }
 
-        public void Enable(float transitionTime)
+        public TweenerCore<float, float, FloatOptions> Enable(float transitionTime)
         {
+            if (_disableObject) gameObject.SetActive(true);
+            
             // prevent click through immediately
             _canvasGroup.blocksRaycasts = _blockRaycast;
             
             _canvasGroup.DOKill();
-            _canvasGroup.DOFade(_alpha, transitionTime)
+            return _canvasGroup.DOFade(_alpha, transitionTime)
                 .SetUpdate(true)
                 .OnComplete(Enable);
         }
 
-        public void Disable(float transitionTime)
+        public TweenerCore<float, float, FloatOptions> Disable(float transitionTime)
         {
             // prevent interaction immediately
             _canvasGroup.interactable = false;
             
             _canvasGroup.DOKill();
-            _canvasGroup.DOFade(0, transitionTime)
+            return _canvasGroup.DOFade(0, transitionTime)
                 .SetUpdate(true)
                 .OnComplete(Disable);
         }
