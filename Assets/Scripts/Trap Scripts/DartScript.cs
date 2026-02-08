@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -68,9 +69,14 @@ namespace TDB
             }
             else
             {
+                // reset timer to 0
+                _timer = 0;
+
                 // set position of dart to the dart launcher and deactivate it.
                 transform.position = transform.parent.position;
                 _trapUniversal.DeactivateTrap();
+
+                UnityEngine.Debug.Log("reset dart");
             }
         }
 
