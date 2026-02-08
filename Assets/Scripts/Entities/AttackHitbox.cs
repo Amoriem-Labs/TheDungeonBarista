@@ -80,8 +80,8 @@ namespace TDB
             if (ownerData == null || targetData == null)
                 return;
 
-            int ownerLayer = ownerData.gameObject.layer;
-            int targetLayer = targetData.gameObject.layer;
+            int ownerLayer = ownerData.GetComponentInChildren<Hurtbox>().gameObject.layer;
+            int targetLayer = targetData.GetComponentInChildren<Hurtbox>().gameObject.layer;
 
             bool playerHitsEnemy = ownerLayer == _playerLayer && targetLayer == _enemyLayer;
             bool enemyHitsPlayer = ownerLayer == _enemyLayer && targetLayer == _playerLayer;
