@@ -182,7 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fc1d83f4dbcc84f8d923971334a1a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hurtbox: {fileID: 0}
 --- !u!23 &5511844127703852277
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -519,6 +518,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9055354260571185321, guid: 5a44e5f2dfe54684cb43f34a3590fa19, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214370584797548844, guid: 5a44e5f2dfe54684cb43f34a3590fa19, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9214370584797548844, guid: 5a44e5f2dfe54684cb43f34a3590fa19, type: 3}
