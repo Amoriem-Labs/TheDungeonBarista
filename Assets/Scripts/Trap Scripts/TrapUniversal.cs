@@ -65,11 +65,16 @@ namespace TDB
             // if the entity is a player deal damage through the player health script system
             if (entity.layer == _playerLayerInt)
             {
-                // get the referance to the health script
-                Health healthScript = entity.GetComponent<Health>();
+                EntityData data = entity.GetComponentInParent<EntityData>();
+                if (data != null)
+                {
+                    data.CurrentHealth -= _damage;
 
-                // use the script to deal damage
-                healthScript.TakeDamage(_damage);
+                    if (data.CurrentHealth <= 0)
+                    {
+                        Destroy(data.gameObject);
+                    }
+                }
             }
             // if the entity is an enemy, deal damage to them using thier health system thingy
             else if (entity.layer == _enemyLayerInt)
