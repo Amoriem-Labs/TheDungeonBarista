@@ -8,12 +8,12 @@ using UnityEngine.UI;
 namespace TDB.Utils.SceneTransitions
 {
     [ExecuteAlways]
-    public class SceneTransition : MonoBehaviour
+    public class SceneTransition : MonoBehaviour, ISceneTransition
     {
         [SerializeField] protected Image _cover;
         // [SerializeField] private float _fadeTime;
 
-        public virtual IEnumerator StartTransitionIntro()
+        public IEnumerator StartTransitionIntro()
         {
             _cover.gameObject.SetActive(true);
             
@@ -23,7 +23,7 @@ namespace TDB.Utils.SceneTransitions
             yield return new WaitForSeconds(.5f);
         }
 
-        public virtual IEnumerator StartTransitionOutro()
+        public IEnumerator StartTransitionOutro()
         {
             //var anim = _cover.DOFade(0, _fadeTime)
             //    .SetUpdate(true)

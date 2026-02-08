@@ -24,6 +24,8 @@ namespace TDB.MinigameSystem.Minigames
         [SerializeField, Range(0.01f, 5f)] private float hardSpeedPctPerSec = 2.0f;
         [SerializeField] private int passes = 3;
 
+        [SerializeField] private float waitTime = .5f;
+
         [SerializeField] private Vector2 goodHeightPercentRange = new Vector2(0.30f, 0.08f);
 
         [SerializeField, Range(0.05f, 1f)] private float awesomeOfGood = 0.6f;
@@ -53,6 +55,8 @@ namespace TDB.MinigameSystem.Minigames
         private float _zoneTwoH;
         private float _zoneThreeH;
 
+        private float _waitTimer;
+
         private bool _armed;
 
         [Button("Run Minigame")]
@@ -61,7 +65,7 @@ namespace TDB.MinigameSystem.Minigames
             // Dummy actionmap just for testing in editor
             var asset = ScriptableObject.CreateInstance<InputActionAsset>();
             var map = new InputActionMap("Minigame");
-            var submit = map.AddAction("Submit", InputActionType.Button);
+            var submit = map.AddAction("PrimaryAction", InputActionType.Button);
             submit.AddBinding("<Mouse>/leftButton");
             submit.AddBinding("<Keyboard>/space");
             submit.AddBinding("<Gamepad>/buttonSouth");
@@ -110,7 +114,7 @@ namespace TDB.MinigameSystem.Minigames
 
             marker.anchoredPosition = new Vector2(0f, -_railRect.height * 0.5f + 1f);
 
-            _submit = input?.FindAction("Submit");
+            _submit = input?.FindAction("PrimaryAction");
             if (_submit != null) _submit.performed += OnSubmit;
 
             if (fillBar) fillBar.value = 0f;
@@ -131,18 +135,20 @@ namespace TDB.MinigameSystem.Minigames
 
             float dt = Time.unscaledDeltaTime;
 
+            if (_waitTimer > 0)
+            {
+                _waitTimer -= dt;
+                return;
+            }
+
             float y = marker.anchoredPosition.y + _direction * _speed * dt;
             float minY = -_railRect.height * 0.5f;
             float maxY =  _railRect.height * 0.5f;
-
-            if (y >= maxY) {
-                y = maxY;
-                _direction = -1;
-                NextPass();
-            }
-            else if (y <= minY) {
+            
+            if (y >= maxY)
+            {
                 y = minY;
-                _direction =  1;
+                _waitTimer = waitTime;
                 NextPass();
             }
 
@@ -154,7 +160,6 @@ namespace TDB.MinigameSystem.Minigames
             if (_completedPasses >= passes) return;
             _completedPasses++;
             _armed = true;
-            _speed *= 1.06f;
 
             if (_completedPasses == passes) {
                 if (_onComplete != null) Finish(true);

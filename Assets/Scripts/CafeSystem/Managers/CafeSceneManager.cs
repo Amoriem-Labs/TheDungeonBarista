@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
 using TDB.GameManagers;
+using TDB.GameManagers.SessionManagers;
+using TDB.InventorySystem.IngredientStorage;
+using TDB.Utils.DataPersistence;
 using UnityEngine;
 
 namespace TDB.CafeSystem.Managers
@@ -32,13 +35,13 @@ namespace TDB.CafeSystem.Managers
         {
             #region Get Data
 
-            // TODO: get furniture data from save data first, use default preset if non-existent
-            var furnitureData = null ?? GameManager.Instance.GameConfig.DefaultFurniturePreset.FurnitureData;
+            if (!TryFindObjectOfType<SessionManager>(out var sessionManager))
+            {
+                Debug.LogError("Session scene should be loaded before initializing.");
+                return;
+            }
             
-            // test recipe book
-            var recipeBookData = GameManager.Instance.GameConfig.ExtendedTestRecipeBook;
-            // one-day ingredient storage
-            var volatileIngredientStorage = GameManager.Instance.GameConfig.TestIngredientStorage;
+            var furnitureData = sessionManager.AllInstalledFurnitureData;
 
             #endregion
 
@@ -46,17 +49,7 @@ namespace TDB.CafeSystem.Managers
 
             // initialize furniture (including storage entities and production device entities)
             TryFindObjectOfType<FurnitureManager>(out var furnitureManager);
-            furnitureManager.Initialize(furnitureData);
-            
-            // initialize recipe book data
-            TryFindObjectOfType<RecipeBookDataHolder>(out var recipeBook);
-            recipeBook.Initialize(recipeBookData);
-            
-            // initialize ingredient storages
-            TryFindObjectOfType<IngredientStorageManager>(out var ingredientStorage);
-            ingredientStorage.InitializeVolatileStorage(volatileIngredientStorage);
-            // TODO: initialize refrigerated storages
-            // ingredientStorage.InitializeRefrigeratedStorages()
+            furnitureManager.Initialize(furnitureData, sessionManager as IDataWriterDestination);
             
             #endregion
         }

@@ -3,7 +3,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.UI.RecipeGraph;
-using TDB.IngredientStorageSystem.Data;
+using TDB.InventorySystem.IngredientStorage;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 

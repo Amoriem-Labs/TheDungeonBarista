@@ -33,6 +33,9 @@ namespace TDB.CafeSystem.UI.ProductUI
         [SerializeField] private Vector2 _extraSizeForRecipe = new Vector2(10, 20);
         [SerializeField] private string _starRichText;
         
+        [SerializeField] private DOTweenVisualManager _bonusAnim;
+        [SerializeField] private DOTweenVisualManager _punishAnim;
+        
         private FinalRecipeData _data;
         private List<FlavorDefinition> _allFlavors;
         private Canvas _canvas;
@@ -60,6 +63,9 @@ namespace TDB.CafeSystem.UI.ProductUI
             _anchorLayout.ignoreLayout = false;
             _priceBonusText.color = Color.clear;
             _canvasGroup.alpha = 1;
+            
+            _bonusAnim.gameObject.SetActive(false);
+            _punishAnim.gameObject.SetActive(false);
         }
 
         public void SetStartPosition()
@@ -239,5 +245,22 @@ namespace TDB.CafeSystem.UI.ProductUI
         }
 
         #endregion
+
+        public void BonusAnimation(float bonus)
+        {
+            if (bonus > 0)
+            {
+                Debug.Log("play bonus");
+                _bonusAnim.gameObject.SetActive(false);
+                _bonusAnim.gameObject.SetActive(true);
+            }
+
+            if (bonus < 0)
+            {
+                Debug.Log("play punish");
+                _punishAnim.gameObject.SetActive(false);
+                _punishAnim.gameObject.SetActive(true);
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.Customers;
 using TDB.CafeSystem.UI.ProductUI;
+using TDB.GameManagers.SessionManagers;
 using TDB.Utils.EventChannels;
 using UnityEngine;
 
@@ -45,7 +46,7 @@ namespace TDB.CafeSystem.UI.OrderUI
             _orderItems.Add(customer, itemUI!);
         }
 
-        public void ServeOrder(ServeProductInfo info, ProductItemUI productItemUI)
+        public void ServeOrder(ServeProductInfo info, ProductItemUI productItemUI, MoneyManager moneyManager)
         {
             var customer = info.Customer;
             if (!_orderItems.Remove(customer, out var orderItemUI))
@@ -54,11 +55,11 @@ namespace TDB.CafeSystem.UI.OrderUI
                 return;
             }
 
-            StartCoroutine(ServeOrderCoroutine(orderItemUI, productItemUI, info));
+            StartCoroutine(ServeOrderCoroutine(orderItemUI, productItemUI, info, moneyManager));
         }
 
         private IEnumerator ServeOrderCoroutine(CustomerOrderItemUI orderItemUI, ProductItemUI productItemUI,
-            ServeProductInfo info)
+            ServeProductInfo info, MoneyManager moneyManager)
         {
             // force focus order item
             orderItemUI.ToggleInteractable(false);
@@ -77,6 +78,7 @@ namespace TDB.CafeSystem.UI.OrderUI
                     (bonus >= 0 ? "+" : "-") + $"{Mathf.Abs(bonus):P0}",
                     bonus >= 0 ? _positiveColor : _negativeColor,
                     _stepTime / 2);
+                productItemUI.BonusAnimation(bonus);
                 yield return new WaitForSeconds(_stepTime);
             }
             // display total bonus
@@ -87,7 +89,8 @@ namespace TDB.CafeSystem.UI.OrderUI
             // display final price
             yield return productItemUI.DisplayFinalPrice(info.Product.Price, info.FinalPrice, _stepTime);
             yield return new WaitForSeconds(_stepTime);
-            // TODO: update money UI
+            // update money UI
+            moneyManager.ReceiveMoneyFrom(info.FinalPrice, orderItemUI.transform.position);
             
             // fade out and destroy
             productItemUI.FadeOut(_stepTime, _fadeOutOffset);

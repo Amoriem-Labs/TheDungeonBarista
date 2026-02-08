@@ -36,9 +36,25 @@ namespace TDB.MapSystem.Passages
         {
             IEnumerator EnterPassageCoroutine()
             {
-                foreach (var effect in _handlers)
+                var aborted = false;
+                int i = 0;
+                for (; i < _handlers.Length; i++)
                 {
-                    yield return effect.HandleEnterPassage();
+                    var effect = _handlers[i];
+                    yield return effect.HandleEnterPassage(() => aborted = true);
+                    if (aborted)
+                    {
+                        Debug.Log("EnterPassage aborted");
+                        break;
+                    }
+                }
+                
+                if (!aborted) yield break;
+                // abort executed handlers
+                for (; i > 0; i--)
+                {
+                    var effect = _handlers[i - 1];
+                    yield return effect.UndoEffect();
                 }
             }
             
@@ -67,6 +83,19 @@ namespace TDB.MapSystem.Passages
 
     public interface IPassageHandler
     {
-        public IEnumerator HandleEnterPassage();
+        /// <summary>
+        /// Triggered when entering the passage.
+        /// </summary>
+        /// <param name="abort">
+        ///     Invoke abort to terminate passage entering and undo all previous effects.
+        ///     Remember to undo any effect taken by the handler itself.
+        /// </param>
+        public IEnumerator HandleEnterPassage(Action abort);
+        
+        /// <summary>
+        /// Undo the effect.
+        /// Usually not necessary when the effect is the terminal effect. 
+        /// </summary>
+        public IEnumerator UndoEffect();
     }
 }

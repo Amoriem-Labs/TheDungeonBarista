@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TDB.CafeSystem.Managers;
 using UnityEngine;
 
@@ -19,12 +20,17 @@ namespace TDB.MapSystem.Passages
             }
         }
 
-        public IEnumerator HandleEnterPassage()
+        public IEnumerator HandleEnterPassage(Action abort)
         {
             _cafeController?.EnterDungeon();
             // this should be the terminal handler
             // block all following handlers
             yield return new WaitWhile(() => true);
+        }
+
+        public IEnumerator UndoEffect()
+        {
+            yield break;
         }
     }
 }

@@ -7,6 +7,7 @@ using TDB.CafeSystem.UI.OrderUI;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.GameManagers;
+using TDB.GameManagers.SessionManagers;
 using TDB.Utils.EventChannels;
 using TDB.Utils.Misc;
 using TMPro;
@@ -30,6 +31,7 @@ namespace TDB.CafeSystem.UI.ProductUI
 
         private readonly Dictionary<ProductData, ProductItemUI> _productItems = new();
         private int _maxProductCount;
+        private MoneyManager _moneyManager;
 
         private static string ProductCountTemplate => "Space: {0} / {1}";
 
@@ -37,6 +39,8 @@ namespace TDB.CafeSystem.UI.ProductUI
         {
             _maxProductCount = GameManager.Instance.GameConfig.ProductListCapacity;
             _productCountText.text = string.Format(ProductCountTemplate, _productItems.Count, _maxProductCount);
+
+            _moneyManager = FindObjectOfType<MoneyManager>();
         }
 
         private void OnEnable()
@@ -129,7 +133,7 @@ namespace TDB.CafeSystem.UI.ProductUI
                 return;
             }
 
-            _orderListUI.ServeOrder(info, productItemUI);
+            _orderListUI.ServeOrder(info, productItemUI, _moneyManager);
             _productCountText.text = string.Format(ProductCountTemplate, _productItems.Count, _maxProductCount);
         }
     }

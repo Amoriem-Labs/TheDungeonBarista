@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e358ff35d854849a346a0322e3706f0, type: 3}
+  m_Name: Refrigerator-Small
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _resourcesPath: Data/Cafe/Furnitures/Refrigerator-Small
+  DefinitionID: Refrigerator_Small
+  FurnitureName: Small Refrigerator
+  FurniturePrefab: {fileID: 3826736710434765980, guid: 9a209e924ab3d9e4a872c65d77147632, type: 3}
+  <PreviewImage>k__BackingField: {fileID: 21300000, guid: 7c1d940f1184e44269a954817b343570, type: 3}
+  Capacity: 5

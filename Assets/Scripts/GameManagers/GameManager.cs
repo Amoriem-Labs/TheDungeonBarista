@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using TDB.Audio;
 using TDB.CafeSystem.Managers;
+using TDB.GameManagers.SessionManagers;
 using TDB.Utils.CrossSceneCameraBinding;
+using TDB.Utils.DataPersistence;
 using TDB.Utils.Misc;
 using TDB.Utils.ObjectPools;
 using TDB.Utils.SceneTransitions;
@@ -21,7 +24,8 @@ namespace TDB.GameManagers
         [SerializeField, HideLabel, BoxGroup("Game Config"), InlineEditor]
         private GameConfiguration _gameConfig;
 
-        private SceneTransition _transitionController;
+        [OdinSerialize]
+        private ISceneTransition _transitionController;
 
         public GameConfiguration GameConfig => _gameConfig;
 
@@ -31,11 +35,12 @@ namespace TDB.GameManagers
             // All passive singletons should be a CHILD of the GameManager.
             InitializeManager<AudioManager>();
             InitializeManager<CameraBindingManager>();
+            InitializeManager<DataPersistenceManager>();
 
             // pooled object initialization is usually dependent on other systems
             InitializeManager<ObjectPoolManager>();
             
-            _transitionController = FindObjectOfType<SceneTransition>();
+            // _transitionController = FindObjectsByType<ISceneTransition>(FindObjectsSortMode.None);
         }
 
         private void InitializeManager<T>() where T : PassiveSingleton<T>
@@ -65,26 +70,46 @@ namespace TDB.GameManagers
 
         #region Scene Transitions
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         private void StartGame()
         {
             StartCoroutine(SceneTransitionCoroutine(GameConfig.MainMenuScenes));
         }
 
-        [Button(ButtonSizes.Large)]
-        public void StartSession()
+        [DisableInEditorMode]
+        [Button(ButtonSizes.Large, ButtonStyle.FoldoutButton)]
+        public void StartSession(bool newGame = false)
         {
+            if (newGame)
+            {
+                DataPersistenceManager.Instance.StartNewGame();
+            }
+            else
+            {
+                DataPersistenceManager.Instance.LoadGame();
+            }
+            var data = DataPersistenceManager.Instance.CurrentGameData;
+            
             var coroutine = SceneTransitionCoroutine(
                 GameConfig.CafePhaseScenes,
                 scenesToUnload: GameConfig.MainMenuScenes,
-                sceneLoadedCallback: StartSessionOnLoaded(),
+                sceneLoadedCallback: StartSessionOnLoaded(data),
                 transitionOutroCallback: StartSessionOutroFinish()
             );
             StartCoroutine(coroutine);
         }
 
-        private IEnumerator StartSessionOnLoaded()
+        private IEnumerator SaveSession()
         {
+            SessionManager.FindAndOverwriteSave();
+            yield break;
+        }
+
+        private IEnumerator StartSessionOnLoaded(GameData gameData)
+        {
+            SessionManager.FindAndInitialize(gameData);
+            
             CafeSceneManager.FindAndInitialize();
             yield break;
         }
@@ -95,19 +120,26 @@ namespace TDB.GameManagers
             yield break;
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         public void CafeToDungeon()
         {
-            StartCoroutine(SceneTransitionCoroutine(GameConfig.DungeonPhaseScenes,
-                scenesToUnload: GameConfig.CafePhaseScenes));
+            var coroutine = SceneTransitionCoroutine(
+                GameConfig.DungeonPhaseScenes,
+                scenesToUnload: GameConfig.CafePhaseScenes,
+                transitionIntroCallback: SaveSession()
+            );
+            StartCoroutine(coroutine);
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         public void DungeonToCafe()
         {
             var coroutine = SceneTransitionCoroutine(
                 GameConfig.CafePhaseScenes,
                 scenesToUnload: GameConfig.DungeonPhaseScenes,
+                transitionIntroCallback: SaveSession(),
                 sceneLoadedCallback: DungeonToCafeOnLoaded(),
                 transitionOutroCallback: DungeonToCafeOutroFinish()
             );
@@ -126,11 +158,16 @@ namespace TDB.GameManagers
             yield break;
         }
 
+        [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
         public void GoToMainMenu()
         {
-            StartCoroutine(SceneTransitionCoroutine(GameConfig.MainMenuScenes,
-                scenesToUnload: GameConfig.DungeonPhaseScenes.Union(GameConfig.CafePhaseScenes).ToList()));
+            var coroutine = SceneTransitionCoroutine(
+                GameConfig.MainMenuScenes,
+                scenesToUnload: GameConfig.DungeonPhaseScenes.Union(GameConfig.CafePhaseScenes).ToList(),
+                transitionIntroCallback: SaveSession()
+            );
+            StartCoroutine(coroutine);
         }
 
         #endregion
