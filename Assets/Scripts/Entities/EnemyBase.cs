@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TDB.Player.Input;
 using UnityEngine;
 
 namespace TDB
@@ -10,7 +11,6 @@ namespace TDB
         private void Awake()
         {
             _entityData = GetComponent<EntityData>();
-           
 
             GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
         }

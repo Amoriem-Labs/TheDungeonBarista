@@ -37,7 +37,7 @@ namespace TDB
         // for controlling exactly when velocity is applied!
         [HideInInspector] public Vector2 Velocity = Vector2.zero;
 
-        [HideInInspector] public float CurrentHealth = 0;
+        public float CurrentHealth = 0;
         [HideInInspector] public Vector2 movementDirection = Vector2.zero;
         [HideInInspector] public Rigidbody2D Rb;
         
