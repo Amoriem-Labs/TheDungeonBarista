@@ -760,7 +760,7 @@ Transform:
   m_GameObject: {fileID: 1141228908}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.33, y: 0.00183177, z: -10.068286}
+  m_LocalPosition: {x: 4.19, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1190,7 +1190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1051210760379355949, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1949324118254130034, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1442,7 +1442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626795222421239058, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000005722046
+      value: -0.000009536743
       objectReference: {fileID: 0}
     - target: {fileID: 3957830967485976604, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_Value
@@ -1486,7 +1486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100475942621743353, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 5394622325570463152, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2613,7 +2613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7816100054394822309, guid: 1812b9507e5b24f498f8a0b65955e015, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15.055
+      value: -15.054993
       objectReference: {fileID: 0}
     - target: {fileID: 8219623445796652813, guid: 1812b9507e5b24f498f8a0b65955e015, type: 3}
       propertyPath: m_Value
@@ -2698,6 +2698,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2077558668}
     m_Modifications:
+    - target: {fileID: 660435998551578479, guid: 9a209e924ab3d9e4a872c65d77147632, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 660435998551578479, guid: 9a209e924ab3d9e4a872c65d77147632, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3564487192956766139, guid: 9a209e924ab3d9e4a872c65d77147632, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.438

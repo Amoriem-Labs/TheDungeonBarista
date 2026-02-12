@@ -40,7 +40,7 @@ MonoBehaviour:
   BonusPerQualityLevel: 0.2
   CustomerEatTime: 5
   ProductListCapacity: 3
-  CafeOperationTime: 1
+  CafeOperationTime: 20
   TestIngredientShopData:
     _purchasableIngredients:
     - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}

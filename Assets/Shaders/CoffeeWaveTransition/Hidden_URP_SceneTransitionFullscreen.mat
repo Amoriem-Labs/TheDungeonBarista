@@ -59,7 +59,7 @@ Material:
     m_Floats:
     - _BackParallaxRatio: 0.5
     - _BubbleAlpha: 0.4
-    - _Progress: 0.14155781
+    - _Progress: 0.5864935
     - _ScrollSpeed: 35
     m_Colors:
     - _BackMultiplier: {r: 0.75, g: 0.75, b: 0.75, a: 1}
