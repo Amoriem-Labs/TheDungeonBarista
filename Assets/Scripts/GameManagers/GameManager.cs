@@ -127,9 +127,16 @@ namespace TDB.GameManagers
             var coroutine = SceneTransitionCoroutine(
                 GameConfig.DungeonPhaseScenes,
                 scenesToUnload: GameConfig.CafePhaseScenes,
-                transitionIntroCallback: SaveSession()
+                transitionIntroCallback: SaveSession(),
+                sceneLoadedCallback: CafeToDungeonOnLoaded()
             );
             StartCoroutine(coroutine);
+        }
+
+        private IEnumerator CafeToDungeonOnLoaded()
+        {
+            DungeonSceneManager.FindAndInitialize();
+            yield break;
         }
 
         [DisableInEditorMode]
