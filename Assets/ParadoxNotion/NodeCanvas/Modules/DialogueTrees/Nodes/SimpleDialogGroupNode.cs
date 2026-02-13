@@ -7,20 +7,20 @@ using UnityEngine;
 
 namespace TDB.Dialog
 {
-    [Name("Two-Actor")]
+    [Name("Dialog Group")]
     [Description("Make the selected Dialogue Actor talk. You can make the text more dynamic by using variable names and actor names in square brackets\ne.g. [myVarName] or [Global/myVarName]")]
-    public class TwoActorStatementNode : DTNode
+    public class SimpleDialogGroupNode : DTNode
     {
         public override bool requireActorSelection => false;
 
         private IBlackboard _blackboard;
-        private TwoActorDialogGroup _dialog;
+        private SimpleDialogGroup _dialog;
         private int _dialogIndex;
 
         protected override Status OnExecute(Component agent, IBlackboard bb)
         {
             _blackboard = bb;
-            var dialog = bb.GetVariable<TwoActorDialogGroup>("dialog asset");
+            var dialog = bb.GetVariable<SimpleDialogGroup>("dialog asset");
             if (!dialog.value)
             {
                 Debug.LogError("No Dialog Asset Selected");
@@ -47,7 +47,7 @@ namespace TDB.Dialog
             
             Debug.Log(currentStatement.Statement.text);
             var statement = currentStatement.Statement.ProcessStatementBrackets(_blackboard, DLGTree);
-            // TODO: determine actor correctly
+            
             var actor = currentStatement.GetActor();
             DialogueTree.RequestSubtitles(new SubtitlesRequestInfo(actor, statement, OnStatementFinish));
             return true;

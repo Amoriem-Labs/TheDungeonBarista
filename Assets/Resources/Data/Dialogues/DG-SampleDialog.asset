@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737400d7c5a44c19a982b388a9e61e4e, type: 3}
+  m_Name: DG-SampleDialog
+  m_EditorClassIdentifier: 
+  _statements:
+  - _actor: {fileID: 11400000, guid: ae28a1507ce867544905367c27c36078, type: 2}
+    Statement:
+      _text: This is statement 1
+      _audio: {fileID: 0}
+      _meta: 
+  - _actor: {fileID: 11400000, guid: 5acd776fb7afbb446828e1fe0a567a77, type: 2}
+    Statement:
+      _text: This is statement 2
+      _audio: {fileID: 0}
+      _meta: 
