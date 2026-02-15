@@ -29,6 +29,11 @@ namespace TDB.Utils.UI.Tooltip
         {
             _data.TooltipText = text;
             _textGetter = null;
+
+            if (_displayed)
+            {
+                _displayTooltipEvent.RaiseEvent<TooltipData>(_data);
+            }
         }
 
         public void SetTooltipText(Func<string> func)

@@ -74,6 +74,13 @@ namespace TDB.Utils.Misc
             }
         }
         
+        public static IEnumerable<T> Shuffled<T>(this IList<T> list)
+        {
+            var newList = new List<T>(list);
+            newList.Shuffle();
+            return newList;
+        }
+        
         public static bool IsAncestorOf(this Transform ancestor, Transform child)
         {
             Transform current = child;

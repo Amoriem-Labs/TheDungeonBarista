@@ -15,10 +15,84 @@ MonoBehaviour:
   MainMenuScenes:
   - {fileID: 11400000, guid: 6cb5705ba1a0c7e45b73608204506d87, type: 2}
   CafePhaseScenes:
+  - {fileID: 11400000, guid: 6092cbdad13076e4fa2e837d45f8fcd3, type: 2}
   - {fileID: 11400000, guid: c1d13ded320917f4b8ef3c5fa82663e7, type: 2}
   - {fileID: 11400000, guid: 587585437e73f6d4c92426727898c7a3, type: 2}
   DungeonPhaseScenes:
+  - {fileID: 11400000, guid: 6092cbdad13076e4fa2e837d45f8fcd3, type: 2}
   - {fileID: 11400000, guid: c1d13ded320917f4b8ef3c5fa82663e7, type: 2}
   - {fileID: 11400000, guid: 65e3d0fd96c7d4b499656cb6e03c045b, type: 2}
   _skipTutorial: 0
-  _infiniteResource: 0
+  _infiniteResource: 1
+  LevelUpProgressFillTime: 0.5
+  AddedIngredientAnimParam:
+    AngularSpeedRange: {x: 50, y: 80}
+    HoverRadiusRange: {x: 0.8, y: 1.5}
+    SmoothTime: 0.1
+  QualityEffect: {fileID: 11400000, guid: f0ffe00a64525c247bc8e23533c049d7, type: 2}
+  AllFlavors:
+  - {fileID: 11400000, guid: 0bab62332a6509640bbae5edd68a1057, type: 2}
+  - {fileID: 11400000, guid: b06663dfd2349ef418cd84b7ec668da1, type: 2}
+  - {fileID: 11400000, guid: c4f132bb77c25ef44a3c7b6ab37a20e9, type: 2}
+  - {fileID: 11400000, guid: f1121b597f9f566448c7cc8f3d8bd3f0, type: 2}
+  BonusPerFlavorLevel: 0.2
+  PunishmentPerFlavorLevel: 0.1
+  BonusPerQualityLevel: 0.2
+  CustomerEatTime: 5
+  ProductListCapacity: 3
+  CafeOperationTime: 20
+  TestIngredientShopData:
+    _purchasableIngredients:
+    - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+    - {fileID: 11400000, guid: 881d35119d416744c9aee1b5d037880a, type: 2}
+    - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+    _shopSlots: 8
+    _itemAmount: {x: 1, y: 2}
+  DefaultFurniturePreset: {fileID: 11400000, guid: 1e85a34b2a307a746891ed0c7ecc79c4, type: 2}
+  _initialGameData:
+    VolatileIngredientStorageData:
+      _stacks:
+      - <Definition>k__BackingField: {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+        <Amount>k__BackingField: 2
+      - <Definition>k__BackingField: {fileID: 11400000, guid: 881d35119d416744c9aee1b5d037880a, type: 2}
+        <Amount>k__BackingField: 3
+      - <Definition>k__BackingField: {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+        <Amount>k__BackingField: 4
+    RefrigeratedIngredientStorageData:
+      _stacks: []
+    FurnitureInventoryData:
+      _stacks: []
+    RecipeBookData:
+      _obtainedRawRecipes:
+      - {fileID: 11400000, guid: 460b6cd448982f449831f402cce3443a, type: 2}
+      _allRecipeData:
+      - <RawRecipe>k__BackingField: {fileID: 11400000, guid: 460b6cd448982f449831f402cce3443a, type: 2}
+        <NodeData>k__BackingField:
+        - _addedIngredients:
+          - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+          _requiredAmount: 2
+          _requiredType: {fileID: 11400000, guid: 40b2f77d372bda249be0ec6403108f2f, type: 2}
+          _effects: []
+        - _addedIngredients:
+          - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+          - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+          _requiredAmount: 2
+          _requiredType: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
+          _effects: []
+        <RecipeName>k__BackingField: Sample Final Recipe (Sweet)
+    AllInstalledFurnitureData: []
+    IngredientShopData:
+      _purchasableIngredients:
+      - {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
+      - {fileID: 11400000, guid: 881d35119d416744c9aee1b5d037880a, type: 2}
+      - {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
+      _shopSlots: 8
+      _itemAmount: {x: 1, y: 3}
+    FurnitureShopData:
+      _availableItems:
+      - ItemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+        <InStockCount>k__BackingField: 1
+      - ItemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+        <InStockCount>k__BackingField: 2
+    Money: 1000
+    Essence: 0

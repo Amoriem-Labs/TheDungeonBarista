@@ -1,7 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.Customers;
+using TDB.CafeSystem.FurnitureSystem;
+using TDB.CraftSystem.Data;
+using TDB.CraftSystem.EffectSystem.Data;
+using TDB.CraftSystem.UI.RecipeGraph;
+using TDB.InventorySystem.IngredientStorage;
+using TDB.ShopSystem;
+using TDB.ShopSystem.IngredientShop;
+using TDB.Utils.DataPersistence;
 using TDB.Utils.SceneTransitions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TDB.GameManagers
 {
@@ -18,6 +29,89 @@ namespace TDB.GameManagers
         [TabGroup("Testing")] [SerializeField] private bool _skipTutorial;
         [TabGroup("Testing")] [SerializeField] private bool _infiniteResource;
 
+        #region CraftSystem
+
+        // [TabGroup("CraftSystem")]
+        // [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Ingredient Storage")]
+        // [SerializeField, InlineProperty, HideLabel] public IngredientStorageData TestIngredientStorage;
+        //
+        // [FormerlySerializedAs("FinalRecipe")]
+        // [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Final Recipe")]
+        // [SerializeField, InlineProperty, HideLabel] public FinalRecipeData TestFinalRecipe;
+        //
+        // [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Test Recipe Book")]
+        // [SerializeField, InlineProperty, HideLabel] public RecipeBookData TestRecipeBook;
+
+        // public RecipeBookData ExtendedTestRecipeBook =>
+        //     new RecipeBookData(TestRecipeBook.AllObtainedRawRecipes,
+        //         new List<FinalRecipeData> { TestFinalRecipe });
+
+        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
+        [SerializeField]
+        public float LevelUpProgressFillTime = .5f;
+        
+        [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
+        [Title("Added Ingredient Animation")]
+        [SerializeField, InlineProperty, HideLabel]
+        public AddedIngredientAnimParam AddedIngredientAnimParam;
+
+        [TabGroup("CraftSystem")]
+        [SerializeField]
+        public EffectDefinition QualityEffect;
+        
+        #endregion
+
+        #region CafeSystem
+
+        [TabGroup("CafeSystem")]
+        [SerializeField] public List<FlavorDefinition> AllFlavors;
+
+        [TabGroup("CafeSystem")]
+        [SerializeField] public float BonusPerFlavorLevel = .2f;
+        [TabGroup("CafeSystem")]
+        [SerializeField] public float PunishmentPerFlavorLevel = .1f;
+        [TabGroup("CafeSystem")]
+        [SerializeField] public float BonusPerQualityLevel = .2f;
+
+        [TabGroup("CafeSystem")]
+        public float CustomerEatTime = 5f;
+        
+        [TabGroup("CafeSystem")]
+        [SerializeField] public int ProductListCapacity = 3;
+
+        [TabGroup("CafeSystem")]
+        [SerializeField, Tooltip("In second.")]
+        public float CafeOperationTime = 60;
+        
+        #endregion
+
+        #region ShopSystem
+
+        [TabGroup("ShopSystem")]
+        [BoxGroup("_DefaultTabGroup/ShopSystem/Test Ingredient Shop Data")]
+        [SerializeField, InlineProperty, HideLabel]
+        public IngredientShopData TestIngredientShopData;
+
+        #endregion
+        
+        #region Initial Game Data
+
+        [TabGroup("Initial Game Data")]
+        [SerializeField] public FurniturePreset DefaultFurniturePreset;
+        
+        [TabGroup("Initial Game Data")]
+        [SerializeField, InlineProperty, HideLabel]
+        private GameData _initialGameData;
+
+        public GameData NewGameData => new GameData(_initialGameData)
+        {
+            // override installed furniture with the default preset
+            AllInstalledFurnitureData =
+                DefaultFurniturePreset.FurnitureData.Select(f => new FurnitureData(f)).ToList()
+        };
+
+        #endregion
+        
 #if UNITY_EDITOR
         public bool SkipTutorial => _skipTutorial;
         public bool InfiniteResource => _infiniteResource;

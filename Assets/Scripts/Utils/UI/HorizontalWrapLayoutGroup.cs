@@ -13,15 +13,52 @@ namespace TDB.Utils.UI
         public bool controlChildHeight = true;
         public bool reversed = false;
 
+        private void GetCellAndGrid(out float cellW, out float cellH, out int rows, out int cols, out int count)
+        {
+            count = rectChildren.Count;
+            cols = Mathf.Max(1, maxItemsPerRow);
+            rows = count == 0 ? 0 : Mathf.CeilToInt((float)count / cols);
+
+            float maxW = 0f, maxH = 0f;
+            for (int i = 0; i < rectChildren.Count; i++)
+            {
+                var child = rectChildren[i];
+                if (!child || !child.gameObject.activeInHierarchy) continue;
+
+                float w = controlChildWidth  ? LayoutUtility.GetPreferredSize(child, 0) : child.sizeDelta.x;
+                float h = controlChildHeight ? LayoutUtility.GetPreferredSize(child, 1) : child.sizeDelta.y;
+                if (w > maxW) maxW = w;
+                if (h > maxH) maxH = h;
+            }
+
+            // Your runtime layout can still scale these to fit the available rect,
+            // but for PREFERRED SIZE reporting we return the natural cell size.
+            cellW = maxW;
+            cellH = maxH;
+        }
+
         public override void CalculateLayoutInputHorizontal()
         {
-            base.CalculateLayoutInputHorizontal();
-            SetLayoutInputForAxis(rectTransform.rect.width, rectTransform.rect.width, -1, 0);
+            base.CalculateLayoutInputHorizontal(); // populates rectChildren
+            GetCellAndGrid(out float cellW, out _, out _, out int cols, out int count);
+
+            float preferredWidth =
+                padding.left + padding.right +
+                (count == 0 ? 0f : (cols * cellW + (cols - 1) * spacing));
+
+            // min == preferred is fine for wrap groups; flexible -1 means "don't stretch me"
+            SetLayoutInputForAxis(preferredWidth, preferredWidth, -1, 0);
         }
 
         public override void CalculateLayoutInputVertical()
         {
-            SetLayoutInputForAxis(rectTransform.rect.height, rectTransform.rect.height, -1, 1);
+            GetCellAndGrid(out _, out float cellH, out int rows, out _, out int count);
+
+            float preferredHeight =
+                padding.top + padding.bottom +
+                (count == 0 ? 0f : (rows * cellH + (rows - 1) * rowSpacing));
+
+            SetLayoutInputForAxis(preferredHeight, preferredHeight, -1, 1);
         }
 
         public override void SetLayoutHorizontal()
