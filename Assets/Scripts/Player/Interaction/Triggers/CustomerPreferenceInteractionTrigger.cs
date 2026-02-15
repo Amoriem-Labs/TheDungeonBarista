@@ -1,5 +1,4 @@
-﻿using System;
-using TDB.CafeSystem.Customers;
+﻿using TDB.CafeSystem.Customers;
 
 namespace TDB.Player.Interaction.Triggers
 {
