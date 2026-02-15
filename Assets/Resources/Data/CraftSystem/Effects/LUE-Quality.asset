@@ -22,7 +22,14 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: _newParamType
-      Entry: 6
+      Entry: 7
+      Data: 0|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: TDB.CraftSystem.EffectSystem.LevelUpEffect.LevelUpProgressParameter,
+        Assembly-CSharp
+    - Name: 
+      Entry: 8
       Data: 
   _resourcesPath: Data/CraftSystem/Effects/LUE-Quality
   <CraftMenuRecipeEffectItemPrefab>k__BackingField: {fileID: 4309549788246413265, guid: 51cc3b1c5e9335e48974ca5e4c0f6ead, type: 3}

@@ -11,9 +11,14 @@ namespace TDB.CraftSystem.Data
     [System.Serializable]
     public class IngredientNodeData
     {
+        [HideInTables]
         [FormerlySerializedAs("_addedIngredient")]
         [SerializeField] private List<IngredientDefinition> _addedIngredients;
+        [VerticalGroup("Requirements")]
+        [LabelText("Amount"), LabelWidth(60)]
         [SerializeField] private int _requiredAmount = 3;
+        [VerticalGroup("Requirements")]
+        [LabelText("Type"), LabelWidth(60)]
         [SerializeField] private IngredientTypeDefinition _requiredType;
         
         [Tooltip("Only in effect when the node is ready.")]

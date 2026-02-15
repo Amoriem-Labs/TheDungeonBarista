@@ -12,13 +12,14 @@ namespace TDB.Utils.Misc
     /// </summary>
     public class ResourceScriptableObject : SerializedScriptableObject
     {
+        [HideInTables]
         [SerializeField, ReadOnly]
         private string _resourcesPath;
 
         public string ResourcesPath => _resourcesPath;
 
         [ContextMenu("Load Resource Path")]
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
 #if UNITY_EDITOR
             _resourcesPath = ResourcePathUtility.GetResourcesPath(this);

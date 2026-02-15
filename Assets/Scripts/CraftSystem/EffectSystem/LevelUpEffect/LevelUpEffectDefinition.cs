@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.Serialization;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.CraftSystem.EffectSystem.LevelUpEffect;
+using TDB.CraftSystem.EffectSystem.UI;
 using UnityEngine;
 
 [assembly: RegisterFormatter(typeof(RsoPathFormatter<LevelUpEffectDefinition>))]
@@ -40,6 +41,18 @@ namespace TDB.CraftSystem.EffectSystem.LevelUpEffect
         {
             // TODO: display the data associated with the current level
             return _description;
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            if (CraftMenuRecipeEffectItemPrefab == null)
+            {
+                CraftMenuRecipeEffectItemPrefab =
+                    Resources.Load<CraftMenuRecipeEffectItemUI>(
+                        "Data/CraftSystem/Effects/RecipeEffectItem/RecipeEffectItem-LevelUp");
+            }
         }
     }
 }
