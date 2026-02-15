@@ -18,6 +18,10 @@ namespace TDB
         private EntityData _entityData;
         private InputController _inputController;
         private PlayerStateHandler _playerStateHandler;
+    
+        public string currentProjectilePath  = "Orb";
+        public GameObject prefabAsset;
+        public Rigidbody2D rigidBody;
         
         private void Awake()
         {
@@ -26,7 +30,10 @@ namespace TDB
             _inputController = GetComponentInChildren<InputController>();
 
             _inputController.AttackKeyPressed += AttackKeyPressed;
-            GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
+          //  GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
+            prefabAsset = Resources.Load<GameObject>(currentProjectilePath);
+
+            rigidBody = GetComponent<Rigidbody2D>();
         }
 
 
@@ -36,6 +43,11 @@ namespace TDB
         {
             if ( _playerStateHandler.currentState == PlayerStateHandler.States.free)
             {
+                
+                GameObject _newProj = (GameObject)Instantiate(prefabAsset, rigidBody.position, Quaternion.identity);
+
+                _newProj.GetComponent<Rigidbody2D>().velocity = GetComponent<EntityData>().lastDirection * _newProj.GetComponent<Projectile>().maxSpeed;
+                
                 _entityData.IsAttacking = true;
             }
         }

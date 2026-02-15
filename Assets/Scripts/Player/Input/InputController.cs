@@ -11,7 +11,8 @@ namespace TDB.Player.Input
     {
         [SerializeField] private InteractionController _primaryInteractionController;
         [SerializeField] private InteractionController _secondaryInteractionController;
-        
+        //[SerializeField] private InteractionController _tietiaryInteractionController;
+
         [Title("Input Actions")]
         [SerializeField] private InputActionReference _moveActionReference;
         [SerializeField] private InputActionReference _primaryActionReference;

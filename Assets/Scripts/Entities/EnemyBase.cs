@@ -12,7 +12,7 @@ namespace TDB
             _entityData = GetComponent<EntityData>();
            
 
-            GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
+            //GetComponentInChildren<AttackHitbox>().dealDamage += GetComponent<EntityData>().DealDamage;
         }
         // Start is called before the first frame update
         void Start()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,7 @@ namespace TDB
     {
         private EntityData _entityData;
         public EntityData _target;
+        private NavMeshAgent _agent;
         private Vector2 _homePos = Vector2.zero;
         public Vector2 Range = new Vector2(10, 10);
         public float CooldownTimerMax = 5;
@@ -36,6 +38,12 @@ namespace TDB
         // Update is called once per frame
         public void WanderUpdate()
         {
+            if (_target != null)
+            {
+                _agent.destination = _target.transform.position;
+                
+            }
+            /*
             //print("wandering and stuff");
 
 
@@ -65,7 +73,7 @@ namespace TDB
                 //_entityData.Velocity = _entityData.MaxSpeed * (_entityData.Rb.position - _target.Rb.position).normalized;
                 //switch to attack
                 _cooldownTimerCurrent = CooldownTimerMax;
-            }
+            } */
         }
 
         private void Awake()
@@ -75,6 +83,9 @@ namespace TDB
             _cooldownTimerCurrent = CooldownTimerMax;
             GetComponentInChildren<ChargeRange>().playerInRange += PlayerInRange;
             GetComponentInChildren<ChargeRange>().playerInRange += PlayerOutOfRange;
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.updateRotation = false;
+           _agent.updateUpAxis = false;
             
         }
 

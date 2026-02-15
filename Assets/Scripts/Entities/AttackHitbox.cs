@@ -17,7 +17,7 @@ namespace TDB
        
         public delegate void BaseDelegate(GameObject entity);
        
-        public BaseDelegate dealDamage;
+        //public BaseDelegate dealDamage;
 
 
         public static int _enemyLayer = 8;
@@ -49,16 +49,19 @@ namespace TDB
                 //if we're a player and we're registering the enemy on hit
                 if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _playerLayer && collision.gameObject.layer == _enemyLayer) 
                 {
-                    dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+                //dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+
+                    gameObject.transform.parent.gameObject.GetComponent<EntityData>().DealDamage(collision.gameObject.transform.parent.gameObject);
                    // print("PLAYA");
                 }
 
                 //if we're an enemy and we're registering the player on hit
                 if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _enemyLayer && collision.gameObject.layer == _playerLayer)
                 {
-                    dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
-                    //print("ENEMY");
-                }
+                    //dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+                    gameObject.transform.parent.gameObject.GetComponent<EntityData>().DealDamage(collision.gameObject.transform.parent.gameObject);
+                //print("ENEMY");
+            }
 
             // GetComponentInParent<EntityData>().gameObject.
           
