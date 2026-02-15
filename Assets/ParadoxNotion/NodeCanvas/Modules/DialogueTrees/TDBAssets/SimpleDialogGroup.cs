@@ -21,6 +21,8 @@ namespace TDB
         [SerializeField, InlineProperty, HideLabel, BoxGroup("Statement")]
         public Statement Statement;
 
-        public IDialogueActor GetActor() => _actor;
+        public IDialogueActor GetActor() => RegisteredActors.GetValueOrDefault(_actor, _actor);
+        
+        public static Dictionary<ActorDefinition, IDialogueActor> RegisteredActors = new();
     }
 }

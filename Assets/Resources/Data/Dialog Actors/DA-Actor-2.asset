@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8780d75ba0204a16b48dac4845f85692, type: 3}
   m_Name: DA-Actor-2
   m_EditorClassIdentifier: 
-  <name>k__BackingField: 
+  <name>k__BackingField: actor 2
   <portraitSprite>k__BackingField: {fileID: 0}
   <dialogueColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
