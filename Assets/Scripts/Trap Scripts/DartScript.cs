@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -33,6 +34,10 @@ namespace TDB
         // speed used to adjust how fast the dart moves
         [SerializeField] float _speed;
 
+        // lifetime for the dart, just in case it doesnt hit anything
+        [SerializeField] float _lifetime;
+        private float _timer = 0;
+
         // layer value for walls (i think) FIXME: just in case
         private const int _wallLayer = 6;
 
@@ -56,7 +61,23 @@ namespace TDB
         // Update is called once per frame
         void Update()
         {
-            
+            // timer for the lifetime of the dart, just in case it fails to collide
+            if (_lifetime > _timer)
+            {
+                // increase timer by deltatime
+                _timer += Time.deltaTime;
+            }
+            else
+            {
+                // reset timer to 0
+                _timer = 0;
+
+                // set position of dart to the dart launcher and deactivate it.
+                transform.position = transform.parent.position;
+                _trapUniversal.DeactivateTrap();
+
+                UnityEngine.Debug.Log("reset dart");
+            }
         }
 
         void OnEnable()
