@@ -66,34 +66,50 @@ namespace TDB
             if (entity.layer == _playerLayerInt)
             {
                 EntityData data = entity.GetComponentInParent<EntityData>();
-                if (data != null)
+                if (!data) return;
+                var hurtBox = data.GetComponentInChildren<Hurtbox>();
+                if (!hurtBox) return;
+                hurtBox.TakeDamage(new DamageData()
                 {
-                    data.CurrentHealth -= _damage;
-
-                    if (data.CurrentHealth <= 0)
-                    {
-                        Destroy(data.gameObject);
-                    }
-                }
+                    Amount = _damage,
+                });
+                // if (data != null)
+                // {
+                //     data.CurrentHealth -= _damage;
+                //
+                //     if (data.CurrentHealth <= 0)
+                //     {
+                //         Destroy(data.gameObject);
+                //     }
+                // }
             }
             // if the entity is an enemy, deal damage to them using thier health system thingy
             else if (entity.layer == _enemyLayerInt)
             {
-                // the following code i just completely ripped from 'PlayerMovement.cs'
-                // if there is a more elegant way of doing this let me know, but this s it for now
-
-                // deals the damage to the entity
-                entity.GetComponentInParent<EntityData>().CurrentHealth -= _damage;
-
-                // knockback wouldnt work well with spike trap so disabled for now
-                // entity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
-                
-                // if heals is 0 or below, kills it
-                if (entity.GetComponentInParent<EntityData>().CurrentHealth <= 0)
+                EntityData data = entity.GetComponentInParent<EntityData>();
+                if (!data) return;
+                var hurtBox = data.GetComponentInChildren<Hurtbox>();
+                if (!hurtBox) return;
+                hurtBox.TakeDamage(new DamageData()
                 {
-                    //run the die method
-                    Destroy(entity.transform.parent.gameObject);
-                }
+                    Amount = _damage,
+                });
+                
+                // // the following code i just completely ripped from 'PlayerMovement.cs'
+                // // if there is a more elegant way of doing this let me know, but this s it for now
+                //
+                // // deals the damage to the entity
+                // entity.GetComponentInParent<EntityData>().CurrentHealth -= _damage;
+                //
+                // // knockback wouldnt work well with spike trap so disabled for now
+                // // entity.GetComponent<EntityData>().Velocity = _entityData.lastDirection * _entityData.Knockback;
+                //
+                // // if heals is 0 or below, kills it
+                // if (entity.GetComponentInParent<EntityData>().CurrentHealth <= 0)
+                // {
+                //     //run the die method
+                //     Destroy(entity.transform.parent.gameObject);
+                // }
             }
         }
         

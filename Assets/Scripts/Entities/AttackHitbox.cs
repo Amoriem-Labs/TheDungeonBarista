@@ -29,7 +29,7 @@ namespace TDB
         // Start is called before the first frame update
         private void Awake()
         {
-            //_entityData = GetComponent<EntityData>();
+            _entityData = GetComponentInParent<EntityData>();
 
             //var hitbox = GetComponentInChildren<AttackHitbox>();
             //if (hitbox == null)
@@ -80,18 +80,26 @@ namespace TDB
             if (ownerData == null || targetData == null)
                 return;
 
-            int ownerLayer = ownerData.GetComponentInChildren<Hurtbox>().gameObject.layer;
-            int targetLayer = targetData.GetComponentInChildren<Hurtbox>().gameObject.layer;
+            var ownerHurtBox = ownerData.GetComponentInChildren<Hurtbox>();
+            int ownerLayer = ownerHurtBox.gameObject.layer;
+            var targetHurtBox = targetData.GetComponentInChildren<Hurtbox>();
+            int targetLayer = targetHurtBox.gameObject.layer;
 
             bool playerHitsEnemy = ownerLayer == _playerLayer && targetLayer == _enemyLayer;
             bool enemyHitsPlayer = ownerLayer == _enemyLayer && targetLayer == _playerLayer;
 
             if (playerHitsEnemy || enemyHitsPlayer)
             {
-                targetData.CurrentHealth -= 1;
-                //Debug.Log($"Damage applied to {targetData.name}, CurrentHealth={targetData.CurrentHealth}");
-                if (targetData.CurrentHealth <= 0)
-                    Destroy(targetData.gameObject);
+                var damage = new DamageData()
+                {
+                    Amount = 1,
+                    KnockBackSource = _entityData.transform,
+                };
+                targetHurtBox.TakeDamage(damage);
+                // targetData.CurrentHealth -= 1;
+                // //Debug.Log($"Damage applied to {targetData.name}, CurrentHealth={targetData.CurrentHealth}");
+                // if (targetData.CurrentHealth <= 0)
+                //     Destroy(targetData.gameObject);
             }
         }
     }

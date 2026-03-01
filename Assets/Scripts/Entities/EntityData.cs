@@ -12,7 +12,7 @@ namespace TDB
     // Date: 10/21/2025
     // Description: The basic script all things with health should use. 
     //=================================================================================
-    public class EntityData : MonoBehaviour
+    public class EntityData : MonoBehaviour, ITakeDamageHandler
     {
         public delegate void UpdateDelegate();
         //===============================//
@@ -41,22 +41,22 @@ namespace TDB
         public float CurrentHealth
         {
             get => _currentHealth;
-            set
+            private set
             {
                 value = Mathf.Clamp(value, 0, MaxHealth);
                 if (value == _currentHealth) return;
-                bool isDecreasing = value < _currentHealth;
+                // bool isDecreasing = value < _currentHealth;
                 _currentHealth = value;
 
-                // take damage
-                if (isDecreasing)
-                {
-                    // death
-                    if (_currentHealth <= 0)
-                    {
-                        OnDeath?.Invoke();
-                    }
-                }
+                // // take damage
+                // if (isDecreasing)
+                // {
+                //     // death
+                //     if (_currentHealth <= 0)
+                //     {
+                //         OnDeath?.Invoke();
+                //     }
+                // }
             }
         }
 
@@ -113,8 +113,14 @@ namespace TDB
             updateDelegate?.Invoke();
         }
 
-
-
-
+        public void TakeDamage(DamageData damage)
+        {
+            if (CurrentHealth <= 0) return;
+            CurrentHealth -= damage.Amount;
+            if (CurrentHealth <= 0)
+            {
+                OnDeath?.Invoke();
+            }
+        }
     }
 }

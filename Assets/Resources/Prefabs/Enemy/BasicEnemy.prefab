@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 5985020197447555010}
   - component: {fileID: 157352199968107195}
   - component: {fileID: 6096865869800734242}
+  - component: {fileID: 3992696429950567415}
   m_Layer: 6
   m_Name: BasicEnemy
   m_TagString: Enemy
@@ -436,10 +437,10 @@ MonoBehaviour:
   Knockback: 5
   lastDirection: {x: 0, y: -1}
   Velocity: {x: 0, y: 0}
-  CurrentHealth: 0
   movementDirection: {x: 0, y: 0}
   Rb: {fileID: 0}
   IsAttacking: 0
+  _currentHealth: 0
 --- !u!50 &3279329366716456697
 Rigidbody2D:
   serializedVersion: 4
@@ -574,5 +575,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53e672a090bdb3c4a9cb95f0b3baa7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3992696429950567415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7219694119811069261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eb5fcfdd9ec470ebff4088518c69e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
