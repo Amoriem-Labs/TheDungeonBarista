@@ -26,6 +26,11 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private TileType floorTileType;
         [SerializeField] private DungeonRenderer dungeonRenderer;
 
+        // hash table of valid floor tiles for collectible gen
+        private HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+        [SerializeField] private CollectibleGenerator collectibleGenerator;
+
+
         [SerializeField] private RoomLibrary roomLibrary;
         private RoomChooser _roomChooser;
 
@@ -51,6 +56,7 @@ namespace TDB.DungeonSystem.Generate
             GenerateWalls();
             dungeonRenderer.Render(dungeonGrid);
             //DrawDungeon();
+            collectibleGenerator.SpawnCollectibles(floorPositions);
         }
 
         void Split(BSPNode node)
@@ -127,6 +133,14 @@ namespace TDB.DungeonSystem.Generate
             int offsetX = node.rect.x + (node.rect.width - room.width) / 2;
             int offsetY = node.rect.y + (node.rect.height - room.height) / 2;
 
+            // TODO: Remove after testing, this generates a standard room
+            if (room.tiles == null || room.tiles.Length != room.width * room.height)
+            {
+                room.tiles = new TileType[room.width * room.height];
+                for (int i = 0; i < room.tiles.Length; i++)
+                    room.tiles[i] = room.tiles[i];
+            }
+
             for (int y = 0; y < room.height; y++)
             {
                 for (int x = 0; x < room.width; x++)
@@ -158,7 +172,9 @@ namespace TDB.DungeonSystem.Generate
                     {
                         for (int y = room.y; y < room.y + room.height; y++)
                         {
-                            Instantiate(floorPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                            Vector2Int pos = new Vector2Int(x, y);
+                            floorPositions.Add(pos);
+                            Instantiate(floorPrefab, new Vector3(x,y, 0), Quaternion.identity);
                         }
                     }
                 }
@@ -258,6 +274,8 @@ namespace TDB.DungeonSystem.Generate
         {
             for (int x = Mathf.Min(xStart, xEnd); x <= Mathf.Max(xStart, xEnd); x++)
             {
+                Vector2Int pos = new Vector2Int(x, y);
+                floorPositions.Add(pos);
                 dungeonGrid.SetTile(new Vector2Int(x, y), floorTileType);
             }
         }
@@ -266,6 +284,8 @@ namespace TDB.DungeonSystem.Generate
         {
             for (int y = Mathf.Min(yStart, yEnd); y <= Mathf.Max(yStart, yEnd); y++)
             {
+                Vector2Int pos = new Vector2Int(x, y);
+                floorPositions.Add(pos);
                 dungeonGrid.SetTile(new Vector2Int(x, y), floorTileType);
             }
         }
