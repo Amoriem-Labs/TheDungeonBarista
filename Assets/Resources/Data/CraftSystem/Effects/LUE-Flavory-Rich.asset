@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60780b8b252b47c68f09740fee6bf477, type: 3}
-  m_Name: IT-01
+  m_Script: {fileID: 11500000, guid: aec863adcd944a06987380f5b9cfa463, type: 3}
+  m_Name: LUE-Flavory-Rich
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,6 +20,11 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  _resourcesPath: Data/CraftSystem/IngredientTypes/IT-01
-  _icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+    SerializationNodes:
+    - Name: _newParamType
+      Entry: 6
+      Data: 
+  _resourcesPath: 
+  <CraftMenuRecipeEffectItemPrefab>k__BackingField: {fileID: 4309549788246413265, guid: 51cc3b1c5e9335e48974ca5e4c0f6ead, type: 3}
+  _attributeName: Rich
+  _description: A flavor. Customers who like this flavor will pay extra money.

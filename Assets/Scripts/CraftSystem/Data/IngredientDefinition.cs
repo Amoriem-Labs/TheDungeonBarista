@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities;
 using TDB.CraftSystem.EffectSystem;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.ShopSystem;
@@ -15,7 +16,7 @@ namespace TDB.CraftSystem.Data
     [CreateAssetMenu(fileName = "New Ingredient", menuName = "Data/Craft System/Ingredient Definition", order = 0)]
     public class IngredientDefinition : ResourceScriptableObject, IShopItemDefinition
     {
-        [TableColumnWidth(180, resizable: false)]
+        [TableColumnWidth(200, resizable: false)]
         [VerticalGroup("Ingredient Info")]
         [LabelText("Name")]
         [LabelWidth(40)]
@@ -45,6 +46,16 @@ namespace TDB.CraftSystem.Data
             // TODO: find a better essence computation
             // placeholder: the number of effects determines the essence
             return 1 + Effects.Count;
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            if (_ingredientName.IsNullOrWhitespace())
+            {
+                _ingredientName = name;
+            }
         }
     }
 }

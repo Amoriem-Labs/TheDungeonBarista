@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60780b8b252b47c68f09740fee6bf477, type: 3}
-  m_Name: IT-02
+  m_Script: {fileID: 11500000, guid: bb9e5cf84d3b4afeab54f99c599c7b9a, type: 3}
+  m_Name: ING-Water
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,5 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _resourcesPath: Data/CraftSystem/IngredientTypes/IT-02
-  _icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  _resourcesPath: Data/CraftSystem/Ingredients/ING-Water
+  _ingredientName: Water
+  _ingredientSprite: {fileID: 0}
+  _type: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
+  _effects: []
