@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _resourcesPath: 
+  _resourcesPath: Data/CraftSystem/RawRecipes/RR-SimpleSnack
   _recipeName: Simple Snack
   _emptyGraphPrefab: {fileID: 0}
   _initialNodeData:

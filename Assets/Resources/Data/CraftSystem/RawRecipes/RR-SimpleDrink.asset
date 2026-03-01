@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   _resourcesPath: 
   _recipeName: Simple Drink
-  _emptyGraphPrefab: {fileID: 0}
+  _emptyGraphPrefab: {fileID: 3407619743880320545, guid: 6a96f6eeb49ac384783c1e4e6e52b043, type: 3}
   _initialNodeData:
   - _addedIngredients: []
     _requiredAmount: 1

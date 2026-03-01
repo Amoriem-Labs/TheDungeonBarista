@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   _resourcesPath: 
   _recipeName: Mixed Drink
-  _emptyGraphPrefab: {fileID: 0}
+  _emptyGraphPrefab: {fileID: 330664814743960926, guid: 16e6e53f19d8bd64d8b8f66e70c6c061, type: 3}
   _initialNodeData:
   - _addedIngredients: []
     _requiredAmount: 1
