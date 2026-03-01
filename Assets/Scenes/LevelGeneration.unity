@@ -523,10 +523,9 @@ MonoBehaviour:
   floorPrefab: {fileID: 1123145753052581664, guid: 3ae69b39e03460a4ba9dda6a00a413dc, type: 3}
   floorTileType: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   dungeonRenderer: {fileID: 240921861}
-  roomLibrary: {fileID: 11400000, guid: 77a5e3d67a58fea45b2fe34c3908bd53, type: 2}
-  wallTileType: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
   collectibleGenerator: {fileID: 2049241821}
   roomLibrary: {fileID: 11400000, guid: 77a5e3d67a58fea45b2fe34c3908bd53, type: 2}
+  wallTileType: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
 --- !u!1 &2049241820
 GameObject:
   m_ObjectHideFlags: 0
