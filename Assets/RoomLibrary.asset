@@ -15,4 +15,8 @@ MonoBehaviour:
   allRooms:
   - {fileID: 11400000, guid: ca3b833b484740e4b80292c797aafae1, type: 2}
   - {fileID: 11400000, guid: 8884deaf837b0b343aa312998c150539, type: 2}
-  requirements: []
+  - {fileID: 11400000, guid: 8f7bb42c383377f43b3d4a6dcc1e2d73, type: 2}
+  requirements:
+  - roomType: 3
+    minCount: 1
+    maxCount: 1

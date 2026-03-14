@@ -16,4 +16,7 @@ MonoBehaviour:
   walkable: 1
   interactable: 0
   spawnable: 0
-  visualTile: {fileID: 11400000, guid: ac43a78df3affdd429ba38535b45e8a9, type: 2}
+  visualTile: {fileID: 11400000, guid: 9a48f54fac85d564a857a403acdf7220, type: 2}
+  useRuleSet: 0
+  ruleSet: {fileID: 0}
+  neighborMatchMode: 0

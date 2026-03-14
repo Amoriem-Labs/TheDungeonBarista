@@ -12,9 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dab1020e440bfa44a2b3b9eb9a75c9b, type: 3}
   m_Name: Spawn
   m_EditorClassIdentifier: 
-  roomType: 0
-  width: 0
-  height: 0
-  tiles: []
-  defaultTile: {fileID: 0}
+  roomType: 3
+  width: 6
+  height: 6
+  tiles:
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  defaultTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   doorPositions: []
