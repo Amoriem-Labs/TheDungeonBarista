@@ -313,7 +313,11 @@ namespace TDB.DungeonSystem.Generate
                 Vector2Int.up,
                 Vector2Int.down,
                 Vector2Int.left,
-                Vector2Int.right
+                Vector2Int.right,
+                new Vector2Int(1, 1),
+                new Vector2Int(1, -1),
+                new Vector2Int(-1, -1),
+                new Vector2Int(-1, 1)
             };
 
             foreach (var d in dirs)
