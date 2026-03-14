@@ -12,4 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f53a79201ad67248a2a47e7ebb4feda, type: 3}
   m_Name: StoneWall
   m_EditorClassIdentifier: 
-  rules: []
+  rules:
+  - shape: 0
+    priority: 0
+    outputTile: {fileID: 11400000, guid: be9026c0c7f170e43ac4b9edc744cdfb, type: 2}
+    requiredFilled: 255
+    requiredEmpty: 0
+    allowRotation: 0
+  - shape: 1
+    priority: 0
+    outputTile: {fileID: 11400000, guid: cdc579379ccf7d94ab64e5772130fb00, type: 2}
+    requiredFilled: 2
+    requiredEmpty: 8
+    allowRotation: 1
+  - shape: 2
+    priority: 1
+    outputTile: {fileID: 11400000, guid: 2bd89b92d70a36d44ac95b03f0e1296c, type: 2}
+    requiredFilled: 38
+    requiredEmpty: 9
+    allowRotation: 1
+  - shape: 3
+    priority: 0
+    outputTile: {fileID: 11400000, guid: b0afb785ba493ca4a9d6ae150bac2e06, type: 2}
+    requiredFilled: 15
+    requiredEmpty: 16
+    allowRotation: 1
+  - shape: 5
+    priority: 0
+    outputTile: {fileID: 11400000, guid: 752f7e77d4bb48441a054500ccf6c047, type: 2}
+    requiredFilled: 0
+    requiredEmpty: 255
+    allowRotation: 1

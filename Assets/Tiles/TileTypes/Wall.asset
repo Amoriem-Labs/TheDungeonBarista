@@ -17,3 +17,6 @@ MonoBehaviour:
   interactable: 0
   spawnable: 0
   visualTile: {fileID: 11400000, guid: be9026c0c7f170e43ac4b9edc744cdfb, type: 2}
+  useRuleSet: 1
+  ruleSet: {fileID: 11400000, guid: d65571ec853e8e049bcf43524b7fdd53, type: 2}
+  neighborMatchMode: 1

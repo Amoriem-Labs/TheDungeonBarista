@@ -4,6 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "TDB/Dungeon/Room")]
 public class RoomSO : ScriptableObject
 {
+    [Header("Classification")]
+    public RoomType roomType = RoomType.Normal;
+
     public int width;
     public int height;
 
@@ -83,4 +86,14 @@ public class RoomSO : ScriptableObject
         bool onTopOrBottomEdge = local.y == 0 || local.y == height - 1;
         return onLeftOrRightEdge || onTopOrBottomEdge;
     }
+}
+
+public enum RoomType
+{
+    Normal,
+    Mob,
+    Chest,
+    ExitNormal,
+    ExitBoss,
+    BossMob
 }

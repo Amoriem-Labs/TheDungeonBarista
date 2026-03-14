@@ -51,7 +51,9 @@ namespace TDB.DungeonSystem.Generate
             Split(root);
             Debug.Log("Leaves created: " + leaves.Count);
 
+            _roomChooser.BeginGeneration();
             CreateRooms(root);
+            _roomChooser.LogUnmetRequirements();
             ConnectRooms(root);
             GenerateWalls();
             dungeonRenderer.Render(dungeonGrid);
