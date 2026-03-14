@@ -93,6 +93,7 @@ public enum RoomType
     Normal,
     Mob,
     Chest,
+    Spawn,
     ExitNormal,
     ExitBoss,
     BossMob

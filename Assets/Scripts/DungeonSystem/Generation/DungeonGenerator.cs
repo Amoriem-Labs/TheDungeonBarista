@@ -57,6 +57,7 @@ namespace TDB.DungeonSystem.Generate
             ConnectRooms(root);
             GenerateWalls();
             dungeonRenderer.Render(dungeonGrid);
+            TrySpawnPlayerAtRoomType(RoomType.Spawn);
             //DrawDungeon();
             collectibleGenerator.SpawnCollectibles(floorPositions);
         }
@@ -329,6 +330,76 @@ namespace TDB.DungeonSystem.Generate
                     return true;
             }
             return false;
+        }
+
+        private void TrySpawnPlayerAtRoomType(RoomType type)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null) return;
+
+            BSPNode spawnNode = FindRoomByType(type);
+            if (spawnNode == null)
+            {
+                spawnNode = FindFirstRoom();
+            }
+
+            if (spawnNode == null) return;
+
+            Vector2Int spawnCell = GetRandomWalkableInRoom(spawnNode);
+            Vector3 spawnWorld = dungeonRenderer != null
+                ? dungeonRenderer.GetCellCenterWorld(spawnCell)
+                : new Vector3(spawnCell.x + 0.5f, spawnCell.y + 0.5f, player.transform.position.z);
+
+            spawnWorld.z = player.transform.position.z;
+            player.transform.position = spawnWorld;
+        }
+
+        private BSPNode FindRoomByType(RoomType type)
+        {
+            foreach (var leaf in leaves)
+            {
+                if (!leaf.room.HasValue || leaf.roomTemplate == null) continue;
+                if (leaf.roomTemplate.roomType == type)
+                    return leaf;
+            }
+            return null;
+        }
+
+        private BSPNode FindFirstRoom()
+        {
+            foreach (var leaf in leaves)
+            {
+                if (leaf.room.HasValue && leaf.roomTemplate != null)
+                    return leaf;
+            }
+            return null;
+        }
+
+        private Vector2Int GetRandomWalkableInRoom(BSPNode node)
+        {
+            RectInt roomRect = node.room.Value;
+            RoomSO room = node.roomTemplate;
+
+            List<Vector2Int> walkables = new List<Vector2Int>();
+            for (int y = 0; y < room.height; y++)
+            {
+                for (int x = 0; x < room.width; x++)
+                {
+                    int index = x + y * room.width;
+                    TileType tile = room.tiles[index];
+                    if (tile != null && tile.walkable)
+                    {
+                        walkables.Add(new Vector2Int(roomRect.x + x, roomRect.y + y));
+                    }
+                }
+            }
+
+            if (walkables.Count == 0)
+            {
+                return new Vector2Int(roomRect.x + roomRect.width / 2, roomRect.y + roomRect.height / 2);
+            }
+
+            return walkables[Random.Range(0, walkables.Count)];
         }
     }
 }

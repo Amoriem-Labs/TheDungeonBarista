@@ -7,6 +7,10 @@ namespace TDB.DungeonSystem.Generate
     public class DungeonRenderer : MonoBehaviour
     {
         [SerializeField] private Tilemap tilemap;
+        [SerializeField] private bool buildColliders = true;
+        [SerializeField] private bool useCompositeCollider = true;
+        [SerializeField] private string collisionContainerName = "_TileColliders";
+        [SerializeField] private string collisionLayerName = "Wall";
 
         public void Render(DungeonGrid grid)
         {
@@ -37,6 +41,11 @@ namespace TDB.DungeonSystem.Generate
 
                     tilemap.SetTile(cell, tile.visualTile);
                 }
+            }
+
+            if (buildColliders)
+            {
+                BuildTileColliders(grid);
             }
         }
 
@@ -88,6 +97,69 @@ namespace TDB.DungeonSystem.Generate
                 default:
                     return neighbor == centerTile;
             }
+        }
+
+        public Vector3 GetCellCenterWorld(Vector2Int cell)
+        {
+            return tilemap.GetCellCenterWorld(new Vector3Int(cell.x, cell.y, 0));
+        }
+
+        private void BuildTileColliders(DungeonGrid grid)
+        {
+            if (tilemap == null || grid == null) return;
+
+            Transform existing = tilemap.transform.Find(collisionContainerName);
+            if (existing != null)
+            {
+                if (Application.isPlaying)
+                    Destroy(existing.gameObject);
+                else
+                    DestroyImmediate(existing.gameObject);
+            }
+
+            GameObject container = new GameObject(collisionContainerName);
+            container.transform.SetParent(tilemap.transform, false);
+            if (!string.IsNullOrWhiteSpace(collisionLayerName))
+            {
+                int layer = LayerMask.NameToLayer(collisionLayerName);
+                if (layer >= 0)
+                    container.layer = layer;
+            }
+
+            CompositeCollider2D composite = null;
+            if (useCompositeCollider)
+            {
+                Rigidbody2D rb = container.AddComponent<Rigidbody2D>();
+                rb.bodyType = RigidbodyType2D.Static;
+                composite = container.AddComponent<CompositeCollider2D>();
+                composite.geometryType = CompositeCollider2D.GeometryType.Polygons;
+            }
+
+            for (int x = 0; x < grid.width; x++)
+            {
+                for (int y = 0; y < grid.height; y++)
+                {
+                    TileType tile = grid.tiles[x, y];
+                    if (tile == null || tile.walkable) continue;
+
+                    Vector3Int cell = new Vector3Int(x, y, 0);
+                    Vector3 centerLocal = tilemap.GetCellCenterLocal(cell);
+
+                    GameObject colliderObj = new GameObject($"Collider_{x}_{y}");
+                    colliderObj.transform.SetParent(container.transform, false);
+                    colliderObj.transform.localPosition = centerLocal;
+                    colliderObj.layer = container.layer;
+
+                    BoxCollider2D box = colliderObj.AddComponent<BoxCollider2D>();
+                    box.size = new Vector2(tilemap.cellSize.x, tilemap.cellSize.y);
+                    if (composite != null)
+                    {
+                        box.usedByComposite = true;
+                    }
+                }
+            }
+
+            Physics2D.SyncTransforms();
         }
     }
 }
