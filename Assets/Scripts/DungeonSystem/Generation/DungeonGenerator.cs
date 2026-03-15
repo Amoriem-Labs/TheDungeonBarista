@@ -23,6 +23,7 @@ namespace TDB.DungeonSystem.Generate
         // used for Dungeon Drawing
         public GameObject floorPrefab;
         private DungeonGrid dungeonGrid;
+        private TileType[,] wallThemeGrid;
         [SerializeField] private TileType floorTileType;
         [SerializeField] private DungeonRenderer dungeonRenderer;
 
@@ -45,6 +46,7 @@ namespace TDB.DungeonSystem.Generate
         {
             leaves.Clear();
             dungeonGrid = new DungeonGrid(dungeonWidth, dungeonHeight);
+            wallThemeGrid = new TileType[dungeonWidth, dungeonHeight];
             Debug.Log("Generating Dungeon...");
 
             BSPNode root = new BSPNode(new RectInt(0, 0, dungeonWidth, dungeonHeight));
@@ -155,7 +157,7 @@ namespace TDB.DungeonSystem.Generate
                     if (tile == null) continue;
 
                     Vector2Int worldPos = new Vector2Int(offsetX + x, offsetY + y);
-                    dungeonGrid.SetTile(worldPos, tile);
+                    SetFloorTile(worldPos, tile, ResolveWallTile(room));
                 }
             }
 
@@ -233,16 +235,20 @@ namespace TDB.DungeonSystem.Generate
             nodeB.UsedWalls.Add(sideB);
 
 
+            RoomSO corridorThemeRoom = Random.value > 0.5f ? nodeA.roomTemplate : nodeB.roomTemplate;
+            TileType corridorFloorTile = ResolveCorridorFloor(corridorThemeRoom);
+            TileType corridorWallTile = ResolveWallTile(corridorThemeRoom);
+
             // Choose L-shaped corridor direction randomly
             if (Random.value > 0.5f)
             {
-                CreateHorizontalCorridor(pointA.x, pointB.x, pointA.y);
-                CreateVerticalCorridor(pointA.y, pointB.y, pointB.x);
+                CreateHorizontalCorridor(pointA.x, pointB.x, pointA.y, corridorFloorTile, corridorWallTile);
+                CreateVerticalCorridor(pointA.y, pointB.y, pointB.x, corridorFloorTile, corridorWallTile);
             }
             else
             {
-                CreateVerticalCorridor(pointA.y, pointB.y, pointA.x);
-                CreateHorizontalCorridor(pointA.x, pointB.x, pointB.y);
+                CreateVerticalCorridor(pointA.y, pointB.y, pointA.x, corridorFloorTile, corridorWallTile);
+                CreateHorizontalCorridor(pointA.x, pointB.x, pointB.y, corridorFloorTile, corridorWallTile);
             }
         }
 
@@ -300,23 +306,23 @@ namespace TDB.DungeonSystem.Generate
             return new Vector2Int(room.x + room.width / 2, room.y + room.height / 2);
         }
 
-        void CreateHorizontalCorridor(int xStart, int xEnd, int y)
+        void CreateHorizontalCorridor(int xStart, int xEnd, int y, TileType floorTile, TileType wallTile)
         {
             for (int x = Mathf.Min(xStart, xEnd); x <= Mathf.Max(xStart, xEnd); x++)
             {
                 Vector2Int pos = new Vector2Int(x, y);
                 floorPositions.Add(pos);
-                dungeonGrid.SetTile(new Vector2Int(x, y), floorTileType);
+                SetFloorTile(pos, floorTile, wallTile);
             }
         }
 
-        void CreateVerticalCorridor(int yStart, int yEnd, int x)
+        void CreateVerticalCorridor(int yStart, int yEnd, int x, TileType floorTile, TileType wallTile)
         {
             for (int y = Mathf.Min(yStart, yEnd); y <= Mathf.Max(yStart, yEnd); y++)
             {
                 Vector2Int pos = new Vector2Int(x, y);
                 floorPositions.Add(pos);
-                dungeonGrid.SetTile(new Vector2Int(x, y), floorTileType);
+                SetFloorTile(pos, floorTile, wallTile);
             }
         }
 
@@ -330,14 +336,15 @@ namespace TDB.DungeonSystem.Generate
                 {
                     if (dungeonGrid.GetTile(new Vector2Int(x, y)) != null) continue;
 
-                    if (HasNeighborFloor(x, y))
-                        dungeonGrid.SetTile(new Vector2Int(x, y), wallTileType);
+                    if (TryGetWallTileFromNeighbors(x, y, out TileType wallTile))
+                        dungeonGrid.SetTile(new Vector2Int(x, y), wallTile ?? wallTileType);
                 }
             }
         }
 
-        bool HasNeighborFloor(int x, int y)
+        bool TryGetWallTileFromNeighbors(int x, int y, out TileType wallTile)
         {
+            wallTile = null;
             Vector2Int[] dirs =
             {
                 Vector2Int.up,
@@ -352,11 +359,44 @@ namespace TDB.DungeonSystem.Generate
 
             foreach (var d in dirs)
             {
-                var t = dungeonGrid.GetTile(new Vector2Int(x + d.x, y + d.y));
-                if (t != null && t.walkable)
-                    return true;
+                int nx = x + d.x;
+                int ny = y + d.y;
+                TileType neighbor = dungeonGrid.GetTile(new Vector2Int(nx, ny));
+                if (neighbor != null && neighbor.walkable)
+                {
+                    TileType themedWall = wallThemeGrid[nx, ny];
+                    if (themedWall != null)
+                    {
+                        wallTile = themedWall;
+                        return true;
+                    }
+
+                    if (wallTile == null)
+                        wallTile = wallTileType;
+                }
             }
-            return false;
+            return wallTile != null;
+        }
+
+        private void SetFloorTile(Vector2Int pos, TileType floorTile, TileType wallTile)
+        {
+            if (floorTile == null) return;
+            dungeonGrid.SetTile(pos, floorTile);
+            if (floorTile.walkable && wallThemeGrid != null)
+                wallThemeGrid[pos.x, pos.y] = wallTile ?? wallTileType;
+        }
+
+        private TileType ResolveCorridorFloor(RoomSO room)
+        {
+            if (room == null) return floorTileType;
+            TileType roomFloor = room.GetCorridorFloorTile();
+            return roomFloor != null ? roomFloor : floorTileType;
+        }
+
+        private TileType ResolveWallTile(RoomSO room)
+        {
+            if (room == null) return wallTileType;
+            return room.wallTile != null ? room.wallTile : wallTileType;
         }
 
         private void TrySpawnPlayerAtRoomType(RoomType type)

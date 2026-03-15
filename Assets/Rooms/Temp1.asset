@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dab1020e440bfa44a2b3b9eb9a75c9b, type: 3}
   m_Name: Temp1
   m_EditorClassIdentifier: 
+  roomType: 0
   width: 10
   height: 10
   tiles:
@@ -115,5 +116,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   - {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  wallTile: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
+  corridorFloorTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   defaultTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   doorPositions: []

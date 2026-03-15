@@ -12,6 +12,9 @@ public class RoomSO : ScriptableObject
 
     // Flattened tile array: index = x + y * width
     public TileType[] tiles;
+    [Header("Theme")]
+    public TileType wallTile;
+    public TileType corridorFloorTile;
     [SerializeField] private TileType defaultTile;
     public List<Vector2Int> doorPositions = new List<Vector2Int>();
 
@@ -85,6 +88,31 @@ public class RoomSO : ScriptableObject
         bool onLeftOrRightEdge = local.x == 0 || local.x == width - 1;
         bool onTopOrBottomEdge = local.y == 0 || local.y == height - 1;
         return onLeftOrRightEdge || onTopOrBottomEdge;
+    }
+
+    public TileType GetCorridorFloorTile()
+    {
+        if (corridorFloorTile != null)
+            return corridorFloorTile;
+
+        if (defaultTile != null)
+            return defaultTile;
+
+        if (tiles == null)
+            return null;
+
+        TileType fallback = null;
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            TileType tile = tiles[i];
+            if (tile == null) continue;
+            if (tile.walkable)
+                return tile;
+            if (fallback == null)
+                fallback = tile;
+        }
+
+        return fallback;
     }
 }
 
