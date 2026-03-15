@@ -320,7 +320,9 @@ MonoBehaviour:
   buildColliders: 1
   useCompositeCollider: 1
   collisionContainerName: _TileColliders
-  collisionLayerName: Wall
+  collisionLayerName:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &240921862
 Transform:
   m_ObjectHideFlags: 0
@@ -402,7 +404,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.77
+  orthographic size: 2.245
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

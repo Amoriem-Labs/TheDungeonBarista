@@ -10,7 +10,7 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private bool buildColliders = true;
         [SerializeField] private bool useCompositeCollider = true;
         [SerializeField] private string collisionContainerName = "_TileColliders";
-        [SerializeField] private string collisionLayerName = "WallCollision";
+        [SerializeField] private LayerMask collisionLayerName;
 
         public void Render(DungeonGrid grid)
         {
@@ -119,15 +119,16 @@ namespace TDB.DungeonSystem.Generate
 
             GameObject container = new GameObject(collisionContainerName);
             container.transform.SetParent(tilemap.transform, false);
-            if (!string.IsNullOrWhiteSpace(collisionLayerName))
-            {
-                int layer = LayerMask.NameToLayer(collisionLayerName);
-                if (layer >= 0)
-                    container.layer = layer;
-                else
-                    Debug.LogWarning($"Layer '{collisionLayerName}' not found. Colliders will use Default layer.");
-            }
-
+            // if (!string.IsNullOrWhiteSpace(collisionLayerName))
+            // {
+            //     int layer = LayerMask.NameToLayer(collisionLayerName);
+            //     if (layer >= 0)
+            //         container.layer = layer;
+            //     else
+            //         Debug.LogWarning($"Layer '{collisionLayerName}' not found. Colliders will use Default layer.");
+            // }
+            container.layer = Mathf.RoundToInt(Mathf.Log(collisionLayerName.value, 2)); 
+            
             CompositeCollider2D composite = null;
             if (useCompositeCollider)
             {
