@@ -404,7 +404,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.245
+  orthographic size: 2.895
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -623,90 +623,6 @@ MonoBehaviour:
   collectibleGenerator: {fileID: 2049241821}
   roomLibrary: {fileID: 11400000, guid: 77a5e3d67a58fea45b2fe34c3908bd53, type: 2}
   wallTileType: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
---- !u!1 &449918089
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 449918091}
-  - component: {fileID: 449918090}
-  m_Layer: 0
-  m_Name: backgroumd
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &449918090
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449918089}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.31764707, g: 0.4627451, b: 0.47058824, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &449918091
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449918089}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 63.722862, y: 56.07294, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &804569952 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
@@ -743,6 +659,14 @@ PrefabInstance:
     - target: {fileID: 979224893873611681, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -965,6 +889,18 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7732879303920713916, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732879303920713916, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6563192
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732879303920713916, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5624777
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732879303920713916, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
@@ -1104,4 +1040,3 @@ SceneRoots:
   - {fileID: 175825201}
   - {fileID: 2049241822}
   - {fileID: 1884060690}
-  - {fileID: 449918091}
