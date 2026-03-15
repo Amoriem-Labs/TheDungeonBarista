@@ -61,6 +61,7 @@ namespace TDB.DungeonSystem.Generate
             //DrawDungeon();
             collectibleGenerator.SpawnCollectibles(floorPositions);
         }
+        
 
         void Split(BSPNode node)
         {
@@ -209,6 +210,7 @@ namespace TDB.DungeonSystem.Generate
             return ChooseRepresentative(leftRepresentative, rightRepresentative);
         }
 
+
         private BSPNode ChooseRepresentative(BSPNode leftRepresentative, BSPNode rightRepresentative)
         {
             if (leftRepresentative == null) return rightRepresentative;
@@ -224,6 +226,13 @@ namespace TDB.DungeonSystem.Generate
             if (!TryGetClosestDoorPair(nodeA, nodeB, out Vector2Int pointA, out Vector2Int pointB))
                 return;
 
+            //Update used walls:
+            WallSide sideA = GetWallSide(nodeA.room.Value, pointA);
+            WallSide sideB = GetWallSide(nodeB.room.Value, pointB);
+            nodeA.UsedWalls.Add(sideA);
+            nodeB.UsedWalls.Add(sideB);
+
+
             // Choose L-shaped corridor direction randomly
             if (Random.value > 0.5f)
             {
@@ -237,8 +246,16 @@ namespace TDB.DungeonSystem.Generate
             }
         }
 
+        private WallSide GetWallSide(RectInt room, Vector2Int point) {
+            if (point.y == room.yMax - 1) return WallSide.North;
+            if (point.y == room.yMin) return WallSide.South;
+            if (point.x == room.xMax - 1) return WallSide.East;
+            return WallSide.West;
+        }
+
         private bool TryGetClosestDoorPair(BSPNode nodeA, BSPNode nodeB, out Vector2Int pointA, out Vector2Int pointB)
         {
+            
             pointA = GetRoomCenter(nodeA.room.Value);
             pointB = GetRoomCenter(nodeB.room.Value);
 
@@ -253,8 +270,18 @@ namespace TDB.DungeonSystem.Generate
             int bestDistance = int.MaxValue;
             for (int i = 0; i < doorsA.Count; i++)
             {
+                //Check if wall has been used already
+                Vector2Int worldA = nodeA.room.Value.position + doorsA[i];
+                WallSide sideA = GetWallSide(nodeA.room.Value, worldA);
+                if(nodeA.UsedWalls.Count != 4 && nodeA.UsedWalls.Contains(sideA)) continue;
+
                 for (int j = 0; j < doorsB.Count; j++)
                 {
+                    //Check if wall has been used already
+                    Vector2Int worldB = nodeB.room.Value.position + doorsB[i];
+                    WallSide sideB = GetWallSide(nodeB.room.Value, worldB);
+                    if(nodeB.UsedWalls.Count != 4 && nodeB.UsedWalls.Contains(sideB)) continue;
+                    
                     int distance = Mathf.Abs(doorsA[i].x - doorsB[j].x) + Mathf.Abs(doorsA[i].y - doorsB[j].y);
                     if (distance < bestDistance)
                     {

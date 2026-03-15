@@ -11,6 +11,8 @@ using UnityEngine;
 
 namespace TDB.DungeonSystem.BSP
 {
+    public enum WallSide { North, South, East, West }
+
     public class BSPNode
     {
         // area of the node
@@ -20,7 +22,7 @@ namespace TDB.DungeonSystem.BSP
         // rectangle in this room
         public RectInt? room;
         public RoomSO roomTemplate;
-
+        public List<WallSide> UsedWalls = new List<WallSide>();
 
         // ================================
         // Public Methods
