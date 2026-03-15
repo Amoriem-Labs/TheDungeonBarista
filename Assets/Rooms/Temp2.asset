@@ -31,4 +31,5 @@ MonoBehaviour:
   wallTile: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
   corridorFloorTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   defaultTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
-  doorPositions: []
+  doorPositions:
+  - {x: 0, y: 2}

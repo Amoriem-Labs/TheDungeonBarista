@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TDB.DungeonSystem.BSP;
 using TDB.DungeonSystem.Core;
+using TDB.DungeonSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,6 +32,11 @@ namespace TDB.DungeonSystem.Generate
         private HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
         [SerializeField] private CollectibleGenerator collectibleGenerator;
 
+        [Header("Teleporters")]
+        [SerializeField] private TileType teleporterTileType;
+        [SerializeField] private Teleporter teleporterPrefab;
+        [SerializeField] private string teleporterContainerName = "_Teleporters";
+        private Transform _teleporterContainer;
 
         [SerializeField] private RoomLibrary roomLibrary;
         private RoomChooser _roomChooser;
@@ -47,6 +53,7 @@ namespace TDB.DungeonSystem.Generate
             leaves.Clear();
             dungeonGrid = new DungeonGrid(dungeonWidth, dungeonHeight);
             wallThemeGrid = new TileType[dungeonWidth, dungeonHeight];
+            ClearTeleporters();
             Debug.Log("Generating Dungeon...");
 
             BSPNode root = new BSPNode(new RectInt(0, 0, dungeonWidth, dungeonHeight));
@@ -138,7 +145,10 @@ namespace TDB.DungeonSystem.Generate
 
             int offsetX = node.rect.x + (node.rect.width - room.width) / 2;
             int offsetY = node.rect.y + (node.rect.height - room.height) / 2;
-
+            
+            // RectInt roomRect = new RectInt(offsetX, offsetY, room.width, room.height);
+            // node.room = roomRect;
+            // node.roomTemplate = room;
             // TODO: Remove after testing, this generates a standard room
             if (room.tiles == null || room.tiles.Length != room.width * room.height)
             {
@@ -234,22 +244,7 @@ namespace TDB.DungeonSystem.Generate
             nodeA.UsedWalls.Add(sideA);
             nodeB.UsedWalls.Add(sideB);
 
-
-            RoomSO corridorThemeRoom = Random.value > 0.5f ? nodeA.roomTemplate : nodeB.roomTemplate;
-            TileType corridorFloorTile = ResolveCorridorFloor(corridorThemeRoom);
-            TileType corridorWallTile = ResolveWallTile(corridorThemeRoom);
-
-            // Choose L-shaped corridor direction randomly
-            if (Random.value > 0.5f)
-            {
-                CreateHorizontalCorridor(pointA.x, pointB.x, pointA.y, corridorFloorTile, corridorWallTile);
-                CreateVerticalCorridor(pointA.y, pointB.y, pointB.x, corridorFloorTile, corridorWallTile);
-            }
-            else
-            {
-                CreateVerticalCorridor(pointA.y, pointB.y, pointA.x, corridorFloorTile, corridorWallTile);
-                CreateHorizontalCorridor(pointA.x, pointB.x, pointB.y, corridorFloorTile, corridorWallTile);
-            }
+            CreateTeleporterPair(pointA, pointB, nodeA.roomTemplate, nodeB.roomTemplate);
         }
 
         private WallSide GetWallSide(RectInt room, Vector2Int point) {
@@ -304,26 +299,6 @@ namespace TDB.DungeonSystem.Generate
         private Vector2Int GetRoomCenter(RectInt room)
         {
             return new Vector2Int(room.x + room.width / 2, room.y + room.height / 2);
-        }
-
-        void CreateHorizontalCorridor(int xStart, int xEnd, int y, TileType floorTile, TileType wallTile)
-        {
-            for (int x = Mathf.Min(xStart, xEnd); x <= Mathf.Max(xStart, xEnd); x++)
-            {
-                Vector2Int pos = new Vector2Int(x, y);
-                floorPositions.Add(pos);
-                SetFloorTile(pos, floorTile, wallTile);
-            }
-        }
-
-        void CreateVerticalCorridor(int yStart, int yEnd, int x, TileType floorTile, TileType wallTile)
-        {
-            for (int y = Mathf.Min(yStart, yEnd); y <= Mathf.Max(yStart, yEnd); y++)
-            {
-                Vector2Int pos = new Vector2Int(x, y);
-                floorPositions.Add(pos);
-                SetFloorTile(pos, floorTile, wallTile);
-            }
         }
 
         [SerializeField] private TileType wallTileType; // assign in Inspector
@@ -383,20 +358,68 @@ namespace TDB.DungeonSystem.Generate
             if (floorTile == null) return;
             dungeonGrid.SetTile(pos, floorTile);
             if (floorTile.walkable && wallThemeGrid != null)
+            {
                 wallThemeGrid[pos.x, pos.y] = wallTile ?? wallTileType;
-        }
-
-        private TileType ResolveCorridorFloor(RoomSO room)
-        {
-            if (room == null) return floorTileType;
-            TileType roomFloor = room.GetCorridorFloorTile();
-            return roomFloor != null ? roomFloor : floorTileType;
+                floorPositions.Add(pos);
+            }
         }
 
         private TileType ResolveWallTile(RoomSO room)
         {
             if (room == null) return wallTileType;
             return room.wallTile != null ? room.wallTile : wallTileType;
+        }
+
+        private void CreateTeleporterPair(Vector2Int pointA, Vector2Int pointB, RoomSO roomA, RoomSO roomB)
+        {
+            TileType teleporterTile = teleporterTileType != null ? teleporterTileType : floorTileType;
+            if (teleporterTile != null)
+            {
+                SetFloorTile(pointA, teleporterTile, ResolveWallTile(roomA));
+                SetFloorTile(pointB, teleporterTile, ResolveWallTile(roomB));
+            }
+
+            Teleporter teleporterA = SpawnTeleporter(pointA);
+            Teleporter teleporterB = SpawnTeleporter(pointB);
+
+            if (teleporterA != null && teleporterB != null)
+            {
+                teleporterA.LinkTo(teleporterB);
+                teleporterB.LinkTo(teleporterA);
+            }
+        }
+
+        private Teleporter SpawnTeleporter(Vector2Int cell)
+        {
+            if (teleporterPrefab == null) return null;
+
+            EnsureTeleporterContainer();
+            Vector3 worldPos = dungeonRenderer != null
+                ? dungeonRenderer.GetCellCenterWorld(cell)
+                : new Vector3(cell.x, cell.y, 0f);
+
+            return Instantiate(teleporterPrefab, worldPos, Quaternion.identity, _teleporterContainer);
+        }
+
+        private void EnsureTeleporterContainer()
+        {
+            if (_teleporterContainer != null) return;
+            GameObject container = new GameObject(teleporterContainerName);
+            container.transform.SetParent(transform, false);
+            _teleporterContainer = container.transform;
+        }
+
+        private void ClearTeleporters()
+        {
+            Transform existing = transform.Find(teleporterContainerName);
+            if (existing == null) return;
+
+            if (Application.isPlaying)
+                Destroy(existing.gameObject);
+            else
+                DestroyImmediate(existing.gameObject);
+
+            _teleporterContainer = null;
         }
 
         private void TrySpawnPlayerAtRoomType(RoomType type)
