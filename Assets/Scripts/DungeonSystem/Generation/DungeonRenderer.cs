@@ -11,7 +11,9 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private bool useCompositeCollider = true;
         [SerializeField] private string collisionContainerName = "_TileColliders";
         [SerializeField] private LayerMask collisionLayerName;
-
+        [SerializeField] private Tilemap backgroundTilemap;
+        [SerializeField] private TileBase waterTile; 
+        [SerializeField] private int borderPadding = 5;
         public void Render(DungeonGrid grid)
         {
             tilemap.ClearAllTiles();
@@ -46,6 +48,21 @@ namespace TDB.DungeonSystem.Generate
             if (buildColliders)
             {
                 BuildTileColliders(grid);
+            }
+            FillBackground(grid);
+
+        }
+        private void FillBackground(DungeonGrid grid)
+        {
+        backgroundTilemap.ClearAllTiles();
+
+            for (int x = -borderPadding; x < grid.width + borderPadding; x++)
+            {
+                for (int y = -borderPadding; y < grid.height + borderPadding; y++)
+                {
+                    Vector3Int cell = new Vector3Int(x, y, 0);
+                    backgroundTilemap.SetTile(cell, waterTile);
+                }
             }
         }
 
@@ -128,7 +145,7 @@ namespace TDB.DungeonSystem.Generate
             //         Debug.LogWarning($"Layer '{collisionLayerName}' not found. Colliders will use Default layer.");
             // }
             container.layer = Mathf.RoundToInt(Mathf.Log(collisionLayerName.value, 2)); 
-            
+
             CompositeCollider2D composite = null;
             if (useCompositeCollider)
             {
