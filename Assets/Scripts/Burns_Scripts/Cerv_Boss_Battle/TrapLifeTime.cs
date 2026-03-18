@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TDB
 {
-    public class ProjectileDamage : MonoBehaviour
+    public class TrapLifteTime : MonoBehaviour
     {
         public float lifetime = 3f;
 

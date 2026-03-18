@@ -31,6 +31,9 @@ namespace TDB
         {
             if (other.CompareTag("Player"))
             {
+                PlayerDungeon = other.GetComponent<EntityData>();
+                if (PlayerDungeon == null)
+                return;
                 if (ItemValue == 1)
                 {
                    StartCoroutine(TemporarySpeedBoost());
@@ -137,15 +140,21 @@ namespace TDB
             // THERE IS A POTENTIAL FOR A BUG HERE WHERE THE PLAYER COULD HAVE A 
             // TEMPORARY MAX SPEED THAT IS DIFFERENT FROM WHAT IS NORMAL SO WHEN 
             // THE CODE TRIES TO RESET THE SPEED IT RESETS TO THE INCORRECT VALUE
-            float normalSpeed = PlayerDungeon.MaxSpeed;
+            
+            float originalSpeed = PlayerDungeon.MaxSpeed;
+
             PlayerDungeon.MaxSpeed = 0;
 
-            // Pauses the code for 5 seconds before decreasing the values
             yield return new WaitForSeconds(5);
 
-            PlayerDungeon.MaxSpeed = normalSpeed;
+            // Only reset if still zero (prevents overwriting other effects)
+            if (PlayerDungeon.MaxSpeed == 0)
+            {
+                PlayerDungeon.MaxSpeed = originalSpeed;
+            }
 
             Destroy(gameObject);
+
         }
     }
 }
