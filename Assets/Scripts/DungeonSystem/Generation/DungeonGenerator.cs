@@ -37,6 +37,7 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private Teleporter teleporterPrefab;
         [SerializeField] private string teleporterContainerName = "_Teleporters";
         private Transform _teleporterContainer;
+        private readonly HashSet<Vector2Int> _teleporterCells = new HashSet<Vector2Int>();
 
         [SerializeField] private RoomLibrary roomLibrary;
         private RoomChooser _roomChooser;
@@ -54,6 +55,7 @@ namespace TDB.DungeonSystem.Generate
             dungeonGrid = new DungeonGrid(dungeonWidth, dungeonHeight);
             wallThemeGrid = new TileType[dungeonWidth, dungeonHeight];
             ClearTeleporters();
+            _teleporterCells.Clear();
             Debug.Log("Generating Dungeon...");
 
             BSPNode root = new BSPNode(new RectInt(0, 0, dungeonWidth, dungeonHeight));
@@ -239,10 +241,17 @@ namespace TDB.DungeonSystem.Generate
                 return;
 
             //Update used walls:
-            WallSide sideA = GetWallSide(nodeA.room.Value, pointA);
-            WallSide sideB = GetWallSide(nodeB.room.Value, pointB);
-            nodeA.UsedWalls.Add(sideA);
-            nodeB.UsedWalls.Add(sideB);
+            if (IsPointOnRoomPerimeter(nodeA.room.Value, pointA))
+            {
+                WallSide sideA = GetWallSide(nodeA.room.Value, pointA);
+                nodeA.UsedWalls.Add(sideA);
+            }
+
+            if (IsPointOnRoomPerimeter(nodeB.room.Value, pointB))
+            {
+                WallSide sideB = GetWallSide(nodeB.room.Value, pointB);
+                nodeB.UsedWalls.Add(sideB);
+            }
 
             CreateTeleporterPair(pointA, pointB, nodeA.roomTemplate, nodeB.roomTemplate);
         }
@@ -254,46 +263,69 @@ namespace TDB.DungeonSystem.Generate
             return WallSide.West;
         }
 
+        private bool IsPointOnRoomPerimeter(RectInt room, Vector2Int point)
+        {
+            if (point.x < room.xMin || point.y < room.yMin || point.x >= room.xMax || point.y >= room.yMax)
+                return false;
+
+            bool onLeftOrRightEdge = point.x == room.xMin || point.x == room.xMax - 1;
+            bool onTopOrBottomEdge = point.y == room.yMin || point.y == room.yMax - 1;
+            return onLeftOrRightEdge || onTopOrBottomEdge;
+        }
+
         private bool TryGetClosestDoorPair(BSPNode nodeA, BSPNode nodeB, out Vector2Int pointA, out Vector2Int pointB)
         {
-            
             pointA = GetRoomCenter(nodeA.room.Value);
             pointB = GetRoomCenter(nodeB.room.Value);
 
             List<Vector2Int> doorsA = nodeA.roomTemplate.GetDoorWorldPositions(nodeA.room.Value);
             List<Vector2Int> doorsB = nodeB.roomTemplate.GetDoorWorldPositions(nodeB.room.Value);
 
-            if (doorsA.Count == 0 || doorsB.Count == 0)
-            {
-                return true;
-            }
+            bool usedFallbackA = doorsA.Count == 0;
+            bool usedFallbackB = doorsB.Count == 0;
+
+            if (usedFallbackA)
+                doorsA = new List<Vector2Int> { pointA };
+            if (usedFallbackB)
+                doorsB = new List<Vector2Int> { pointB };
 
             int bestDistance = int.MaxValue;
+            bool found = false;
+
             for (int i = 0; i < doorsA.Count; i++)
             {
-                //Check if wall has been used already
-                Vector2Int worldA = nodeA.room.Value.position + doorsA[i];
-                WallSide sideA = GetWallSide(nodeA.room.Value, worldA);
-                if(nodeA.UsedWalls.Count != 4 && nodeA.UsedWalls.Contains(sideA)) continue;
+                Vector2Int candidateA = doorsA[i];
+                if (!IsTeleporterCellFree(candidateA)) continue;
+
+                if (!usedFallbackA)
+                {
+                    WallSide sideA = GetWallSide(nodeA.room.Value, candidateA);
+                    if (nodeA.UsedWalls.Count != 4 && nodeA.UsedWalls.Contains(sideA)) continue;
+                }
 
                 for (int j = 0; j < doorsB.Count; j++)
                 {
-                    //Check if wall has been used already
-                    Vector2Int worldB = nodeB.room.Value.position + doorsB[i];
-                    WallSide sideB = GetWallSide(nodeB.room.Value, worldB);
-                    if(nodeB.UsedWalls.Count != 4 && nodeB.UsedWalls.Contains(sideB)) continue;
-                    
-                    int distance = Mathf.Abs(doorsA[i].x - doorsB[j].x) + Mathf.Abs(doorsA[i].y - doorsB[j].y);
+                    Vector2Int candidateB = doorsB[j];
+                    if (!IsTeleporterCellFree(candidateB)) continue;
+
+                    if (!usedFallbackB)
+                    {
+                        WallSide sideB = GetWallSide(nodeB.room.Value, candidateB);
+                        if (nodeB.UsedWalls.Count != 4 && nodeB.UsedWalls.Contains(sideB)) continue;
+                    }
+
+                    int distance = Mathf.Abs(candidateA.x - candidateB.x) + Mathf.Abs(candidateA.y - candidateB.y);
                     if (distance < bestDistance)
                     {
                         bestDistance = distance;
-                        pointA = doorsA[i];
-                        pointB = doorsB[j];
+                        pointA = candidateA;
+                        pointB = candidateB;
+                        found = true;
                     }
                 }
             }
 
-            return true;
+            return found;
         }
 
         private Vector2Int GetRoomCenter(RectInt room)
@@ -372,6 +404,9 @@ namespace TDB.DungeonSystem.Generate
 
         private void CreateTeleporterPair(Vector2Int pointA, Vector2Int pointB, RoomSO roomA, RoomSO roomB)
         {
+            if (!TryReserveTeleporterCells(pointA, pointB))
+                return;
+
             TileType teleporterTile = teleporterTileType != null ? teleporterTileType : floorTileType;
             if (teleporterTile != null)
             {
@@ -420,6 +455,34 @@ namespace TDB.DungeonSystem.Generate
                 DestroyImmediate(existing.gameObject);
 
             _teleporterContainer = null;
+        }
+
+        private bool TryReserveTeleporterCells(Vector2Int cellA, Vector2Int cellB)
+        {
+            if (!IsTeleporterCellFree(cellA) || !IsTeleporterCellFree(cellB))
+                return false;
+
+            bool addedA = _teleporterCells.Add(cellA);
+            bool addedB = _teleporterCells.Add(cellB);
+
+            if (addedA && addedB)
+                return true;
+
+            if (addedA) _teleporterCells.Remove(cellA);
+            if (addedB) _teleporterCells.Remove(cellB);
+            return false;
+        }
+
+        private bool IsTeleporterCellFree(Vector2Int cell)
+        {
+            if (cell.x < 0 || cell.y < 0 || cell.x >= dungeonWidth || cell.y >= dungeonHeight)
+                return false;
+
+            if (_teleporterCells.Contains(cell))
+                return false;
+
+            TileType tile = dungeonGrid.GetTile(cell);
+            return tile != null;
         }
 
         private void TrySpawnPlayerAtRoomType(RoomType type)
