@@ -278,41 +278,21 @@ namespace TDB.DungeonSystem.Generate
             pointA = GetRoomCenter(nodeA.room.Value);
             pointB = GetRoomCenter(nodeB.room.Value);
 
-            List<Vector2Int> doorsA = nodeA.roomTemplate.GetDoorWorldPositions(nodeA.room.Value);
-            List<Vector2Int> doorsB = nodeB.roomTemplate.GetDoorWorldPositions(nodeB.room.Value);
-
-            bool usedFallbackA = doorsA.Count == 0;
-            bool usedFallbackB = doorsB.Count == 0;
-
-            if (usedFallbackA)
-                doorsA = new List<Vector2Int> { pointA };
-            if (usedFallbackB)
-                doorsB = new List<Vector2Int> { pointB };
+            List<Vector2Int> candidatesA = BuildTeleporterCandidates(nodeA);
+            List<Vector2Int> candidatesB = BuildTeleporterCandidates(nodeB);
 
             int bestDistance = int.MaxValue;
             bool found = false;
 
-            for (int i = 0; i < doorsA.Count; i++)
+            for (int i = 0; i < candidatesA.Count; i++)
             {
-                Vector2Int candidateA = doorsA[i];
+                Vector2Int candidateA = candidatesA[i];
                 if (!IsTeleporterCellFree(candidateA)) continue;
 
-                if (!usedFallbackA)
+                for (int j = 0; j < candidatesB.Count; j++)
                 {
-                    WallSide sideA = GetWallSide(nodeA.room.Value, candidateA);
-                    if (nodeA.UsedWalls.Count != 4 && nodeA.UsedWalls.Contains(sideA)) continue;
-                }
-
-                for (int j = 0; j < doorsB.Count; j++)
-                {
-                    Vector2Int candidateB = doorsB[j];
+                    Vector2Int candidateB = candidatesB[j];
                     if (!IsTeleporterCellFree(candidateB)) continue;
-
-                    if (!usedFallbackB)
-                    {
-                        WallSide sideB = GetWallSide(nodeB.room.Value, candidateB);
-                        if (nodeB.UsedWalls.Count != 4 && nodeB.UsedWalls.Contains(sideB)) continue;
-                    }
 
                     int distance = Mathf.Abs(candidateA.x - candidateB.x) + Mathf.Abs(candidateA.y - candidateB.y);
                     if (distance < bestDistance)
@@ -326,6 +306,54 @@ namespace TDB.DungeonSystem.Generate
             }
 
             return found;
+        }
+
+        private List<Vector2Int> BuildTeleporterCandidates(BSPNode node)
+        {
+            RectInt roomRect = node.room.Value;
+            HashSet<Vector2Int> unique = new HashSet<Vector2Int>();
+
+            List<Vector2Int> doors = node.roomTemplate.GetDoorWorldPositions(roomRect);
+            for (int i = 0; i < doors.Count; i++)
+            {
+                Vector2Int door = doors[i];
+                if (IsPointOnRoomPerimeter(roomRect, door))
+                    unique.Add(door);
+            }
+
+            foreach (Vector2Int cell in EnumerateRoomPerimeter(roomRect))
+            {
+                unique.Add(cell);
+            }
+
+            if (unique.Count == 0)
+            {
+                unique.Add(GetRoomCenter(roomRect));
+            }
+
+            return new List<Vector2Int>(unique);
+        }
+
+        private IEnumerable<Vector2Int> EnumerateRoomPerimeter(RectInt room)
+        {
+            int xMin = room.xMin;
+            int xMax = room.xMax - 1;
+            int yMin = room.yMin;
+            int yMax = room.yMax - 1;
+
+            for (int x = xMin; x <= xMax; x++)
+            {
+                yield return new Vector2Int(x, yMin);
+                if (yMax != yMin)
+                    yield return new Vector2Int(x, yMax);
+            }
+
+            for (int y = yMin + 1; y <= yMax - 1; y++)
+            {
+                yield return new Vector2Int(xMin, y);
+                if (xMax != xMin)
+                    yield return new Vector2Int(xMax, y);
+            }
         }
 
         private Vector2Int GetRoomCenter(RectInt room)
@@ -478,11 +506,7 @@ namespace TDB.DungeonSystem.Generate
             if (cell.x < 0 || cell.y < 0 || cell.x >= dungeonWidth || cell.y >= dungeonHeight)
                 return false;
 
-            if (_teleporterCells.Contains(cell))
-                return false;
-
-            TileType tile = dungeonGrid.GetTile(cell);
-            return tile != null;
+            return !_teleporterCells.Contains(cell);
         }
 
         private void TrySpawnPlayerAtRoomType(RoomType type)
