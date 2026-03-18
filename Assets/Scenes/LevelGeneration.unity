@@ -747,6 +747,13 @@ MonoBehaviour:
   teleporterTileType: {fileID: 11400000, guid: 247fb66e4002e6b439de5eb81048b0f5, type: 2}
   teleporterPrefab: {fileID: 5982658734897324282, guid: e45d04fe41e349f43961c8bd395ffd97, type: 3}
   teleporterContainerName: _Teleporters
+  enemySpawnTileType: {fileID: 11400000, guid: ad8bb9b9eb22f3e4ea328f20d8590674, type: 2}
+  enemyPrefab: {fileID: 7219694119811069261, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
+  chestTileType: {fileID: 11400000, guid: 1e0eb0510bb161d45aab0980d7a11016, type: 2}
+  chestPrefab: {fileID: 8377756249332056541, guid: dd45b97c8fceaa24cb13be5b909d512e, type: 3}
+  trapTileType: {fileID: 11400000, guid: b2d2669809f373741bf1c608df04ace1, type: 2}
+  trapPrefab: {fileID: 1180474359}
+  roomControllerContainerName: _RoomControllers
   roomLibrary: {fileID: 11400000, guid: 77a5e3d67a58fea45b2fe34c3908bd53, type: 2}
   wallTileType: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
 --- !u!4 &442921246 stripped
@@ -886,6 +893,11 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1 &1180474359 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5095179235880244926, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
+  m_PrefabInstance: {fileID: 1884060690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1884060690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -920,11 +932,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1326326037302748444, guid: a3784fdb442c0c9499bc54142ddb278b, type: 3}
       propertyPath: m_LocalPosition.x

@@ -39,6 +39,17 @@ namespace TDB.DungeonSystem.Generate
         private Transform _teleporterContainer;
         private readonly HashSet<Vector2Int> _teleporterCells = new HashSet<Vector2Int>();
 
+        [Header("Room Spawns")]
+        [SerializeField] private TileType enemySpawnTileType;
+        [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private TileType chestTileType;
+        [SerializeField] private GameObject chestPrefab;
+        [SerializeField] private TileType trapTileType;
+        [SerializeField] private GameObject trapPrefab;
+        [SerializeField] private string roomControllerContainerName = "_RoomControllers";
+        private Transform _roomControllerContainer;
+        private readonly Dictionary<RectInt, DungeonRoomController> _roomControllers = new Dictionary<RectInt, DungeonRoomController>();
+
         [SerializeField] private RoomLibrary roomLibrary;
         private RoomChooser _roomChooser;
 
@@ -56,6 +67,8 @@ namespace TDB.DungeonSystem.Generate
             wallThemeGrid = new TileType[dungeonWidth, dungeonHeight];
             ClearTeleporters();
             _teleporterCells.Clear();
+            ClearRoomControllers();
+            _roomControllers.Clear();
             Debug.Log("Generating Dungeon...");
 
             BSPNode root = new BSPNode(new RectInt(0, 0, dungeonWidth, dungeonHeight));
@@ -159,6 +172,10 @@ namespace TDB.DungeonSystem.Generate
                     room.tiles[i] = room.tiles[i];
             }
 
+            List<Vector2Int> enemySpawns = new List<Vector2Int>();
+            List<Vector2Int> chestSpawns = new List<Vector2Int>();
+            List<Vector2Int> trapSpawns = new List<Vector2Int>();
+
             for (int y = 0; y < room.height; y++)
             {
                 for (int x = 0; x < room.width; x++)
@@ -170,11 +187,21 @@ namespace TDB.DungeonSystem.Generate
 
                     Vector2Int worldPos = new Vector2Int(offsetX + x, offsetY + y);
                     SetFloorTile(worldPos, tile, ResolveWallTile(room));
+
+                    if (tile == enemySpawnTileType)
+                        enemySpawns.Add(worldPos);
+                    if (tile == chestTileType)
+                        chestSpawns.Add(worldPos);
+                    if (tile == trapTileType)
+                        trapSpawns.Add(worldPos);
                 }
             }
 
             node.room = new RectInt(offsetX, offsetY, room.width, room.height);
             node.roomTemplate = room;
+
+            DungeonRoomController roomController = CreateRoomController(node.room.Value, room, enemySpawns, chestSpawns, trapSpawns);
+            _roomControllers[node.room.Value] = roomController;
         }
 
         void DrawDungeon()
@@ -253,7 +280,7 @@ namespace TDB.DungeonSystem.Generate
                 nodeB.UsedWalls.Add(sideB);
             }
 
-            CreateTeleporterPair(pointA, pointB, nodeA.roomTemplate, nodeB.roomTemplate);
+            CreateTeleporterPair(pointA, pointB, nodeA, nodeB);
         }
 
         private WallSide GetWallSide(RectInt room, Vector2Int point) {
@@ -430,7 +457,7 @@ namespace TDB.DungeonSystem.Generate
             return room.wallTile != null ? room.wallTile : wallTileType;
         }
 
-        private void CreateTeleporterPair(Vector2Int pointA, Vector2Int pointB, RoomSO roomA, RoomSO roomB)
+        private void CreateTeleporterPair(Vector2Int pointA, Vector2Int pointB, BSPNode nodeA, BSPNode nodeB)
         {
             if (!TryReserveTeleporterCells(pointA, pointB))
                 return;
@@ -438,8 +465,8 @@ namespace TDB.DungeonSystem.Generate
             TileType teleporterTile = teleporterTileType != null ? teleporterTileType : floorTileType;
             if (teleporterTile != null)
             {
-                SetFloorTile(pointA, teleporterTile, ResolveWallTile(roomA));
-                SetFloorTile(pointB, teleporterTile, ResolveWallTile(roomB));
+                SetFloorTile(pointA, teleporterTile, ResolveWallTile(nodeA.roomTemplate));
+                SetFloorTile(pointB, teleporterTile, ResolveWallTile(nodeB.roomTemplate));
             }
 
             Teleporter teleporterA = SpawnTeleporter(pointA);
@@ -447,8 +474,17 @@ namespace TDB.DungeonSystem.Generate
 
             if (teleporterA != null && teleporterB != null)
             {
+                DungeonRoomController roomA = GetRoomController(nodeA.room.Value);
+                DungeonRoomController roomB = GetRoomController(nodeB.room.Value);
+
                 teleporterA.LinkTo(teleporterB);
                 teleporterB.LinkTo(teleporterA);
+
+                teleporterA.SetRoomLinks(roomA, roomB);
+                teleporterB.SetRoomLinks(roomB, roomA);
+
+                roomA?.RegisterTeleporter(teleporterA);
+                roomB?.RegisterTeleporter(teleporterB);
             }
         }
 
@@ -483,6 +519,58 @@ namespace TDB.DungeonSystem.Generate
                 DestroyImmediate(existing.gameObject);
 
             _teleporterContainer = null;
+        }
+
+        private DungeonRoomController CreateRoomController(
+            RectInt roomRect,
+            RoomSO room,
+            List<Vector2Int> enemySpawns,
+            List<Vector2Int> chestSpawns,
+            List<Vector2Int> trapSpawns)
+        {
+            EnsureRoomControllerContainer();
+
+            GameObject roomObj = new GameObject($"Room_{roomRect.x}_{roomRect.y}");
+            roomObj.transform.SetParent(_roomControllerContainer, false);
+            DungeonRoomController controller = roomObj.AddComponent<DungeonRoomController>();
+            controller.Initialize(
+                roomRect,
+                room,
+                dungeonRenderer,
+                enemyPrefab,
+                chestPrefab,
+                trapPrefab,
+                enemySpawns,
+                chestSpawns,
+                trapSpawns);
+            return controller;
+        }
+
+        private DungeonRoomController GetRoomController(RectInt roomRect)
+        {
+            _roomControllers.TryGetValue(roomRect, out DungeonRoomController controller);
+            return controller;
+        }
+
+        private void EnsureRoomControllerContainer()
+        {
+            if (_roomControllerContainer != null) return;
+            GameObject container = new GameObject(roomControllerContainerName);
+            container.transform.SetParent(transform, false);
+            _roomControllerContainer = container.transform;
+        }
+
+        private void ClearRoomControllers()
+        {
+            Transform existing = transform.Find(roomControllerContainerName);
+            if (existing == null) return;
+
+            if (Application.isPlaying)
+                Destroy(existing.gameObject);
+            else
+                DestroyImmediate(existing.gameObject);
+
+            _roomControllerContainer = null;
         }
 
         private bool TryReserveTeleporterCells(Vector2Int cellA, Vector2Int cellB)
@@ -529,6 +617,9 @@ namespace TDB.DungeonSystem.Generate
 
             spawnWorld.z = player.transform.position.z;
             player.transform.position = spawnWorld;
+
+            DungeonRoomController spawnRoom = GetRoomController(spawnNode.room.Value);
+            spawnRoom?.HandlePlayerEntered();
         }
 
         private BSPNode FindRoomByType(RoomType type)
