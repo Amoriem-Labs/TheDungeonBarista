@@ -12,4 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f53a79201ad67248a2a47e7ebb4feda, type: 3}
   m_Name: Teleporter
   m_EditorClassIdentifier: 
-  rules: []
+  rules:
+  - shape: 0
+    priority: 0
+    outputTile: {fileID: 11400000, guid: 9a48f54fac85d564a857a403acdf7220, type: 2}
+    requiredFilled: 1
+    requiredEmpty: 0
+    allowRotation: 0
+  - shape: 0
+    priority: 0
+    outputTile: {fileID: 11400000, guid: 9a48f54fac85d564a857a403acdf7220, type: 2}
+    requiredFilled: 2
+    requiredEmpty: 0
+    allowRotation: 0
+  - shape: 0
+    priority: 0
+    outputTile: {fileID: 11400000, guid: 9a48f54fac85d564a857a403acdf7220, type: 2}
+    requiredFilled: 8
+    requiredEmpty: 0
+    allowRotation: 0
+  - shape: 0
+    priority: 0
+    outputTile: {fileID: 11400000, guid: 9a48f54fac85d564a857a403acdf7220, type: 2}
+    requiredFilled: 4
+    requiredEmpty: 0
+    allowRotation: 0
