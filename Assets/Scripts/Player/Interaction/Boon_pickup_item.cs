@@ -27,6 +27,10 @@ namespace TDB
         public int ItemValue;
         public EntityData PlayerDungeon;
 
+        [Header("Trap Settings")]
+        public float Delay = 1.5f;
+        private bool Armed = false;
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
@@ -34,6 +38,10 @@ namespace TDB
                 PlayerDungeon = other.GetComponent<EntityData>();
                 if (PlayerDungeon == null)
                 return;
+
+                if (ItemValue == -3 && !Armed)
+                return;
+                
                 if (ItemValue == 1)
                 {
                    StartCoroutine(TemporarySpeedBoost());
@@ -68,6 +76,14 @@ namespace TDB
                 gameObject.GetComponent<Collider2D>().enabled = false;
             }
 
+        }
+
+        private void Start()
+        {
+            if (ItemValue == -3) // Trap only
+            {
+                StartCoroutine(ArmTrap());
+            }
         }
 
         private IEnumerator TemporarySpeedBoost()
@@ -155,6 +171,33 @@ namespace TDB
 
             Destroy(gameObject);
 
+        }
+
+        private IEnumerator ArmTrap()
+        {
+            Armed = false;
+
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            Collider2D col = GetComponent<Collider2D>();
+
+            // Disable trigger for preperation
+            if (col != null)
+                col.enabled = false;
+
+            // yellow is safe
+            if (sr != null)
+                sr.color = Color.yellow;
+
+            yield return new WaitForSeconds(Delay);
+
+            Armed = true;
+
+            if (col != null)
+                col.enabled = true;
+
+            // red is armed
+            if (sr != null)
+                sr.color = Color.red;
         }
     }
 }

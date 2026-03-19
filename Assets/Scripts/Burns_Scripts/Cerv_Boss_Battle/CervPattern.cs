@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 //=================================================================================
-    // File: CervWander.cs
+    // File: CervPattern.cs
     // Author: Nathan B 
     // Description: The basic movement for base Cervitus, teleportation. It is largely based 
     // on an imported online script and then modified.
@@ -46,9 +46,10 @@ namespace TDB
 
         [Header("Attack Percentage")]
         // I'm not sure, but I don't actually think these are percentages!!!
-        public float PAOE = 0.6f;
+        public float PAOE = 0.5f;
         public float PTopDown = 0.25f;
         public float PTrap = 0.15f;
+        public float PHead = 0.1f;
 
         [Header("AOE Attack")]
         public GameObject AOEprojectile;
@@ -58,9 +59,12 @@ namespace TDB
 
         [Header("Top-Down Attack")]
         public Vector2 lineAttackPosition;
-        public GameObject TDprojectile;
+        public GameObject TDwarning;
+        public GameObject TDbeam;
         public int numberOfProjectiles = 12;
         public float spacing = 1.0f;
+        public float warningDuration = 1.0f;
+        public float beamDuration = 0.3f;
 
         [Header("Center Attack")]
         public Vector2 Center;
@@ -71,6 +75,21 @@ namespace TDB
         public GameObject Traps;
         public int numberOfTraps = 20;
 
+        [Header("Head Attack")]
+        public GameObject CervHead;
+        public Transform StartPosition;
+        public GameObject Headwarning;
+        public GameObject Headbeam;
+        public float HeadSpeed=5f;
+        public float headDuration=5f;
+
+        [Header("Enrage Settings")]
+        public float enragedCooldownMultiplier = 0.5f;
+        public float enragedWarningMultiplier = 0.5f;
+        public float enragedProjectileMultiplier = 1.5f; 
+        // To start with
+        private float currentProjectileMultiplier = 1f;
+        private float currentWarningMultiplier = 1f;
 
         private void Awake()
         {
@@ -150,6 +169,7 @@ namespace TDB
             if (!triggered25 && hpPercent <= 0.25f)
             {
                 triggered25 = true;
+                EnterEnrage();
                 StartCoroutine(CenterAttack());
             }
 
@@ -177,7 +197,7 @@ namespace TDB
         // dicatates what attack to perform and then starts that coroutine
         private void ChooseAttack()
         {
-            float Pall = PAOE + PTopDown + PTrap;
+            float Pall = PAOE + PTopDown + PTrap + PHead;
             float value = Random.Range(0f, Pall);
 
             if (value < PAOE)
@@ -188,9 +208,13 @@ namespace TDB
             {
                 StartCoroutine(LineAttackRoutine());
             }
-            else 
+            else if (value < PAOE + PTopDown + PTrap)
             {
                 StartCoroutine(TrapAttackRoutine());
+            }
+            else
+            {
+                StartCoroutine(HeadAttack());
             }
         }
 
@@ -260,7 +284,7 @@ namespace TDB
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.velocity = direction * projectSpeed;
+                rb.velocity = direction * projectSpeed * currentProjectileMultiplier;
             }
         }
         }
@@ -284,20 +308,31 @@ namespace TDB
             {
                 Vector2 spawnPos = new Vector2(
                     startX + i * spacing,
-                    transform.position.y
+                    transform.position.y - 3
                 );
 
-                Quaternion rotation = Quaternion.Euler(0, 0, 180f); 
-
-                GameObject proj = Instantiate(TDprojectile, spawnPos, rotation);
-
-                Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-                if (rb != null)
-                {
-                    rb.velocity = Vector2.down * projectSpeed;
-                }
+                StartCoroutine(ShootBeam(spawnPos));
             }
         }  
+
+        private IEnumerator ShootBeam(Vector2 position)
+        {
+            // warning pillar
+            GameObject pillar = Instantiate(TDwarning, position, Quaternion.identity);
+
+            // deal no damage to the player
+            Collider2D pillarCol = pillar.GetComponent<Collider2D>();
+            if (pillarCol != null)
+                pillarCol.isTrigger = true; 
+
+            float warningTime = warningDuration * currentWarningMultiplier;
+            yield return new WaitForSeconds(warningTime);
+            Destroy(pillar);
+
+            // beam attack
+            GameObject beam = Instantiate(TDbeam, position, Quaternion.identity);
+            Destroy(beam, beamDuration);
+        }
 
         // standard move 
         private void MoveToPosition(Vector2 target)
@@ -328,13 +363,12 @@ namespace TDB
                 yield return new WaitForSeconds(timeBetweenWaves);
             }
             if (hitbox != null)
-                hitbox.enabled = false;
+                hitbox.enabled = true;
             percentageAttack = false;
         }
 
         private IEnumerator TrapAttackRoutine()
         {
-            Debug.Log("Starting Trap Attack!");
             TrapAttack();
             yield return null;
         }
@@ -376,6 +410,98 @@ namespace TDB
                     Instantiate(Traps, spawnPoint, Quaternion.identity);
                 }
             }
+        }
+
+        private IEnumerator HeadAttack()
+        {
+            Debug.Log("Starting Head Attack!");
+            // not actually a percentage attack, but turns on so other attacks are not also triggered
+            percentageAttack = true;
+            float timer = 0f;
+            if (_renderer != null)
+                _renderer.enabled = false;
+                
+            if (hitbox != null)
+                hitbox.enabled = false;
+
+            CervHead.SetActive(true);
+            CervHead.transform.position = StartPosition.position;
+
+            while (timer < headDuration)
+            {
+                // orignally used ping pong but this seems to be smoother with sine (got online)
+                float baseY = StartPosition.position.y;
+                float yOffset = Mathf.Sin(Time.time * HeadSpeed) * 2f;
+                Vector3 pos = CervHead.transform.position;
+                CervHead.transform.position = new Vector3(pos.x, baseY + yOffset, pos.z);
+
+                // a similar coroutine to the beam attack
+                yield return StartCoroutine(ShootBeamHead(CervHead.transform));
+
+                timer += 0.5f;
+            }
+
+            CervHead.SetActive(false);
+             if (_renderer != null)
+                _renderer.enabled = true;
+
+            if (hitbox != null)
+                hitbox.enabled = true;
+
+            percentageAttack = false;
+
+        }
+
+        private IEnumerator ShootBeamHead(Transform headTransform)
+        {
+            // needed to push the beam to the left and not be centered on the head
+            Vector3 offsetWarning = new Vector3(-4f, 0f, 0f); 
+            Vector3 offsetBeam = new Vector3(-7f, 0f, 0f); 
+
+            // acts the same as other one, warning shot first
+            GameObject warning = Instantiate(
+                Headwarning,
+                headTransform.position + offsetWarning,
+                Quaternion.Euler(0, 0, 90f)
+            );
+
+            warning.transform.SetParent(headTransform);
+
+            float warningTime = warningDuration * currentWarningMultiplier;
+            yield return new WaitForSeconds(warningTime);
+
+            Destroy(warning);
+
+            // attaching the beam to head as a parent
+            GameObject beam = Instantiate(
+                Headbeam,
+                headTransform.position + offsetBeam,
+                Quaternion.Euler(0, 0, 90f)
+            );
+
+            beam.transform.SetParent(headTransform);
+
+            yield return new WaitForSeconds(beamDuration);
+
+            Destroy(beam);
+        }
+
+        private void EnterEnrage()
+        {
+            // faster attacks
+            CooldownTimerMax *= enragedCooldownMultiplier;
+
+            // faster projectiles
+            currentProjectileMultiplier = enragedProjectileMultiplier;
+
+            // smaller warning beam time
+            currentWarningMultiplier = enragedWarningMultiplier;
+
+            // insert some animation here, for now just turns red
+            if (_renderer != null)
+                _renderer.color = Color.red;
+
+            Debug.Log("BOSS ENRAGED!");
         }
 
     }

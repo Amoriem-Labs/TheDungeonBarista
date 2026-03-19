@@ -134,16 +134,13 @@ GameObject:
   - component: {fileID: 17127467}
   - component: {fileID: 17127466}
   - component: {fileID: 17127465}
-  - component: {fileID: 17127471}
-  - component: {fileID: 17127470}
-  - component: {fileID: 17127469}
   m_Layer: 8
   m_Name: Cervitus_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &17127465
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -173,7 +170,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -277,59 +274,12 @@ Transform:
   m_GameObject: {fileID: 17127464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.38, y: 1.6700001, z: 0}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 2.352088, y: 1.9233834, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &17127469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17127464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7495e63551c114c8835f4ee7420f4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &17127470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17127464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 100de87ca0baa704481da8c8c13212e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Acceleration: 1
-  Decceleration: 1
-  MaxSpeed: 1
-  MaxHealth: 1
-  Knockback: 10
-  lastDirection: {x: 0, y: -1}
-  Velocity: {x: 0, y: 0}
-  movementDirection: {x: 0, y: 0}
-  Rb: {fileID: 0}
-  IsAttacking: 0
-  _currentHealth: 0
---- !u!114 &17127471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17127464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d78801fd8680f12488e05fd133f0a6cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &101928822
 GameObject:
   m_ObjectHideFlags: 0
@@ -10184,19 +10134,32 @@ MonoBehaviour:
   PAOE: 0.5
   PTopDown: 0.35
   PTrap: 0.15
+  PHead: 0.1
   AOEprojectile: {fileID: 380799247371487231, guid: 9210d8e62276cfa43b4decd99503b233, type: 3}
   projectSpeed: 5
   angle: 45
   waveDelay: 0.2
   lineAttackPosition: {x: 0, y: 2.5}
-  TDprojectile: {fileID: 380799247371487231, guid: 9210d8e62276cfa43b4decd99503b233, type: 3}
-  numberOfProjectiles: 12
-  spacing: 1
+  TDwarning: {fileID: 8805787331772499631, guid: 09f60e57b49add54aba1674eed90785d, type: 3}
+  TDbeam: {fileID: 5973992550140418737, guid: 928b356f831f2ce4cb0794c458569265, type: 3}
+  numberOfProjectiles: 6
+  spacing: 1.5
+  warningDuration: 2
+  beamDuration: 3
   Center: {x: 0, y: 0}
   waveCount: 5
   timeBetweenWaves: 0.3
   Traps: {fileID: 764311542847611049, guid: 9b172d7cc9074d1488221d83391148a9, type: 3}
   numberOfTraps: 20
+  CervHead: {fileID: 17127464}
+  StartPosition: {fileID: 17127468}
+  Headwarning: {fileID: 8805787331772499631, guid: e36d305ed371e544d852b8dd316c6e8b, type: 3}
+  Headbeam: {fileID: 5973992550140418737, guid: 882fff2fb18fc1d47a6d8637439e089f, type: 3}
+  HeadSpeed: 1
+  headDuration: 3
+  enragedCooldownMultiplier: 0.5
+  enragedWarningMultiplier: 0.5
+  enragedProjectileMultiplier: 1.5
 --- !u!114 &2008761886 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7749738253099314767, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
