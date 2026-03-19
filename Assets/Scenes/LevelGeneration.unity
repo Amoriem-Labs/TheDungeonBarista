@@ -672,7 +672,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.86
+  orthographic size: 2.52
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -904,6 +904,24 @@ MonoBehaviour:
   propPrefabs:
   - tileType: {fileID: 11400000, guid: f63b4b7fa87daf847a552492bc0a9d3f, type: 2}
     prefab: {fileID: 5019895138965601922, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
+    addYSortIfMissing: 1
+  - tileType: {fileID: 11400000, guid: 6bae197af0d02bc429011d7b5962e908, type: 2}
+    prefab: {fileID: 4202763098214290083, guid: 0f491df8236ead14ab1e9a24f2787846, type: 3}
+    addYSortIfMissing: 1
+  - tileType: {fileID: 11400000, guid: 07b022298da4cca48b4a76ed1025ae70, type: 2}
+    prefab: {fileID: 586464121848558291, guid: 2d1909449518f7e45846a9b5bc6dec86, type: 3}
+    addYSortIfMissing: 1
+  - tileType: {fileID: 11400000, guid: ca5b19ee386ee4d409cb57446f4df661, type: 2}
+    prefab: {fileID: 4353056528015326724, guid: 680084451a44a6b449003368c5d1fd08, type: 3}
+    addYSortIfMissing: 1
+  - tileType: {fileID: 11400000, guid: ec1960019c758b94a825e9796bcb4b7d, type: 2}
+    prefab: {fileID: 1760262500656088603, guid: fac0820497a8d9d4ea96fcd4c51ea013, type: 3}
+    addYSortIfMissing: 1
+  - tileType: {fileID: 11400000, guid: 108fb3e8ce4579748888ef6b62b1d24e, type: 2}
+    prefab: {fileID: 3704547438919800319, guid: 382bdd8d2cc4eab44afabc81c1b63460, type: 3}
+    addYSortIfMissing: 1
+  - tileType: {fileID: 11400000, guid: 7d964b7407713b04390998e08f1c5d98, type: 2}
+    prefab: {fileID: 347148105313573993, guid: fd9f4a69844b12e448d8a2df4e35e37e, type: 3}
     addYSortIfMissing: 1
   roomControllerContainerName: _RoomControllers
   roomLibrary: {fileID: 11400000, guid: 77a5e3d67a58fea45b2fe34c3908bd53, type: 2}
@@ -1484,63 +1502,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5255963136360744712
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5019895138965601922, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_Name
-      value: Tree
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862185322180544758, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1551,4 +1512,3 @@ SceneRoots:
   - {fileID: 2049241822}
   - {fileID: 1884060690}
   - {fileID: 1152909299}
-  - {fileID: 5255963136360744712}

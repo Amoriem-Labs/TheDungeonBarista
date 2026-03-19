@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ffdc40e0d73b7f42b945b61188e1481, type: 3}
-  m_Name: SmallRock
+  m_Name: Ruin
   m_EditorClassIdentifier: 
   id: 
   walkable: 0
   interactable: 0
   spawnable: 0
-  visualTile: {fileID: 11400000, guid: af35d9b81b154a9489239767dce90c09, type: 2}
+  visualTile: {fileID: 11400000, guid: 012e5861ee8ebc64799cf50d30609a97, type: 2}
   useRuleSet: 0
   ruleSet: {fileID: 0}
   neighborMatchMode: 0
