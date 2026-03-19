@@ -16,6 +16,8 @@ public class RoomSO : ScriptableObject
     public TileType wallTile;
     public TileType corridorFloorTile;
     [SerializeField] private TileType defaultTile;
+    [Header("Decoration")]
+    public TileType[] decorationTiles;
     public List<Vector2Int> doorPositions = new List<Vector2Int>();
 
     private void OnValidate()
@@ -28,6 +30,11 @@ public class RoomSO : ScriptableObject
         if (tiles == null || tiles.Length != expectedSize)
         {
             tiles = new TileType[expectedSize];
+        }
+
+        if (decorationTiles == null || decorationTiles.Length != expectedSize)
+        {
+            decorationTiles = new TileType[expectedSize];
         }
 
         // Fill empty slots with defaultTile

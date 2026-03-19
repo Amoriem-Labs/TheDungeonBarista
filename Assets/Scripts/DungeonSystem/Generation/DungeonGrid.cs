@@ -5,6 +5,7 @@ namespace TDB.DungeonSystem.Core
     public class DungeonGrid
     {
         public TileType[,] tiles;
+        public TileType[,] decorationTiles;
         public int width;
         public int height;
 
@@ -13,6 +14,7 @@ namespace TDB.DungeonSystem.Core
             this.width = width;
             this.height = height;
             tiles = new TileType[width, height];
+            decorationTiles = new TileType[width, height];
         }
 
         public void SetTile(Vector2Int pos, TileType tile)
@@ -25,6 +27,18 @@ namespace TDB.DungeonSystem.Core
         {
             if (!InBounds(pos)) return null;
             return tiles[pos.x, pos.y];
+        }
+
+        public void SetDecoration(Vector2Int pos, TileType tile)
+        {
+            if (InBounds(pos))
+                decorationTiles[pos.x, pos.y] = tile;
+        }
+
+        public TileType GetDecoration(Vector2Int pos)
+        {
+            if (!InBounds(pos)) return null;
+            return decorationTiles[pos.x, pos.y];
         }
 
         public bool InBounds(Vector2Int pos)

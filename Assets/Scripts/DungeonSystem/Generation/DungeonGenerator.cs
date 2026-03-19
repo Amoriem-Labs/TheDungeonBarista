@@ -2,13 +2,23 @@ using System.Collections.Generic;
 using TDB.DungeonSystem.BSP;
 using TDB.DungeonSystem.Core;
 using TDB.DungeonSystem;
+using TDB.Utils.Misc;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 namespace TDB.DungeonSystem.Generate
 {
     public class DungeonGenerator : MonoBehaviour
     {
+        [System.Serializable]
+        private class PropTilePrefab
+        {
+            public TileType tileType;
+            public GameObject prefab;
+            public bool addYSortIfMissing = true;
+        }
+
         [Header("Dungeon Settings")]
         public int dungeonWidth = 100;
         public int dungeonHeight = 100;
@@ -36,6 +46,9 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private TileType teleporterTileType;
         [SerializeField] private Teleporter teleporterPrefab;
         [SerializeField] private string teleporterContainerName = "_Teleporters";
+        [SerializeField] private string teleporterSortingLayerName = "";
+        [SerializeField] private int teleporterSortingOrder = 10;
+        [SerializeField] private float teleporterZOffset = 0f;
         private Transform _teleporterContainer;
         private readonly HashSet<Vector2Int> _teleporterCells = new HashSet<Vector2Int>();
 
@@ -46,14 +59,14 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private GameObject chestPrefab;
         [SerializeField] private TileType trapTileType;
         [SerializeField] private GameObject trapPrefab;
+        [SerializeField] private List<PropTilePrefab> propPrefabs = new List<PropTilePrefab>();
         [SerializeField] private string roomControllerContainerName = "_RoomControllers";
         private Transform _roomControllerContainer;
         private readonly Dictionary<RectInt, DungeonRoomController> _roomControllers = new Dictionary<RectInt, DungeonRoomController>();
+        private readonly Dictionary<TileType, PropTilePrefab> _propPrefabLookup = new Dictionary<TileType, PropTilePrefab>();
 
         [SerializeField] private RoomLibrary roomLibrary;
         private RoomChooser _roomChooser;
-
-        //[SerializeField] private GridManager gridManager;   // TODO ADD
         void Start()
         {
             _roomChooser = new RoomChooser(roomLibrary);
@@ -69,6 +82,7 @@ namespace TDB.DungeonSystem.Generate
             _teleporterCells.Clear();
             ClearRoomControllers();
             _roomControllers.Clear();
+            BuildPropPrefabLookup();
             Debug.Log("Generating Dungeon...");
 
             BSPNode root = new BSPNode(new RectInt(0, 0, dungeonWidth, dungeonHeight));
@@ -82,7 +96,6 @@ namespace TDB.DungeonSystem.Generate
             GenerateWalls();
             dungeonRenderer.Render(dungeonGrid);
             TrySpawnPlayerAtRoomType(RoomType.Spawn);
-            //DrawDungeon();
             collectibleGenerator.SpawnCollectibles(floorPositions);
         }
         
@@ -160,11 +173,10 @@ namespace TDB.DungeonSystem.Generate
 
             int offsetX = node.rect.x + (node.rect.width - room.width) / 2;
             int offsetY = node.rect.y + (node.rect.height - room.height) / 2;
+            RectInt roomRect = new RectInt(offsetX, offsetY, room.width, room.height);
+            node.room = roomRect;
+            node.roomTemplate = room;
             
-            // RectInt roomRect = new RectInt(offsetX, offsetY, room.width, room.height);
-            // node.room = roomRect;
-            // node.roomTemplate = room;
-            // TODO: Remove after testing, this generates a standard room
             if (room.tiles == null || room.tiles.Length != room.width * room.height)
             {
                 room.tiles = new TileType[room.width * room.height];
@@ -175,6 +187,7 @@ namespace TDB.DungeonSystem.Generate
             List<Vector2Int> enemySpawns = new List<Vector2Int>();
             List<Vector2Int> chestSpawns = new List<Vector2Int>();
             List<Vector2Int> trapSpawns = new List<Vector2Int>();
+            List<(Vector3Int cell, TileType tile)> propSpawns = new List<(Vector3Int, TileType)>();
 
             for (int y = 0; y < room.height; y++)
             {
@@ -194,14 +207,19 @@ namespace TDB.DungeonSystem.Generate
                         chestSpawns.Add(worldPos);
                     if (tile == trapTileType)
                         trapSpawns.Add(worldPos);
+
+                    if (room.decorationTiles != null && index < room.decorationTiles.Length)
+                    {
+                        TileType decoration = room.decorationTiles[index];
+                        if (decoration != null)
+                            propSpawns.Add((new Vector3Int(worldPos.x, worldPos.y, 0), decoration));
+                    }
                 }
             }
 
-            node.room = new RectInt(offsetX, offsetY, room.width, room.height);
-            node.roomTemplate = room;
-
             DungeonRoomController roomController = CreateRoomController(node.room.Value, room, enemySpawns, chestSpawns, trapSpawns);
             _roomControllers[node.room.Value] = roomController;
+            SpawnProps(propSpawns, roomController.transform);
         }
 
         void DrawDungeon()
@@ -451,6 +469,53 @@ namespace TDB.DungeonSystem.Generate
             }
         }
 
+        private void SetDecorationTile(Vector2Int pos, TileType decorationTile)
+        {
+            if (decorationTile == null) return;
+            dungeonGrid.SetDecoration(pos, decorationTile);
+        }
+
+        private void BuildPropPrefabLookup()
+        {
+            _propPrefabLookup.Clear();
+            for (int i = 0; i < propPrefabs.Count; i++)
+            {
+                PropTilePrefab entry = propPrefabs[i];
+                if (entry == null || entry.tileType == null || entry.prefab == null)
+                    continue;
+                _propPrefabLookup[entry.tileType] = entry;
+            }
+        }
+
+        private void SpawnProps(List<(Vector3Int cell, TileType tile)> propSpawns, Transform parent)
+        {
+            if (propSpawns == null || propSpawns.Count == 0) return;
+            for (int i = 0; i < propSpawns.Count; i++)
+            {
+                TileType tile = propSpawns[i].tile;
+                if (tile == null) continue;
+                if (!_propPrefabLookup.TryGetValue(tile, out PropTilePrefab entry)) continue;
+                SpawnPropAtCell(propSpawns[i].cell, entry.prefab, parent, entry.addYSortIfMissing);
+            }
+        }
+
+        private GameObject SpawnPropAtCell(Vector3Int cellPosition, GameObject prefab, Transform parent, bool addYSortIfMissing)
+        {
+            if (prefab == null) return null;
+
+            Vector3 worldPos = dungeonRenderer != null
+                ? dungeonRenderer.GetCellCenterWorld(cellPosition)
+                : new Vector3(cellPosition.x, cellPosition.y, 0f);
+
+            GameObject obj = Instantiate(prefab, worldPos, Quaternion.identity, parent);
+            YSortByPosition sorter = obj.GetComponent<YSortByPosition>();
+            if (sorter == null && addYSortIfMissing)
+                sorter = obj.AddComponent<YSortByPosition>();
+            sorter?.SetOnlyAffectTilemap(false);
+
+            return obj;
+        }
+
         private TileType ResolveWallTile(RoomSO room)
         {
             if (room == null) return wallTileType;
@@ -496,8 +561,32 @@ namespace TDB.DungeonSystem.Generate
             Vector3 worldPos = dungeonRenderer != null
                 ? dungeonRenderer.GetCellCenterWorld(cell)
                 : new Vector3(cell.x, cell.y, 0f);
+            worldPos.z += teleporterZOffset;
 
-            return Instantiate(teleporterPrefab, worldPos, Quaternion.identity, _teleporterContainer);
+            Teleporter teleporter = Instantiate(teleporterPrefab, worldPos, Quaternion.identity, _teleporterContainer);
+            ApplyTeleporterSorting(teleporter);
+            return teleporter;
+        }
+
+        private void ApplyTeleporterSorting(Teleporter teleporter)
+        {
+            if (teleporter == null) return;
+
+            SortingGroup group = teleporter.GetComponentInChildren<SortingGroup>();
+            if (group != null)
+            {
+                if (!string.IsNullOrEmpty(teleporterSortingLayerName))
+                    group.sortingLayerName = teleporterSortingLayerName;
+                group.sortingOrder = teleporterSortingOrder;
+            }
+
+            SpriteRenderer[] renderers = teleporter.GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(teleporterSortingLayerName))
+                    renderers[i].sortingLayerName = teleporterSortingLayerName;
+                renderers[i].sortingOrder = teleporterSortingOrder;
+            }
         }
 
         private void EnsureTeleporterContainer()

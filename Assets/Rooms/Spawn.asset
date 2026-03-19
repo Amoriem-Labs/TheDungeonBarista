@@ -55,4 +55,41 @@ MonoBehaviour:
   wallTile: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
   corridorFloorTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   defaultTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  decorationTiles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: f63b4b7fa87daf847a552492bc0a9d3f, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   doorPositions: []

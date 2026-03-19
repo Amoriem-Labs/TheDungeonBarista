@@ -7,9 +7,12 @@ namespace TDB.DungeonSystem.Generate
     public class DungeonRenderer : MonoBehaviour
     {
         [SerializeField] private Tilemap tilemap;
+        [SerializeField] private Tilemap decorationTilemap;
         [SerializeField] private bool buildColliders = true;
         [SerializeField] private bool useCompositeCollider = true;
         [SerializeField] private string collisionContainerName = "_TileColliders";
+        [SerializeField] private bool buildDecorationColliders = true;
+        [SerializeField] private string decorationCollisionContainerName = "_DecorationTileColliders";
         [SerializeField] private LayerMask collisionLayerName;
         [SerializeField] private Tilemap backgroundTilemap;
         [SerializeField] private TileBase waterTile; 
@@ -45,9 +48,15 @@ namespace TDB.DungeonSystem.Generate
                 }
             }
 
+            RenderDecorations(grid);
+
             if (buildColliders)
             {
                 BuildTileColliders(grid);
+            }
+            if (buildDecorationColliders)
+            {
+                BuildDecorationColliders(grid);
             }
             FillBackground(grid);
 
@@ -62,6 +71,31 @@ namespace TDB.DungeonSystem.Generate
                 {
                     Vector3Int cell = new Vector3Int(x, y, 0);
                     backgroundTilemap.SetTile(cell, waterTile);
+                }
+            }
+        }
+
+        private void RenderDecorations(DungeonGrid grid)
+        {
+            if (decorationTilemap == null || grid == null) return;
+
+            decorationTilemap.ClearAllTiles();
+            if (decorationTilemap.TryGetComponent(out TilemapRenderer renderer))
+            {
+                renderer.mode = TilemapRenderer.Mode.Individual;
+                renderer.sortOrder = TilemapRenderer.SortOrder.TopLeft;
+            }
+
+            for (int x = 0; x < grid.width; x++)
+            {
+                for (int y = 0; y < grid.height; y++)
+                {
+                    TileType tile = grid.decorationTiles[x, y];
+                    if (tile == null) continue;
+
+                    Vector3Int cell = new Vector3Int(x, y, 0);
+                    decorationTilemap.SetTransformMatrix(cell, Matrix4x4.identity);
+                    decorationTilemap.SetTile(cell, tile.visualTile);
                 }
             }
         }
@@ -121,6 +155,11 @@ namespace TDB.DungeonSystem.Generate
             return tilemap.GetCellCenterWorld(new Vector3Int(cell.x, cell.y, 0));
         }
 
+        public Vector3 GetCellCenterWorld(Vector3Int cell)
+        {
+            return tilemap.GetCellCenterWorld(cell);
+        }
+
         private void BuildTileColliders(DungeonGrid grid)
         {
             if (tilemap == null || grid == null) return;
@@ -136,14 +175,7 @@ namespace TDB.DungeonSystem.Generate
 
             GameObject container = new GameObject(collisionContainerName);
             container.transform.SetParent(tilemap.transform, false);
-            // if (!string.IsNullOrWhiteSpace(collisionLayerName))
-            // {
-            //     int layer = LayerMask.NameToLayer(collisionLayerName);
-            //     if (layer >= 0)
-            //         container.layer = layer;
-            //     else
-            //         Debug.LogWarning($"Layer '{collisionLayerName}' not found. Colliders will use Default layer.");
-            // }
+    
             container.layer = Mathf.RoundToInt(Mathf.Log(collisionLayerName.value, 2)); 
 
             CompositeCollider2D composite = null;
@@ -172,6 +204,59 @@ namespace TDB.DungeonSystem.Generate
 
                     BoxCollider2D box = colliderObj.AddComponent<BoxCollider2D>();
                     box.size = new Vector2(tilemap.cellSize.x, tilemap.cellSize.y);
+                    if (composite != null)
+                    {
+                        box.usedByComposite = true;
+                    }
+                }
+            }
+
+            Physics2D.SyncTransforms();
+        }
+
+        private void BuildDecorationColliders(DungeonGrid grid)
+        {
+            if (decorationTilemap == null || grid == null) return;
+
+            Transform existing = decorationTilemap.transform.Find(decorationCollisionContainerName);
+            if (existing != null)
+            {
+                if (Application.isPlaying)
+                    Destroy(existing.gameObject);
+                else
+                    DestroyImmediate(existing.gameObject);
+            }
+
+            GameObject container = new GameObject(decorationCollisionContainerName);
+            container.transform.SetParent(decorationTilemap.transform, false);
+            container.layer = Mathf.RoundToInt(Mathf.Log(collisionLayerName.value, 2));
+
+            CompositeCollider2D composite = null;
+            if (useCompositeCollider)
+            {
+                Rigidbody2D rb = container.AddComponent<Rigidbody2D>();
+                rb.bodyType = RigidbodyType2D.Static;
+                composite = container.AddComponent<CompositeCollider2D>();
+                composite.geometryType = CompositeCollider2D.GeometryType.Polygons;
+            }
+
+            for (int x = 0; x < grid.width; x++)
+            {
+                for (int y = 0; y < grid.height; y++)
+                {
+                    TileType tile = grid.decorationTiles[x, y];
+                    if (tile == null || tile.walkable) continue;
+
+                    Vector3Int cell = new Vector3Int(x, y, 0);
+                    Vector3 centerLocal = decorationTilemap.GetCellCenterLocal(cell);
+
+                    GameObject colliderObj = new GameObject($"DecoCollider_{x}_{y}");
+                    colliderObj.transform.SetParent(container.transform, false);
+                    colliderObj.transform.localPosition = centerLocal;
+                    colliderObj.layer = container.layer;
+
+                    BoxCollider2D box = colliderObj.AddComponent<BoxCollider2D>();
+                    box.size = new Vector2(decorationTilemap.cellSize.x, decorationTilemap.cellSize.y);
                     if (composite != null)
                     {
                         box.usedByComposite = true;
