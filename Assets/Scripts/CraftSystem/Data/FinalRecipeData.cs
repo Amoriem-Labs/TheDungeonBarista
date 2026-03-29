@@ -37,7 +37,7 @@ namespace TDB.CraftSystem.Data
             RecipeName = recipe.RecipeName;
         }
 
-        public Dictionary<IngredientDefinition, int> GetAddedIngredients() =>
+        public Dictionary<IngredientSource, int> GetAddedIngredients() =>
             NodeData.SelectMany(n => n.AddedIngredients)
                 .GroupBy(i => i)
                 .ToDictionary(g => g.Key, g => g.Count());

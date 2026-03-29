@@ -22,7 +22,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
         private RectTransform _rectTransform;
         
         private IngredientEffectListDisplay _effectListDisplay;
-        private IngredientDefinition _ingredient;
+        private IngredientSource _ingredient;
         private UIEnabler _enabler;
 
         private void Awake()
@@ -33,7 +33,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _rectTransform = transform as RectTransform;
         }
         
-        public void SetIngredient(IngredientDefinition ingredient)
+        public void SetIngredient(IngredientSource ingredient)
         {
             _ingredient = ingredient;
             _headerText.text = ingredient.IngredientName;

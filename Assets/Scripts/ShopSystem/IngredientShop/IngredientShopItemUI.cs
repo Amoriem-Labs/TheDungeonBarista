@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace TDB.ShopSystem.IngredientShop
 {
-    public class IngredientShopItemUI : ShopItemUI<IngredientDefinition>
+    public class IngredientShopItemUI : ShopItemUI<IngredientSource>
     {
         [SerializeField] private Image _ingredientIcon;
         [SerializeField] private Image _typeIcon;
@@ -21,13 +21,13 @@ namespace TDB.ShopSystem.IngredientShop
             _button.onClick.AddListener(HandlePurchase);
         }
 
-        public override void BindItemData(ShopItemData<IngredientDefinition> itemData, IResourceDataHolder moneyData)
+        public override void BindItemData(ShopItemData<IngredientSource> itemData, IResourceDataHolder moneyData)
         {
             base.BindItemData(itemData, moneyData);
 
-            _ingredientIcon.sprite = itemData.ItemDefinition.IngredientSprite;
-            _ingredientName.text = itemData.ItemDefinition.IngredientName;
-            _typeIcon.sprite = itemData.ItemDefinition.Type.Icon;
+            _ingredientIcon.sprite = itemData._itemSource.IngredientSprite;
+            _ingredientName.text = itemData._itemSource.IngredientName;
+            _typeIcon.sprite = itemData._itemSource.Type.Icon;
         }
 
         protected override void CheckCanPurchase()

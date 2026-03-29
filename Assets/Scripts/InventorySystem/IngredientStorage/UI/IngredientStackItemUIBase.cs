@@ -9,13 +9,13 @@ using UnityEngine.UI;
 
 namespace TDB.InventorySystem.IngredientStorage.UI
 {
-    public class IngredientStackItemUIBase : InventoryStackUI<IngredientDefinition>, IUIHoverHandler
+    public class IngredientStackItemUIBase : InventoryStackUI<IngredientSource>, IUIHoverHandler
     {
         [SerializeField] private Image _ingredientIcon;
         [SerializeField] private Image _typeIcon;
         [SerializeField] private TextMeshProUGUI _amountText;
         
-        private IngredientDefinition _definition;
+        private IngredientSource _source;
         private IIngredientInfoDisplayer _infoDisplayer;
         private RectTransform _rectTransform;
         private bool _isDisplayingInfo;
@@ -36,13 +36,13 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             }
         }
 
-        public override void SetStack(InventoryStackData<IngredientDefinition> stack)
+        public override void SetStack(InventoryStackData<IngredientSource> stack)
         {
             base.SetStack(stack);
             
-            _definition = stack.Definition;
-            _ingredientIcon.sprite = _definition.IngredientSprite;
-            _typeIcon.sprite = _definition.Type.Icon;
+            _source = stack.Source;
+            _ingredientIcon.sprite = _source.IngredientSprite;
+            _typeIcon.sprite = _source.Type.Icon;
 
             AmountText.text = $"x{stack.Amount}";
         }
@@ -54,7 +54,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _isDisplayingInfo = true;
             _infoDisplayer?.DisplayIngredientInfo(new IngredientInfoDisplayInfo()
             {
-                Ingredient = _definition,
+                Ingredient = _source,
                 RootSize = _rectTransform.sizeDelta,
                 RootPosition = transform.position,
             });
@@ -82,7 +82,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
 
     public struct IngredientInfoDisplayInfo
     {
-        public IngredientDefinition Ingredient;
+        public IngredientSource Ingredient;
         public Vector2 RootSize;
         public Vector3 RootPosition;
     }

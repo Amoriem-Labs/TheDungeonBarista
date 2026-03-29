@@ -20,7 +20,7 @@ namespace TDB.ShopSystem.Framework
     public abstract class ShopItemData<T> : IShopItemData where T : ScriptableObject, IShopItemDefinition
     {
         [SerializeField]
-        public T ItemDefinition;
+        public T _itemSource;
 
         [field: SerializeField]
         public int InStockCount { get; set; }
@@ -35,15 +35,15 @@ namespace TDB.ShopSystem.Framework
         
         protected abstract void HandlePurchase();
 
-        public ShopItemData(T itemDefinition, int inStockCount)
+        public ShopItemData(T itemSource, int inStockCount)
         {
-            ItemDefinition = itemDefinition;
+            _itemSource = itemSource;
             InStockCount = inStockCount;
         }
 
         public ShopItemData(ShopItemData<T> data)
         {
-            ItemDefinition = data.ItemDefinition;
+            _itemSource = data._itemSource;
             InStockCount = data.InStockCount;
         }
     }

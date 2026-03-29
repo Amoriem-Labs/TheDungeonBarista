@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TDB.InventorySystem.IngredientStorage.UI
 {
-    public class IngredientStackItemUIContainer : InventoryStackContainerUI<IngredientDefinition>
+    public class IngredientStackItemUIContainer : InventoryStackContainerUI<IngredientSource>
     {
     }
 }

@@ -19,7 +19,7 @@ namespace TDB.ShopSystem.Framework
 
         public void AddPurchasableItem(TO definition, int amount)
         {
-            var targetStack = _availableItems.Find(f => f.ItemDefinition == definition);
+            var targetStack = _availableItems.Find(f => f._itemSource == definition);
             if (targetStack == null)
             {
                 targetStack = CreateNewEmptyStack(definition);

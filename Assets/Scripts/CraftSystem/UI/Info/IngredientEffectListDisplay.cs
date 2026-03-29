@@ -17,7 +17,7 @@ namespace TDB.CraftSystem.UI.Info
             _effectPairItemPrefab = effectPairItemPrefab;
         }
 
-        public void DisplayIngredientEffectList(IngredientDefinition ingredient)
+        public void DisplayIngredientEffectList(IngredientSource ingredient)
         {
             int i = 0;
             for (; i < ingredient.Effects.Count; i++)

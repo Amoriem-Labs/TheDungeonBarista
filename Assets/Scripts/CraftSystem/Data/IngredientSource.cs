@@ -3,17 +3,18 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using TDB.CraftSystem.EffectSystem;
 using TDB.CraftSystem.EffectSystem.Data;
+using TDB.DungeonSystem.Collectibles;
 using TDB.ShopSystem;
 using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
 
-[assembly: RegisterFormatter(typeof(RsoPathFormatter<TDB.CraftSystem.Data.IngredientDefinition>))]
+[assembly: RegisterFormatter(typeof(RsoPathFormatter<TDB.CraftSystem.Data.IngredientSource>))]
 
 namespace TDB.CraftSystem.Data
 {
     [CreateAssetMenu(fileName = "New Ingredient", menuName = "Data/Craft System/Ingredient Definition", order = 0)]
-    public class IngredientDefinition : ResourceScriptableObject, IShopItemDefinition
+    public class IngredientSource : ResourceScriptableObject, IShopItemDefinition, ICollectibleSource
     {
         [SerializeField] private string _ingredientName;
         [SerializeField] private Sprite _ingredientSprite;
@@ -34,5 +35,7 @@ namespace TDB.CraftSystem.Data
             // placeholder: the number of effects determines the essence
             return 1 + Effects.Count;
         }
+
+        public Sprite CollectibleSprite => IngredientSprite;
     }
 }

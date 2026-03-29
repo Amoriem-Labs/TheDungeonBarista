@@ -42,7 +42,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             }
         }
 
-        public void AddIngredient(IngredientDefinition ingredient, int actualAmount)
+        public void AddIngredient(IngredientSource ingredient, int actualAmount)
         {
             // update storage data
             _storage.Deposit(ingredient, actualAmount);
@@ -69,6 +69,6 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _ingredientContainer.SetInventory(storage, hidePolicy: CheckShouldHide);
         }
 
-        private bool CheckShouldHide(InventoryStackData<IngredientDefinition> stack) => stack.Amount <= 0;
+        private bool CheckShouldHide(InventoryStackData<IngredientSource> stack) => stack.Amount <= 0;
     }
 }

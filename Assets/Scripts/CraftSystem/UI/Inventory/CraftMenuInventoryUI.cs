@@ -19,7 +19,7 @@ namespace TDB.CraftSystem.UI.Inventory
         [SerializeField] private EventChannel _returnIngredientEvent;
         [SerializeField] private EventChannel _onNodeSelectionEvent;
 
-        private Dictionary<IngredientDefinition, CraftMenuInventoryItemUI> _items = new();
+        private Dictionary<IngredientSource, CraftMenuInventoryItemUI> _items = new();
         private IngredientNodeUI _currentSelectedNode;
 
         private void OnEnable()
@@ -62,7 +62,7 @@ namespace TDB.CraftSystem.UI.Inventory
             // TODO: clear filters
             // update ingredient number
             var addedIngredients =
-                recipe?.GetAddedIngredients() ?? new Dictionary<IngredientDefinition, int>();
+                recipe?.GetAddedIngredients() ?? new Dictionary<IngredientSource, int>();
             foreach (var ingredient in addedIngredients.Keys.Union(_items.Keys))
             {
                 // add item UI if missing

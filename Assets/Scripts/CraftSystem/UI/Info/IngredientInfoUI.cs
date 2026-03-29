@@ -68,7 +68,7 @@ namespace TDB.CraftSystem.UI.Info
             // TODO: maybe display stack info as well
         }
 
-        private void DisplayIngredientDefinition(IngredientDefinition ingredient)
+        private void DisplayIngredientDefinition(IngredientSource ingredient)
         {
             _headerText.text = ingredient.IngredientName;
             _iconImage.sprite = ingredient.IngredientSprite;
@@ -79,7 +79,7 @@ namespace TDB.CraftSystem.UI.Info
 
     public struct DisplayIngredientInfo
     {
-        public IngredientDefinition Ingredient;
+        public IngredientSource Ingredient;
         public int InStock;
         public int Required;
     }

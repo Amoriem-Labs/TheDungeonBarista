@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
+using TDB.InventorySystem.CollectibleInventory;
 using TDB.InventorySystem.FurnitureInventory;
 using TDB.ShopSystem.FurnitureShop;
 using TDB.ShopSystem.IngredientShop;
@@ -35,6 +36,7 @@ namespace TDB.GameManagers.SessionManagers
         #region Inventory Data Accessor
 
         public FurnitureInventoryData FurnitureInventoryData => _currentSessionGameData.FurnitureInventoryData;
+        public CollectibleInventoryData CollectibleInventoryData => _currentSessionGameData.CollectibleInventoryData;
 
         #endregion
 
