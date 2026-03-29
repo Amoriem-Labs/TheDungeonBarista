@@ -68,8 +68,9 @@ namespace TDB
 
         [Header("Center Attack")]
         public Vector2 Center;
-        public int waveCount = 3;
-        public float timeBetweenWaves = 0.3f;
+        public float CenterAngle = 20f; 
+        public int waveCount = 10;
+        public float timeBetweenWaves = 0.2f;
 
         [Header("Trapping Attack")]
         public GameObject Traps;
@@ -356,7 +357,7 @@ namespace TDB
 
             for (int i = 0; i < waveCount; i++)
             {
-                float offset = i * angle;
+                float offset = i * CenterAngle;
 
                 FireProjectiles(offset);
 
