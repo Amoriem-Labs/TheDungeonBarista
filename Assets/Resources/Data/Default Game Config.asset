@@ -62,6 +62,8 @@ MonoBehaviour:
       _stacks: []
     FurnitureInventoryData:
       _stacks: []
+    CollectibleInventoryData:
+      _stacks: []
     RecipeBookData:
       _obtainedRawRecipes:
       - {fileID: 11400000, guid: 460b6cd448982f449831f402cce3443a, type: 2}
@@ -90,9 +92,9 @@ MonoBehaviour:
       _itemAmount: {x: 1, y: 3}
     FurnitureShopData:
       _availableItems:
-      - ItemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+      - _itemDefinition: {fileID: 11400000, guid: 03a6423e045f99341a571450e5131c74, type: 2}
         <InStockCount>k__BackingField: 1
-      - ItemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+      - _itemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
         <InStockCount>k__BackingField: 2
     Money: 1000
     Essence: 0
