@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Object = UnityEngine.Object;
 
 namespace TDB.MinigameSystem
 {
@@ -14,7 +15,7 @@ namespace TDB.MinigameSystem
     }
 
     public interface IMinigame {
-        void Initialize(float diff, InputActionMap input, Action<MinigameResult> onComplete);
+        void Initialize(float diff, Action<MinigameResult> onComplete);
         
         void Begin();
         
@@ -48,7 +49,7 @@ namespace TDB.MinigameSystem
             float oldScale = Time.timeScale;
             Time.timeScale = slowdownScale;
 
-            var go = UnityEngine.Object.Instantiate(def.MinigamePrefab, parentCanvas.transform);
+            var go = Object.Instantiate(def.MinigamePrefab, parentCanvas.transform);
             var mini = go.GetComponent<IMinigame>();
             if (mini == null) 
             {
@@ -59,33 +60,33 @@ namespace TDB.MinigameSystem
                 return;
             }
 
-            var map = ResolveActionMap(def);
-            map.Enable();
+            // var map = ResolveActionMap(def);
+            // map.Enable();
 
             // Callback wrapper that cleans up and forwards to user callback
             void OnMinigameComplete(MinigameResult result)
             {
-                map.Disable();
+                // map.Disable();
                 UnityEngine.Object.Destroy(go);
                 Time.timeScale = oldScale;
         
                 onComplete.Invoke(result);
             }
     
-            mini.Initialize(difficulty, map, OnMinigameComplete);
+            mini.Initialize(difficulty, OnMinigameComplete);
             mini.Begin();
         }
         
-        private static InputActionMap ResolveActionMap(MinigameDefinition def)
-        {
-            if (def.InputAsset != null && !string.IsNullOrEmpty(def.ActionMapName)) {
-                var found = def.InputAsset.FindActionMap(def.ActionMapName, throwIfNotFound: false);
-                if (found != null) return found;
-            }
-            
-            Debug.LogError("[MinigameController] ActionMap not found.");
-            
-            return null;
-        }
+        // private static InputActionMap ResolveActionMap(MinigameDefinition def)
+        // {
+        //     if (def.InputAsset != null && !string.IsNullOrEmpty(def.ActionMapName)) {
+        //         var found = def.InputAsset.FindActionMap(def.ActionMapName, throwIfNotFound: false);
+        //         if (found != null) return found;
+        //     }
+        //     
+        //     Debug.LogError("[MinigameController] ActionMap not found.");
+        //     
+        //     return null;
+        // }
     }
 }

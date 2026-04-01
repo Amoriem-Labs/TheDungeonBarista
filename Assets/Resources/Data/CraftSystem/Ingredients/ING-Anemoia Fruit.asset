@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9e5cf84d3b4afeab54f99c599c7b9a, type: 3}
+  m_Name: ING-Anemoia Fruit
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _resourcesPath: Data/CraftSystem/Ingredients/ING-Anemoia Fruit
+  _ingredientName: Anemoia Fruit
+  _ingredientSprite: {fileID: 0}
+  _type: {fileID: 11400000, guid: 40b2f77d372bda249be0ec6403108f2f, type: 2}
+  _effects:
+  - Effect: {fileID: 11400000, guid: eb3c10b3f252846449377389baa4d36c, type: 2}
+    Parameter: {fileID: 11400000, guid: 4511ab20053dedb458ce8db5f609ce54, type: 2}
+  - Effect: {fileID: 11400000, guid: 55b4eb2e4fc2dc94eb235406b6c55cf4, type: 2}
+    Parameter: {fileID: 11400000, guid: 4511ab20053dedb458ce8db5f609ce54, type: 2}
+  - Effect: {fileID: 11400000, guid: acb904485434f9f49ae0bc6b0abadd16, type: 2}
+    Parameter: {fileID: 11400000, guid: 18974a23c51c6fb4c8a51461914a5e47, type: 2}

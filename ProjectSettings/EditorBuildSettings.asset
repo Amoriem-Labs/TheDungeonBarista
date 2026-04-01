@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CafeScene.unity
     guid: 2de49ab364c855c45a5393dbab4c17c0
   - enabled: 1
+    path: Assets/Scenes/DungeonScene.unity
+    guid: ca245ca1ed42c0244bdedb4274a778b8
+  - enabled: 0
     path: Assets/Scenes/EntityTesting.unity
     guid: e655f80a648f7df45a246c7af920dc1d
   m_configObjects:

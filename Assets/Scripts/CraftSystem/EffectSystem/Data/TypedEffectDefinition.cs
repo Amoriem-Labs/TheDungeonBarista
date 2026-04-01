@@ -62,11 +62,13 @@ namespace TDB.CraftSystem.EffectSystem.Data
             }
         }
 
+        [HideInTables]
         [TitleGroup("Create Parameter Asset")]
         [PropertyOrder(999)]
         [ValueDropdown(nameof(_ParamTypesDropdown)), LabelText("Parameter Type")]
         [SerializeField] private Type _newParamType;
 
+        [HideInTables]
         [TitleGroup("Create Parameter Asset")]
         [PropertyOrder(999)]
         [Button(ButtonSizes.Medium)]

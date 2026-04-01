@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -37,14 +38,36 @@ namespace TDB
         // for controlling exactly when velocity is applied!
         [HideInInspector] public Vector2 Velocity = Vector2.zero;
 
-        public float CurrentHealth = 0;
+        public float CurrentHealth
+        {
+            get => _currentHealth;
+            set
+            {
+                value = Mathf.Clamp(value, 0, MaxHealth);
+                if (value == _currentHealth) return;
+                bool isDecreasing = value < _currentHealth;
+                _currentHealth = value;
+
+                // take damage
+                if (isDecreasing)
+                {
+                    // death
+                    if (_currentHealth <= 0)
+                    {
+                        OnDeath?.Invoke();
+                    }
+                }
+            }
+        }
+
         [HideInInspector] public Vector2 movementDirection = Vector2.zero;
         [HideInInspector] public Rigidbody2D Rb;
         
 
         [HideInInspector] public bool IsAttacking = false;
 
-        
+        public Action OnDeath;
+        [SerializeField] private float _currentHealth = 0;
 
 
         private void Awake()
@@ -79,12 +102,10 @@ namespace TDB
             }
             //-----------------------------------------------------------------------------------------------------------//
 
-
             if (_damagedEntity.GetComponent<EntityData>().CurrentHealth <= 0)
             {
                 //run the die method
                 Destroy(_damagedEntity);
-
             }
         }
         public void Update()

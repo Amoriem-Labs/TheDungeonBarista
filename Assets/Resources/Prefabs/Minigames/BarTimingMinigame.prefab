@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f615c9577f0b747bbc99d512bb59ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _primaryActionReference: {fileID: 1120369429361536294, guid: 6f57f7d3ede7e6b4cabec8c9099e3e3c, type: 3}
   rail: {fileID: 8916142289768523209}
   marker: {fileID: 885610841132249171}
   fillBar: {fileID: 8289350168078414004}

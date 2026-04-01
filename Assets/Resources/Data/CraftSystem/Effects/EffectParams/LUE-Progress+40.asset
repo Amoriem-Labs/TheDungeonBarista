@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aec863adcd944a06987380f5b9cfa463, type: 3}
-  m_Name: LUE-Flavor-Sour
+  m_Script: {fileID: 11500000, guid: bda5fd85b6614729ad46691cdc4071d3, type: 3}
+  m_Name: LUE-Progress+40
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,11 +20,6 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _newParamType
-      Entry: 6
-      Data: 
-  _resourcesPath: Data/CraftSystem/Effects/LUE-Flavor-Sour
-  <CraftMenuRecipeEffectItemPrefab>k__BackingField: {fileID: 4309549788246413265, guid: 51cc3b1c5e9335e48974ca5e4c0f6ead, type: 3}
-  _attributeName: Sour
-  _description: A flavor. Customers who like this flavor will pay extra money.
+    SerializationNodes: []
+  _resourcesPath: Data/CraftSystem/EffectParams/LUP-Progress+50
+  <Progress>k__BackingField: 0.5

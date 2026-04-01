@@ -10,6 +10,8 @@ namespace TDB.MinigameSystem.Minigames
 {
     public class BarTimingMinigame : MonoBehaviour, IMinigame
     {
+        [SerializeField] private InputActionReference _primaryActionReference;
+        
         [Header("Refs")]
         [SerializeField] private RectTransform rail;
         [SerializeField] private RectTransform marker;
@@ -37,7 +39,7 @@ namespace TDB.MinigameSystem.Minigames
         [SerializeField, Range(0f, 1f)] private float scoreAwesome = 0.70f;
         [SerializeField, Range(0f, 1f)] private float scorePerfect = 1.00f;
 
-        private InputAction _submit;
+        // private InputAction _submit;
         private Action<MinigameResult> _onComplete;
 
         private System.Random _rng;
@@ -59,29 +61,8 @@ namespace TDB.MinigameSystem.Minigames
 
         private bool _armed;
 
-        [Button("Run Minigame")]
-        private void RunMinigameEditorButton()
-        {
-            // Dummy actionmap just for testing in editor
-            var asset = ScriptableObject.CreateInstance<InputActionAsset>();
-            var map = new InputActionMap("Minigame");
-            var submit = map.AddAction("PrimaryAction", InputActionType.Button);
-            submit.AddBinding("<Mouse>/leftButton");
-            submit.AddBinding("<Keyboard>/space");
-            submit.AddBinding("<Gamepad>/buttonSouth");
-            asset.AddActionMap(map);
-            map.Enable();
-
-            Initialize(0.5f, map, r =>
-            {
-                Debug.Log($"[BarTimingMinigame] Success={r.Success} Score={r.Score:0.000} Duration={r.Duration:0.000}s");
-                map.Disable();
-            });
-            Begin();
-        }
-
         
-        public void Initialize(float diff, InputActionMap input, Action<MinigameResult> onComplete) {
+        public void Initialize(float diff, Action<MinigameResult> onComplete) {
             _onComplete = onComplete;
             _difficulty = Mathf.Clamp01(diff);
 
@@ -114,8 +95,8 @@ namespace TDB.MinigameSystem.Minigames
 
             marker.anchoredPosition = new Vector2(0f, -_railRect.height * 0.5f + 1f);
 
-            _submit = input?.FindAction("PrimaryAction");
-            if (_submit != null) _submit.performed += OnSubmit;
+            // _submit = input?.FindAction("PrimaryAction");
+            // if (_submit != null) _submit.performed += OnSubmit;
 
             if (fillBar) fillBar.value = 0f;
 
@@ -126,7 +107,19 @@ namespace TDB.MinigameSystem.Minigames
             _armed = false;
         }
 
-        public void Begin() => _armed = true;
+        public void Begin()
+        {
+            _armed = true;
+
+            BindInput();
+        }
+
+        private void BindInput()
+        {
+            _primaryActionReference.action.Enable();
+            _primaryActionReference.action.performed += OnSubmit;
+        }
+
         public void Abort() => Finish(false);
 
         private void Update()
@@ -195,17 +188,32 @@ namespace TDB.MinigameSystem.Minigames
         }
 
         private void Finish(bool completedNaturally) {
-            var cb = _onComplete;
-            _onComplete = null;
-            if (_submit != null) _submit.performed -= OnSubmit;
+            // unbind before callback in case input is reconfigured in the callback
+            UnBindInput();
 
+            // return minigame result
+            var minigameResult = ComputeResult(completedNaturally);
+            _onComplete?.Invoke(minigameResult);
+            _onComplete = null;
+        }
+
+        private MinigameResult ComputeResult(bool completedNaturally)
+        {
             float norm = Mathf.Clamp01(_scoreTotal / (passes * scorePerfect));
-            cb?.Invoke(new MinigameResult {
+            var minigameResult = new MinigameResult {
                 Success  = completedNaturally,
                 Score    = norm,
                 Duration = _elapsed
-            });
+            };
+            return minigameResult;
         }
+
+        private void UnBindInput()
+        {
+            _primaryActionReference.action.performed -= OnSubmit;
+            _primaryActionReference.action.Disable();
+        }
+
         private void PlaceZone(RectTransform zone, float heightPixels) {
             if (zone == null) return;
 
