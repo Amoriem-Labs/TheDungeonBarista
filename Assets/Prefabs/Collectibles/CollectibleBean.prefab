@@ -154,7 +154,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   size: {x: 1, y: 1}
-  Definition: {fileID: 0}
+  Definition: {fileID: 11400000, guid: 79dfc700b57a3554c9a2ca5b6d5b50bc, type: 2}
 --- !u!50 &7675682727619147701
 Rigidbody2D:
   serializedVersion: 4

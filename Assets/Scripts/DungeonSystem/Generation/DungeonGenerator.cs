@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TDB.DungeonSystem.BSP;
 using TDB.DungeonSystem.Core;
 using TDB.DungeonSystem;
 using TDB.Utils.Misc;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace TDB.DungeonSystem.Generate
@@ -65,14 +67,23 @@ namespace TDB.DungeonSystem.Generate
         private readonly Dictionary<RectInt, DungeonRoomController> _roomControllers = new Dictionary<RectInt, DungeonRoomController>();
         private readonly Dictionary<TileType, PropTilePrefab> _propPrefabLookup = new Dictionary<TileType, PropTilePrefab>();
 
-        [SerializeField] private RoomLibrary roomLibrary;
+        [FormerlySerializedAs("roomLibrary")]
+        [SerializeField] private RoomLibrary testRoomLibrary;
         private RoomChooser _roomChooser;
-        void Start()
+        
+        [Button]
+        void TestGenerateDungeon()
+        {
+            _roomChooser = new RoomChooser(testRoomLibrary);
+            GenerateDungeon();
+        }
+
+        public void GenerateDungeon(RoomLibrary roomLibrary)
         {
             _roomChooser = new RoomChooser(roomLibrary);
             GenerateDungeon();
         }
-
+        
         void GenerateDungeon()
         {
             leaves.Clear();

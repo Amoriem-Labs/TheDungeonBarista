@@ -5,6 +5,7 @@ using Sirenix.Utilities;
 using TDB.CraftSystem.EffectSystem;
 using TDB.CraftSystem.EffectSystem.Data;
 using TDB.DungeonSystem.Collectibles;
+using TDB.GameManagers;
 using TDB.ShopSystem;
 using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
@@ -50,6 +51,20 @@ namespace TDB.CraftSystem.Data
         }
 
         public Sprite CollectibleSprite => IngredientSprite;
+        
+        public void Transfer(GameData gameData, int amount)
+        {
+            var refCap = gameData.GetRefrigeratorCapacity();
+            var usedSpace = gameData.RefrigeratedIngredientStorageData.UsedSpace;
+            var refAmount = Mathf.Min(amount, refCap - usedSpace);
+            var remain = amount - refAmount;
+            
+            gameData.RefrigeratedIngredientStorageData.Deposit(this, refAmount);
+            if (remain > 0)
+            {
+                gameData.VolatileIngredientStorageData.Deposit(this, remain);
+            }
+        }
 
         protected override void OnValidate()
         {

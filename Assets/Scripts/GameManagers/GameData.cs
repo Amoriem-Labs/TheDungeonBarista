@@ -94,5 +94,12 @@ namespace TDB.GameManagers
             Money = newGameData.Money;
             Essence = newGameData.Essence;
         }
+
+        public int GetRefrigeratorCapacity()
+        {
+            return AllInstalledFurnitureData
+                .Select(f => f.FurnitureDefinition as RefrigeratorFurnitureDefinition)
+                .Sum(r => r?.Capacity ?? 0);
+        }
     }
 }

@@ -122,20 +122,20 @@ namespace TDB.GameManagers
 
         [DisableInEditorMode]
         [Button(ButtonSizes.Large)]
-        public void CafeToDungeon()
+        public void CafeToDungeon(EnterDungeonData enterData)
         {
             var coroutine = SceneTransitionCoroutine(
                 GameConfig.DungeonPhaseScenes,
                 scenesToUnload: GameConfig.CafePhaseScenes,
                 transitionIntroCallback: SaveSession(),
-                sceneLoadedCallback: CafeToDungeonOnLoaded()
+                sceneLoadedCallback: CafeToDungeonOnLoaded(enterData)
             );
             StartCoroutine(coroutine);
         }
 
-        private IEnumerator CafeToDungeonOnLoaded()
+        private IEnumerator CafeToDungeonOnLoaded(EnterDungeonData enterData)
         {
-            DungeonSceneManager.FindAndInitialize();
+            DungeonSceneManager.FindAndInitialize(enterData);
             yield break;
         }
 

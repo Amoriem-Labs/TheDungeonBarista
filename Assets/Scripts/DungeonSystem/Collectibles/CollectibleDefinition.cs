@@ -1,4 +1,5 @@
-﻿using TDB.Utils.Misc;
+﻿using TDB.GameManagers;
+using TDB.Utils.Misc;
 using UnityEngine;
 
 namespace TDB.DungeonSystem.Collectibles
@@ -7,5 +8,7 @@ namespace TDB.DungeonSystem.Collectibles
     public class CollectibleDefinition : ResourceScriptableObject
     {
         [SerializeField] public ICollectibleSource Definition;
+
+        public void Transfer(GameData gameData, int amount) => Definition.Transfer(gameData, amount);
     }
 }
