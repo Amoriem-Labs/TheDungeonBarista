@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TDB.ShopSystem.IngredientShop
 {
-    public class IngredientShopUI : ShopUI<IngredientSource>
+    public class IngredientShopUI : ShopUI<IngredientDefinition>
     {
         
     }

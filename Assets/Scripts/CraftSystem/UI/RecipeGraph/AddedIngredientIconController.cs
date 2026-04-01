@@ -25,7 +25,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         [SerializeField] private EventChannel _displayIngredientInfoEvent;
         
         private IngredientNodeUI _nodeUI;
-        private IngredientSource _ingredient;
+        private IngredientDefinition _ingredient;
         
         private Vector3 _targetPosition;
         private float _animTime;
@@ -37,7 +37,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
         private bool _hovered;
         private float _canRemoveTimer;
 
-        public IngredientSource Ingredient => _ingredient;
+        public IngredientDefinition Ingredient => _ingredient;
         public bool CanRemove => _canRemoveTimer > CanRemoveTime;
 
         private void Awake()
@@ -45,7 +45,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
             _animParam = GameManager.Instance.GameConfig.AddedIngredientAnimParam;
         }
 
-        public void BindData(IngredientNodeUI nodeUI, IngredientSource ingredient)
+        public void BindData(IngredientNodeUI nodeUI, IngredientDefinition ingredient)
         {
             _nodeUI = nodeUI;
             _ingredient = ingredient;

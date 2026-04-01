@@ -32,7 +32,7 @@ namespace TDB.InventorySystem.Framework
         public void HideItem(InventoryStackUI<T> stack) => _listItemBuffer.RemoveItem(s => s == stack);
 
         public InventoryStackUI<T> FindItem(Predicate<T> predicate) =>
-            _listItemBuffer.FindItem(item => predicate(item.Stack.Source));
+            _listItemBuffer.FindItem(item => predicate(item.Stack.Definition));
 
         public void AddItem(InventoryStackData<T> newStack) =>
             _listItemBuffer.AddItem(

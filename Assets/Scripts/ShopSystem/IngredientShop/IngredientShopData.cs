@@ -11,10 +11,10 @@ using UnityEngine;
 namespace TDB.ShopSystem.IngredientShop
 {
     [System.Serializable]
-    public class IngredientShopData : IShopData<IngredientSource>
+    public class IngredientShopData : IShopData<IngredientDefinition>
     {
         [SerializeField]
-        private List<IngredientSource> _purchasableIngredients;
+        private List<IngredientDefinition> _purchasableIngredients;
         [SerializeField]
         private int _shopSlots;
         [SerializeField, MinMaxSlider(1, 9999, true)]
@@ -25,21 +25,21 @@ namespace TDB.ShopSystem.IngredientShop
 
         public IngredientShopData(IngredientShopData data)
         {
-            _purchasableIngredients = new List<IngredientSource>(data._purchasableIngredients);
+            _purchasableIngredients = new List<IngredientDefinition>(data._purchasableIngredients);
             _shopSlots = data._shopSlots;
             _itemAmount = data._itemAmount;
         }
 
         public void SetStorage(IngredientStorageManager storage) => _ingredientStorage = storage;
 
-        public IEnumerable<ShopItemData<IngredientSource>> AllItems =>
+        public IEnumerable<ShopItemData<IngredientDefinition>> AllItems =>
             _purchasableIngredients.Shuffled()
                 .Where((_, i) => i < _shopSlots)
                 .Select(i =>
                     new IngredientShopItemData(i, Random.Range(_itemAmount.x, _itemAmount.y + 1), _ingredientStorage));
     }
     
-    public class IngredientShopItemData : ShopItemData<IngredientSource>
+    public class IngredientShopItemData : ShopItemData<IngredientDefinition>
     {
         private readonly IngredientStorageManager _ingredientStorage;
 
@@ -48,12 +48,12 @@ namespace TDB.ShopSystem.IngredientShop
         
         protected override void HandlePurchase()
         {
-            _ingredientStorage.AddVolatileIngredient(_itemSource);
+            _ingredientStorage.AddVolatileIngredient(_itemDefinition);
         }
 
-        public IngredientShopItemData(IngredientSource itemSource, int inStockCount,
+        public IngredientShopItemData(IngredientDefinition itemDefinition, int inStockCount,
             IngredientStorageManager ingredientStorage) :
-            base(itemSource, inStockCount)
+            base(itemDefinition, inStockCount)
         {
             _ingredientStorage = ingredientStorage;
         }

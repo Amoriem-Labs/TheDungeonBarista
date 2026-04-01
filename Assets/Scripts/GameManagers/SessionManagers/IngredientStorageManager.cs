@@ -38,7 +38,7 @@ namespace TDB.GameManagers.SessionManagers
         /// <returns></returns>
         public IngredientStorageData GetMergedIngredientStorage()
         {
-            return new IngredientStorageData(new List<InventoryData<IngredientSource>>
+            return new IngredientStorageData(new List<InventoryData<IngredientDefinition>>
                 { _volatileStorage, _refrigeratedStorage });
         }
 
@@ -46,7 +46,7 @@ namespace TDB.GameManagers.SessionManagers
 
         public IngredientStorageData RefrigeratedIngredientStorage => _refrigeratedStorage;
 
-        public bool TryConsume(Dictionary<IngredientSource, int> requirement)
+        public bool TryConsume(Dictionary<IngredientDefinition, int> requirement)
         {
             // consume volatile storage first
             _volatileStorage.TryConsume(requirement);
@@ -60,9 +60,9 @@ namespace TDB.GameManagers.SessionManagers
             return requirement.Values.Sum() >= 0;
         }
 
-        public void AddVolatileIngredient(IngredientSource itemSource)
+        public void AddVolatileIngredient(IngredientDefinition itemDefinition)
         {
-            _volatileStorage.Deposit(itemSource);
+            _volatileStorage.Deposit(itemDefinition);
         }
 
         public int GetVolatileIngredientEssence()

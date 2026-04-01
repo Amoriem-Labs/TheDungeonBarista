@@ -9,12 +9,12 @@ using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
 using UnityEngine;
 
-[assembly: RegisterFormatter(typeof(RsoPathFormatter<TDB.CraftSystem.Data.IngredientSource>))]
+[assembly: RegisterFormatter(typeof(RsoPathFormatter<TDB.CraftSystem.Data.IngredientDefinition>))]
 
 namespace TDB.CraftSystem.Data
 {
     [CreateAssetMenu(fileName = "New Ingredient", menuName = "Data/Craft System/Ingredient Definition", order = 0)]
-    public class IngredientSource : ResourceScriptableObject, IShopItemDefinition, ICollectibleSource
+    public class IngredientDefinition : ResourceScriptableObject, IShopItemDefinition, ICollectibleSource
     {
         [SerializeField] private string _ingredientName;
         [SerializeField] private Sprite _ingredientSprite;

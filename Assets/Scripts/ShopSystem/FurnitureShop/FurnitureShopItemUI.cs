@@ -14,7 +14,7 @@ namespace TDB.ShopSystem.FurnitureShop
         {
             base.BindItemData(itemData, moneyData);
 
-            _furnitureName.text = itemData._itemSource.FurnitureName;
+            _furnitureName.text = itemData._itemDefinition.FurnitureName;
         }
     }
 }

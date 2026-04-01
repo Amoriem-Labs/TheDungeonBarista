@@ -12,7 +12,7 @@ namespace TDB.CraftSystem.Data
     public class IngredientNodeData
     {
         [FormerlySerializedAs("_addedIngredient")]
-        [SerializeField] private List<IngredientSource> _addedIngredients;
+        [SerializeField] private List<IngredientDefinition> _addedIngredients;
         [SerializeField] private int _requiredAmount = 3;
         [SerializeField] private IngredientTypeDefinition _requiredType;
         
@@ -28,7 +28,7 @@ namespace TDB.CraftSystem.Data
             _effects = new List<EffectParamPair>(data._effects);
         }
 
-        public List<IngredientSource> AddedIngredients => _addedIngredients;
+        public List<IngredientDefinition> AddedIngredients => _addedIngredients;
 
         public bool IsNodeReady => _addedIngredients.Count >= RequiredAmount;
         public bool IsNodeAvailable => _addedIngredients.Count < RequiredAmount;
@@ -42,17 +42,17 @@ namespace TDB.CraftSystem.Data
                 .Concat(IsNodeReady ? _effects : new List<EffectParamPair>())
                 .ToList();
 
-        public void AddIngredient(IngredientSource ingredient)
+        public void AddIngredient(IngredientDefinition ingredient)
         {
             AddedIngredients.Add(ingredient);
         }
 
-        public void RemoveIngredient(IngredientSource ingredient)
+        public void RemoveIngredient(IngredientDefinition ingredient)
         {
             AddedIngredients.Remove(ingredient);
         }
 
-        public bool TryAddIngredient(IngredientSource ingredient)
+        public bool TryAddIngredient(IngredientDefinition ingredient)
         {
             if (!IsNodeAvailable) return false;
             if (ingredient.Type != _requiredType) return false;

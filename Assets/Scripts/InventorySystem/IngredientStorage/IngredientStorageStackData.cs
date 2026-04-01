@@ -4,13 +4,13 @@ using TDB.InventorySystem.Framework;
 namespace TDB.InventorySystem.IngredientStorage
 {
     [System.Serializable]
-    public class IngredientStorageStackData : InventoryStackData<IngredientSource>
+    public class IngredientStorageStackData : InventoryStackData<IngredientDefinition>
     {
-        public IngredientStorageStackData(IngredientSource source) : base(source)
+        public IngredientStorageStackData(IngredientDefinition definition) : base(definition)
         {
         }
 
-        public IngredientStorageStackData(InventoryStackData<IngredientSource> stack) : base(stack)
+        public IngredientStorageStackData(InventoryStackData<IngredientDefinition> stack) : base(stack)
         {
         }
     }

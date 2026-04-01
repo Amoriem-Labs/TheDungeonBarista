@@ -35,7 +35,7 @@ namespace TDB.InventorySystem.Framework
                 var inventory = inventories[i];
                 foreach (InventoryStackData<T> stack in inventory)
                 {
-                    Deposit(stack.Source, stack.Amount);
+                    Deposit(stack.Definition, stack.Amount);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace TDB.InventorySystem.Framework
                 // not enough resource in the current stack
                 if (stack.Amount <= 0) continue;
                 
-                var ingredient = stack.Source;
+                var ingredient = stack.Definition;
                 // current stack is not required or already satisfied
                 if (!requirement.TryGetValue(ingredient, out var required) || required <= 0) continue;
                 
@@ -78,7 +78,7 @@ namespace TDB.InventorySystem.Framework
         /// </summary>
         public void Consume(T itemDefinition, int amount = 1)
         {
-            var stack = Stacks.Find(i => i.Source == itemDefinition);
+            var stack = Stacks.Find(i => i.Definition == itemDefinition);
             if (stack == null) throw new ArgumentOutOfRangeException(nameof(itemDefinition), "Item not in inventory.");
             if (stack.Amount < amount) throw new ArgumentOutOfRangeException(nameof(amount), "Not enough amount.");
             stack.Consume(amount);
@@ -86,7 +86,7 @@ namespace TDB.InventorySystem.Framework
 
         public InventoryStackData<T> GetStack(T itemDefinition, bool allocateNewStack = false)
         {
-            var stack = Stacks.Find(i => i.Source == itemDefinition);
+            var stack = Stacks.Find(i => i.Definition == itemDefinition);
             if (stack == null && allocateNewStack)
             {
                 stack = new InventoryStackData<T>(itemDefinition);

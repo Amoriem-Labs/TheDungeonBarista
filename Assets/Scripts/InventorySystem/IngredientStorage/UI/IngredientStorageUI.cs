@@ -101,7 +101,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             IngredientStorageData toStorage, IngredientStorageColumnUI toColumn,
             IngredientStackItemUIClickable ingredientItem, int amount, int toStorageCapacity)
         {
-            var ingredient = ingredientItem.Stack.Source;
+            var ingredient = ingredientItem.Stack.Definition;
             // check capacity and decide the actual amount
             var current = toStorage.TotalIngredients;
             var actualAmount = toStorageCapacity < 0 ? amount : Mathf.Min(toStorageCapacity - current, amount);

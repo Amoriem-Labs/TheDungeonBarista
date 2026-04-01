@@ -7,7 +7,7 @@ namespace TDB.InventorySystem.Framework
     public class InventoryStackData<T> where T : ResourceScriptableObject
     {
         [field: SerializeField]
-        public T Source { get; private set; }
+        public T Definition { get; private set; }
         
         [field: SerializeField]
         public int Amount { get; protected set; }
@@ -23,15 +23,15 @@ namespace TDB.InventorySystem.Framework
             Amount += amount;
         }
         
-        public InventoryStackData(T source)
+        public InventoryStackData(T definition)
         {
-            Source = source;
+            Definition = definition;
             Amount = 0;
         }
 
         public InventoryStackData(InventoryStackData<T> stack)
         {
-            Source = stack.Source;
+            Definition = stack.Definition;
             Amount = stack.Amount;
         }
     }

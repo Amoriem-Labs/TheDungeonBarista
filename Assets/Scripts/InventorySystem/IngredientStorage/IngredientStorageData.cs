@@ -11,19 +11,19 @@ namespace TDB.InventorySystem.IngredientStorage
     /// Only merge them before sending to the craft system.
     /// </summary>
     [System.Serializable]
-    public class IngredientStorageData : InventoryData<IngredientSource>
+    public class IngredientStorageData : InventoryData<IngredientDefinition>
     {
         public IngredientStorageData(IngredientStorageData ingredientStorage) : base(ingredientStorage)
         {
         }
         
-        public IngredientStorageData(List<InventoryData<IngredientSource>> inventories) : base(inventories)
+        public IngredientStorageData(List<InventoryData<IngredientDefinition>> inventories) : base(inventories)
         {
         }
 
-        public Dictionary<IngredientSource, int> GetIngredientsCount =>
+        public Dictionary<IngredientDefinition, int> GetIngredientsCount =>
             Stacks
-                .GroupBy(i => i.Source)
+                .GroupBy(i => i.Definition)
                 .ToDictionary(g => g.Key, g => g.Sum(i => i.Amount));
 
         public int TotalIngredients => Stacks.Sum(s => s.Amount);

@@ -23,7 +23,7 @@ namespace TDB.CraftSystem.UI.Inventory
         [Title("Events")]
         [SerializeField] private EventChannel _displayCraftMenuInventoryItemInfoEvent;
         
-        private IngredientSource _ingredient;
+        private IngredientDefinition _ingredient;
         private int _inStockNumber;
         private int _requiredNumber;
         private CraftMenuInventoryUI _inventoryUI;
@@ -40,7 +40,7 @@ namespace TDB.CraftSystem.UI.Inventory
             _requireNumberText.text = _requiredNumber.ToString();
         }
 
-        public void BindData(IngredientSource ingredient, CraftMenuInventoryUI craftMenuInventoryUI)
+        public void BindData(IngredientDefinition ingredient, CraftMenuInventoryUI craftMenuInventoryUI)
         {
             _ingredient = ingredient;
             _iconImage.sprite = _ingredient.IngredientSprite;

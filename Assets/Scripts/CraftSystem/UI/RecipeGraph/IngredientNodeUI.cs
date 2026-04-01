@@ -84,7 +84,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
                 : string.Format(IncompleteTooltipText, _nodeData.RequiredAmount - _nodeData.AddedIngredients.Count));
         }
 
-        private void AddIngredientIconFrom(IngredientSource ingredient, Vector3 position)
+        private void AddIngredientIconFrom(IngredientDefinition ingredient, Vector3 position)
         {
             position.z = transform.position.z;
             var ingredientIcon = _addedIngredientPool.Get(position, Quaternion.identity);
@@ -96,7 +96,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
 
         #region RecipeManipulation
 
-        public bool TryAddIngredientFrom(IngredientSource ingredient, Vector3 position)
+        public bool TryAddIngredientFrom(IngredientDefinition ingredient, Vector3 position)
         {
             // try to update data
             var success = _nodeData.TryAddIngredient(ingredient);
@@ -166,7 +166,7 @@ namespace TDB.CraftSystem.UI.RecipeGraph
 
     public struct ReturnIngredientInfo
     {
-        public IngredientSource Ingredient;
+        public IngredientDefinition Ingredient;
         public Vector3 Position;
     }
 }

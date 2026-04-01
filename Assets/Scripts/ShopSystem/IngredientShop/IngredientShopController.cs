@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TDB.ShopSystem.IngredientShop
 {
-    public class IngredientShopController : ShopController<IngredientSource>
+    public class IngredientShopController : ShopController<IngredientDefinition>
     {
         private IngredientStorageManager _ingredientStorage;
         private SessionManager _sessionManager;
@@ -20,7 +20,7 @@ namespace TDB.ShopSystem.IngredientShop
             _sessionManager = FindObjectOfType<SessionManager>();
         }
 
-        protected override IShopData<IngredientSource> RequestShopData()
+        protected override IShopData<IngredientDefinition> RequestShopData()
         {
             var data = _sessionManager.IngredientShopData;
             data.SetStorage(_ingredientStorage);
