@@ -72,7 +72,7 @@ namespace TDB.ShopSystem.FurnitureShop
                 Debug.LogError("Furniture Shop is not bound to Furniture Inventory");
                 return;
             }
-            _furnitureInventory.Deposit(ItemDefinition);
+            _furnitureInventory.Deposit(_itemDefinition);
         }
 
         public FurnitureShopItemData Clone() => new FurnitureShopItemData(this);

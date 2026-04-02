@@ -41,6 +41,7 @@ namespace TDB.InventorySystem.Framework
         }
 
         protected List<InventoryStackData<T>> Stacks => _stacks;
+        public int UsedSpace => _stacks.Sum(s => s.Amount);
 
         /// <summary>
         /// Try to consume items from the requirement dictionary.
@@ -65,7 +66,7 @@ namespace TDB.InventorySystem.Framework
         }
 
         /// <summary>
-        /// Deposit items to the inventory. Returns the new stack if allocated.
+        /// Deposit items to the inventory.
         /// </summary>
         public void Deposit(T itemDefinition, int amount = 1)
         {

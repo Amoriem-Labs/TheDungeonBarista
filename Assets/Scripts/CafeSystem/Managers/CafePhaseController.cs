@@ -61,11 +61,11 @@ namespace TDB.CafeSystem.Managers
             _dungeonPreparationStartEvent.RaiseEvent();
         }
 
-        public void EnterDungeon()
+        public void EnterDungeon(EnterDungeonData enterData)
         {
             _dungeonPreparationEndEvent.RaiseEvent();
             // TODO: maybe some (blocking) animation before leaving the cafe scene
-            GameManager.Instance.CafeToDungeon();
+            GameManager.Instance.CafeToDungeon(enterData);
         }
     }
 }

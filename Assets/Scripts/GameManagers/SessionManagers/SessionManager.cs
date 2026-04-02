@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
+using TDB.DungeonSystem.Collectibles;
+using TDB.InventorySystem.CollectibleInventory;
+using TDB.InventorySystem.Framework;
 using TDB.InventorySystem.FurnitureInventory;
 using TDB.ShopSystem.FurnitureShop;
 using TDB.ShopSystem.IngredientShop;
@@ -35,6 +38,7 @@ namespace TDB.GameManagers.SessionManagers
         #region Inventory Data Accessor
 
         public FurnitureInventoryData FurnitureInventoryData => _currentSessionGameData.FurnitureInventoryData;
+        public CollectibleInventoryData CollectibleInventoryData => _currentSessionGameData.CollectibleInventoryData;
 
         #endregion
 
@@ -131,6 +135,15 @@ namespace TDB.GameManagers.SessionManagers
             }
 
             return obj;
+        }
+
+        public void TransferCollectibles()
+        {
+            var collectibles = _currentSessionGameData.CollectibleInventoryData;
+            foreach (InventoryStackData<CollectibleDefinition> collectible in collectibles)
+            {
+                collectible.Definition.Transfer(_currentSessionGameData, collectible.Amount);
+            }
         }
     }
 }

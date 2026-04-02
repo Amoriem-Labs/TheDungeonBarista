@@ -3,6 +3,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TDB.CafeSystem.FurnitureSystem;
 using TDB.CraftSystem.Data;
+using TDB.InventorySystem.CollectibleInventory;
 using TDB.InventorySystem.FurnitureInventory;
 using TDB.InventorySystem.IngredientStorage;
 using TDB.ShopSystem.FurnitureShop;
@@ -29,6 +30,10 @@ namespace TDB.GameManagers
         [SerializeField]
         [FoldoutGroup("Furniture Inventory"), HideLabel, InlineProperty]
         public FurnitureInventoryData FurnitureInventoryData;
+        
+        [SerializeField]
+        [FoldoutGroup("Collectible Inventory"), HideLabel, InlineProperty]
+        public CollectibleInventoryData CollectibleInventoryData;
         
         #endregion
 
@@ -75,6 +80,7 @@ namespace TDB.GameManagers
             RefrigeratedIngredientStorageData = new IngredientStorageData(newGameData.RefrigeratedIngredientStorageData);
             // copy inventory data
             FurnitureInventoryData = new FurnitureInventoryData(newGameData.FurnitureInventoryData);
+            CollectibleInventoryData = new CollectibleInventoryData(newGameData.CollectibleInventoryData);
             
             // copy installed furniture data
             AllInstalledFurnitureData =
@@ -87,6 +93,13 @@ namespace TDB.GameManagers
             // copy other data
             Money = newGameData.Money;
             Essence = newGameData.Essence;
+        }
+
+        public int GetRefrigeratorCapacity()
+        {
+            return AllInstalledFurnitureData
+                .Select(f => f.FurnitureDefinition as RefrigeratorFurnitureDefinition)
+                .Sum(r => r?.Capacity ?? 0);
         }
     }
 }

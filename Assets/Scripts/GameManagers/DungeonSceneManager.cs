@@ -1,15 +1,20 @@
 ﻿using Sirenix.OdinInspector;
+using TDB.DungeonSystem.Generate;
+using TDB.GameManagers.SessionManagers;
 using UnityEngine;
 
 namespace TDB.GameManagers
 {
     public class DungeonSceneManager : MonoBehaviour
     {
+        private SessionManager _session;
+
         /// <summary>
         /// Invoked once by the GameManager when the scene loading finishes.
         /// </summary>
+        /// <param name="enterData"></param>
         [Button(ButtonSizes.Large), DisableInEditorMode]
-        public static void FindAndInitialize()
+        public static void FindAndInitialize(EnterDungeonData enterData)
         {
             var manager = FindObjectOfType<DungeonSceneManager>();
             if (!manager)
@@ -17,12 +22,31 @@ namespace TDB.GameManagers
                 Debug.LogError("CafeSceneManager not found");
                 return;
             }
-            manager.Initialize();
+            manager.Initialize(enterData);
         }
 
-        private void Initialize()
+        private void Initialize(EnterDungeonData enterData)
         {
+            _session = FindObjectOfType<SessionManager>();
+            if (!_session)
+            {
+                Debug.LogError("SessionManager not found");
+            }
+            
             InitializePlayer();
+            InitializeDungeon(enterData);
+        }
+
+        private void InitializeDungeon(EnterDungeonData enterData)
+        {
+            var gen = FindObjectOfType<DungeonGenerator>();
+            if (!gen)
+            {
+                Debug.LogError("DungeonGenerator not found");
+                return;
+            }
+            
+            gen.GenerateDungeon(enterData.DungeonDefinition);
         }
 
         private void InitializePlayer()
@@ -41,15 +65,21 @@ namespace TDB.GameManagers
         {
             // TODO: notify player
             Debug.Log("Player is dead");
-            
-            GameManager.Instance.DungeonToCafe();
+
+            HandleExitDungeonLevel();
         }
 
         public void HandleExitDungeonLevel()
         {
-            // TODO: currently jumps to cafe immediately
+            // transfer all collectibles
+            _session.TransferCollectibles();
             
             GameManager.Instance.DungeonToCafe();
         }
+    }
+
+    public class EnterDungeonData
+    {
+        public RoomLibrary DungeonDefinition;
     }
 }

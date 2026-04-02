@@ -51,6 +51,7 @@ MonoBehaviour:
   DefaultFurniturePreset: {fileID: 11400000, guid: 1e85a34b2a307a746891ed0c7ecc79c4, type: 2}
   _initialGameData:
     VolatileIngredientStorageData:
+      _capacity: -1
       _stacks:
       - <Definition>k__BackingField: {fileID: 11400000, guid: 17683645610a48b4ba23f5a9c55b0ae4, type: 2}
         <Amount>k__BackingField: 2
@@ -59,8 +60,13 @@ MonoBehaviour:
       - <Definition>k__BackingField: {fileID: 11400000, guid: b6aed38bd36f7b54893e9e8e77a26533, type: 2}
         <Amount>k__BackingField: 4
     RefrigeratedIngredientStorageData:
+      _capacity: 0
       _stacks: []
     FurnitureInventoryData:
+      _capacity: -1
+      _stacks: []
+    CollectibleInventoryData:
+      _capacity: -1
       _stacks: []
     RecipeBookData:
       _obtainedRawRecipes:
@@ -90,9 +96,9 @@ MonoBehaviour:
       _itemAmount: {x: 1, y: 3}
     FurnitureShopData:
       _availableItems:
-      - ItemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+      - _itemDefinition: {fileID: 11400000, guid: 03a6423e045f99341a571450e5131c74, type: 2}
         <InStockCount>k__BackingField: 1
-      - ItemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
+      - _itemDefinition: {fileID: 11400000, guid: d42ac9a0edb1e504cbf3d81d4825e568, type: 2}
         <InStockCount>k__BackingField: 2
     Money: 1000
     Essence: 0
