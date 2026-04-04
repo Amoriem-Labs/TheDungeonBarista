@@ -1,51 +1,42 @@
-using System;
 using TDB.CraftSystem.Data;
 using TDB.CraftSystem.EffectSystem.UI;
 using TDB.CraftSystem.UI.Info;
+using TDB.DungeonSystem.Collectibles;
+using TDB.InventorySystem.IngredientStorage.UI;
 using TDB.Utils.UI;
-using TDB.Utils.UI.UIHover;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace TDB.InventorySystem.IngredientStorage.UI
+namespace TDB.InventorySystem.CollectibleInventory.UI
 {
     [RequireComponent(typeof(UIEnabler))]
-    public class IngredientInfoUI : MonoBehaviour
+    public class CollectibleInfoUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _headerText;
-        [SerializeField] private Transform _effectItemContainer;
-        
-        [SerializeField] private EffectPairItemUI _effectPairItemPrefab;
         
         private InventoryInfoDisplayDirection _pivotControl;
         private RectTransform _rectTransform;
         
-        private IngredientEffectListDisplay _effectListDisplay;
-        private IngredientDefinition _ingredient;
         private UIEnabler _enabler;
 
         private void Awake()
         {
-            _effectListDisplay = new IngredientEffectListDisplay(_effectItemContainer, _effectPairItemPrefab);
             _enabler = GetComponent<UIEnabler>();
             _pivotControl = GetComponentInChildren<InventoryInfoDisplayDirection>();
             _rectTransform = transform as RectTransform;
         }
-        
-        public void SetIngredient(IngredientDefinition ingredient)
+
+        private void SetCollectible(CollectibleDefinition collectible)
         {
-            _ingredient = ingredient;
-            _headerText.text = ingredient.IngredientName;
-            _effectListDisplay.DisplayIngredientEffectList(ingredient);
+            _headerText.text = collectible.ItemName;
         }
 
-        public void DisplayIngredientInfo(InventoryInfoDisplayData<IngredientDefinition> info)
+        public void DisplayCollectibleInfo(InventoryInfoDisplayData<CollectibleDefinition> info)
         {
             _enabler.Enable();
             transform.position = info.RootPosition;
             _rectTransform.sizeDelta = info.RootSize;
-            SetIngredient(info.Data);
+            SetCollectible(info.Data);
         }
 
         public void StopDisplaying()

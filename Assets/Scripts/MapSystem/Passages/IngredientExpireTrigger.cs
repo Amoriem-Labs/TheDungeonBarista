@@ -10,13 +10,13 @@ namespace TDB.MapSystem.Passages
     {
         private IngredientStorageManager _ingredientStorage;
         private EssenceManager _essenceManager;
-        private IngredientExpirePopUpUI _expireUI;
+        private InventoryExpirePopUpUI _expireUI;
         
         private void Awake()
         {
             _ingredientStorage = FindObjectOfType<IngredientStorageManager>();
             _essenceManager = FindObjectOfType<EssenceManager>();
-            _expireUI = FindObjectOfType<IngredientExpirePopUpUI>();
+            _expireUI = FindObjectOfType<InventoryExpirePopUpUI>();
         }
 
         public IEnumerator HandleEnterPassage(Action abort)

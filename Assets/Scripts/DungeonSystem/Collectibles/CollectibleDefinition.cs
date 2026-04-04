@@ -8,6 +8,7 @@ namespace TDB.DungeonSystem.Collectibles
     public class CollectibleDefinition : ResourceScriptableObject
     {
         [SerializeField] public ICollectibleSource Definition;
+        public string ItemName => Definition.ItemName;
 
         public void Transfer(GameData gameData, int amount) => Definition.Transfer(gameData, amount);
     }

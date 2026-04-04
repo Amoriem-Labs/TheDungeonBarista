@@ -51,7 +51,8 @@ namespace TDB.CraftSystem.Data
         }
 
         public Sprite CollectibleSprite => IngredientSprite;
-        
+        public string ItemName => IngredientName;
+
         public void Transfer(GameData gameData, int amount)
         {
             var refCap = gameData.GetRefrigeratorCapacity();

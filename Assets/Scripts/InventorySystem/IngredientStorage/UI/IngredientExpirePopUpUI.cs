@@ -12,7 +12,7 @@ using Debug = System.Diagnostics.Debug;
 namespace TDB.InventorySystem.IngredientStorage.UI
 {
     [RequireComponent(typeof(UIEnabler))]
-    public class IngredientExpirePopUpUI : MonoBehaviour, IIngredientInfoDisplayer
+    public class InventoryExpirePopUpUI : MonoBehaviour, IInventoryInfoDisplayer<IngredientDefinition>
     {
         [SerializeField] private Button _confirmButton;
         [SerializeField] private Button _cancelButton;
@@ -64,7 +64,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _enabler.Disable();
         }
 
-        public void DisplayIngredientInfo(IngredientInfoDisplayInfo info)
+        public void DisplayIngredientInfo(InventoryInfoDisplayData<IngredientDefinition> info)
         {
             _ingredientInfoUI.DisplayIngredientInfo(info);
         }
