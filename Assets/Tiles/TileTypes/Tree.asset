@@ -20,3 +20,5 @@ MonoBehaviour:
   useRuleSet: 0
   ruleSet: {fileID: 0}
   neighborMatchMode: 0
+  prefab: {fileID: 5019895138965601922, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
+  addYSortIfMissing: 1

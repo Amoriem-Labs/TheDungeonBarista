@@ -1,13 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "TDB/Dungeon/Room")]
 public class RoomSO : ScriptableObject
 {
+    [System.Serializable]
+    public class DecorationTile
+    {
+        public Vector2Int Position;
+        public TileType Tile;
+        [Range(0, 1)]
+        public float Probability;
+    }
+    
     [Header("Classification")]
     public RoomType roomType = RoomType.Normal;
 
+    [Min(1)]
     public int width;
+    [Min(1)]
     public int height;
 
     // Flattened tile array: index = x + y * width
@@ -16,10 +28,13 @@ public class RoomSO : ScriptableObject
     public TileType wallTile;
     public TileType corridorFloorTile;
     [SerializeField] private TileType defaultTile;
-    [Header("Decoration")]
-    public TileType[] decorationTiles;
-    public List<Vector2Int> doorPositions = new List<Vector2Int>();
+    [FormerlySerializedAs("decorationTiles")] [Header("Decoration")]
+    public TileType[] decorationTiles_deprecated;
 
+    public List<DecorationTile> decorations = new List<DecorationTile>();
+
+    public List<Vector2Int> doorPositions = new List<Vector2Int>();
+    
     private void OnValidate()
     {
         if (width <= 0 || height <= 0)
@@ -32,10 +47,10 @@ public class RoomSO : ScriptableObject
             tiles = new TileType[expectedSize];
         }
 
-        if (decorationTiles == null || decorationTiles.Length != expectedSize)
-        {
-            decorationTiles = new TileType[expectedSize];
-        }
+        // if (decorationTiles == null || decorationTiles.Length != expectedSize)
+        // {
+        //     decorationTiles = new TileType[expectedSize];
+        // }
 
         // Fill empty slots with defaultTile
         for (int i = 0; i < tiles.Length; i++)
@@ -52,6 +67,21 @@ public class RoomSO : ScriptableObject
         {
             if (!IsDoorOnPerimeter(doorPositions[i]))
                 doorPositions.RemoveAt(i);
+        }
+        
+        if (decorations == null)
+            return;
+
+        for (int i = 0; i < decorations.Count; i++)
+        {
+            var d = decorations[i];
+            if (d == null)
+                continue;
+
+            d.Position = new Vector2Int(
+                Mathf.Clamp(d.Position.x, 0, width - 1),
+                Mathf.Clamp(d.Position.y, 0, height - 1)
+            );
         }
     }
 
