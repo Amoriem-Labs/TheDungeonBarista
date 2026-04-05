@@ -1,0 +1,466 @@
+fileFormatVersion: 2
+guid: 0ad4be780a1b60a44be8d339b3d39257
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 145
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 272f50a0b2c4adf4b9c4b92fda0455de
+      internalID: 693621843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 145
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97445a35b1cb6914c889d27e3afcd0b3
+      internalID: -1687663231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 145
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eda7796e4222e842921b9516dbcaa20
+      internalID: 2048722262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 146
+        width: 42
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c0df234f56f1e847a4e6522d056410e
+      internalID: 472362153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 98
+        width: 35
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f164b035330727647bf6f4fe8e7a8e99
+      internalID: -132256701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 97
+        width: 35
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ee1d300d4479e84ca0489144f837dd8
+      internalID: -813818243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 97
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d926b7e92cc034290c7f850d4379a1
+      internalID: 1316527776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 97
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 753380b9bd5897b409e79827ec09b5a9
+      internalID: -64374866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 49
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dd9932029d87e241a034e700283d271
+      internalID: -990019180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 49
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d58401b21bfd604589fa54ebf762dba
+      internalID: 1885098351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 49
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ad53430b80f4e24ba71a3f6d575bf30
+      internalID: 1081849695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 50
+        width: 42
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ac87a0753e8abf40b51870ba5470ff1
+      internalID: 1971517416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 35
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52ef1a20bed7816438d036546b1c15a0
+      internalID: 769540283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 1
+        width: 35
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ee2816e40804494a953e4b0fb8617ee
+      internalID: 1061569457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fd5498a69c5be843b5e0ff1fa05b8c8
+      internalID: -1146772086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pudgeon_YesWheat_Idle_spriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 1
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 912e66c6db1617f42b0595dff684c21c
+      internalID: 77576909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: d7f376b6aa8a1ae43b42ca4f0504c2f1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Pudgeon_YesWheat_Idle_spriteSheet_0: 693621843
+      Pudgeon_YesWheat_Idle_spriteSheet_1: -1687663231
+      Pudgeon_YesWheat_Idle_spriteSheet_10: 1081849695
+      Pudgeon_YesWheat_Idle_spriteSheet_11: 1971517416
+      Pudgeon_YesWheat_Idle_spriteSheet_12: 769540283
+      Pudgeon_YesWheat_Idle_spriteSheet_13: 1061569457
+      Pudgeon_YesWheat_Idle_spriteSheet_14: -1146772086
+      Pudgeon_YesWheat_Idle_spriteSheet_15: 77576909
+      Pudgeon_YesWheat_Idle_spriteSheet_2: 2048722262
+      Pudgeon_YesWheat_Idle_spriteSheet_3: 472362153
+      Pudgeon_YesWheat_Idle_spriteSheet_4: -132256701
+      Pudgeon_YesWheat_Idle_spriteSheet_5: -813818243
+      Pudgeon_YesWheat_Idle_spriteSheet_6: 1316527776
+      Pudgeon_YesWheat_Idle_spriteSheet_7: -64374866
+      Pudgeon_YesWheat_Idle_spriteSheet_8: -990019180
+      Pudgeon_YesWheat_Idle_spriteSheet_9: 1885098351
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
