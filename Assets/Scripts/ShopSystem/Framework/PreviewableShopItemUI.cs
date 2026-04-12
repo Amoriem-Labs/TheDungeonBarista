@@ -24,7 +24,7 @@ namespace TDB.ShopSystem.Framework
 
         public override void BindItemData(ShopItemData<T> itemData, IResourceDataHolder moneyData)
         {
-            _previewTrigger.BindData(itemData, itemData.ItemDefinition);
+            _previewTrigger.BindData(itemData, itemData._itemDefinition);
             
             // base implementation contains check purchasable
             base.BindItemData(itemData, moneyData);

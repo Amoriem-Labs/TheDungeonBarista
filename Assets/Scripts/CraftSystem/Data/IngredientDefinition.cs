@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities;
 using TDB.CraftSystem.EffectSystem;
 using TDB.CraftSystem.EffectSystem.Data;
+using TDB.DungeonSystem.Collectibles;
+using TDB.GameManagers;
 using TDB.ShopSystem;
 using TDB.ShopSystem.Framework;
 using TDB.Utils.Misc;
@@ -13,11 +16,23 @@ using UnityEngine;
 namespace TDB.CraftSystem.Data
 {
     [CreateAssetMenu(fileName = "New Ingredient", menuName = "Data/Craft System/Ingredient Definition", order = 0)]
-    public class IngredientDefinition : ResourceScriptableObject, IShopItemDefinition
+    public class IngredientDefinition : ResourceScriptableObject, IShopItemDefinition, ICollectibleSource
     {
+        [TableColumnWidth(200, resizable: false)]
+        [VerticalGroup("Ingredient Info")]
+        [LabelText("Name")]
+        [LabelWidth(40)]
         [SerializeField] private string _ingredientName;
+        
+        [PreviewField(ObjectFieldAlignment.Center)]
+        // [VerticalGroup("Ingredient Info")]
+        [TableColumnWidth(120, resizable: false)]
         [SerializeField] private Sprite _ingredientSprite;
+        
+        [LabelWidth(40)]
+        [VerticalGroup("Ingredient Info")]
         [SerializeField] private IngredientTypeDefinition _type;
+        
         [TableList(AlwaysExpanded = true), HideLabel, TitleGroup("Effects")]
         [SerializeField] private List<EffectParamPair> _effects;
 
@@ -33,6 +48,32 @@ namespace TDB.CraftSystem.Data
             // TODO: find a better essence computation
             // placeholder: the number of effects determines the essence
             return 1 + Effects.Count;
+        }
+
+        public Sprite CollectibleSprite => IngredientSprite;
+        
+        public void Transfer(GameData gameData, int amount)
+        {
+            var refCap = gameData.GetRefrigeratorCapacity();
+            var usedSpace = gameData.RefrigeratedIngredientStorageData.UsedSpace;
+            var refAmount = Mathf.Min(amount, refCap - usedSpace);
+            var remain = amount - refAmount;
+            
+            gameData.RefrigeratedIngredientStorageData.Deposit(this, refAmount);
+            if (remain > 0)
+            {
+                gameData.VolatileIngredientStorageData.Deposit(this, remain);
+            }
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            if (_ingredientName.IsNullOrWhitespace())
+            {
+                _ingredientName = name;
+            }
         }
     }
 }

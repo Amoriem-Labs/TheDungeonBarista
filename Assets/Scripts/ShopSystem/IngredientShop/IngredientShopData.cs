@@ -48,7 +48,7 @@ namespace TDB.ShopSystem.IngredientShop
         
         protected override void HandlePurchase()
         {
-            _ingredientStorage.AddVolatileIngredient(ItemDefinition);
+            _ingredientStorage.AddVolatileIngredient(_itemDefinition);
         }
 
         public IngredientShopItemData(IngredientDefinition itemDefinition, int inStockCount,

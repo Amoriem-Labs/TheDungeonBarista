@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using TDB.CafeSystem.Managers;
+using TDB.GameManagers;
 using UnityEngine;
 
 namespace TDB.MapSystem.Passages
 {
     public class DungeonEntranceHandler : MonoBehaviour, IPassageHandler
     {
+        [SerializeField] private RoomLibrary _dungeonToEnter;
+        
         private CafePhaseController _cafeController;
 
         private void Awake()
@@ -22,7 +25,11 @@ namespace TDB.MapSystem.Passages
 
         public IEnumerator HandleEnterPassage(Action abort)
         {
-            _cafeController?.EnterDungeon();
+            var enterData = new EnterDungeonData
+            {
+                DungeonDefinition = _dungeonToEnter,
+            };
+            _cafeController?.EnterDungeon(enterData);
             // this should be the terminal handler
             // block all following handlers
             yield return new WaitWhile(() => true);

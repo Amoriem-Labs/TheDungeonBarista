@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9e5cf84d3b4afeab54f99c599c7b9a, type: 3}
+  m_Name: ING-CoffeeBean
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _resourcesPath: Data/CraftSystem/Ingredients/ING-CoffeeBean
+  _ingredientName: CoffeeBean
+  _ingredientSprite: {fileID: 0}
+  _type: {fileID: 11400000, guid: 5e86594128b3c6d4fb46d4c3dc7f3509, type: 2}
+  _effects:
+  - Effect: {fileID: 11400000, guid: d2a1be3c8811da64183c58ecf0af80ff, type: 2}
+    Parameter: {fileID: 11400000, guid: 18974a23c51c6fb4c8a51461914a5e47, type: 2}
+  - Effect: {fileID: 11400000, guid: 15faa6bd907b8bf4caed4ef26bbcb6c3, type: 2}
+    Parameter: {fileID: 11400000, guid: 2c4f3262b3d169342be04e0939f0254b, type: 2}
+  - Effect: {fileID: 11400000, guid: a1e44b78bbcf1b34aa1d3bc940d1c74c, type: 2}
+    Parameter: {fileID: 11400000, guid: 18974a23c51c6fb4c8a51461914a5e47, type: 2}

@@ -25,9 +25,9 @@ namespace TDB.ShopSystem.IngredientShop
         {
             base.BindItemData(itemData, moneyData);
 
-            _ingredientIcon.sprite = itemData.ItemDefinition.IngredientSprite;
-            _ingredientName.text = itemData.ItemDefinition.IngredientName;
-            _typeIcon.sprite = itemData.ItemDefinition.Type.Icon;
+            _ingredientIcon.sprite = itemData._itemDefinition.IngredientSprite;
+            _ingredientName.text = itemData._itemDefinition.IngredientName;
+            _typeIcon.sprite = itemData._itemDefinition.Type.Icon;
         }
 
         protected override void CheckCanPurchase()
