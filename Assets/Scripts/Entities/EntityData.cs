@@ -89,7 +89,7 @@ namespace TDB
 
             //THIS NEEDS TO BE CHANGED POST-DEMO TO BE GENERALIZED TO A METHOD THAT ALL ENTITIES HAVE THAT IS LIKE A RUN
             //THIS WHEN THIS SPECIFIC TYPE OF ENEMY IS HIT -ZACH 
-            //-----------------------------------------------------------------------------------------------------------//
+            // -----------------------------------------------------------------------------------------------------------
             if (_damagedEntity.GetComponentInChildren<Hurtbox>().gameObject.layer == AttackHitbox._playerLayer)
             {
                 _damagedEntity.GetComponent<PlayerStateHandler>().ChangeState(PlayerStateHandler.States.stunned);
