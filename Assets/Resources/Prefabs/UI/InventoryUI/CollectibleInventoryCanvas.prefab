@@ -543,6 +543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryContent
       objectReference: {fileID: 0}
+    - target: {fileID: 1120556152635446214, guid: 5d8d3e4f85db3f94087d26c8585dd512, type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1520463397326052097, guid: 5d8d3e4f85db3f94087d26c8585dd512, type: 3}
       propertyPath: m_text
       value: Backpack
@@ -577,7 +581,7 @@ PrefabInstance:
       objectReference: {fileID: 1042385783388047850, guid: 655a3fc7a6a67a64c9724284a5ee9f28, type: 3}
     - target: {fileID: 4857072660320167157, guid: 5d8d3e4f85db3f94087d26c8585dd512, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6673170947528400106, guid: 5d8d3e4f85db3f94087d26c8585dd512, type: 3}
       propertyPath: m_AnchorMax.y
