@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TDB.Damage;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -52,47 +53,61 @@ namespace TDB
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            //print(GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer);
-            // print(collision.gameObject.layer);
+            var damageable = collision.GetComponentInChildren<IDamageable>();
+            if(damageable == null) return;
 
-            ////if we're a player and we're registering the enemy on hit
-            //if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _playerLayer && collision.gameObject.layer == _enemyLayer)
-            //{
-            //    dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
-            //    // print("PLAYA");
-            //}
-
-            ////if we're an enemy and we're registering the player on hit
-            //if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _enemyLayer && collision.gameObject.layer == _playerLayer)
-            //{
-            //    dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
-            //    //print("ENEMY");
-            //}
-
-            //// GetComponentInParent<EntityData>().gameObject.
-   
-
-            EntityData ownerData = GetComponentInParent<EntityData>();
-            EntityData targetData = collision.GetComponentInParent<EntityData>();
-
-    
-
-            if (ownerData == null || targetData == null)
-                return;
-
-            int ownerLayer = ownerData.GetComponentInChildren<Hurtbox>().gameObject.layer;
-            int targetLayer = targetData.GetComponentInChildren<Hurtbox>().gameObject.layer;
-
-            bool playerHitsEnemy = ownerLayer == _playerLayer && targetLayer == _enemyLayer;
-            bool enemyHitsPlayer = ownerLayer == _enemyLayer && targetLayer == _playerLayer;
-
-            if (playerHitsEnemy || enemyHitsPlayer)
+            // TODO: get the damage amount based on player data 
+            var amount = 1;
+            
+            damageable.TakeDamage(new DamageData()
             {
-                targetData.CurrentHealth -= 1;
-                //Debug.Log($"Damage applied to {targetData.name}, CurrentHealth={targetData.CurrentHealth}");
-                if (targetData.CurrentHealth <= 0)
-                    Destroy(targetData.gameObject);
-            }
+                Amount = amount,
+                DamageSourceLayer = gameObject.layer,
+            });
+            
+            return;
+            
+            // print(GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer);
+            //  print(collision.gameObject.layer);
+            //
+            // //if we're a player and we're registering the enemy on hit
+            // if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _playerLayer && collision.gameObject.layer == _enemyLayer)
+            // {
+            //     dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+            //     // print("PLAYA");
+            // }
+            //
+            // //if we're an enemy and we're registering the player on hit
+            // if (GetComponentInParent<EntityData>().GetComponentInChildren<Hurtbox>().gameObject.layer == _enemyLayer && collision.gameObject.layer == _playerLayer)
+            // {
+            //     dealDamage?.Invoke(collision.gameObject.transform.parent.gameObject);
+            //     //print("ENEMY");
+            // }
+            //
+            // // GetComponentInParent<EntityData>().gameObject.
+            //
+            //
+            //  EntityData ownerData = GetComponentInParent<EntityData>();
+            //  EntityData targetData = collision.GetComponentInParent<EntityData>();
+            //
+            //
+            //
+            //  if (ownerData == null || targetData == null)
+            //      return;
+            //
+            //  int ownerLayer = ownerData.GetComponentInChildren<Hurtbox>().gameObject.layer;
+            //  int targetLayer = targetData.GetComponentInChildren<Hurtbox>().gameObject.layer;
+            //
+            //  bool playerHitsEnemy = ownerLayer == _playerLayer && targetLayer == _enemyLayer;
+            //  bool enemyHitsPlayer = ownerLayer == _enemyLayer && targetLayer == _playerLayer;
+            //
+            //  if (playerHitsEnemy || enemyHitsPlayer)
+            //  {
+            //      targetData.CurrentHealth -= 1;
+            //      //Debug.Log($"Damage applied to {targetData.name}, CurrentHealth={targetData.CurrentHealth}");
+            //      if (targetData.CurrentHealth <= 0)
+            //          Destroy(targetData.gameObject);
+            //  }
         }
     }
 }
