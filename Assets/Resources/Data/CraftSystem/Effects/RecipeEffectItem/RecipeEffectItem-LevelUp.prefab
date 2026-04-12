@@ -1198,7 +1198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7392052480544448753, guid: 341aa8714c262ab4fa4b51c61a4e23ed, type: 3}
       propertyPath: m_Name
-      value: RecipeEffectItem-LevelUp Variant
+      value: RecipeEffectItem-LevelUp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1244,7 +1244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
+    m_Left: 15
     m_Right: 5
     m_Top: 5
     m_Bottom: 5
