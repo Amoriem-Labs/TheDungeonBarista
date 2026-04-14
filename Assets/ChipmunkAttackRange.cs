@@ -26,12 +26,12 @@ namespace TDB
             {
                 // set state to attacking
                 GetComponentInParent<ChipmunkStateHandler>().ChangeState(ChipmunkStateHandler.States.attack);
+
+                // set attacking target to player
+                GetComponentInParent<ChipmunkAttacking>().SetAttackTarget(collision.gameObject.GetComponentInParent<EntityData>());
                 
                // playerInRange?.Invoke(collision.gameObject.GetComponentInParent<EntityData>());
                // dont know what this line does bu ill keep it just in case
-
-               // set wander target to null
-               GetComponentInParent<ChipmunkWander>()._target = null;
             }
 
                  
@@ -46,8 +46,8 @@ namespace TDB
                 // set state to wandering
                 GetComponentInParent<ChipmunkStateHandler>().ChangeState(ChipmunkStateHandler.States.wander);
 
-                // set wander target to player
-                GetComponentInParent<ChipmunkWander>()._target = collision.gameObject.GetComponentInParent<EntityData>();
+                // set attacking target to null
+                GetComponentInParent<ChipmunkAttacking>().SetAttackTarget(null);
             }
         }
     }

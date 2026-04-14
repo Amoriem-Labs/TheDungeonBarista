@@ -45,7 +45,7 @@ namespace TDB
                     }
                 case States.chase:
                     {
-                        //_entityData.updateDelegate -= GetComponent<PlayerMovement>().MovementUpdate;
+                        _entityData.updateDelegate -= GetComponent<ChipmunkChase>().ChaseUpdate;
                         break;
                     }
                 case States.attack:
@@ -63,17 +63,17 @@ namespace TDB
             {
                 case States.wander:
                     {
-                        _entityData.updateDelegate += GetComponent<EnemyWander>().WanderUpdate;
+                        _entityData.updateDelegate += GetComponent<ChipmunkWander>().WanderUpdate;
                         break;
                     }
                 case States.stunned:
                     {
-                        _entityData.updateDelegate += GetComponent<EnemyStunned>().StunnedUpdate;
+                        _entityData.updateDelegate += GetComponent<ChipmunkStunned>().StunnedUpdate;
                         break;
                     }
                 case States.chase:
                     {
-                        //_entityData.updateDelegate -= GetComponent<PlayerMovement>().MovementUpdate;
+                        _entityData.updateDelegate += GetComponent<ChipmunkChase>().ChaseUpdate;
                         break;
                     }
                 case States.attack:

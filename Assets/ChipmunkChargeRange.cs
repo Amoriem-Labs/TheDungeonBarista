@@ -28,8 +28,14 @@ namespace TDB
         {
             if (collision.gameObject.layer == EntityData._playerLayer)
             {
+                // set state to wander
+                GetComponentInParent<ChipmunkStateHandler>().ChangeState(ChipmunkStateHandler.States.wander);
+
+                // set target as the player
                 GetComponentInParent<ChipmunkWander>()._target = collision.gameObject.GetComponentInParent<EntityData>();
-               // playerInRange?.Invoke(collision.gameObject.GetComponentInParent<EntityData>());
+                
+                // playerInRange?.Invoke(collision.gameObject.GetComponentInParent<EntityData>());
+                // not sure what above line does but keeping it just in case its needed at some point
             }
 
                  
@@ -40,6 +46,11 @@ namespace TDB
         {
             if (collision.gameObject.layer == EntityData._playerLayer)
             {
+                // change state to chase (is this the default state? i mean i have a feeling that the states
+                // are currently a little crongled but i can fix that later if i need to)
+                GetComponentInParent<ChipmunkStateHandler>().ChangeState(ChipmunkStateHandler.States.chase);
+
+                // set target to null
                 GetComponentInParent<ChipmunkWander>()._target = null;
             }
         }
