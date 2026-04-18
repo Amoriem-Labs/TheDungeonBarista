@@ -42,19 +42,22 @@ namespace TDB
         // Update is called once per frame (this is set to run as update through the ChipmunkStateHandler)
         public void AttackUpdate()
         {
-            Debug.Log(_chipmunk.Velocity);
-
             // stop movement
             _chipmunk.Velocity = new Vector2(Mathf.MoveTowards(_chipmunk.Velocity.x, 0, _chipmunk.Decceleration * Time.deltaTime)
                                           , Mathf.MoveTowards(_chipmunk.Velocity.y, 0, _chipmunk.Decceleration * Time.deltaTime));
 
             _chipmunk.Rb.velocity = _chipmunk.Velocity;
 
-            Debug.Log(_chipmunk.Velocity);
-            
-            // face player
+            // check if enemy has come to a complete stop
+            if (_chipmunk.Rb.velocity == Vector2.zero)
+            {
+                // turn to face player
 
-            // attack player
+                // activate attack wind up timer
+
+                // fire projectile
+                GetComponentInChildren<ChipmunkProjectile>(true).FireProjectile(_target);
+            }
         }
 
         // ================================
@@ -67,6 +70,9 @@ namespace TDB
             _target = target;
         }
 
+        // ================================
+        // Private Methods
+        // ================================
 
     }
 }

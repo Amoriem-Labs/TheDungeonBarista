@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TDB
@@ -21,6 +22,7 @@ namespace TDB
         // enter attack range trigger
         private void OnTriggerEnter2D(Collider2D collision)
         {
+
             // check if player
             if (collision.gameObject.layer == EntityData._playerLayer)
             {
@@ -28,13 +30,12 @@ namespace TDB
                 GetComponentInParent<ChipmunkStateHandler>().ChangeState(ChipmunkStateHandler.States.attack);
 
                 // set attacking target to player
-                GetComponentInParent<ChipmunkAttacking>().SetAttackTarget(collision.gameObject.GetComponentInParent<EntityData>());
+                EntityData target = collision.gameObject.GetComponentInParent<EntityData>();
+                GetComponentInParent<ChipmunkAttacking>().SetAttackTarget(target);
                 
                // playerInRange?.Invoke(collision.gameObject.GetComponentInParent<EntityData>());
-               // dont know what this line does bu ill keep it just in case
-            }
-
-                 
+               // dont know what this line does but ill keep it just in case
+            }                 
         }
 
         // leave attack range trigger
