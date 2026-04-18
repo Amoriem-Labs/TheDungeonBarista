@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 // ===========================================================================================================
 // File: ChipmunkAttacking.cs
@@ -22,6 +24,11 @@ namespace TDB
 
         // reference to the chipmunk's entity data
         private EntityData _chipmunk;
+
+        // timer for the attack windup
+        private float timer = 0;
+
+        [SerializeField] float windup = 5;
 
         // ================================
         // Unity Lifecycle Methods
@@ -48,15 +55,24 @@ namespace TDB
 
             _chipmunk.Rb.velocity = _chipmunk.Velocity;
 
-            // check if enemy has come to a complete stop
-            if (_chipmunk.Rb.velocity == Vector2.zero)
+            // check if enemy has come to a complete stop and of the projectile is not already fired
+            if (_chipmunk.Rb.velocity == Vector2.zero && GetComponentInChildren<ChipmunkProjectile>(true).gameObject.activeSelf == false)
             {
-                // turn to face player
-
                 // activate attack wind up timer
+                if (timer < windup)
+                {
+                    timer += Time.deltaTime;
 
-                // fire projectile
-                GetComponentInChildren<ChipmunkProjectile>(true).FireProjectile(_target);
+                    Debug.Log(timer);
+                }
+                else
+                {
+                    // fire projectile
+                    GetComponentInChildren<ChipmunkProjectile>(true).FireProjectile(_target);
+
+                    // reset timer
+                    timer = 0;
+                }
             }
         }
 

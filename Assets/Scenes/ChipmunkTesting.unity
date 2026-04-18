@@ -3007,6 +3007,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChipmunkEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2545904827584063919, guid: c5df1205f44244241b08d6794577c74c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2927435275442732859, guid: c5df1205f44244241b08d6794577c74c, type: 3}
       propertyPath: m_Radius
       value: 2
@@ -3054,6 +3058,10 @@ PrefabInstance:
     - target: {fileID: 7319179794360035058, guid: c5df1205f44244241b08d6794577c74c, type: 3}
       propertyPath: currentState
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163176778961809084, guid: c5df1205f44244241b08d6794577c74c, type: 3}
+      propertyPath: windup
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
