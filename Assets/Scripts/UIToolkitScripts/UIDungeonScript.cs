@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-public class RuntimeUI : MonoBehaviour
+public class DungeonUI : MonoBehaviour
 {
     private void OnEnable()
     {
@@ -12,14 +12,14 @@ public class RuntimeUI : MonoBehaviour
 
         // load in ui textures
         Texture2D PlayerIconTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/playerIcon");
-         Texture2D PlayerFrameTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/PlayerFrame");
+        Texture2D PlayerFrameTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/PlayerFrame");
+        Texture2D PlayerOuterFrameTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/PlayerOuterFrame");
         Texture2D RecipesIconTex =  Resources.Load<Texture2D>("Prefabs/UI/UIAssets/RecipesUIButton");
         Texture2D InventoryIconTex =  Resources.Load<Texture2D>("Prefabs/UI/UIAssets/InventoryUIButton");
-        Texture2D MapIconTex =  Resources.Load<Texture2D>("Prefabs/UI/UIAssets/MapUIButton");
         Texture2D baseButtonTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/ButtonBase");
         Texture2D baseButtonHighlightTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/ButtonHighlight");
         Texture2D PauseTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/PauseIcon");
-        Texture2D[] buttonTex = {RecipesIconTex, InventoryIconTex, MapIconTex};
+        Texture2D[] buttonTex = {RecipesIconTex, InventoryIconTex};
 
 
         // =========================
@@ -38,33 +38,46 @@ public class RuntimeUI : MonoBehaviour
         // Profile Image
         VisualElement profileBase = new VisualElement();
         profileBase.style.backgroundImage = new StyleBackground(PlayerFrameTex);
-        profileBase.style.width = 100;
-        profileBase.style.height = 100;
+        profileBase.style.width = 150;
+        profileBase.style.height = 150;
         profileBase.style.justifyContent = Justify.Center;
         profileBase.style.alignItems = Align.Center;
 
+        // Player icon
         VisualElement profile = new VisualElement();
-        profile.style.width = 90;
-        profile.style.height = 90;
+        profile.style.position = Position.Absolute;
+        profile.style.width = 135;
+        profile.style.height = 135;
         profile.style.backgroundImage = new StyleBackground(PlayerIconTex);
-        profileBase.style.marginBottom = 10;
+
+        // Frame (on top)
+        VisualElement frame = new VisualElement();
+        frame.style.position = Position.Absolute;
+        frame.style.left = 0;
+        frame.style.top = 0;
+        frame.style.width = 150;
+        frame.style.height = 150;
+        frame.style.backgroundImage = new StyleBackground(PlayerOuterFrameTex);
 
         profileBase.Add(profile);
+        profileBase.Add(frame);
+        profileBase.style.marginBottom = 20;
         left.Add(profileBase);
 
-        // Money Bar
-        VisualElement moneyBox = new VisualElement();
-        moneyBox.style.width = 100;
-        moneyBox.style.height = 30;
-        moneyBox.style.backgroundColor = new Color(0.2f, 0.15f, 0.2f);
-        moneyBox.style.marginBottom = 30;
-        moneyBox.style.marginBottom = 200;
+        // TODO: Add later
+        // // Money Bar
+         VisualElement moneyBox = new VisualElement();
+        // moneyBox.style.width = 100;
+        // moneyBox.style.height = 30;
+        // moneyBox.style.backgroundColor = new Color(0.2f, 0.15f, 0.2f);
+        // moneyBox.style.marginBottom = 30;
+         moneyBox.style.marginBottom = 200;
 
-        Label moneyText = new Label("100");
-        moneyText.style.unityTextAlign = TextAnchor.MiddleCenter;
-        moneyBox.Add(moneyText);
+        // Label moneyText = new Label("100");
+        // moneyText.style.unityTextAlign = TextAnchor.MiddleCenter;
+        // moneyBox.Add(moneyText);
 
-        left.Add(moneyBox);
+         left.Add(moneyBox);
 
         // BUTTON COLUMN
 
@@ -94,7 +107,6 @@ public class RuntimeUI : MonoBehaviour
 
             // inner formatting stuff
             icon.style.backgroundImage = new StyleBackground(buttonTex[i]);
-            //icon.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
 
             // button interactive elems
             btn.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue>{ new TimeValue(0.12f, TimeUnit.Second)});
@@ -124,26 +136,14 @@ public class RuntimeUI : MonoBehaviour
         // =========================
         VisualElement rightOverlay = new VisualElement();
         rightOverlay.style.position = Position.Absolute;
-        rightOverlay.style.right = 20;
-        rightOverlay.style.top = 20;
-        rightOverlay.style.width = 300;
-        rightOverlay.style.height = 100;
-        rightOverlay.style.backgroundColor = new Color(0.2f, 0.5f, 0.45f);
-
         root.Add(rightOverlay);
-
-        Label mapLabel = new Label("Map");
-        mapLabel.style.fontSize = 20;
-        mapLabel.style.unityTextAlign = TextAnchor.UpperCenter;
-
-        rightOverlay.Add(mapLabel);
 
         // Small square (mid-right)
         VisualElement pauseBox = new VisualElement();
         pauseBox.style.backgroundImage = new StyleBackground(baseButtonTex);
         pauseBox.style.position = Position.Absolute;
-        pauseBox.style.right = 20;
-        pauseBox.style.top = 150;
+        pauseBox.style.right = 10;
+        pauseBox.style.top = 10; 
         pauseBox.style.width = 60;
         pauseBox.style.height = 60;
         pauseBox.style.justifyContent = Justify.Center;
