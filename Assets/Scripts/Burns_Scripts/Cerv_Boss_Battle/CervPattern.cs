@@ -143,11 +143,6 @@ namespace TDB
                 attempts++;
             }
 
-            // check if any points are found
-            if (validPoints.Count == 0)
-            {
-                Debug.LogError("No valid teleport points found");
-            }
         }
 
         // checks for hp percentages and triggers attacks/possibly events based on them

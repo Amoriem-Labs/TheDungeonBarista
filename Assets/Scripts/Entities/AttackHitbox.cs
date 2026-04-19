@@ -58,7 +58,6 @@ namespace TDB
 
             // TODO: get the damage amount based on player data 
             var amount = 1;
-            Debug.Log("WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             
             damageable.TakeDamage(new DamageData()
             {
