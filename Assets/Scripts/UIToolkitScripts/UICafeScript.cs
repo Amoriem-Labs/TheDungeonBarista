@@ -7,6 +7,7 @@ public class RuntimeUI : MonoBehaviour
     private VisualElement pauseMenu;
     private VisualElement gameplayUI;
     private bool isPaused = false;
+    private Font pixelFont;
 
     private void OnEnable()
     {
@@ -21,6 +22,9 @@ public class RuntimeUI : MonoBehaviour
 
         root.Add(gameplayUI);
 
+        // load font
+        pixelFont = Resources.Load<Font>("Prefabs/UI/UIAssets/Fonts/PressStart2P-Regular");
+
         // =========================
         // LOAD TEXTURES
         // =========================
@@ -34,7 +38,8 @@ public class RuntimeUI : MonoBehaviour
 
         Texture2D baseButtonTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/ButtonBase");
         Texture2D baseButtonHighlightTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/ButtonHighlight");
-
+        Texture2D baseBoxTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/box");
+        Texture2D baseBoxHighlightTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/boxHighlight");
         Texture2D PauseTex = Resources.Load<Texture2D>("Prefabs/UI/UIAssets/PauseIcon");
 
         Texture2D[] buttonTex = { RecipesIconTex, InventoryIconTex, MapIconTex };
@@ -53,7 +58,7 @@ public class RuntimeUI : MonoBehaviour
 
         // Profile
         VisualElement profileBase = new VisualElement();
-        profileBase.style.backgroundImage = new StyleBackground(PlayerFrameTex);
+        profileBase.style.backgroundImage = new StyleBackground(baseButtonTex);
         profileBase.style.width = 150;
         profileBase.style.height = 150;
         profileBase.style.justifyContent = Justify.Center;
@@ -118,22 +123,6 @@ public class RuntimeUI : MonoBehaviour
         }
 
         // =========================
-        // RIGHT OVERLAY
-        // =========================
-        // VisualElement rightOverlay = new VisualElement();
-        // rightOverlay.style.position = Position.Absolute;
-        // rightOverlay.style.right = 20;
-        // rightOverlay.style.top = 20;
-        // rightOverlay.style.width = 300;
-        // rightOverlay.style.height = 100;
-        // rightOverlay.style.backgroundColor = new Color(0.2f, 0.5f, 0.45f);
-
-        // Label mapLabel = new Label("Map");
-        // rightOverlay.Add(mapLabel);
-
-        // gameplayUI.Add(rightOverlay);
-
-        // =========================
         // PAUSE BUTTON
         // =========================
         VisualElement pauseBox = new VisualElement();
@@ -182,19 +171,68 @@ public class RuntimeUI : MonoBehaviour
         pauseMenu.style.right = 0;
         pauseMenu.style.bottom = 0;
 
-        pauseMenu.style.backgroundColor = new Color(0, 0, 0, 0.6f);
         pauseMenu.style.justifyContent = Justify.Center;
         pauseMenu.style.alignItems = Align.Center;
         pauseMenu.style.display = DisplayStyle.None;
 
         Label title = new Label("PAUSED");
         title.style.fontSize = 40;
+        title.style.color = Color.white;
 
-        Button resumeButton = new Button(() => TogglePause());
-        resumeButton.text = "Resume";
+        VisualElement resumeButton = new VisualElement();
+        resumeButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+        Label rtext = new Label("Resume");
+        resumeButton.Add(rtext);
+        resumeButton.style.color = Color.white;
+        resumeButton.style.width = 160;
+        resumeButton.style.height = 64;
+        resumeButton.style.justifyContent = Justify.Center;
+        resumeButton.style.alignItems = Align.Center;
+        resumeButton.RegisterCallback<MouseDownEvent>(_ => {
+            TogglePause();
+        });
 
-        Button quitButton = new Button(() => Application.Quit());
-        quitButton.text = "Quit";
+        VisualElement quitButton = new VisualElement(); new Button(() => Application.Quit());
+        quitButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+        Label text = new Label("Quit");
+        quitButton.Add(text);
+        quitButton.style.color = Color.white;
+        quitButton.style.width = 120;
+        quitButton.style.height = 48;
+        quitButton.style.justifyContent = Justify.Center;
+        quitButton.style.alignItems = Align.Center;
+        quitButton.RegisterCallback<MouseDownEvent>(_ => {
+            TogglePause();
+        });
+
+        title.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
+        resumeButton.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
+        quitButton.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
+
+        // hover
+        resumeButton.RegisterCallback<MouseEnterEvent>(_ =>
+        {
+            resumeButton.style.backgroundImage = new StyleBackground(baseBoxHighlightTex);
+            resumeButton.style.translate = new Translate(0, -2);
+        });
+
+        resumeButton.RegisterCallback<MouseLeaveEvent>(_ =>
+        {
+            resumeButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+            resumeButton.style.translate = new Translate(0, 0);
+        });
+
+        quitButton.RegisterCallback<MouseEnterEvent>(_ =>
+        {
+            quitButton.style.backgroundImage = new StyleBackground(baseBoxHighlightTex);
+            quitButton.style.translate = new Translate(0, -2);
+        });
+
+        quitButton.RegisterCallback<MouseLeaveEvent>(_ =>
+        {
+            quitButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+            quitButton.style.translate = new Translate(0, 0);
+        });
 
         pauseMenu.Add(title);
         pauseMenu.Add(resumeButton);
