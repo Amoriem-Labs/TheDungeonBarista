@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - spikes
+  - SafeWallCollision
+  - Body
   layers:
   - Default
   - TransparentFX
@@ -18,9 +20,9 @@ TagManager:
   - Enemy
   - Attack
   - Background
-  - 
-  - 
-  - 
+  - SafeWallCollision
+  - BossAttacks
+  - Border
   - 
   - 
   - 

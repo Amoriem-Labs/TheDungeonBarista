@@ -15,7 +15,7 @@ namespace TDB
             Destroy(gameObject, lifetime);
         }
 
-         private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
@@ -27,13 +27,11 @@ namespace TDB
                     Amount = damageAmount,
                     DamageSourceLayer = gameObject.layer,
                 });
-                
+
                 Destroy(gameObject);
             }
-        }
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("SafeWallCollision"))
+
+            if (other.CompareTag("SafeWallCollision"))
             {
                 Destroy(gameObject);
             }
