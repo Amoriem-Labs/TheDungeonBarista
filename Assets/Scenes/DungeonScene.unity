@@ -587,7 +587,7 @@ MonoBehaviour:
   chestPrefab: {fileID: 8377756249332056541, guid: dd45b97c8fceaa24cb13be5b909d512e, type: 3}
   trapTileType: {fileID: 11400000, guid: b2d2669809f373741bf1c608df04ace1, type: 2}
   trapPrefab: {fileID: 0}
-  propPrefabs:
+  propPrefabs_deprecated:
   - tileType: {fileID: 11400000, guid: f63b4b7fa87daf847a552492bc0a9d3f, type: 2}
     prefab: {fileID: 5019895138965601922, guid: 02f0434afdf2ab4499c9fc63bbef5086, type: 3}
     addYSortIfMissing: 1
@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectiblePrefabs:
-  - {fileID: 2662186017837908027, guid: 0cf30fe43fefe08429b7b21b2de729eb, type: 3}
+  - {fileID: 8730421777673298341, guid: 0cf30fe43fefe08429b7b21b2de729eb, type: 3}
   collectibleCount: 8
 --- !u!4 &1232178332
 Transform:
@@ -1746,7 +1746,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 0
-  orthographic size: 5.4
+  orthographic size: 5.3999996
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4926,6 +4926,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1582001835}
+    - target: {fileID: 394185945772621725, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 394185945772621725, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 394185945772621725, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1238725066185900052, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -4934,9 +4946,57 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3712429667518789930, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712429667518789930, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712429667518789930, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712429667518789930, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712429667518789930, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712429667518789930, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3941699183480856738, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
       propertyPath: m_Name
       value: CollectibleInventoryCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791763612494610104, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791763612494610104, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791763612494610104, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791763612494610104, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791763612494610104, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791763612494610104, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7700362033748504567, guid: d4c6ebb9033b79743af22123b55b3fee, type: 3}
       propertyPath: m_Pivot.x
