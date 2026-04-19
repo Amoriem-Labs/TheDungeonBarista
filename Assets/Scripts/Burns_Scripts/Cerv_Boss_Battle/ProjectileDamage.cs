@@ -7,6 +7,7 @@ namespace TDB
     public class ProjectileDamage : MonoBehaviour
     {
         public float lifetime = 3f;
+        public float damage = 1f;
 
         private void Start()
         {
@@ -16,7 +17,9 @@ namespace TDB
         private void OnCollisionEnter2D(Collision2D collision)
         {
             // INSERT PLAYER DAMAGE HERE
+            Debug.Log("WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             Destroy(gameObject);
         }
+
 }
 }

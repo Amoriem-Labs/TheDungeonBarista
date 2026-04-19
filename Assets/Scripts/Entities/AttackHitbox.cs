@@ -53,11 +53,12 @@ namespace TDB
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            var damageable = collision.GetComponentInChildren<IDamageable>();
+            var damageable = collision.GetComponent<IDamageable>();
             if(damageable == null) return;
 
             // TODO: get the damage amount based on player data 
             var amount = 1;
+            Debug.Log("WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             
             damageable.TakeDamage(new DamageData()
             {
