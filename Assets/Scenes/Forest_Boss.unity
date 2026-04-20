@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 17127467}
   - component: {fileID: 17127466}
   - component: {fileID: 17127465}
+  - component: {fileID: 17127469}
   m_Layer: 8
   m_Name: Cervitus_Head
   m_TagString: Untagged
@@ -280,6 +281,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &17127469
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17127464}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 62bd27d1656598d4498c9b4c1319aaca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &101928822
 GameObject:
   m_ObjectHideFlags: 0
@@ -5796,6 +5818,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1595581668846833734, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1194946420, guid: 218b8fd72713a0b44a46b7d794fc54d2, type: 3}
     - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5803,6 +5829,14 @@ PrefabInstance:
     - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 5257696171777882451, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Layer
@@ -5885,6 +5919,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7219694119811069261, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2008761877}
+    - targetCorrespondingSourceObject: {fileID: 7219694119811069261, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2008761895}
   m_SourcePrefab: {fileID: 100100000, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
 --- !u!1 &698189808
 GameObject:
@@ -8950,7 +8987,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 0
-  orthographic size: 1.2675
+  orthographic size: 1.06
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9585,6 +9622,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8c3e8637fefd145b36f420e5b24dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2008761895
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008761873}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92a3e5223590be2409094e2cda091fa7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2049746487
 GameObject:
   m_ObjectHideFlags: 0

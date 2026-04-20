@@ -17,6 +17,8 @@ namespace TDB
     public class CervPattern : MonoBehaviour
     {
         // private references
+        private Animator anim;
+        private Animator headAnim;
         private EntityData _entityData;
         private Vector2 _homePos = Vector2.zero;
         private float _cooldownTimerCurrent;
@@ -41,7 +43,7 @@ namespace TDB
         public int pointsToGenerate = 100;
 
         [Header("Timing")]
-        public float DisappearDelay = 0.3f;
+        public float DisappearDelay = 0.8f;
         public float ReappearDelay = 0.2f;
 
         [Header("Attack Percentage")]
@@ -94,6 +96,8 @@ namespace TDB
 
         private void Awake()
         {
+            anim = GetComponent<Animator>();
+            headAnim = CervHead.GetComponent<Animator>();
             _entityData = GetComponent<EntityData>();
             _renderer = GetComponent<SpriteRenderer>();
             hitbox = GetComponent<Collider2D>(); 
@@ -218,10 +222,14 @@ namespace TDB
         private IEnumerator TeleportRoutine()
         {
             // Disappear [insert animation]
+            anim.SetBool("isMelting", true);
+            yield return null;
+            yield return new WaitForSeconds(DisappearDelay);
+
             if (_renderer != null)
                 _renderer.enabled = false;
 
-            yield return new WaitForSeconds(DisappearDelay);
+            anim.SetBool("isMelting", false);
 
             // Teleport [insert animation]
             TeleportToRandomPoint();
@@ -232,6 +240,8 @@ namespace TDB
             if (_renderer != null)
                 _renderer.enabled = true;
 
+            yield return null;
+            anim.SetTrigger("meltUp");
             // Call for AOE attack
             StartCoroutine(AOEattack());
         }
@@ -344,6 +354,7 @@ namespace TDB
                 hitbox.enabled = false;
         
             // insert animation of screaming or something here
+            anim.SetTrigger("Spray");
             yield return new WaitForSeconds(2f);
             MoveToPosition(Center);
 
@@ -422,6 +433,9 @@ namespace TDB
 
             CervHead.SetActive(true);
             CervHead.transform.position = StartPosition.position;
+            
+            headAnim.SetTrigger("emerge");
+            yield return new WaitForSeconds(0.8f); 
 
             while (timer < headDuration)
             {
@@ -436,6 +450,9 @@ namespace TDB
 
                 timer += 0.5f;
             }
+
+            headAnim.SetTrigger("retract");
+            yield return new WaitForSeconds(0.8f);
 
             CervHead.SetActive(false);
              if (_renderer != null)
@@ -462,7 +479,7 @@ namespace TDB
             );
 
             warning.transform.SetParent(headTransform);
-
+            headAnim.SetTrigger("attack");
             float warningTime = warningDuration * currentWarningMultiplier;
             yield return new WaitForSeconds(warningTime);
 
@@ -474,7 +491,11 @@ namespace TDB
                 headTransform.position + offsetBeam,
                 Quaternion.Euler(0, 0, 90f)
             );
+            beam.transform.localScale = new Vector3(0.2f, 90f, 1f);
+            SpriteRenderer sr = beam.GetComponent<SpriteRenderer>();
 
+            float beamLength = 20f;
+            sr.size = new Vector2(beamLength, sr.size.y);
             beam.transform.SetParent(headTransform);
 
             yield return new WaitForSeconds(beamDuration);
