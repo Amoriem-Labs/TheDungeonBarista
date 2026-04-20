@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b24d4171a1bc06468a57e073a5d06e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPaused: 0
-  pixelFont: {fileID: 0}
 --- !u!114 &1104817621
 MonoBehaviour:
   m_ObjectHideFlags: 0
