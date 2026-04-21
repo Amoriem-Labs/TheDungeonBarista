@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TDB.Player.Input;
 using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 namespace TDB
 {
@@ -36,6 +36,7 @@ namespace TDB
 
         public void MovementUpdate()
         {
+             Debug.Log($"[Movement] InputController null? {_inputController == null} | Movement: {_inputController?.Movement} | IsAttacking: {_entityData.IsAttacking}");
             //first, update movement for this frame.
             // _entityData.movementDirection.Set(InputManager.Movement.x, InputManager.Movement.y);
             // read from input controller

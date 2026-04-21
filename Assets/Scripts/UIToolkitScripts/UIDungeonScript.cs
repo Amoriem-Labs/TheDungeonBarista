@@ -35,6 +35,7 @@ public class DungeonUI : MonoBehaviour
     private void OnEnable()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
+        root.Clear();
 
         // =========================
         // GAMEPLAY ROOT CONTAINER
@@ -388,10 +389,10 @@ public class DungeonUI : MonoBehaviour
         restartButton.Add(restartText);
 
         // click → load main menu
-        restartButton.RegisterCallback<MouseDownEvent>(_ =>
+        restartButton.RegisterCallback<ClickEvent>(_ =>
         {
-            Time.timeScale = 1f; // IMPORTANT: unpause
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainMenu");
         });
 
         // hover
@@ -416,8 +417,11 @@ public class DungeonUI : MonoBehaviour
         quitButton.style.height = 48;
         quitButton.style.justifyContent = Justify.Center;
         quitButton.style.alignItems = Align.Center;
-        quitButton.RegisterCallback<MouseDownEvent>(_ => {
-            TogglePause();
+
+
+        quitButton.RegisterCallback<ClickEvent>(_ =>
+        {
+            Application.Quit();
         });
 
         title.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
@@ -518,10 +522,10 @@ public class DungeonUI : MonoBehaviour
         prestartButton.Add(prestartText);
 
         // click → load main menu
-        prestartButton.RegisterCallback<MouseDownEvent>(_ =>
+        prestartButton.RegisterCallback<ClickEvent>(_ =>
         {
-            Time.timeScale = 1f; // IMPORTANT: unpause before loading
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainMenu");
         });
 
         // hover effect
@@ -610,21 +614,29 @@ public class DungeonUI : MonoBehaviour
     }
     private void OnPlayerDeath()
     {
+        if (gameEnded) return;
         ShowResult("DEFEAT");
     }
 
     private void OnBossDeath()
     {
+        if (gameEnded) return;
         ShowResult("VICTORY");
     }
     private void ShowResult(string text)
     {
+        if (gameEnded) return;
         gameEnded = true;
+
+        pauseMenu.style.display = DisplayStyle.None;
+        pauseMenu.pickingMode = PickingMode.Ignore;
+
+        gameplayUI.pickingMode = PickingMode.Ignore;
 
         resultLabel.text = text;
         resultOverlay.style.display = DisplayStyle.Flex;
+        resultOverlay.pickingMode = PickingMode.Position;
 
         Time.timeScale = 0f;
-        gameplayUI.pickingMode = PickingMode.Ignore;
     }
 }

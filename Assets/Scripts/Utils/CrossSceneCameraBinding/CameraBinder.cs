@@ -16,6 +16,11 @@ namespace TDB.Utils.CrossSceneCameraBinding
 
         private void OnEnable()
         {
+            if (CameraBindingManager.Instance == null)
+            {
+                Debug.LogWarning($"[CameraBinder] CameraBindingManager is NULL when enabling {gameObject.name}. Camera will not be registered.");
+                return;
+            }
             CameraBindingManager.Instance.RegisterCamera(_cameraType, _camera);
         }
 

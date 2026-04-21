@@ -32,9 +32,15 @@ public class MainMenuUI : MonoBehaviour
         public float screenW;
     }
 
+    void Awake()
+    {
+        Time.timeScale = 1f;
+    }
+
     private void OnEnable()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
+        root.Clear();
 
         // =========================
         // LOAD ASSETS
