@@ -8,9 +8,12 @@ namespace TDB
     public class BeamLife : MonoBehaviour
     {
         public int damageAmount = 1;
+        private bool hasHit = false; // prevent hitting every frame
 
-            private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerStay2D(Collider2D other)
         {
+            if (hasHit) return;
+
             if (other.CompareTag("Player"))
             {
                 var damageable = other.GetComponent<IDamageable>();
@@ -21,7 +24,15 @@ namespace TDB
                     Amount = damageAmount,
                     DamageSourceLayer = gameObject.layer,
                 });
+
+                hasHit = true; // only damage once per beam instance
             }
+        }
+
+        // reset if you ever want the beam to hit again (e.g. continuous damage)
+        private void OnDisable()
+        {
+            hasHit = false;
         }
     }
 }

@@ -283,7 +283,7 @@ namespace TDB
 
             Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
 
-            Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
             GameObject proj = Instantiate(AOEprojectile, transform.position, rotation);
 
@@ -306,38 +306,74 @@ namespace TDB
         private void LineAttack()
         {
             MoveToPosition(lineAttackPosition);
+            anim.SetTrigger("Spray");
 
             float totalWidth = (numberOfProjectiles - 1) * spacing;
             float startX = transform.position.x - totalWidth / 2f;
 
             for (int i = 0; i < numberOfProjectiles; i++)
             {
-                Vector2 spawnPos = new Vector2(
+                Vector2 origin = new Vector2(
                     startX + i * spacing,
-                    transform.position.y - 3
+                    transform.position.y
                 );
-
-                StartCoroutine(ShootBeam(spawnPos));
+                Vector2 warningPos = new Vector2(
+                    startX + i * spacing,
+                    transform.position.y - 3f
+                );
+                StartCoroutine(ShootBeam(origin, warningPos));
             }
         }  
 
-        private IEnumerator ShootBeam(Vector2 position)
+        private IEnumerator ShootBeam(Vector2 origin, Vector2 warningPos)
         {
             // warning pillar
-            GameObject pillar = Instantiate(TDwarning, position, Quaternion.identity);
-
-            // deal no damage to the player
+            GameObject pillar = Instantiate(TDwarning, warningPos, Quaternion.identity);
             Collider2D pillarCol = pillar.GetComponent<Collider2D>();
             if (pillarCol != null)
-                pillarCol.isTrigger = true; 
+                pillarCol.isTrigger = true;
 
-            float warningTime = warningDuration * currentWarningMultiplier;
-            yield return new WaitForSeconds(warningTime);
+            yield return new WaitForSeconds(warningDuration * currentWarningMultiplier);
+
+            SpriteRenderer warnSR = pillar.GetComponent<SpriteRenderer>();
+            float warningHeight = warnSR.bounds.size.y;
             Destroy(pillar);
 
-            // beam attack
-            GameObject beam = Instantiate(TDbeam, position, Quaternion.identity);
-            Destroy(beam, beamDuration);
+            // spawn visual spikes as before (no colliders needed on these)
+            float spikeSpacing = 0.5f;
+            int spikeCount = Mathf.CeilToInt(warningHeight / spikeSpacing);
+            List<GameObject> spawned = new List<GameObject>();
+            Vector2 adjustedOrigin = origin + Vector2.down * 1.2f;
+
+            for (int i = 0; i < spikeCount; i++)
+            {
+                Vector2 spawnPos = adjustedOrigin + Vector2.down * (i * spikeSpacing);
+                GameObject spike = Instantiate(TDbeam, spawnPos, Quaternion.identity);
+                spawned.Add(spike);
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            // create one big trigger collider covering the whole column
+            GameObject hitbox = new GameObject("SpikeHitbox");
+            hitbox.transform.position = adjustedOrigin + Vector2.down * (warningHeight / 2f);
+            hitbox.layer = gameObject.layer;
+
+            Rigidbody2D rb = hitbox.AddComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.simulated = true;
+
+            BoxCollider2D box = hitbox.AddComponent<BoxCollider2D>();
+            box.isTrigger = true;
+            box.size = new Vector2(0.5f, warningHeight); // match spike column width/height
+
+            SpikeLife spikeLife = hitbox.AddComponent<SpikeLife>();
+            spikeLife.damageAmount = 1;
+
+            yield return new WaitForSeconds(beamDuration);
+
+            Destroy(hitbox);
+            foreach (var s in spawned)
+                if (s != null) Destroy(s);
         }
 
         // standard move 
@@ -435,7 +471,7 @@ namespace TDB
             CervHead.transform.position = StartPosition.position;
             
             headAnim.SetTrigger("emerge");
-            yield return new WaitForSeconds(0.8f); 
+            yield return new WaitForSeconds(1.0f); 
 
             while (timer < headDuration)
             {
@@ -465,43 +501,84 @@ namespace TDB
 
         }
 
-        private IEnumerator ShootBeamHead(Transform headTransform)
+    private IEnumerator ShootBeamHead(Transform headTransform)
+    {
+        Vector3 offsetWarning = new Vector3(-4f, -0.4f, 0f); 
+        Vector3 offsetBeam = new Vector3(0.2f, -0.4f, 0f);
+
+        GameObject warning = Instantiate(
+            Headwarning,
+            headTransform.position + offsetWarning,
+            Quaternion.Euler(0, 0, 90f)
+        );
+
+        warning.transform.SetParent(headTransform);
+        float warningTime = warningDuration * currentWarningMultiplier;
+        yield return new WaitForSeconds(warningTime);
+
+        Destroy(warning);
+
+        headAnim.SetTrigger("attack");
+        yield return new WaitForSeconds(0.7f);
+
+        GameObject beam = Instantiate(
+            Headbeam,
+            headTransform.position + offsetBeam,
+            Quaternion.identity
+        );
+
+        SpriteRenderer sr = beam.GetComponent<SpriteRenderer>();
+        sr.drawMode = SpriteDrawMode.Tiled;
+
+        // grab the collider and rotate it to horizontal
+        CapsuleCollider2D col = beam.GetComponent<CapsuleCollider2D>();
+        if (col != null)
         {
-            // needed to push the beam to the left and not be centered on the head
-            Vector3 offsetWarning = new Vector3(-4f, 0f, 0f); 
-            Vector3 offsetBeam = new Vector3(-7f, 0f, 0f); 
-
-            // acts the same as other one, warning shot first
-            GameObject warning = Instantiate(
-                Headwarning,
-                headTransform.position + offsetWarning,
-                Quaternion.Euler(0, 0, 90f)
-            );
-
-            warning.transform.SetParent(headTransform);
-            headAnim.SetTrigger("attack");
-            float warningTime = warningDuration * currentWarningMultiplier;
-            yield return new WaitForSeconds(warningTime);
-
-            Destroy(warning);
-
-            // attaching the beam to head as a parent
-            GameObject beam = Instantiate(
-                Headbeam,
-                headTransform.position + offsetBeam,
-                Quaternion.Euler(0, 0, 90f)
-            );
-            beam.transform.localScale = new Vector3(0.2f, 90f, 1f);
-            SpriteRenderer sr = beam.GetComponent<SpriteRenderer>();
-
-            float beamLength = 20f;
-            sr.size = new Vector2(beamLength, sr.size.y);
-            beam.transform.SetParent(headTransform);
-
-            yield return new WaitForSeconds(beamDuration);
-
-            Destroy(beam);
+            col.direction = CapsuleDirection2D.Horizontal; // flip to horizontal
+            col.size = new Vector2(0f, 0.5f);              // start collapsed
+            col.offset = Vector2.zero;
         }
+
+        float height = 0.2f;
+        sr.size = new Vector2(0f, height);
+
+        float duration = 0.1f;
+        float t = 0f;
+        float beamLength = 20f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float lerp = t / duration;
+            float currentWidth = Mathf.Lerp(0f, beamLength, lerp);
+
+            // grow sprite
+            sr.size = new Vector2(currentWidth, height);
+
+            // grow collider to match, offset moves right as it grows from the left
+            if (col != null)
+            {
+                col.size = new Vector2(currentWidth, 0.5f);
+                col.offset = new Vector2(currentWidth / 2f, 0f);
+            }
+
+            yield return null;
+        }
+
+        sr.size = new Vector2(beamLength, height);
+
+        if (col != null)
+        {
+            col.size = new Vector2(beamLength, 0.5f);
+            col.offset = new Vector2(beamLength / 2f, 0f);
+        }
+
+        beam.transform.SetParent(headTransform);
+
+        yield return new WaitForSeconds(beamDuration);
+
+        Destroy(beam);
+    }
 
         private void EnterEnrage()
         {
