@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using TDB;  
+using UnityEngine.SceneManagement;
 
 public class DungeonUI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DungeonUI : MonoBehaviour
     private bool isPaused = false;
     private Font pixelFont;
     private Font bossFont;
+    
 
     // boss ui
     private VisualElement healthFill;
@@ -24,6 +26,11 @@ public class DungeonUI : MonoBehaviour
     private VisualElement playerProfileIcon; 
     private Texture2D _playerIconTex;
     private Texture2D _playerIconInjuredTex;
+
+    // demo results
+    private VisualElement resultOverlay;
+    private Label resultLabel;
+    private bool gameEnded = false;
 
     private void OnEnable()
     {
@@ -146,7 +153,7 @@ public class DungeonUI : MonoBehaviour
         VisualElement playerHealthTrack = new VisualElement();
         playerHealthTrack.style.width = 20;
         playerHealthTrack.style.flexGrow = 0;
-        playerHealthTrack.style.height = 150;
+        playerHealthTrack.style.height = 250;
         playerHealthTrack.style.backgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.85f);
         playerHealthTrack.style.borderTopLeftRadius = 4;
         playerHealthTrack.style.borderTopRightRadius = 4;
@@ -330,10 +337,10 @@ public class DungeonUI : MonoBehaviour
 
         root.Add(bossHealthContainer);
         if (boss != null)
-            boss.OnDeath += HideHealthBar;
+            boss.OnDeath += OnBossDeath;
 
         if (player != null)
-            player.OnDeath += EmptyPlayerBar;
+            player.OnDeath += OnPlayerDeath;
 
         // =========================
         // PAUSE MENU
@@ -364,6 +371,40 @@ public class DungeonUI : MonoBehaviour
         resumeButton.style.alignItems = Align.Center;
         resumeButton.RegisterCallback<MouseDownEvent>(_ => {
             TogglePause();
+        });
+
+        VisualElement restartButton = new VisualElement();
+        restartButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+        restartButton.style.width = 160;
+        restartButton.style.height = 64;
+        restartButton.style.justifyContent = Justify.Center;
+        restartButton.style.alignItems = Align.Center;
+
+        // text
+        Label restartText = new Label("Main Menu");
+        restartText.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
+        restartText.style.color = Color.white;
+
+        restartButton.Add(restartText);
+
+        // click → load main menu
+        restartButton.RegisterCallback<MouseDownEvent>(_ =>
+        {
+            Time.timeScale = 1f; // IMPORTANT: unpause
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        });
+
+        // hover
+        restartButton.RegisterCallback<MouseEnterEvent>(_ =>
+        {
+            restartButton.style.backgroundImage = new StyleBackground(baseBoxHighlightTex);
+            restartButton.style.translate = new Translate(0, -2);
+        });
+
+        restartButton.RegisterCallback<MouseLeaveEvent>(_ =>
+        {
+            restartButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+            restartButton.style.translate = new Translate(0, 0);
         });
 
         VisualElement quitButton = new VisualElement(); new Button(() => Application.Quit());
@@ -410,14 +451,103 @@ public class DungeonUI : MonoBehaviour
 
         pauseMenu.Add(title);
         pauseMenu.Add(resumeButton);
+        pauseMenu.Add(restartButton);
         pauseMenu.Add(quitButton);
 
         root.Add(pauseMenu);
+
+        resultOverlay = new VisualElement();
+        resultOverlay.style.position = Position.Absolute;
+        resultOverlay.style.left = 0;
+        resultOverlay.style.top = 0;
+        resultOverlay.style.right = 0;
+        resultOverlay.style.bottom = 0;
+
+        resultOverlay.style.justifyContent = Justify.Center;
+        resultOverlay.style.alignItems = Align.Center;
+
+        // dark background
+        resultOverlay.style.backgroundColor = new Color(0, 0, 0, 0.7f);
+
+        // hidden by default
+        resultOverlay.style.display = DisplayStyle.None;
+
+        // label
+        resultLabel = new Label("");
+        resultLabel.style.unityFontDefinition = new StyleFontDefinition(bossFont);
+        resultLabel.style.fontSize = 72;
+        resultLabel.style.marginBottom = 10;
+        resultLabel.style.color = Color.white;
+
+        resultOverlay.Add(resultLabel);
+        VisualElement resultContainer = new VisualElement();
+        resultContainer.style.flexDirection = FlexDirection.Column;
+        resultContainer.style.justifyContent = Justify.Center;
+        resultContainer.style.alignItems = Align.Center;
+
+        // MAIN RESULT TEXT (VICTORY / DEFEAT)
+        resultContainer.Add(resultLabel);
+
+        // =========================
+        // SUBTEXT (pixel font)
+        // =========================
+        Label subText = new Label("thank you for playing the demo!");
+        subText.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
+        subText.style.fontSize = 18;
+        subText.style.color = Color.white;
+        subText.style.marginBottom = 20;
+        subText.style.unityTextAlign = TextAnchor.MiddleCenter;
+
+        resultContainer.Add(subText);
+
+        // =========================
+        // RESTART BUTTON
+        // =========================
+        VisualElement prestartButton = new VisualElement();
+        prestartButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+        prestartButton.style.width = 220;
+        prestartButton.style.height = 60;
+        prestartButton.style.marginTop = 10;
+        prestartButton.style.justifyContent = Justify.Center;
+        prestartButton.style.alignItems = Align.Center;
+
+        Label prestartText = new Label("Main Menu");
+        prestartText.style.unityFontDefinition = new StyleFontDefinition(pixelFont);
+        prestartText.style.color = Color.white;
+
+        prestartButton.Add(prestartText);
+
+        // click → load main menu
+        prestartButton.RegisterCallback<MouseDownEvent>(_ =>
+        {
+            Time.timeScale = 1f; // IMPORTANT: unpause before loading
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        });
+
+        // hover effect
+        prestartButton.RegisterCallback<MouseEnterEvent>(_ =>
+        {
+            prestartButton.style.backgroundImage = new StyleBackground(baseBoxHighlightTex);
+            prestartButton.style.translate = new Translate(0, -2);
+        });
+
+        prestartButton.RegisterCallback<MouseLeaveEvent>(_ =>
+        {
+            prestartButton.style.backgroundImage = new StyleBackground(baseBoxTex);
+            prestartButton.style.translate = new Translate(0, 0);
+        });
+
+        resultContainer.Add(prestartButton);
+
+        // finally add container to overlay
+        resultOverlay.Add(resultContainer);
+
+        root.Add(resultOverlay);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!gameEnded && Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }
@@ -477,5 +607,24 @@ public class DungeonUI : MonoBehaviour
             : PickingMode.Position;
 
         Time.timeScale = isPaused ? 0f : 1f;
+    }
+    private void OnPlayerDeath()
+    {
+        ShowResult("DEFEAT");
+    }
+
+    private void OnBossDeath()
+    {
+        ShowResult("VICTORY");
+    }
+    private void ShowResult(string text)
+    {
+        gameEnded = true;
+
+        resultLabel.text = text;
+        resultOverlay.style.display = DisplayStyle.Flex;
+
+        Time.timeScale = 0f;
+        gameplayUI.pickingMode = PickingMode.Ignore;
     }
 }

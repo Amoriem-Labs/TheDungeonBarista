@@ -364,7 +364,7 @@ namespace TDB
 
             BoxCollider2D box = hitbox.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
-            box.size = new Vector2(0.5f, warningHeight); // match spike column width/height
+            box.size = new Vector2(0.5f, warningHeight - 1f); // match spike column width/height
 
             SpikeLife spikeLife = hitbox.AddComponent<SpikeLife>();
             spikeLife.damageAmount = 1;
@@ -501,84 +501,93 @@ namespace TDB
 
         }
 
-    private IEnumerator ShootBeamHead(Transform headTransform)
-    {
-        Vector3 offsetWarning = new Vector3(-4f, -0.4f, 0f); 
-        Vector3 offsetBeam = new Vector3(0.2f, -0.4f, 0f);
-
-        GameObject warning = Instantiate(
-            Headwarning,
-            headTransform.position + offsetWarning,
-            Quaternion.Euler(0, 0, 90f)
-        );
-
-        warning.transform.SetParent(headTransform);
-        float warningTime = warningDuration * currentWarningMultiplier;
-        yield return new WaitForSeconds(warningTime);
-
-        Destroy(warning);
-
-        headAnim.SetTrigger("attack");
-        yield return new WaitForSeconds(0.7f);
-
-        GameObject beam = Instantiate(
-            Headbeam,
-            headTransform.position + offsetBeam,
-            Quaternion.identity
-        );
-
-        SpriteRenderer sr = beam.GetComponent<SpriteRenderer>();
-        sr.drawMode = SpriteDrawMode.Tiled;
-
-        // grab the collider and rotate it to horizontal
-        CapsuleCollider2D col = beam.GetComponent<CapsuleCollider2D>();
-        if (col != null)
+        private IEnumerator ShootBeamHead(Transform headTransform)
         {
-            col.direction = CapsuleDirection2D.Horizontal; // flip to horizontal
-            col.size = new Vector2(0f, 0.5f);              // start collapsed
-            col.offset = Vector2.zero;
-        }
+            Vector3 offsetWarning = new Vector3(-4f, -0.4f, 0f);
+            Vector3 offsetBeam = new Vector3(0.2f, -0.4f, 0f);
 
-        float height = 0.2f;
-        sr.size = new Vector2(0f, height);
+            GameObject warning = Instantiate(
+                Headwarning,
+                headTransform.position + offsetWarning,
+                Quaternion.Euler(0, 0, 90f)
+            );
 
-        float duration = 0.1f;
-        float t = 0f;
-        float beamLength = 20f;
+            warning.transform.SetParent(headTransform);
+            float warningTime = warningDuration * currentWarningMultiplier;
+            yield return new WaitForSeconds(warningTime);
 
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            float lerp = t / duration;
-            float currentWidth = Mathf.Lerp(0f, beamLength, lerp);
+            Destroy(warning);
 
-            // grow sprite
-            sr.size = new Vector2(currentWidth, height);
+            headAnim.SetTrigger("attack");
+            yield return new WaitForSeconds(0.7f);
 
-            // grow collider to match, offset moves right as it grows from the left
-            if (col != null)
+            GameObject beam = Instantiate(
+                Headbeam,
+                headTransform.position + offsetBeam,
+                Quaternion.identity
+            );
+
+            // disable the prefab's built-in collider - visuals only
+            CapsuleCollider2D prefabCol = beam.GetComponent<CapsuleCollider2D>();
+            if (prefabCol != null)
+                prefabCol.enabled = false;
+
+            SpriteRenderer sr = beam.GetComponent<SpriteRenderer>();
+            sr.drawMode = SpriteDrawMode.Tiled;
+
+            float height = 0.2f;
+            float beamLength = 20f;
+            float duration = 0.1f;
+            float t = 0f;
+
+            // grow sprite visually as before
+            sr.size = new Vector2(0f, height);
+
+            // create hitbox at full size, parented to headTransform directly
+            GameObject hitboxObj = new GameObject("BeamHitbox");
+            hitboxObj.layer = gameObject.layer;
+
+            Rigidbody2D rb = hitboxObj.AddComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.simulated = true;
+
+            BoxCollider2D box = hitboxObj.AddComponent<BoxCollider2D>();
+            box.isTrigger = true;
+            box.size = new Vector2(beamLength, 0.5f);
+            box.offset = Vector2.zero; // centered on the object itself
+
+            SpikeLife spikeLife = hitboxObj.AddComponent<SpikeLife>();
+            spikeLife.damageAmount = 1;
+            spikeLife.damageCooldown = 0.5f;
+
+            // position it so it starts at the beam origin and extends right
+            // beamLength/2 offset centers the box starting from the spawn point
+            hitboxObj.transform.position = new Vector3(
+                beam.transform.position.x + beamLength / 2f,
+                beam.transform.position.y,
+                beam.transform.position.z
+            );
+
+            hitboxObj.transform.SetParent(headTransform); // follows head movement
+            hitboxObj.transform.localScale = Vector3.one;
+
+            while (t < duration)
             {
-                col.size = new Vector2(currentWidth, 0.5f);
-                col.offset = new Vector2(currentWidth / 2f, 0f);
+                t += Time.deltaTime;
+                float lerp = t / duration;
+                float currentWidth = Mathf.Lerp(0f, beamLength, lerp);
+                sr.size = new Vector2(currentWidth, height);
+                yield return null;
             }
 
-            yield return null;
+            sr.size = new Vector2(beamLength, height);
+            beam.transform.SetParent(headTransform);
+
+            yield return new WaitForSeconds(beamDuration);
+
+            Destroy(beam);
+            Destroy(hitboxObj); // destroy separately now since it's not a child of beam
         }
-
-        sr.size = new Vector2(beamLength, height);
-
-        if (col != null)
-        {
-            col.size = new Vector2(beamLength, 0.5f);
-            col.offset = new Vector2(beamLength / 2f, 0f);
-        }
-
-        beam.transform.SetParent(headTransform);
-
-        yield return new WaitForSeconds(beamDuration);
-
-        Destroy(beam);
-    }
 
         private void EnterEnrage()
         {

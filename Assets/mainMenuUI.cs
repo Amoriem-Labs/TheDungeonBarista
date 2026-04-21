@@ -109,8 +109,8 @@ public class MainMenuUI : MonoBehaviour
         // TITLE IMAGE
         // =========================
         VisualElement titleImage = new VisualElement();
-        titleImage.style.width                    = 800;
-        titleImage.style.height                   = 260;
+        titleImage.style.width                    = 1600;
+        titleImage.style.height                   = 520;
         titleImage.style.backgroundImage          = new StyleBackground(titleTex);
         titleImage.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
         titleImage.style.alignSelf                = Align.Center;
