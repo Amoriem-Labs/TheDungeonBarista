@@ -42,9 +42,14 @@ namespace TDB
         public Collider2D teleportArea;
         public int pointsToGenerate = 100;
 
+        [Header("Arena Scaling")]
+        [Tooltip("Scales attack sizes/offsets to match a resized arena. Use ~4.35 if the arena was previously scaled down to 0.23.")]
+        public float ArenaScaleMultiplier = 1f;
+
         [Header("Timing")]
         public float DisappearDelay = 0.8f;
         public float ReappearDelay = 0.2f;
+        public float AttackDelayAfterReappear = 0.1f;
 
         [Header("Attack Percentage")]
         // I'm not sure, but I don't actually think these are percentages!!!
@@ -64,9 +69,9 @@ namespace TDB
         public GameObject TDwarning;
         public GameObject TDbeam;
         public int numberOfProjectiles = 12;
-        public float spacing = 1.0f;
+        public float spacing = 3.0f;
         public float warningDuration = 1.0f;
-        public float beamDuration = 0.3f;
+        public float beamDuration = 0.9f;
 
         [Header("Center Attack")]
         public Vector2 Center;
@@ -85,6 +90,8 @@ namespace TDB
         public GameObject Headbeam;
         public float HeadSpeed=5f;
         public float headDuration=5f;
+        public float HeadBeamInterval = 0.75f;
+        public float HeadBobAmplitude = 2f;
 
         [Header("Enrage Settings")]
         public float enragedCooldownMultiplier = 0.5f;
@@ -93,6 +100,17 @@ namespace TDB
         // To start with
         private float currentProjectileMultiplier = 1f;
         private float currentWarningMultiplier = 1f;
+        private bool _headBeamInProgress = false;
+
+        private float Scaled(float value) => value * ArenaScaleMultiplier;
+
+        private Bounds? TryGetArenaBounds()
+        {
+            if (teleportArea == null)
+                return null;
+
+            return teleportArea.bounds;
+        }
 
         private void Awake()
         {
@@ -223,7 +241,6 @@ namespace TDB
         {
             // Disappear [insert animation]
             anim.SetBool("isMelting", true);
-            yield return null;
             yield return new WaitForSeconds(DisappearDelay);
 
             if (_renderer != null)
@@ -240,22 +257,23 @@ namespace TDB
             if (_renderer != null)
                 _renderer.enabled = true;
 
-            yield return null;
             anim.SetTrigger("meltUp");
             // Call for AOE attack
+            if (AttackDelayAfterReappear > 0f)
+                yield return new WaitForSeconds(AttackDelayAfterReappear);
             StartCoroutine(AOEattack());
         }
 
         // actual teleport function
         private void TeleportToRandomPoint()
         {
-        if (validPoints.Count == 0)
-            return;
+            if (validPoints.Count == 0)
+                return;
 
-        Vector2 chosenPoint = validPoints[Random.Range(0, validPoints.Count)];
+            Vector2 chosenPoint = validPoints[Random.Range(0, validPoints.Count)];
 
-        transform.position = chosenPoint;
-        _lastTeleportPosition = chosenPoint;
+            transform.position = chosenPoint;
+            _lastTeleportPosition = chosenPoint;
         }
 
         // AOE attack, creates 2 waves of projectiles (prefabs) that shoot at offset angles
@@ -308,18 +326,19 @@ namespace TDB
             MoveToPosition(lineAttackPosition);
             anim.SetTrigger("Spray");
 
-            float totalWidth = (numberOfProjectiles - 1) * spacing;
+            float scaledSpacing = Scaled(spacing);
+            float totalWidth = (numberOfProjectiles - 1) * scaledSpacing;
             float startX = transform.position.x - totalWidth / 2f;
 
             for (int i = 0; i < numberOfProjectiles; i++)
             {
                 Vector2 origin = new Vector2(
-                    startX + i * spacing,
+                    startX + i * scaledSpacing,
                     transform.position.y
                 );
                 Vector2 warningPos = new Vector2(
-                    startX + i * spacing,
-                    transform.position.y - 3f
+                    startX + i * scaledSpacing,
+                    transform.position.y - Scaled(3f)
                 );
                 StartCoroutine(ShootBeam(origin, warningPos));
             }
@@ -335,15 +354,26 @@ namespace TDB
 
             yield return new WaitForSeconds(warningDuration * currentWarningMultiplier);
 
-            SpriteRenderer warnSR = pillar.GetComponent<SpriteRenderer>();
-            float warningHeight = warnSR.bounds.size.y;
+            float warningHeight = 0f;
+            var arenaBounds = TryGetArenaBounds();
+            if (arenaBounds.HasValue)
+            {
+                // cover from the attack origin down to the bottom of the arena
+                warningHeight = Mathf.Max(0.5f, origin.y - arenaBounds.Value.min.y);
+            }
+            else
+            {
+                SpriteRenderer warnSR = pillar.GetComponent<SpriteRenderer>();
+                if (warnSR != null)
+                    warningHeight = warnSR.bounds.size.y;
+            }
             Destroy(pillar);
 
             // spawn visual spikes as before (no colliders needed on these)
-            float spikeSpacing = 0.5f;
+            float spikeSpacing = Scaled(0.5f);
             int spikeCount = Mathf.CeilToInt(warningHeight / spikeSpacing);
             List<GameObject> spawned = new List<GameObject>();
-            Vector2 adjustedOrigin = origin + Vector2.down * 1.2f;
+            Vector2 adjustedOrigin = origin + Vector2.down * Scaled(1.2f);
 
             for (int i = 0; i < spikeCount; i++)
             {
@@ -364,7 +394,7 @@ namespace TDB
 
             BoxCollider2D box = hitbox.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
-            box.size = new Vector2(0.5f, warningHeight - 1f); // match spike column width/height
+            box.size = new Vector2(Scaled(0.5f), Mathf.Max(0.5f, warningHeight - Scaled(1f))); // match spike column width/height
 
             SpikeLife spikeLife = hitbox.AddComponent<SpikeLife>();
             spikeLife.damageAmount = 1;
@@ -460,7 +490,6 @@ namespace TDB
             Debug.Log("Starting Head Attack!");
             // not actually a percentage attack, but turns on so other attacks are not also triggered
             percentageAttack = true;
-            float timer = 0f;
             if (_renderer != null)
                 _renderer.enabled = false;
                 
@@ -473,18 +502,24 @@ namespace TDB
             headAnim.SetTrigger("emerge");
             yield return new WaitForSeconds(1.0f); 
 
-            while (timer < headDuration)
+            float endTime = Time.time + headDuration;
+            float nextBeamTime = Time.time;
+
+            while (Time.time < endTime)
             {
                 // orignally used ping pong but this seems to be smoother with sine (got online)
                 float baseY = StartPosition.position.y;
-                float yOffset = Mathf.Sin(Time.time * HeadSpeed) * 2f;
+                float yOffset = Mathf.Sin(Time.time * HeadSpeed) * Scaled(HeadBobAmplitude);
                 Vector3 pos = CervHead.transform.position;
                 CervHead.transform.position = new Vector3(pos.x, baseY + yOffset, pos.z);
 
-                // a similar coroutine to the beam attack
-                yield return StartCoroutine(ShootBeamHead(CervHead.transform));
+                if (!_headBeamInProgress && Time.time >= nextBeamTime)
+                {
+                    nextBeamTime = Time.time + Mathf.Max(0.05f, HeadBeamInterval);
+                    StartCoroutine(ShootBeamHeadWrapper(CervHead.transform));
+                }
 
-                timer += 0.5f;
+                yield return null;
             }
 
             headAnim.SetTrigger("retract");
@@ -501,10 +536,17 @@ namespace TDB
 
         }
 
+        private IEnumerator ShootBeamHeadWrapper(Transform headTransform)
+        {
+            _headBeamInProgress = true;
+            yield return StartCoroutine(ShootBeamHead(headTransform));
+            _headBeamInProgress = false;
+        }
+
         private IEnumerator ShootBeamHead(Transform headTransform)
         {
-            Vector3 offsetWarning = new Vector3(-4f, -0.4f, 0f);
-            Vector3 offsetBeam = new Vector3(0.2f, -0.4f, 0f);
+            Vector3 offsetWarning = new Vector3(Scaled(-4f), Scaled(-0.4f), 0f);
+            Vector3 offsetBeam = new Vector3(Scaled(0.2f), Scaled(-0.4f), 0f);
 
             GameObject warning = Instantiate(
                 Headwarning,
@@ -535,8 +577,15 @@ namespace TDB
             SpriteRenderer sr = beam.GetComponent<SpriteRenderer>();
             sr.drawMode = SpriteDrawMode.Tiled;
 
-            float height = 0.2f;
-            float beamLength = 20f;
+            float height = Scaled(0.2f);
+
+            float beamLength = Scaled(20f);
+            var arenaBounds = TryGetArenaBounds();
+            if (arenaBounds.HasValue)
+            {
+                // extend to the right edge of the arena
+                beamLength = Mathf.Max(Scaled(2f), arenaBounds.Value.max.x - beam.transform.position.x);
+            }
             float duration = 0.1f;
             float t = 0f;
 
@@ -553,7 +602,7 @@ namespace TDB
 
             BoxCollider2D box = hitboxObj.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
-            box.size = new Vector2(beamLength, 0.5f);
+            box.size = new Vector2(beamLength, Scaled(0.5f));
             box.offset = Vector2.zero; // centered on the object itself
 
             SpikeLife spikeLife = hitboxObj.AddComponent<SpikeLife>();
