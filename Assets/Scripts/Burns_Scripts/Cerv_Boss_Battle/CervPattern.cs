@@ -499,6 +499,8 @@ namespace TDB
 
         private IEnumerator HeadAttack()
         {
+
+            CervHead.transform.position = new Vector3( StartPosition.position.x, StartPosition.position.y, 0f);
             Debug.Log("Starting Head Attack!");
             // not actually a percentage attack, but turns on so other attacks are not also triggered
             percentageAttack = true;
@@ -512,22 +514,27 @@ namespace TDB
             CervHead.transform.position = StartPosition.position;
             
             headAnim.SetTrigger("emerge");
-            yield return new WaitForSeconds(1.0f); 
+
 
             float endTime = Time.time + headDuration;
             float nextBeamTime = Time.time;
+            float elapsed = 0f;
+            float baseY = StartPosition.position.y;
+            float baseX = StartPosition.position.x;          
 
-            while (Time.time < endTime)
+            while (elapsed < headDuration)
             {
+
+                elapsed += Time.deltaTime;
                 // orignally used ping pong but this seems to be smoother with sine (got online)
-                float baseY = StartPosition.position.y;
-                float yOffset = Mathf.Sin(Time.time * HeadSpeed) * Scaled(HeadBobAmplitude);
-                Vector3 pos = CervHead.transform.position;
-                CervHead.transform.position = new Vector3(pos.x, baseY + yOffset, pos.z);
+                float yOffset = Mathf.Sin(Time.time * HeadSpeed) * HeadBobAmplitude;
+
+                CervHead.transform.position = new Vector3(baseX, baseY + yOffset, 0f);
 
                 if (!_headBeamInProgress && Time.time >= nextBeamTime)
                 {
-                    nextBeamTime = Time.time + Mathf.Max(0.05f, HeadBeamInterval);
+                    nextBeamTime = HeadBeamInterval;
+                    Debug.Log("Next beam time is " + nextBeamTime);
                     StartCoroutine(ShootBeamHeadWrapper(CervHead.transform));
                 }
 
@@ -654,6 +661,7 @@ namespace TDB
         {
             // faster attacks
             CooldownTimerMax *= enragedCooldownMultiplier;
+            HeadBeamInterval *= enragedCooldownMultiplier*1/8;
 
             // faster projectiles
             currentProjectileMultiplier = enragedProjectileMultiplier;
@@ -664,8 +672,6 @@ namespace TDB
             // insert some animation here, for now just turns red
             if (_renderer != null)
                 _renderer.color = Color.red;
-
-            Debug.Log("BOSS ENRAGED!");
         }
 
     }
