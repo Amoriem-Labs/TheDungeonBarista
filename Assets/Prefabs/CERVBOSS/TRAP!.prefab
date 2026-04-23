@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7611736614752523222}
   - component: {fileID: 4386744109862536237}
   - component: {fileID: 932487052118686230}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TRAP!
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemValue: -3
   PlayerDungeon: {fileID: 0}
+  Delay: 1.5
 --- !u!114 &932487052118686230
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -129,6 +129,7 @@ namespace TDB
         {
             WanderUpdate();
             CheckHealthTriggers();
+ 
         }
 
         public void SetHomePoint()
@@ -448,8 +449,19 @@ namespace TDB
 
         private void TrapAttack()
         {
+
+
             if (teleportArea == null)
+            {
+                Debug.LogError("Teleport area missing!");
                 return;
+            }
+
+            if (Traps == null)
+            {
+                Debug.LogError("Trap prefab missing!");
+                return;
+            }
 
             Bounds bounds = teleportArea.bounds;
 

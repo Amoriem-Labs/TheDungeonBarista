@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 17127469}
   m_Layer: 8
   m_Name: Cervitus_Head
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 324666370}
   - component: {fileID: 324666367}
   - component: {fileID: 324666373}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Teleport_Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,7 +744,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324666366}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -15616,7 +15616,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.515
+  orthographic size: 2.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -17178,12 +17178,14 @@ MonoBehaviour:
   CooldownTimerMax: 5
   teleportArea: {fileID: 324666367}
   pointsToGenerate: 50
+  ArenaScaleMultiplier: 1
   DisappearDelay: 1
   ReappearDelay: 1
+  AttackDelayAfterReappear: 0.1
   PAOE: 0.5
   PTopDown: 0.35
   PTrap: 0.15
-  PHead: 0.1
+  PHead: 5
   AOEprojectile: {fileID: 380799247371487231, guid: 9210d8e62276cfa43b4decd99503b233, type: 3}
   projectSpeed: 5
   angle: 45
@@ -17207,6 +17209,8 @@ MonoBehaviour:
   Headbeam: {fileID: 5973992550140418737, guid: 882fff2fb18fc1d47a6d8637439e089f, type: 3}
   HeadSpeed: 1
   headDuration: 2
+  HeadBeamInterval: 0.75
+  HeadBobAmplitude: 2
   enragedCooldownMultiplier: 0.5
   enragedWarningMultiplier: 0.5
   enragedProjectileMultiplier: 1.5
