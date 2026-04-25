@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Forest_Boss.unity
     guid: c9dd808c3a879ca45a165a7b1a3e8c7e
   - enabled: 0
-    path: Assets/Scenes/PauseMenu.unity
+    path: Assets/Scenes/Non-Demo Scenes/PauseMenu.unity
     guid: 72d0c274496a69543a8f8dbdc0f0e701
   - enabled: 0
     path: Assets/Scenes/Session.unity
@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/DungeonScene.unity
     guid: ca245ca1ed42c0244bdedb4274a778b8
   - enabled: 0
-    path: Assets/Scenes/EntityTesting.unity
+    path: Assets/Scenes/Non-Demo Scenes/EntityTesting.unity
     guid: e655f80a648f7df45a246c7af920dc1d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6f57f7d3ede7e6b4cabec8c9099e3e3c, type: 3}
