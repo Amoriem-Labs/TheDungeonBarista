@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   _resourcesPath: Data/CraftSystem/Ingredients/ING-Milk
   _ingredientName: Milk
-  _ingredientSprite: {fileID: 0}
+  _ingredientSprite: {fileID: 21300000, guid: 30bbfd506d92d624c97bfc52082a158d, type: 3}
   _type: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
   _effects:
   - Effect: {fileID: 11400000, guid: eb3c10b3f252846449377389baa4d36c, type: 2}

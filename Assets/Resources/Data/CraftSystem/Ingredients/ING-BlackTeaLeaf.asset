@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   _resourcesPath: Data/CraftSystem/Ingredients/ING-BlackTeaLeaf
   _ingredientName: BlackTeaLeaf
-  _ingredientSprite: {fileID: 0}
+  _ingredientSprite: {fileID: 21300000, guid: 255d1b194db721b4aafc1609d56fe6d7, type: 3}
   _type: {fileID: 11400000, guid: 5e86594128b3c6d4fb46d4c3dc7f3509, type: 2}
   _effects:
   - Effect: {fileID: 11400000, guid: eb3c10b3f252846449377389baa4d36c, type: 2}

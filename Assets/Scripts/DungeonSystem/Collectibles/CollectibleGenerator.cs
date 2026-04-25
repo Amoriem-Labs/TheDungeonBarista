@@ -7,7 +7,7 @@ namespace TDB
 {
     public class CollectibleGenerator : MonoBehaviour
     {
-        public GameObject[] collectiblePrefabs;
+        public Collectible[] collectiblePrefabs;
         public int collectibleCount = 5;
 
         private HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
@@ -19,14 +19,14 @@ namespace TDB
             for (int i = 0; i < collectibleCount; i++)
             {
                 Vector2Int origin = floorList[Random.Range(0, floorList.Count)];
-                GameObject prefab = collectiblePrefabs[Random.Range(0, collectiblePrefabs.Length)];
+                Collectible collectible = collectiblePrefabs[Random.Range(0, collectiblePrefabs.Length)];
 
-                Collectible collectible = prefab.GetComponent<Collectible>();
+                // Collectible collectible = prefab.GetComponent<Collectible>();
                 Vector2Int size = collectible.size;
 
                 if (CanPlace(origin, size, floorPositions))
                 {
-                    Place(prefab, origin, size);
+                    Place(collectible.gameObject, origin, size);
                 }
             }
     }

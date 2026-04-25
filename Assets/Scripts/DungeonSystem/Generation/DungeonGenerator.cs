@@ -61,11 +61,12 @@ namespace TDB.DungeonSystem.Generate
         [SerializeField] private GameObject chestPrefab;
         [SerializeField] private TileType trapTileType;
         [SerializeField] private GameObject trapPrefab;
-        [SerializeField] private List<PropTilePrefab> propPrefabs = new List<PropTilePrefab>();
+        [FormerlySerializedAs("propPrefabs")] [SerializeField]
+        private List<PropTilePrefab> propPrefabs_deprecated = new List<PropTilePrefab>();
         [SerializeField] private string roomControllerContainerName = "_RoomControllers";
         private Transform _roomControllerContainer;
         private readonly Dictionary<RectInt, DungeonRoomController> _roomControllers = new Dictionary<RectInt, DungeonRoomController>();
-        private readonly Dictionary<TileType, PropTilePrefab> _propPrefabLookup = new Dictionary<TileType, PropTilePrefab>();
+        // private readonly Dictionary<TileType, PropTilePrefab> _propPrefabLookup = new Dictionary<TileType, PropTilePrefab>();
 
         [FormerlySerializedAs("roomLibrary")]
         [SerializeField] private RoomLibrary testRoomLibrary;
@@ -219,13 +220,21 @@ namespace TDB.DungeonSystem.Generate
                     if (tile == trapTileType)
                         trapSpawns.Add(worldPos);
 
-                    if (room.decorationTiles != null && index < room.decorationTiles.Length)
-                    {
-                        TileType decoration = room.decorationTiles[index];
-                        if (decoration != null)
-                            propSpawns.Add((new Vector3Int(worldPos.x, worldPos.y, 0), decoration));
-                    }
+                    // if (room.decorationTiles_deprecated != null && index < room.decorationTiles_deprecated.Length)
+                    // {
+                    //     TileType decoration = room.decorationTiles_deprecated[index];
+                    //     if (decoration != null)
+                    //         propSpawns.Add((new Vector3Int(worldPos.x, worldPos.y, 0), decoration));
+                    // }
                 }
+            }
+
+            foreach (var decoration in room.decorations)
+            {
+                var rand = Random.Range(0f, 1f);
+                if (rand >= decoration.Probability) continue;
+                var pos = decoration.Position;
+                propSpawns.Add((new Vector3Int(offsetX + pos.x, offsetY + pos.y, 0), decoration.Tile));
             }
 
             DungeonRoomController roomController = CreateRoomController(node.room.Value, room, enemySpawns, chestSpawns, trapSpawns);
@@ -488,14 +497,14 @@ namespace TDB.DungeonSystem.Generate
 
         private void BuildPropPrefabLookup()
         {
-            _propPrefabLookup.Clear();
-            for (int i = 0; i < propPrefabs.Count; i++)
-            {
-                PropTilePrefab entry = propPrefabs[i];
-                if (entry == null || entry.tileType == null || entry.prefab == null)
-                    continue;
-                _propPrefabLookup[entry.tileType] = entry;
-            }
+            // _propPrefabLookup.Clear();
+            // for (int i = 0; i < propPrefabs.Count; i++)
+            // {
+            //     PropTilePrefab entry = propPrefabs[i];
+            //     if (entry == null || entry.tileType == null || entry.prefab == null)
+            //         continue;
+            //     _propPrefabLookup[entry.tileType] = entry;
+            // }
         }
 
         private void SpawnProps(List<(Vector3Int cell, TileType tile)> propSpawns, Transform parent)
@@ -505,8 +514,8 @@ namespace TDB.DungeonSystem.Generate
             {
                 TileType tile = propSpawns[i].tile;
                 if (tile == null) continue;
-                if (!_propPrefabLookup.TryGetValue(tile, out PropTilePrefab entry)) continue;
-                SpawnPropAtCell(propSpawns[i].cell, entry.prefab, parent, entry.addYSortIfMissing);
+                // if (!_propPrefabLookup.TryGetValue(tile, out PropTilePrefab entry)) continue;
+                SpawnPropAtCell(propSpawns[i].cell, tile.prefab, parent, tile.addYSortIfMissing);
             }
         }
 

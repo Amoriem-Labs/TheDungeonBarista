@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CraftSystem.Data;
 using TDB.GameManagers.SessionManagers;
 using TDB.Utils.UI;
 using TMPro;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 namespace TDB.InventorySystem.IngredientStorage.UI
 {
     [RequireComponent(typeof(UIEnabler))]
-    public class IngredientStorageUI : MonoBehaviour, IIngredientInfoDisplayer
+    public class InventoryStorageUI : MonoBehaviour, IInventoryInfoDisplayer<IngredientDefinition>
     {
         [SerializeField] private IngredientStorageColumnUI _refrigeratedColumnUI;
         [SerializeField] private IngredientStorageColumnUI _volatileColumnUI;
@@ -131,7 +132,8 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _refrigeratorCapacityText.text = $"{current}/{RefrigeratorCapacity}";
         }
 
-        public void DisplayIngredientInfo(IngredientInfoDisplayInfo info) => _ingredientInfoUI.DisplayIngredientInfo(info);
+        public void DisplayIngredientInfo(InventoryInfoDisplayData<IngredientDefinition> info) =>
+            _ingredientInfoUI.DisplayIngredientInfo(info);
 
         public void StopDisplaying() => _ingredientInfoUI.StopDisplaying();
     }
