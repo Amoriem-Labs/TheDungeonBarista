@@ -104,6 +104,12 @@ namespace TDB
             SetHomePoint();
             _cooldownTimerCurrent = CooldownTimerMax;
             GenerateValidPoints();
+            Debug.Log("Valid teleport points: " + validPoints.Count);
+            Debug.Log("TeleportArea: " + teleportArea);
+            Debug.Log("Enabled: " + teleportArea.enabled);
+            Debug.Log("Bounds: " + teleportArea.bounds);
+            Vector2 test = teleportArea.bounds.center;
+Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
         }
 
         // on update perform the basic attacks and then check hp percentage
@@ -249,13 +255,13 @@ namespace TDB
         // actual teleport function
         private void TeleportToRandomPoint()
         {
-        if (validPoints.Count == 0)
-            return;
+            if (validPoints.Count == 0)
+                return;
 
-        Vector2 chosenPoint = validPoints[Random.Range(0, validPoints.Count)];
+            Vector2 chosenPoint = validPoints[Random.Range(0, validPoints.Count)];
 
-        transform.position = chosenPoint;
-        _lastTeleportPosition = chosenPoint;
+            transform.position = chosenPoint;
+            _lastTeleportPosition = chosenPoint;
         }
 
         // AOE attack, creates 2 waves of projectiles (prefabs) that shoot at offset angles
