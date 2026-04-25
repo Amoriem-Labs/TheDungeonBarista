@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enablePlayerInputEvent: {fileID: 11400000, guid: c45800a236922ab4d852a65157aa8e89, type: 2}
+  _disablePlayerInputEvent: {fileID: 11400000, guid: 8fe25287dd2653f4fb441d775c334606, type: 2}
 --- !u!1 &3712339221594587516
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +64,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7330111999541871425
 RectTransform:
   m_ObjectHideFlags: 0
@@ -81,7 +82,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.8}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.44, y: 0.23}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8940538870063922404
 MeshRenderer:
@@ -276,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _disablePlayerInputEvent: {fileID: 11400000, guid: 8fe25287dd2653f4fb441d775c334606, type: 2}
+  _enablePlayerInputEvent: {fileID: 11400000, guid: c45800a236922ab4d852a65157aa8e89, type: 2}
 --- !u!1 &8487021960321640433
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,11 +353,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e926f068f5572084e915e664702d13a7, type: 2}
     - target: {fileID: 1840901155177356517, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.97
+      value: 0.525
       objectReference: {fileID: 0}
     - target: {fileID: 1840901155177356517, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.222
       objectReference: {fileID: 0}
     - target: {fileID: 1840901155177356517, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -391,7 +393,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2794634547548743119, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1100001
+      value: -0.053
+      objectReference: {fileID: 0}
+    - target: {fileID: 2794634547548743119, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.311
       objectReference: {fileID: 0}
     - target: {fileID: 2794634547548743119, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -414,6 +420,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
     - target: {fileID: 3558912017537422375, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558912017537422375, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_DrawMode
       value: 2
       objectReference: {fileID: 0}
@@ -427,7 +437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7183762114884674608, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: m_Name
-      value: ShopDoor Variant
+      value: ShopDoor
       objectReference: {fileID: 0}
     - target: {fileID: 8800003560373252102, guid: 30f4420df89eb79438c990c9f64676d8, type: 3}
       propertyPath: _definition

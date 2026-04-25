@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MainMenu
   m_EditorClassIdentifier: 
   _sceneAsset: {fileID: 102900000, guid: fef56a60e9d4b0b479fac7ac0fab529e, type: 3}
-  _sceneName: MainMenu
+  _sceneName: DemoMainMenu
