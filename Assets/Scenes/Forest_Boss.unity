@@ -5352,19 +5352,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3378172436956372031, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Size.x
-      value: 3
+      value: 3.545003
       objectReference: {fileID: 0}
     - target: {fileID: 3378172436956372031, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Size.y
-      value: 2
+      value: 2.8530579
       objectReference: {fileID: 0}
     - target: {fileID: 3378172436956372031, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Offset.x
-      value: 0
+      value: 0.17772007
       objectReference: {fileID: 0}
     - target: {fileID: 3378172436956372031, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Offset.y
-      value: 0
+      value: -0.42652905
       objectReference: {fileID: 0}
     - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Size.x
@@ -5384,11 +5384,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.28
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4316922469959357689, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.28
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5257696171777882451, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Layer
@@ -5468,7 +5468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7749738253099314767, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: MaxHealth
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7749738253099314767, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: m_Enabled
@@ -5476,7 +5476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7749738253099314767, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
       propertyPath: _currentHealth
-      value: 10
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1785707114930501460, guid: 8cc6912c7cb87924faa266a7d2557b96, type: 3}
@@ -7328,7 +7328,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.015
+  orthographic size: 1.675
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8203,10 +8203,10 @@ MonoBehaviour:
   DisappearDelay: 1
   ReappearDelay: 1
   AttackDelayAfterReappear: 0.1
-  PAOE: 0.5
-  PTopDown: 0.35
+  PAOE: 0.4
+  PTopDown: 0.3
   PTrap: 0.15
-  PHead: 5
+  PHead: 0.15
   AOEprojectile: {fileID: 380799247371487231, guid: 9210d8e62276cfa43b4decd99503b233, type: 3}
   projectSpeed: 5
   angle: 45
