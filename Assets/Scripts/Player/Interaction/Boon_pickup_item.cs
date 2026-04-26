@@ -28,7 +28,7 @@ namespace TDB
         public EntityData PlayerDungeon;
 
         [Header("Trap Settings")]
-        public float Delay = 1.5f;
+        public float Delay = 1.3f;
         private bool Armed = false;
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -184,9 +184,9 @@ namespace TDB
             if (col != null)
                 col.enabled = false;
 
-            // yellow is safe
-            if (sr != null)
-                sr.color = Color.yellow;
+            // // yellow is safe
+            // if (sr != null)
+            //     sr.color = Color.yellow;
 
             yield return new WaitForSeconds(Delay);
 
@@ -195,9 +195,9 @@ namespace TDB
             if (col != null)
                 col.enabled = true;
 
-            // red is armed
-            if (sr != null)
-                sr.color = Color.red;
+            // // red is armed
+            // if (sr != null)
+            //     sr.color = Color.red;
         }
     }
 }
