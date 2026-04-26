@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a26e6642795a4645a41680d611dee84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cafePreparationStartEvent: {fileID: 11400000, guid: f8818fa81bc17224a9e9a21808ba78f1, type: 2}
 --- !u!1 &5040492285999220533
 GameObject:
   m_ObjectHideFlags: 0

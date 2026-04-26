@@ -51,7 +51,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
 
             // display ingredient list
             _ingredientContainer.Clear();
-            _ingredientContainer.SetInventory(expiringIngredients);
+            _ingredientContainer.SetInventory(expiringIngredients, s => s.Definition.HideExpire);
             // display essence
             _essenceText.text = EssenceManager.EssenceToString(obtainedEssence);
 
@@ -63,7 +63,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
 
             _enabler.Disable();
         }
-
+        
         public void DisplayIngredientInfo(InventoryInfoDisplayData<IngredientDefinition> info)
         {
             _ingredientInfoUI.DisplayIngredientInfo(info);

@@ -26,3 +26,4 @@ MonoBehaviour:
   _ingredientSprite: {fileID: 21300000, guid: 763aa604575b661409110940fedd3872, type: 3}
   _type: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
   _effects: []
+  <HideExpire>k__BackingField: 1

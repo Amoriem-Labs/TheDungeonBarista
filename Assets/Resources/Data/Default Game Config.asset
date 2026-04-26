@@ -24,6 +24,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 65e3d0fd96c7d4b499656cb6e03c045b, type: 2}
   _skipTutorial: 0
   _infiniteResource: 1
+  DailyFreeIngredients:
+    m_Keys:
+    - {fileID: 11400000, guid: b9bcbe92de666f541bd2e9f3e4c1910b, type: 2}
+    m_Values: 63000000
   LevelUpProgressFillTime: 0.5
   AddedIngredientAnimParam:
     AngularSpeedRange: {x: 50, y: 80}
@@ -52,8 +56,6 @@ MonoBehaviour:
   _initialGameData:
     VolatileIngredientStorageData:
       _stacks:
-      - <Definition>k__BackingField: {fileID: 11400000, guid: b9bcbe92de666f541bd2e9f3e4c1910b, type: 2}
-        <Amount>k__BackingField: 999
       - <Definition>k__BackingField: {fileID: 11400000, guid: 537d6a957f252d84590b6af2f83bbb09, type: 2}
         <Amount>k__BackingField: 10
     RefrigeratedIngredientStorageData:

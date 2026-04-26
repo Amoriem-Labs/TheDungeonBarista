@@ -52,6 +52,9 @@ namespace TDB.CraftSystem.Data
 
         public Sprite CollectibleSprite => IngredientSprite;
         public string ItemName => IngredientName;
+        
+        [field: SerializeField]
+        public bool HideExpire { get; private set; }
 
         public void Transfer(GameData gameData, int amount)
         {
