@@ -189,7 +189,7 @@ public class MainMenuUI : MonoBehaviour
 
         // PLAY
         VisualElement playBtn = MakeButton("PLAY");
-        playBtn.RegisterCallback<MouseDownEvent>(_ => SceneManager.LoadScene("Forest_Boss"));
+        playBtn.RegisterCallback<MouseDownEvent>(_ => SceneManager.LoadScene("DemoTown"));
         buttonCol.Add(playBtn);
 
         // QUIT

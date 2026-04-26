@@ -30,6 +30,7 @@ namespace TDB
         [Header("Trap Settings")]
         public float Delay = 1.5f;
         private bool Armed = false;
+        private bool _triggered = false;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -156,15 +157,14 @@ namespace TDB
             // THERE IS A POTENTIAL FOR A BUG HERE WHERE THE PLAYER COULD HAVE A 
             // TEMPORARY MAX SPEED THAT IS DIFFERENT FROM WHAT IS NORMAL SO WHEN 
             // THE CODE TRIES TO RESET THE SPEED IT RESETS TO THE INCORRECT VALUE
-            
+            _triggered = true;
             float originalSpeed = PlayerDungeon.MaxSpeed;
 
             PlayerDungeon.MaxSpeed = 0;
 
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(5f);
 
-            // Only reset if still zero (prevents overwriting other effects)
-            if (PlayerDungeon.MaxSpeed == 0)
+            if (PlayerDungeon != null)
             {
                 PlayerDungeon.MaxSpeed = originalSpeed;
             }

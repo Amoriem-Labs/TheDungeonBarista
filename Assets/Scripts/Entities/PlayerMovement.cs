@@ -33,6 +33,24 @@ namespace TDB
         {
            
         }
+        private float _stuckTimer = 0f;
+
+        private void Update()
+        {
+            if (_entityData.MaxSpeed <= 0 && !_entityData.IsAttacking)
+            {
+                _stuckTimer += Time.deltaTime;
+                if (_stuckTimer > 5.5f) // slightly longer than trap duration
+                {
+                    _entityData.MaxSpeed = _entityData.BaseMaxSpeed; // reset to default
+                    _stuckTimer = 0f;
+                }
+            }
+            else
+            {
+                _stuckTimer = 0f;
+            }
+        }
 
         public void MovementUpdate()
         {

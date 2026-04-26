@@ -63,7 +63,7 @@ namespace TDB
         public Vector2 lineAttackPosition;
         public GameObject TDwarning;
         public GameObject TDbeam;
-        public int numberOfProjectiles = 12;
+        public int numberOfProjectiles = 20;
         public float spacing = 1.0f;
         public float warningDuration = 1.0f;
         public float beamDuration = 0.3f;
@@ -104,12 +104,6 @@ namespace TDB
             SetHomePoint();
             _cooldownTimerCurrent = CooldownTimerMax;
             GenerateValidPoints();
-            Debug.Log("Valid teleport points: " + validPoints.Count);
-            Debug.Log("TeleportArea: " + teleportArea);
-            Debug.Log("Enabled: " + teleportArea.enabled);
-            Debug.Log("Bounds: " + teleportArea.bounds);
-            Vector2 test = teleportArea.bounds.center;
-Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
         }
 
         // on update perform the basic attacks and then check hp percentage
@@ -418,47 +412,32 @@ Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
 
         private IEnumerator TrapAttackRoutine()
         {
-            TrapAttack();
-            yield return null;
-        }
-
-        private void TrapAttack()
-        {
-            if (teleportArea == null)
-                return;
-
-            Bounds bounds = teleportArea.bounds;
+            percentageAttack = true;
 
             for (int i = 0; i < numberOfTraps; i++)
             {
-                Vector2 spawnPoint = Vector2.zero;
-                bool foundValid = false;
-
-                int attempts = 0;
-                int maxAttempts = 20;
-
-                // Try to find a valid point inside the collider
-                while (!foundValid && attempts < maxAttempts)
-                {
-                    Vector2 testPoint = new Vector2(
-                        Random.Range(bounds.min.x, bounds.max.x),
-                        Random.Range(bounds.min.y, bounds.max.y)
-                    );
-
-                    if (teleportArea.OverlapPoint(testPoint))
-                    {
-                        spawnPoint = testPoint;
-                        foundValid = true;
-                    }
-
-                    attempts++;
-                }
-
-                if (foundValid)
-                {
-                    Instantiate(Traps, spawnPoint, Quaternion.identity);
-                }
+                SpawnTrap();
+                yield return new WaitForSeconds(0.1f);
             }
+
+            percentageAttack = false;
+        }
+
+        private void SpawnTrap()
+        {
+            if (teleportArea == null) return;
+
+            Bounds bounds = teleportArea.bounds;
+
+            Vector2 spawnPoint = new Vector2(
+                Random.Range(bounds.min.x, bounds.max.x),
+                Random.Range(bounds.min.y, bounds.max.y)
+            );
+
+            if (Vector2.Distance(spawnPoint, _lastTeleportPosition) < 1.5f)
+                return;
+
+            Instantiate(Traps, new Vector3(spawnPoint.x, spawnPoint.y, 0f), Quaternion.identity);
         }
 
         private IEnumerator HeadAttack()
@@ -477,7 +456,7 @@ Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
             CervHead.transform.position = StartPosition.position;
             
             headAnim.SetTrigger("emerge");
-            yield return new WaitForSeconds(1.0f); 
+            yield return new WaitForSeconds(0.7f); 
 
             while (timer < headDuration)
             {
@@ -525,7 +504,7 @@ Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
             Destroy(warning);
 
             headAnim.SetTrigger("attack");
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(0.333f);
 
             GameObject beam = Instantiate(
                 Headbeam,
@@ -560,7 +539,7 @@ Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
             BoxCollider2D box = hitboxObj.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
             box.size = new Vector2(beamLength, 0.5f);
-            box.offset = Vector2.zero; // centered on the object itself
+            box.enabled = false;
 
             SpikeLife spikeLife = hitboxObj.AddComponent<SpikeLife>();
             spikeLife.damageAmount = 1;
@@ -589,7 +568,9 @@ Debug.Log("Center valid? " + teleportArea.OverlapPoint(test));
             sr.size = new Vector2(beamLength, height);
             beam.transform.SetParent(headTransform);
 
+            box.enabled = true;
             yield return new WaitForSeconds(beamDuration);
+            box.enabled = false;
 
             Destroy(beam);
             Destroy(hitboxObj); // destroy separately now since it's not a child of beam

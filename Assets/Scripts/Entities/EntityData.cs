@@ -26,6 +26,7 @@ namespace TDB
         public float Acceleration = 1;
         public float Decceleration = 1;
         public float MaxSpeed = 1;
+        public float BaseMaxSpeed;
         public float MaxHealth = 1;
         public float Knockback = 10;
         public UpdateDelegate updateDelegate;
@@ -73,6 +74,7 @@ namespace TDB
         private void Awake()
         {
             CurrentHealth = MaxHealth;
+            BaseMaxSpeed = MaxSpeed;
             Rb = GetComponent<Rigidbody2D>();
             Rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
             
