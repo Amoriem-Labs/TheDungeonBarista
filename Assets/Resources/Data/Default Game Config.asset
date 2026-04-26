@@ -78,7 +78,7 @@ MonoBehaviour:
         - _addedIngredients:
           - {fileID: 11400000, guid: 537d6a957f252d84590b6af2f83bbb09, type: 2}
           _requiredAmount: 1
-          _requiredType: {fileID: 11400000, guid: f3c242d64ead7e548b96a354855a7a1d, type: 2}
+          _requiredType: {fileID: 11400000, guid: 5e86594128b3c6d4fb46d4c3dc7f3509, type: 2}
           _effects: []
         <RecipeName>k__BackingField: Simple Drink
     AllInstalledFurnitureData: []
