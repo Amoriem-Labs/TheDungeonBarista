@@ -18,7 +18,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
         
         [SerializeField] private EffectPairItemUI _effectPairItemPrefab;
         
-        private IngredientInfoDisplayDirection _pivotControl;
+        private InventoryInfoDisplayDirection _pivotControl;
         private RectTransform _rectTransform;
         
         private IngredientEffectListDisplay _effectListDisplay;
@@ -29,7 +29,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
         {
             _effectListDisplay = new IngredientEffectListDisplay(_effectItemContainer, _effectPairItemPrefab);
             _enabler = GetComponent<UIEnabler>();
-            _pivotControl = GetComponentInChildren<IngredientInfoDisplayDirection>();
+            _pivotControl = GetComponentInChildren<InventoryInfoDisplayDirection>();
             _rectTransform = transform as RectTransform;
         }
         
@@ -40,12 +40,12 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             _effectListDisplay.DisplayIngredientEffectList(ingredient);
         }
 
-        public void DisplayIngredientInfo(IngredientInfoDisplayInfo info)
+        public void DisplayIngredientInfo(InventoryInfoDisplayData<IngredientDefinition> info)
         {
             _enabler.Enable();
             transform.position = info.RootPosition;
             _rectTransform.sizeDelta = info.RootSize;
-            SetIngredient(info.Ingredient);
+            SetIngredient(info.Data);
         }
 
         public void StopDisplaying()

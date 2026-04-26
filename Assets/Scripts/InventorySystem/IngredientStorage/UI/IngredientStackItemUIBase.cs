@@ -16,7 +16,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
         [SerializeField] private TextMeshProUGUI _amountText;
         
         private IngredientDefinition _definition;
-        private IIngredientInfoDisplayer _infoDisplayer;
+        private IInventoryInfoDisplayer<IngredientDefinition> _infoDisplayer;
         private RectTransform _rectTransform;
         private bool _isDisplayingInfo;
 
@@ -24,7 +24,7 @@ namespace TDB.InventorySystem.IngredientStorage.UI
 
         protected virtual void Awake()
         {
-            _infoDisplayer = GetComponentInParent<IIngredientInfoDisplayer>();
+            _infoDisplayer = GetComponentInParent<IInventoryInfoDisplayer<IngredientDefinition>>();
             _rectTransform = transform as RectTransform;
         }
 
@@ -52,9 +52,9 @@ namespace TDB.InventorySystem.IngredientStorage.UI
             if (_isDisplayingInfo) return;
             
             _isDisplayingInfo = true;
-            _infoDisplayer?.DisplayIngredientInfo(new IngredientInfoDisplayInfo()
+            _infoDisplayer?.DisplayIngredientInfo(new InventoryInfoDisplayData<IngredientDefinition>
             {
-                Ingredient = _definition,
+                Data = _definition,
                 RootSize = _rectTransform.sizeDelta,
                 RootPosition = transform.position,
             });
@@ -74,15 +74,15 @@ namespace TDB.InventorySystem.IngredientStorage.UI
         }
     }
 
-    public interface IIngredientInfoDisplayer
+    public interface IInventoryInfoDisplayer<T>
     {
-        public void DisplayIngredientInfo(IngredientInfoDisplayInfo info);
+        public void DisplayIngredientInfo(InventoryInfoDisplayData<T> info);
         public void StopDisplaying();
     }
 
-    public struct IngredientInfoDisplayInfo
+    public struct InventoryInfoDisplayData<T>
     {
-        public IngredientDefinition Ingredient;
+        public T Data;
         public Vector2 RootSize;
         public Vector3 RootPosition;
     }

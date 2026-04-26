@@ -12,6 +12,7 @@ using TDB.ShopSystem.IngredientShop;
 using TDB.Utils.DataPersistence;
 using TDB.Utils.SceneTransitions;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 namespace TDB.GameManagers
@@ -46,6 +47,8 @@ namespace TDB.GameManagers
         //     new RecipeBookData(TestRecipeBook.AllObtainedRawRecipes,
         //         new List<FinalRecipeData> { TestFinalRecipe });
 
+        [SerializeField] public SerializedDictionary<IngredientDefinition, int> DailyFreeIngredients;
+        
         [TabGroup("_DefaultTabGroup/CraftSystem/SubTabGroup", "Animation")]
         [SerializeField]
         public float LevelUpProgressFillTime = .5f;

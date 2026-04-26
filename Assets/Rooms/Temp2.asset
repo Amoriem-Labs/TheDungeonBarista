@@ -31,5 +31,10 @@ MonoBehaviour:
   wallTile: {fileID: 11400000, guid: ce4fd6ed842914946a7a99af52c81497, type: 2}
   corridorFloorTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
   defaultTile: {fileID: 11400000, guid: cf64eac641934cd488dbb9cb9fb6474b, type: 2}
+  decorationTiles_deprecated: []
+  decorations:
+  - Position: {x: 2, y: 2}
+    Tile: {fileID: 11400000, guid: d7110b95b33c7414bb4f3d9c0ecac1c1, type: 2}
+    Probability: 0.5
   doorPositions:
   - {x: 0, y: 2}

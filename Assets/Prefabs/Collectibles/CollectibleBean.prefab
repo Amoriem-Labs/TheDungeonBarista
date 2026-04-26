@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4bd47de5f231f1b44b1bf91f1089f028, type: 3}
-  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -153,7 +153,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  size: {x: 1, y: 1}
+  DefinitionCandidates:
+  - {fileID: 11400000, guid: 23e05b64a786eb04090a5d2318bac12d, type: 2}
+  - {fileID: 11400000, guid: 14352d6eb7dac8347a2a938e4d52973f, type: 2}
+  - {fileID: 11400000, guid: 70bfa4ce48572d241bc5371f48e3a38c, type: 2}
+  - {fileID: 11400000, guid: 36deaee5522bb5743a172f4d5d1550dc, type: 2}
+  - {fileID: 11400000, guid: a7f95cd0ad5ab7548944645015490690, type: 2}
+  - {fileID: 11400000, guid: 3be8941badc74634d89c032386c60b75, type: 2}
   Definition: {fileID: 11400000, guid: 79dfc700b57a3554c9a2ca5b6d5b50bc, type: 2}
 --- !u!50 &7675682727619147701
 Rigidbody2D:

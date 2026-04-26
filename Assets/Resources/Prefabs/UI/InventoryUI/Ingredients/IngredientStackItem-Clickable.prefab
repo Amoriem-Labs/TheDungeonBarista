@@ -10,27 +10,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1587362285756768077, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587362285756768077, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587362285756768077, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 12.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587362285756768077, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 13.41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587362285756768077, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 14.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587362285756768077, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15.41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3385119853342782449, guid: 5905d4737c4408b409372765a0a395e9, type: 3}
       propertyPath: m_Name

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2336570634475185582}
   - component: {fileID: 7333545208537678009}
   - component: {fileID: 7086685088971522746}
+  - component: {fileID: 494287481170674705}
   m_Layer: 0
   m_Name: CafeManager
   m_TagString: Untagged
@@ -64,6 +65,19 @@ MonoBehaviour:
   _cafeOperationEndEvent: {fileID: 11400000, guid: 9d98d88f5b88f154a94c5d5a336d9775, type: 2}
   _dungeonPreparationStartEvent: {fileID: 11400000, guid: 53a165cba4bd409439236b6ff94dd8cd, type: 2}
   _dungeonPreparationEndEvent: {fileID: 11400000, guid: 0cf4becca8f1e084daf6b489d76a4f17, type: 2}
+--- !u!114 &494287481170674705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813333258198440913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed3635d2599484bac0b9eaf513f706f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cafeOperationStartEvent: {fileID: 11400000, guid: d71af751894690d44b7b232b7befb751, type: 2}
 --- !u!1 &7592879561576655841
 GameObject:
   m_ObjectHideFlags: 0

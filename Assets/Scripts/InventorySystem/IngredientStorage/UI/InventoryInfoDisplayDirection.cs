@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TDB.InventorySystem.IngredientStorage.UI
 {
     [ExecuteAlways]
-    public class IngredientInfoDisplayDirection : MonoBehaviour
+    public class InventoryInfoDisplayDirection : MonoBehaviour
     {
         [SerializeField, Range(-1, 1)] private int _xDirection;
         [SerializeField, Range(-1, 1)] private int _yDirection;

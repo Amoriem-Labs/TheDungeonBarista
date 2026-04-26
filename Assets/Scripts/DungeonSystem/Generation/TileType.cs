@@ -16,6 +16,10 @@ public class TileType : ScriptableObject
     public bool useRuleSet = false;
     public TileRuleSet ruleSet;
     public TileNeighborMatchMode neighborMatchMode = TileNeighborMatchMode.SameTileType;
+    
+    [Header("Extras")]
+    public GameObject prefab;
+    public bool addYSortIfMissing = true;
 }
 
 public enum TileNeighborMatchMode

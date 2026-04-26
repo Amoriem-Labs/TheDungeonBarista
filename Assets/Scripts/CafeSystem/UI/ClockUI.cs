@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
-using DG.Tweening;
-using Sirenix.OdinInspector;
 using TDB.CafeSystem.Managers;
-using TDB.GameManagers;
-using TDB.Utils.EventChannels;
 using UnityEngine;
 
 namespace TDB.CafeSystem.UI
@@ -12,39 +6,22 @@ namespace TDB.CafeSystem.UI
     public class ClockUI : MonoBehaviour
     {
         [SerializeField] private Transform _clockBody;
+        [SerializeField] private CafeTimeController _cafeTimeController;
         
-        [Title("Events")]
-        [SerializeField] private EventChannel _cafeOperationStartEvent;
-        
-        private CafePhaseController _cafeController;
-
         private void Awake()
         {
-            _cafeController = FindObjectOfType<CafePhaseController>();
+            if (_cafeTimeController == null)
+            {
+                _cafeTimeController = FindObjectOfType<CafeTimeController>();
+            }
         }
 
-        private void OnEnable()
+        private void Update()
         {
-            _cafeOperationStartEvent.AddListener(HandleCafeOperationStart);
-        }
+            if (_clockBody == null || _cafeTimeController == null) return;
 
-        private void OnDisable()
-        {
-            _cafeOperationStartEvent.RemoveListener(HandleCafeOperationStart);
-        }
-
-        private void HandleCafeOperationStart()
-        {
-            var operationTime = GameManager.Instance.GameConfig.CafeOperationTime;
-            
-            _clockBody.right = Vector3.down;
-            _clockBody.DORotate(new Vector3(0, 0, 180), operationTime)
-                .SetRelative(true)
-                .SetEase(Ease.Linear)
-                .OnComplete(() =>
-                {
-                    _cafeController.EndCafeOperation();
-                });
+            var progress = _cafeTimeController.OperationProgress;
+            _clockBody.right = Quaternion.Euler(0f, 0f, 180f * progress) * Vector3.down;
         }
     }
 }
