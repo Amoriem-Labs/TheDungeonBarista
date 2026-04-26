@@ -428,6 +428,7 @@ MonoBehaviour:
   - {fileID: 1988439057}
   - {fileID: 775403108}
   _spawnInterval: 5
+  _cafeTimeController: {fileID: 0}
   _cafeOperationStartEvent: {fileID: 11400000, guid: d71af751894690d44b7b232b7befb751, type: 2}
   _cafeOperationEndEvent: {fileID: 11400000, guid: 9d98d88f5b88f154a94c5d5a336d9775, type: 2}
 --- !u!1 &184684989
@@ -1267,7 +1268,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.4
+  orthographic size: 4.485
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2185,7 +2186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626795222421239058, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000011444092
+      value: -0.0000076293945
       objectReference: {fileID: 0}
     - target: {fileID: 3957830967485976604, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_Value
@@ -2229,7 +2230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100475942621743353, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 5394622325570463152, guid: 3678016c6180afd4ba7beaa5538a7cb8, type: 3}
       propertyPath: m_AnchorMax.y

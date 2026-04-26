@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TDB.CafeSystem.Managers;
 using TDB.Utils.EventChannels;
 using TDB.Utils.ObjectPools;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace TDB.CafeSystem.Customers
         [Title("Spawner Config")]
         [SerializeField] private List<Transform> _spawnPoints;
         [SerializeField] private float _spawnInterval = 5f;
+        [SerializeField] private CafeTimeController _cafeTimeController;
         
         [Title("Events")]
         [SerializeField] private EventChannel _cafeOperationStartEvent;
@@ -21,6 +23,16 @@ namespace TDB.CafeSystem.Customers
 
         private readonly Dictionary<Transform, CustomerController> _trackedCustomers = new();
         private Coroutine _spawnCoroutine;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            if (_cafeTimeController == null)
+            {
+                _cafeTimeController = FindObjectOfType<CafeTimeController>();
+            }
+        }
 
         private void OnEnable()
         {
@@ -36,6 +48,12 @@ namespace TDB.CafeSystem.Customers
 
         private void HandleCafeOperationStart()
         {
+            if (_cafeTimeController == null)
+            {
+                Debug.LogError($"{nameof(TestCustomerSpawner)} requires a {nameof(CafeTimeController)} to spawn customers.", this);
+                return;
+            }
+
             _spawnCoroutine = StartCoroutine(SpawnCustomerCoroutine());
         }
 
@@ -53,8 +71,9 @@ namespace TDB.CafeSystem.Customers
             {
                 // wait for valid position
                 yield return new WaitUntil(() => _spawnPoints.Any(p => !_trackedCustomers.ContainsKey(p)));
-                // wait for a while before spawn
-                yield return new WaitForSeconds(_spawnInterval);
+
+                var targetCafeTime = _cafeTimeController.CafeTime + _spawnInterval;
+                yield return new WaitUntil(() => _cafeTimeController.CafeTime >= targetCafeTime);
 
                 var spawnPoint = _spawnPoints.First(p => !_trackedCustomers.ContainsKey(p));
                 var customer = Get(spawnPoint.position, Quaternion.identity);
